@@ -1,0 +1,42 @@
+{
+  "packageId": "com.yourname.mindvault",
+  "host": "your-app.vercel.app",
+  "name": "MindVault — Memory Training",
+  "launcherName": "MindVault",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#090b11",
+  "navigationColor": "#090b11",
+  "navigationColorDark": "#090b11",
+  "navigationDividerColor": "#090b11",
+  "navigationDividerColorDark": "#090b11",
+  "backgroundColor": "#090b11",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://your-app.vercel.app/icons/icon-512.png",
+  "maskableIconUrl": "https://your-app.vercel.app/icons/icon-512.png",
+  "monochromeIconUrl": "https://your-app.vercel.app/icons/icon-512.png",
+  "appVersion": "1",
+  "appVersionName": "1.0.0",
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://your-app.vercel.app/manifest.json",
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://your-app.vercel.app/",
+  "minSdkVersion": 21,
+  "signingKey": {
+    "path": "./mindvault.keystore",
+    "alias": "mindvault"
+  },
+  "features": {
+    "locationDelegation": { "enabled": false },
+    "playBilling": { "enabled": false }
+  },
+  "alphaDependencies": { "enabled": false },
+  "enableSiteSettingsShortcut": true,
+  "fallbackType": "customtabs",
+  "serviceAccountJsonFile": "./service-account.json",
+  "storeFlag": false,
+  "minSdkVersion": 21
+}

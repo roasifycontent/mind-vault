@@ -1,0 +1,18 @@
+{
+  "name": "mindvault",
+  "version": "1.0.0",
+  "description": "Daily memory training app",
+  "private": true,
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.4",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}

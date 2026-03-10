@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password — MindVault</title>
+<meta name="theme-color" content="#090b11">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #090b11;
+  --card: #10141f;
+  --border2: #ffffff1e;
+  --gold: #c9a84c;
+  --gold2: #e8c96a;
+  --gold-dim: #c9a84c28;
+  --gold-glow: #c9a84c55;
+  --text: #ede9df;
+  --text-dim: #5c594f;
+  --text-mid: #9e9888;
+  --green: #4caf8a;
+  --red: #d96060;
+  --radius: 18px;
+  --shadow: 0 28px 90px #00000099;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body {
+  width: 100%; min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%, #c9a84c08, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, #5b8ef008, transparent 60%);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: linear-gradient(#00000006 1px, transparent 1px), linear-gradient(90deg, #00000006 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+.card {
+  position: relative; z-index: 1;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  width: 100%; max-width: 400px;
+  box-shadow: var(--shadow);
+}
+.logo {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.tagline {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 8px;
+  text-align: center;
+}
+.sub {
+  font-size: 13px;
+  color: var(--text-mid);
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  background: #0d101a;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.input:focus { border-color: var(--gold); }
+.input::placeholder { color: var(--text-dim); }
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 100px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-glow);
+  color: var(--gold2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.btn:hover { background: var(--gold); color: #090b11; }
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.msg {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 14px;
+  min-height: 20px;
+  line-height: 1.5;
+}
+.msg.error { color: var(--red); }
+.msg.success { color: var(--green); }
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--gold2); }
+#form-expired {
+  text-align: center;
+}
+#form-expired p {
+  color: var(--text-mid);
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">MindVault</div>
+  <div class="tagline">Memory Training</div>
+
+  <!-- Token missing/invalid state -->
+  <div id="form-invalid" style="display:none">
+    <h2>Invalid Link</h2>
+    <p class="sub">This password reset link is invalid. Please request a new one from the app.</p>
+    <a href="/" class="back">← Back to MindVault</a>
+  </div>
+
+  <!-- Reset form -->
+  <div id="form-reset">
+    <h2>Set New Password</h2>
+    <p class="sub" id="reset-sub">Enter a new password for your account.</p>
+    <input class="input" id="new-pass" type="password" placeholder="New password (min 6 chars)" autocomplete="new-password">
+    <input class="input" id="conf-pass" type="password" placeholder="Confirm password" autocomplete="new-password">
+    <button class="btn" id="reset-btn" onclick="doReset()">Update Password ✦</button>
+    <div class="msg error" id="reset-err"></div>
+    <a href="/" class="back">← Back to MindVault</a>
+  </div>
+
+  <!-- Success state -->
+  <div id="form-done" style="display:none">
+    <h2>Password Updated</h2>
+    <p class="sub">Your password has been changed. You can now sign in with your new password.</p>
+    <a href="/" class="btn" style="display:block; text-align:center; text-decoration:none; padding:14px;">Go to MindVault →</a>
+  </div>
+</div>
+
+<script>
+const API = '';
+
+// Read token from URL
+const params = new URLSearchParams(window.location.search);
+const TOKEN  = params.get('token');
+
+if (!TOKEN || TOKEN.length < 32) {
+  document.getElementById('form-reset').style.display   = 'none';
+  document.getElementById('form-invalid').style.display = 'block';
+}
+
+async function doReset() {
+  const pass  = document.getElementById('new-pass').value;
+  const conf  = document.getElementById('conf-pass').value;
+  const errEl = document.getElementById('reset-err');
+  const btn   = document.getElementById('reset-btn');
+
+  errEl.textContent = '';
+
+  if (!pass || pass.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+  if (pass !== conf)             { errEl.textContent = 'Passwords do not match.'; return; }
+
+  btn.disabled      = true;
+  btn.textContent   = 'Updating…';
+
+  try {
+    const r = await fetch(API + '/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: TOKEN, password: pass }),
+    });
+    const d = await r.json();
+
+    if (!r.ok) {
+      errEl.textContent = d.error || 'Reset failed. Please try again.';
+      btn.disabled      = false;
+      btn.textContent   = 'Update Password ✦';
+      return;
+    }
+
+    document.getElementById('form-reset').style.display = 'none';
+    document.getElementById('form-done').style.display  = 'block';
+
+  } catch (e) {
+    errEl.textContent = 'Network error. Check your connection.';
+    btn.disabled      = false;
+    btn.textContent   = 'Update Password ✦';
+  }
+}
+
+// Allow Enter key to submit
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doReset();
+});
+</script>
+</body>
+</html>

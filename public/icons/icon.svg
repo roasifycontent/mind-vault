@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="110" fill="#090b11"/>
+
+  <!-- Subtle grid overlay texture -->
+  <rect width="512" height="512" rx="110" fill="url(#grid)" opacity="0.04"/>
+
+  <!-- Outer glow halo -->
+  <circle cx="256" cy="256" r="205" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.18"/>
+
+  <!-- Vault door outer ring -->
+  <circle cx="256" cy="256" r="178" fill="#0d101a" stroke="#c9a84c" stroke-width="11"/>
+
+  <!-- Combination tick marks — major (12/3/6/9) -->
+  <line x1="256" y1="78"  x2="256" y2="112" stroke="#c9a84c" stroke-width="9"  stroke-linecap="round"/>
+  <line x1="434" y1="256" x2="400" y2="256" stroke="#c9a84c" stroke-width="9"  stroke-linecap="round"/>
+  <line x1="256" y1="434" x2="256" y2="400" stroke="#c9a84c" stroke-width="9"  stroke-linecap="round"/>
+  <line x1="78"  y1="256" x2="112" y2="256" stroke="#c9a84c" stroke-width="9"  stroke-linecap="round"/>
+
+  <!-- Combination tick marks — minor (45°/135°/225°/315°) -->
+  <line x1="382" y1="130" x2="360" y2="152" stroke="#c9a84c" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+  <line x1="382" y1="382" x2="360" y2="360" stroke="#c9a84c" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+  <line x1="130" y1="382" x2="152" y2="360" stroke="#c9a84c" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+  <line x1="130" y1="130" x2="152" y2="152" stroke="#c9a84c" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Inner ring -->
+  <circle cx="256" cy="256" r="126" fill="none" stroke="#c9a84c" stroke-width="3" opacity="0.3"/>
+
+  <!-- Bolt arm -->
+  <rect x="300" y="249" width="62" height="14" rx="7" fill="#c9a84c" opacity="0.85"/>
+
+  <!-- Central dial — outer ring -->
+  <circle cx="256" cy="256" r="54" fill="#090b11" stroke="#c9a84c" stroke-width="7"/>
+
+  <!-- Central dial — inner ring -->
+  <circle cx="256" cy="256" r="32" fill="none" stroke="#c9a84c" stroke-width="3" opacity="0.5"/>
+
+  <!-- Central dial — grip notches -->
+  <circle cx="256" cy="213" r="5" fill="#c9a84c" opacity="0.7"/>
+  <circle cx="256" cy="299" r="5" fill="#c9a84c" opacity="0.7"/>
+  <circle cx="213" cy="256" r="5" fill="#c9a84c" opacity="0.7"/>
+  <circle cx="299" cy="256" r="5" fill="#c9a84c" opacity="0.7"/>
+
+  <!-- Central dot -->
+  <circle cx="256" cy="256" r="10" fill="#c9a84c"/>
+
+  <defs>
+    <pattern id="grid" width="52" height="52" patternUnits="userSpaceOnUse">
+      <path d="M 52 0 L 0 0 0 52" fill="none" stroke="white" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+</svg>

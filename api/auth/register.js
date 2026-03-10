@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { sql } = require('../../lib/db');
 const { signToken } = require('../../lib/auth');
+const { checkRateLimit, getIp } = require('../../lib/rate-limit');
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -14,6 +15,15 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { email, password } = req.body || {};
+
+  try {
+    const { allowed } = await checkRateLimit(getIp(req), 'register');
+    if (!allowed) {
+      return res.status(429).json({ error: 'Too many attempts. Please try again in an hour.' });
+    }
+  } catch (_) {
+    // Fail open
+  }
 
   if (!email || typeof email !== 'string' || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email is required' });

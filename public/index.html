@@ -26,6 +26,7 @@
   --rose:        #c0527a; --rose2:   #e07098; --rose-dim:   #c0527a28; --rose-glow:   #c0527a55;
   --text:        #ede9df; --text-dim: #5c594f; --text-mid: #9e9888;
   --green:       #4caf8a; --red: #d96060;
+  --lime:        #6bba3b; --lime2: #90d45e; --lime-dim: #6bba3b28; --lime-glow: #6bba3b55;
   --radius:      18px;   --shadow: 0 28px 90px #00000099;
   --card-solid:  #0d101a;
   --num-bg:      #0a0c14;
@@ -73,7 +74,7 @@ html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--text);fon
 body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 0% 0%,#c9a84c08,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,#5b8ef008,transparent 60%),radial-gradient(ellipse 50% 35% at 50% 100%,#9b6ef006,transparent 60%);pointer-events:none;}
 [data-theme="light"] body::before{background:radial-gradient(ellipse 70% 50% at 0% 0%,#c9a84c12,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,#5b8ef012,transparent 60%);}
 body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(#00000006 1px,transparent 1px),linear-gradient(90deg,#00000006 1px,transparent 1px);background-size:52px 52px;pointer-events:none;}
-#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6;}
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.3;}
 #app{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px 80px;padding-bottom:max(80px,env(safe-area-inset-bottom,0px) + 60px);}
 
 /* ── SCREENS ── */
@@ -95,9 +96,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 .home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;margin-bottom:24px;}
 .stat-box{background:var(--card-solid);border:1px solid #ffffff22;border-radius:12px;padding:14px 8px;text-align:center;box-shadow:inset 0 1px 0 #ffffff08;}
 [data-theme="light"] .stat-box{border-color:#00000015;box-shadow:0 2px 8px #00000010;}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold2);line-height:1;display:block;text-shadow:0 0 20px #c9a84c44;}
-[data-theme="light"] .stat-val{color:#a07a28;text-shadow:none;}
-.stat-label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-mid);margin-top:6px;display:block;font-weight:500;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;display:block;}
+[data-theme="light"] .stat-val{color:#a07a28;}
+.stat-label{font-size:13px;letter-spacing:.01em;color:var(--text-mid);margin-top:6px;display:block;font-weight:400;line-height:1.3;}
 .sep{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:20px auto;}
 
 /* ── GAME CARDS 3×2 ── */
@@ -118,15 +119,15 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 .gc-miss.active::before  {background:radial-gradient(ellipse 80% 60% at 50% 0%,#e07c3a0a,transparent 70%);opacity:1;}
 .gc-grow.active::before  {background:radial-gradient(ellipse 80% 60% at 50% 0%,#c0527a0a,transparent 70%);opacity:1;}
 .gc-icon{font-size:30px;margin-bottom:12px;display:block;}
-.gc-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin-bottom:7px;}
+.gc-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:5px;}
 .gc-word .gc-title{color:var(--gold2);}
 .gc-num  .gc-title{color:var(--blue2);}
 .gc-sym  .gc-title{color:var(--violet2);}
 .gc-grid .gc-title{color:var(--teal2);}
 .gc-miss .gc-title{color:var(--orange2);}
 .gc-grow .gc-title{color:var(--rose2);}
-.gc-desc{font-size:14px;color:var(--text-mid);line-height:1.65;margin-bottom:13px;}
-.gc-tag{display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px;border:1px solid;font-weight:500;}
+.gc-desc{font-size:15px;color:var(--text-mid);line-height:1.55;margin-bottom:10px;}
+.gc-tag{display:inline-block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid;font-weight:500;}
 .gc-word .gc-tag{border-color:var(--gold-glow);color:var(--gold);background:var(--gold-dim);}
 .gc-num  .gc-tag{border-color:var(--blue-glow);color:var(--blue2);background:var(--blue-dim);}
 .gc-sym  .gc-tag{border-color:var(--violet-glow);color:var(--violet2);background:var(--violet-dim);}
@@ -146,13 +147,13 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 
 /* ── DIFF ── */
 .diff-row{display:flex;gap:8px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
-.diff-btn{padding:11px 22px;min-height:46px;border:1px solid var(--border2);border-radius:100px;background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .18s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.diff-btn{padding:12px 26px;min-height:52px;border:1px solid var(--border2);border-radius:100px;background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
 .diff-btn:active{transform:scale(.94);}
-.diff-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}
+.diff-btn.active{background:var(--gold);border-color:var(--gold2);color:#090b11;box-shadow:0 4px 16px var(--gold-glow);font-weight:600;}
 @media(hover:hover){.diff-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 36px;min-height:54px;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:17px 36px;min-height:58px;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
 .btn-gold  {background:linear-gradient(135deg,var(--gold),var(--gold2));     color:#090b11;box-shadow:0 8px 26px var(--gold-glow);}
 .btn-blue  {background:linear-gradient(135deg,var(--blue),var(--blue2));     color:#090b11;box-shadow:0 8px 26px var(--blue-glow);}
 .btn-violet{background:linear-gradient(135deg,var(--violet),var(--violet2)); color:#090b11;box-shadow:0 8px 26px var(--violet-glow);}
@@ -352,6 +353,86 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   .game-cards{grid-template-columns:1fr;}
   .home-stats{grid-template-columns:repeat(2,1fr);}
 }
+
+/* ── LIME (Pair Match) ── */
+.gc-lime.active  {border-color:var(--lime);   box-shadow:0 0 0 1px var(--lime-glow),   0 14px 48px #6bba3b16;}
+.gc-lime.active::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,#6bba3b0a,transparent 70%);opacity:1;}
+.gc-lime .gc-title{color:var(--lime2);}
+.gc-lime .gc-tag{border-color:var(--lime-glow);color:var(--lime);background:var(--lime-dim);}
+.btn-lime{background:linear-gradient(135deg,var(--lime),var(--lime2));color:#090b11;box-shadow:0 8px 26px var(--lime-glow);}
+@media(hover:hover){.btn-lime:hover{transform:translateY(-2px);box-shadow:0 14px 38px #6bba3b66;}}
+.fill-lime{background:linear-gradient(90deg,var(--lime),var(--lime2));}
+
+/* ── PER-GAME PERSONAL BEST on cards ── */
+.gc-best{display:block;font-size:11px;color:var(--text-dim);margin-top:7px;letter-spacing:.04em;min-height:14px;}
+
+/* ── VAULT LEVEL BADGE ── */
+#vault-badge{display:flex;align-items:center;gap:8px;padding:6px 16px;background:var(--card-solid);border:1px solid var(--border2);border-radius:100px;font-size:12px;color:var(--text-mid);margin-bottom:10px;letter-spacing:.06em;align-self:center;}
+
+/* ── DAILY CHALLENGE CARD ── */
+.daily-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px;}
+
+/* ════ PAIR MATCH ════ */
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+.pair-card{border:1px solid var(--border2);border-radius:12px;padding:13px 10px;background:var(--card-solid);display:flex;align-items:center;justify-content:center;gap:6px;animation:pop .4s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--delay);}
+.pair-word{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--text);}
+.pair-arrow{font-size:13px;color:var(--lime);font-weight:bold;flex-shrink:0;}
+.pair-target{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,10vw,54px);font-weight:600;color:var(--lime2);text-align:center;padding:20px 0 12px;text-shadow:0 0 30px var(--lime-glow);}
+.pair-recall-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.pair-choice{padding:16px 18px;border:1px solid var(--border2);border-radius:14px;background:var(--card-solid);font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);text-align:center;cursor:pointer;transition:all .18s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.pair-choice:active{transform:scale(.96);}
+@media(hover:hover){.pair-choice:hover{border-color:var(--lime);color:var(--lime2);background:var(--lime-dim);}}
+.pair-choice.selected{border-color:var(--lime);color:var(--lime2);background:var(--lime-dim);}
+.pair-choice.reveal-correct{border-color:var(--green)!important;background:#4caf8a18!important;color:var(--green)!important;}
+.pair-choice.reveal-wrong  {border-color:var(--red)!important;background:#d9606018!important;color:var(--red)!important;}
+.pair-choice.reveal-missed {border-color:var(--gold)!important;background:var(--gold-dim)!important;color:var(--gold2)!important;}
+@media(max-width:400px){.pair-grid{grid-template-columns:1fr;}.pair-card{padding:11px 10px;}}
+
+/* ── COMFORT MODE BUTTON ── */
+#comfort-btn{position:fixed;top:18px;right:70px;z-index:100;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card-solid);color:var(--text-mid);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;touch-action:manipulation;backdrop-filter:blur(12px);}
+#comfort-btn:hover{border-color:var(--gold);color:var(--gold2);}
+#comfort-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}
+
+/* ── COMFORT MODE OVERRIDES ── */
+[data-comfort="true"] .gc-desc{font-size:17px!important;}
+[data-comfort="true"] .gc-tag{font-size:14px!important;padding:8px 16px!important;}
+[data-comfort="true"] .gc-title{font-size:28px!important;}
+[data-comfort="true"] .diff-btn{font-size:17px!important;min-height:58px!important;padding:14px 30px!important;}
+[data-comfort="true"] .btn{font-size:18px!important;min-height:64px!important;}
+[data-comfort="true"] .stat-val{font-size:30px!important;}
+[data-comfort="true"] .stat-label{font-size:15px!important;}
+[data-comfort="true"] .tp-name{font-size:22px!important;}
+[data-comfort="true"] .tp-outcome{font-size:15px!important;}
+[data-comfort="true"] .screen-sub{font-size:17px!important;}
+[data-comfort="true"] #starfield{opacity:0!important;}
+[data-comfort="true"]{--text-mid:#b0ac9e;--text:#f5f1ea;}
+
+/* ── TODAY'S PLAN ── */
+.tp-list{display:flex;flex-direction:column;gap:9px;margin:4px 0 16px;}
+.tp-row{display:flex;align-items:center;gap:12px;padding:15px 16px;border:1px solid var(--border2);border-radius:14px;background:var(--card-solid);cursor:pointer;transition:all .2s;touch-action:manipulation;-webkit-user-select:none;user-select:none;min-height:68px;}
+.tp-row:active{transform:scale(.98);}
+@media(hover:hover){.tp-row:hover{border-color:var(--gold-glow);}}
+.tp-icon{font-size:22px;flex-shrink:0;width:34px;text-align:center;}
+.tp-info{flex:1;min-width:0;}
+.tp-name{display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--text);line-height:1.15;}
+.tp-outcome{display:block;font-size:13px;color:var(--text-mid);margin-top:3px;line-height:1.4;}
+.tp-time{font-size:12px;color:var(--text-dim);letter-spacing:.04em;flex-shrink:0;padding:4px 10px;border:1px solid var(--border);border-radius:100px;}
+.tp-arrow{font-size:18px;color:var(--text-dim);flex-shrink:0;margin-left:2px;}
+
+/* ── EXERCISES TOGGLE LINK ── */
+#exercises-link{display:block;width:100%;text-align:center;font-size:14px;color:var(--text-mid);background:none;border:none;cursor:pointer;padding:10px 0 4px;letter-spacing:.03em;transition:color .18s;font-family:'DM Sans',sans-serif;}
+#exercises-link:hover{color:var(--gold2);}
+
+/* ── GAME TIME BADGE ── */
+.gc-time{display:inline-block;font-size:11px;color:var(--text-dim);padding:3px 10px;border:1px solid var(--border);border-radius:100px;margin-top:8px;letter-spacing:.04em;}
+
+/* ── START BUTTON AREA ── */
+.start-area{text-align:center;margin-top:10px;}
+.start-sub{font-size:14px;color:var(--text-mid);margin-top:10px;line-height:1.5;}
+.start-reassurance{font-size:12px;color:var(--text-dim);margin-top:14px;line-height:1.6;letter-spacing:.01em;}
+
+/* ── HOME SECTION HEADER ── */
+.section-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid);margin-bottom:12px;font-weight:500;}
 </style>
 </head>
 <body>
@@ -363,6 +444,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   <span class="ub-label" id="ub-label">Sign In</span>
 </button>
 
+<button id="comfort-btn" onclick="toggleComfortMode()" title="Comfort mode — larger text">Aa</button>
 <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
 
 <!-- Auth Modal -->
@@ -380,6 +462,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
       <input class="auth-input" id="li-email" type="email" placeholder="Email address" autocomplete="email">
       <input class="auth-input" id="li-pass" type="password" placeholder="Password" autocomplete="current-password">
       <button class="btn btn-gold auth-submit" onclick="authLogin()">Sign In ✦</button>
+      <div style="text-align:center;margin-top:12px;"><a href="#" onclick="showForgotPassword();return false;" style="font-size:12px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--text-dim)'">Forgot password?</a></div>
     </div>
     <!-- Register form -->
     <div id="form-register" style="display:none">
@@ -399,68 +482,118 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   <div class="logo">Mind<em>Vault</em></div>
   <div class="tagline">Daily Memory Training for Sharp Minds</div>
   <div id="streak-badge" class="streak-badge">🔥 <span id="streak-num">0</span> Day Streak</div>
+  <div id="vault-badge"><span id="vault-level-num" style="color:var(--gold2);font-weight:600;">Level 1</span><span style="color:var(--border2);">·</span><span id="vault-level-name">Novice</span></div>
+
+  <!-- Daily Challenge -->
+  <div id="daily-card" class="card" style="padding:18px 22px;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div style="flex:1;min-width:0;">
+        <div class="daily-label">Today's Challenge</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--text);line-height:1.2;" id="dc-game-name">—</div>
+        <div style="font-size:12px;color:var(--text-mid);margin-top:3px;" id="dc-meta">—</div>
+      </div>
+      <div id="dc-done" style="display:none;text-align:center;flex-shrink:0;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold2);line-height:1;" id="dc-score">—</div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-top:2px;">Done ✓</div>
+      </div>
+      <button id="dc-btn" class="btn btn-gold" onclick="launchDailyChallenge()" style="flex-shrink:0;padding:12px 20px;font-size:13px;min-height:44px;letter-spacing:.04em;">Go ✦</button>
+    </div>
+    <div id="dc-share" style="display:none;margin-top:14px;border-top:1px solid var(--border2);padding-top:12px;">
+      <button class="btn btn-ghost" onclick="shareDaily()" style="width:100%;padding:10px 20px;font-size:13px;min-height:40px;">Share Today's Result →</button>
+    </div>
+  </div>
 
   <div class="card">
     <div class="home-stats">
-      <div class="stat-box"><span class="stat-val" id="hm-best">—</span><span class="stat-label">Best</span></div>
-      <div class="stat-box"><span class="stat-val" id="hm-games">0</span><span class="stat-label">Games</span></div>
-      <div class="stat-box"><span class="stat-val" id="hm-avg">—</span><span class="stat-label">Avg</span></div>
-      <div class="stat-box"><span class="stat-val" id="hm-streak">0</span><span class="stat-label">Streak</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-today" style="font-size:20px;">—</span><span class="stat-label">Today</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-streak">0</span><span class="stat-label">Day streak</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-week">0/7</span><span class="stat-label">Days this week</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-focus" style="font-size:17px;">—</span><span class="stat-label" id="hm-focus-label">Progress</span></div>
     </div>
 
     <div class="sep"></div>
 
-    <div style="font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mid);text-align:center;margin-bottom:12px;font-weight:500;">Choose Your Game</div>
-    <div class="game-cards">
-      <div class="game-card gc-word active" id="card-word" onclick="selectGame('word')">
-        <span class="gc-icon">✦</span>
-        <div class="gc-title">Word Recall</div>
-        <div class="gc-desc">Study words, then recall them from a shuffled pool.</div>
-        <span class="gc-tag">Lexical Memory</span>
-      </div>
-      <div class="game-card gc-num" id="card-num" onclick="selectGame('sequence')">
-        <span class="gc-icon">◈</span>
-        <div class="gc-title">Number Chain</div>
-        <div class="gc-desc">Watch digits flash one by one. Repeat the exact sequence.</div>
-        <span class="gc-tag">Sequential Memory</span>
-      </div>
-      <div class="game-card gc-sym" id="card-sym" onclick="selectGame('symbol')">
-        <span class="gc-icon">⬡</span>
-        <div class="gc-title">Spot the Swap</div>
-        <div class="gc-desc">Two grids, side by side. Some symbols swapped — tap every one that changed.</div>
-        <span class="gc-tag">Visual Comparison</span>
-      </div>
-      <div class="game-card gc-grid" id="card-grid" onclick="selectGame('gridmem')">
-        <span class="gc-icon">▦</span>
-        <div class="gc-title">Grid Memory</div>
-        <div class="gc-desc">A pattern of cells lights up briefly. Recreate it exactly.</div>
-        <span class="gc-tag">Spatial Memory</span>
-      </div>
-      <div class="game-card gc-miss" id="card-miss" onclick="selectGame('missing')">
-        <span class="gc-icon">✎</span>
-        <div class="gc-title">Missing Word</div>
-        <div class="gc-desc">A sentence flashes with one word blanked. Choose the missing word.</div>
-        <span class="gc-tag">Reading Memory</span>
-      </div>
-      <div class="game-card gc-grow" id="card-grow" onclick="selectGame('growing')">
-        <span class="gc-icon">✦✦</span>
-        <div class="gc-title">Growing List</div>
-        <div class="gc-desc">A list grows one item per round. Remember every item in order.</div>
-        <span class="gc-tag">Working Memory</span>
+    <div class="section-label" style="text-align:center;">Today's Plan</div>
+    <div class="tp-list" id="todays-plan"><!-- rendered by JS --></div>
+    <button id="exercises-link" onclick="toggleExercises()">Explore all exercises ↓</button>
+
+    <div id="all-exercises" style="display:none">
+      <div class="sep"></div>
+      <div class="section-label" style="text-align:center;margin-bottom:12px;">All Exercises</div>
+      <div class="game-cards">
+        <div class="game-card gc-word active" id="card-word" onclick="selectGame('word')">
+          <span class="gc-icon">✦</span>
+          <div class="gc-title">Word Recall</div>
+          <div class="gc-desc">Remember names and vocabulary faster</div>
+          <span class="gc-tag">Lexical Memory</span>
+          <span class="gc-time">~2 min</span>
+          <span class="gc-best" id="best-word"></span>
+        </div>
+        <div class="game-card gc-num" id="card-num" onclick="selectGame('sequence')">
+          <span class="gc-icon">◈</span>
+          <div class="gc-title">Number Chain</div>
+          <div class="gc-desc">Hold numbers, PINs and steps in mind</div>
+          <span class="gc-tag">Sequential Memory</span>
+          <span class="gc-time">~2 min</span>
+          <span class="gc-best" id="best-num"></span>
+        </div>
+        <div class="game-card gc-sym" id="card-sym" onclick="selectGame('symbol')">
+          <span class="gc-icon">⬡</span>
+          <div class="gc-title">Spot the Swap</div>
+          <div class="gc-desc">Catch changes — train sharp visual attention</div>
+          <span class="gc-tag">Visual Comparison</span>
+          <span class="gc-time">~2 min</span>
+          <span class="gc-best" id="best-sym"></span>
+        </div>
+        <div class="game-card gc-grid" id="card-grid" onclick="selectGame('gridmem')">
+          <span class="gc-icon">▦</span>
+          <div class="gc-title">Grid Memory</div>
+          <div class="gc-desc">Remember layouts, patterns and arrangements</div>
+          <span class="gc-tag">Spatial Memory</span>
+          <span class="gc-time">~2 min</span>
+          <span class="gc-best" id="best-grid"></span>
+        </div>
+        <div class="game-card gc-miss" id="card-miss" onclick="selectGame('missing')">
+          <span class="gc-icon">✎</span>
+          <div class="gc-title">Missing Word</div>
+          <div class="gc-desc">Read with deeper comprehension and recall</div>
+          <span class="gc-tag">Reading Memory</span>
+          <span class="gc-time">~2 min</span>
+          <span class="gc-best" id="best-miss"></span>
+        </div>
+        <div class="game-card gc-grow" id="card-grow" onclick="selectGame('growing')">
+          <span class="gc-icon">✦✦</span>
+          <div class="gc-title">Growing List</div>
+          <div class="gc-desc">Expand your short-term memory capacity</div>
+          <span class="gc-tag">Working Memory</span>
+          <span class="gc-time">~3 min</span>
+          <span class="gc-best" id="best-grow"></span>
+        </div>
+        <div class="game-card gc-lime" id="card-pair" onclick="selectGame('pairs')">
+          <span class="gc-icon">⟷</span>
+          <div class="gc-title">Pair Match</div>
+          <div class="gc-desc">Connect names to faces and link related facts</div>
+          <span class="gc-tag">Associative Memory</span>
+          <span class="gc-time">~2 min</span>
+          <span class="gc-best" id="best-pair"></span>
+        </div>
       </div>
     </div>
 
     <div class="sep"></div>
 
-    <div style="font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mid);text-align:center;margin-bottom:11px;font-weight:500;">Difficulty</div>
+    <div class="section-label" style="text-align:center;margin-bottom:11px;">Difficulty</div>
     <div class="diff-row">
       <button class="diff-btn active" data-diff="easy">Easy</button>
       <button class="diff-btn" data-diff="medium">Medium</button>
       <button class="diff-btn" data-diff="hard">Hard</button>
       <button class="diff-btn" data-diff="expert">Expert</button>
     </div>
-    <div class="btn-row" style="margin-top:6px;">
-      <button id="start-btn" class="btn btn-gold" onclick="startGame()">Begin Session ✦</button>
+    <div class="start-area">
+      <button id="start-btn" class="btn btn-gold" onclick="startGame()" style="width:100%;font-size:17px;min-height:62px;padding:18px 28px;letter-spacing:.03em;text-transform:none;">Start today's 7-minute session ✦</button>
+      <div class="start-sub">No timer pressure — stop anytime.</div>
+      <button class="btn btn-ghost" onclick="startQuickSession()" style="margin-top:12px;font-size:14px;padding:13px 30px;min-height:50px;letter-spacing:.02em;text-transform:none;">Quick 2-minute session →</button>
+      <div class="start-reassurance">Evidence-aligned cognitive training · Not medical advice</div>
     </div>
   </div>
 </div>
@@ -621,10 +754,34 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   </div>
 </div>
 
+<!-- ══════ PAIRS: STUDY ══════ -->
+<div id="screen-pair-study" class="screen">
+  <div class="screen-eyebrow" id="pm-eyebrow">Pair Match · Round 1</div>
+  <div class="screen-title">Learn the pairs</div>
+  <div class="screen-sub">Memorise which words belong together</div>
+  <div class="card">
+    <div class="timer-wrap"><span class="timer-num" id="pm-timer">12</span><span class="timer-label">seconds remaining</span></div>
+    <div class="progress-track"><div class="progress-fill fill-lime" id="pm-prog" style="width:100%"></div></div>
+    <div class="pair-grid" id="pm-pair-grid"></div>
+  </div>
+</div>
+
+<!-- ══════ PAIRS: RECALL ══════ -->
+<div id="screen-pair-recall" class="screen">
+  <div class="screen-eyebrow" id="pr-eyebrow">Pair Match · Round 1</div>
+  <div class="screen-title" id="pr-sub">Which word was paired with this?</div>
+  <div class="card" style="text-align:center;">
+    <div class="mw-progress" id="pr-progress">1 / 3</div>
+    <div class="pair-target" id="pr-target">Harbor</div>
+    <div class="pair-recall-choices" id="pr-choices"></div>
+  </div>
+</div>
+
 <!-- ══════ RESULTS ══════ -->
 <div id="screen-results" class="screen">
   <div class="screen-eyebrow" id="rs-eyebrow">Round Complete</div>
   <div class="card" style="text-align:center;">
+    <div id="pb-banner" style="display:none;padding:7px 16px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:100px;font-size:13px;color:var(--gold2);margin-bottom:10px;font-weight:500;">🏆 New Personal Best!</div>
     <div class="result-message" id="rs-message">Excellent recall!</div>
     <div class="result-score"><span class="pct" id="rs-pct">100</span><span class="sym-r">%</span></div>
     <div class="sep"></div>
@@ -642,7 +799,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 </div>
 
 </div><!-- #app -->
-<footer>MindVault &nbsp;·&nbsp; Four games · One sharp mind</footer>
+<footer>MindVault &nbsp;·&nbsp; Seven games · One sharp mind</footer>
 
 <script>
 /* ─── STARFIELD ─── */
@@ -705,6 +862,31 @@ const SENTENCES=[
 /* ─── GROWING LIST ITEMS ─── */
 const GL_ITEMS=['an apple','a candle','a compass','a feather','a key','a lemon','a mirror','a notebook','a ribbon','a seashell','a thimble','a torch','a watch','a marble','a coin','a stamp','a button','a leaf','a stone','a thread'];
 
+/* ─── PAIR ITEMS ─── */
+const PAIR_ITEMS=[
+  ['Harbor','Lantern'], ['Fern','Dew'],      ['Stone','River'],   ['Ember','Night'],
+  ['Compass','Wind'],   ['Anchor','Tide'],   ['Quill','Ink'],     ['Forge','Iron'],
+  ['Pilgrim','Road'],   ['Sage','Dust'],     ['Prism','Light'],   ['Helm','Stars'],
+  ['Cedar','Moss'],     ['Chalice','Moon'],  ['Scroll','Cipher'], ['Bastion','Gate'],
+  ['Mantle','Crown'],   ['Veil','Shadow'],   ['Zenith','Peak'],   ['Signet','Wax'],
+  ['Locket','Memory'],  ['Weaver','Thread'], ['Hearth','Flame'],  ['Vault','Key'],
+  ['Mist','Dawn'],      ['Ridge','Falcon'],  ['Birch','Silver'],  ['Gale','Salt'],
+  ['Grove','Silence'],  ['Summit','Cloud'],
+];
+const PAIR_DIFF={easy:{count:3,secs:12},medium:{count:5,secs:10},hard:{count:6,secs:8},expert:{count:8,secs:7}};
+
+/* ─── VAULT LEVELS ─── */
+const VAULT_LEVELS=[
+  {min:0,   name:'Novice'},    {min:10,  name:'Apprentice'},
+  {min:25,  name:'Adept'},     {min:50,  name:'Scholar'},
+  {min:100, name:'Expert'},    {min:200, name:'Master'},
+  {min:350, name:'Sage'},      {min:500, name:'Vault Mind'},
+];
+function getVaultLevel(){
+  for(let i=VAULT_LEVELS.length-1;i>=0;i--){if(G.gamesPlayed>=VAULT_LEVELS[i].min)return{...VAULT_LEVELS[i],lvNum:i+1};}
+  return{...VAULT_LEVELS[0],lvNum:1};
+}
+
 /* ─── STATE ─── */
 const _saved = JSON.parse(localStorage.getItem('mv_stats')||'{}');
 let G={
@@ -725,6 +907,10 @@ let G={
   mwQueue:[],mwCurrent:0,mwAnswers:[],
   // growing list
   glItems:[],glAnswers:[],
+  // pairs
+  pPairs:[],pAnswers:[],pCurrent:0,
+  // daily challenge
+  isDailyChallenge:false,
   _tid:null,
   _mwTid:null
 };
@@ -737,14 +923,14 @@ function showScreen(id){
 }
 
 /* ─── HOME / STATS ─── */
-const GAME_ACCENTS={word:'gold',sequence:'blue',symbol:'violet',gridmem:'teal',missing:'orange',growing:'rose'};
-const GAME_ICONS  ={word:'✦',sequence:'◈',symbol:'⬡',gridmem:'▦',missing:'✎',growing:'✦✦'};
+const GAME_ACCENTS={word:'gold',sequence:'blue',symbol:'violet',gridmem:'teal',missing:'orange',growing:'rose',pairs:'lime'};
+const GAME_ICONS  ={word:'✦',sequence:'◈',symbol:'⬡',gridmem:'▦',missing:'✎',growing:'✦✦',pairs:'⟷'};
 
 function selectGame(g){
   G.game=g;
-  ['word','num','sym','grid','miss','grow'].forEach(k=>document.getElementById('card-'+k)?.classList.remove('active'));
-  const map={word:'word',sequence:'num',symbol:'sym',gridmem:'grid',missing:'miss',growing:'grow'};
-  document.getElementById('card-'+map[g]).classList.add('active');
+  ['word','num','sym','grid','miss','grow','pair'].forEach(k=>document.getElementById('card-'+k)?.classList.remove('active'));
+  const map={word:'word',sequence:'num',symbol:'sym',gridmem:'grid',missing:'miss',growing:'grow',pairs:'pair'};
+  document.getElementById('card-'+map[g])?.classList.add('active');
   const b=document.getElementById('start-btn');
   const accent=GAME_ACCENTS[g];
   b.className=`btn btn-${accent}`;
@@ -757,15 +943,30 @@ document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=
 }));
 
 function updateHomeStats(){
-  const s=G.allScores,best=s.length?Math.max(...s):null,avg=s.length?Math.round(s.reduce((a,b)=>a+b)/s.length):null;
-  document.getElementById('hm-best').textContent=best!==null?best+'%':'—';
-  document.getElementById('hm-avg').textContent=avg!==null?avg+'%':'—';
-  document.getElementById('hm-games').textContent=G.gamesPlayed;
-  document.getElementById('hm-streak').textContent=G.streak||0;
-  if(G.streak>0){document.getElementById('streak-badge').style.display='inline-flex';document.getElementById('streak-num').textContent=G.streak;}
+  // Today status
+  const todayEl=$('hm-today');
+  if(todayEl){const done=isTodayDone();todayEl.textContent=done?'Done ✓':'—';todayEl.style.color=done?'var(--green)':'';}
+  // Streak
+  $('hm-streak').textContent=(G.streak||0)+(G.streak===1?' day':' days');
+  // This week
+  const wc=getWeeklyCount();if($('hm-week'))$('hm-week').textContent=wc+'/7';
+  // Focus
+  const [focusVal,focusLbl]=getFocusLabel();
+  if($('hm-focus'))$('hm-focus').textContent=focusVal;
+  if($('hm-focus-label'))$('hm-focus-label').textContent=focusLbl;
+  // Streak badge
+  if(G.streak>0){$('streak-badge').style.display='inline-flex';$('streak-num').textContent=G.streak;}
+  // Vault level
+  const lvl=getVaultLevel();
+  $('vault-level-num').textContent='Level '+lvl.lvNum;
+  $('vault-level-name').textContent=lvl.name;
+  // Per-game personal bests
+  const bests=JSON.parse(localStorage.getItem('mv_bests')||'{}');
+  const bestMap={word:'word',sequence:'num',symbol:'sym',gridmem:'grid',missing:'miss',growing:'grow',pairs:'pair'};
+  Object.entries(bestMap).forEach(([game,key])=>{const el=$('best-'+key);if(el)el.textContent=bests[game]?'Best: '+bests[game]+'%':'';});
 }
 
-function goHome(){clearTimeout(G._tid);clearTimeout(G._mwTid);updateHomeStats();showScreen('home');}
+function goHome(){clearTimeout(G._tid);clearTimeout(G._mwTid);G.isDailyChallenge=false;updateHomeStats();showScreen('home');}
 
 /* ─── ROUTER ─── */
 function startGame(){
@@ -775,7 +976,7 @@ function startGame(){
   launchRound();
 }
 function nextRound(){G.round++;autoEscalate();launchRound();}
-function launchRound(){({word:startWordRound,sequence:startNumRound,symbol:startSymRound,gridmem:startGridRound,missing:startMWRound,growing:startGLRound})[G.game]();}
+function launchRound(){({word:startWordRound,sequence:startNumRound,symbol:startSymRound,gridmem:startGridRound,missing:startMWRound,growing:startGLRound,pairs:startPairsRound})[G.game]();}
 
 function autoEscalate(){
   if(G.lastPct===100){const l=['easy','medium','hard','expert'],i=l.indexOf(G.diff);
@@ -1253,7 +1454,21 @@ function showResults(pct,correct,missed,extra,bkHTML,game){
   saveStats();
   const today=new Date().toDateString();
   if(G.lastDate!==today){G.streak++;G.lastDate=today;localStorage.setItem('mv_streak',G.streak);localStorage.setItem('mv_lastdate',G.lastDate);}
-  const names={word:'Word Recall',sequence:'Number Chain',symbol:'Spot the Swap',gridmem:'Grid Memory',missing:'Missing Word',growing:'Growing List'};
+  recordPlayedDate();
+  // Per-game personal best
+  const bests=JSON.parse(localStorage.getItem('mv_bests')||'{}');
+  const isNewBest=pct>(bests[game]||0);
+  if(isNewBest){bests[game]=pct;localStorage.setItem('mv_bests',JSON.stringify(bests));}
+  $('pb-banner').style.display=isNewBest?'block':'none';
+  // Daily challenge completion
+  if(G.isDailyChallenge){
+    const todayISO=new Date().toISOString().split('T')[0];
+    localStorage.setItem('mv_daily_date',todayISO);
+    localStorage.setItem('mv_daily_score',pct);
+    G.isDailyChallenge=false;
+    updateDailyCard();
+  }
+  const names={word:'Word Recall',sequence:'Number Chain',symbol:'Spot the Swap',gridmem:'Grid Memory',missing:'Missing Word',growing:'Growing List',pairs:'Pair Match'};
   document.getElementById('rs-eyebrow').textContent=`${names[game]} · Round ${G.round} Complete`;
   document.getElementById('rs-pct').textContent=pct;
   document.getElementById('rs-c').textContent=correct;
@@ -1418,6 +1633,20 @@ function switchTab(t){
 
 function setAuthErr(msg){ $('auth-err').textContent = msg; }
 
+async function showForgotPassword(){
+  const email = $('li-email').value.trim();
+  const prompt = email || '';
+  const entered = window.prompt('Enter your email address and we\'ll send a reset link:', prompt);
+  if(entered === null) return; // cancelled
+  if(!entered || !entered.includes('@')){ alert('Please enter a valid email address.'); return; }
+  setAuthErr('Sending reset link…');
+  try {
+    const r = await fetch(API+'/api/auth/forgot-password',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:entered.trim()}) });
+    setAuthErr('');
+    alert('If an account exists for that email, a reset link has been sent. Check your inbox.');
+  } catch(e){ setAuthErr('Network error. Check connection.'); }
+}
+
 async function authLogin(){
   const email=$('li-email').value.trim(), pass=$('li-pass').value;
   if(!email||!pass){ setAuthErr('Please fill in all fields.'); return; }
@@ -1456,6 +1685,236 @@ updateUserBtn();
 if(AUTH.token) loadFromServer();
 
 updateHomeStats();
+updateDailyCard();
+renderTodaysPlan();
+
+// Comfort mode: restore from localStorage
+if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttribute('data-comfort','true');$('comfort-btn')?.classList.add('active');}
+
+/* ══════════════════════════════════════
+   WEEKLY TRACKING + STATS
+══════════════════════════════════════ */
+function recordPlayedDate(){
+  const today=new Date().toISOString().split('T')[0];
+  const dates=JSON.parse(localStorage.getItem('mv_played_dates')||'[]');
+  if(!dates.includes(today)){dates.unshift(today);if(dates.length>60)dates.pop();localStorage.setItem('mv_played_dates',JSON.stringify(dates));}
+}
+
+function getWeeklyCount(){
+  const dates=JSON.parse(localStorage.getItem('mv_played_dates')||'[]');
+  const now=new Date();
+  const day=now.getDay();
+  const monday=new Date(now);monday.setDate(now.getDate()-(day===0?6:day-1));monday.setHours(0,0,0,0);
+  return dates.filter(d=>new Date(d)>=monday).length;
+}
+
+function getFocusLabel(){
+  const s=G.allScores;
+  if(s.length<6) return['—','Progress'];
+  const recent=s.slice(-5).reduce((a,b)=>a+b,0)/5;
+  const older=s.slice(-10,-5);
+  if(!older.length) return['—','Progress'];
+  const olderAvg=older.reduce((a,b)=>a+b,0)/older.length;
+  const diff=recent-olderAvg;
+  if(diff>4)  return['Better ↑','Getting better'];
+  if(diff<-4) return['Practise','Keep going'];
+  return['Steady →','Holding strong'];
+}
+
+function isTodayDone(){
+  const today=new Date().toISOString().split('T')[0];
+  return JSON.parse(localStorage.getItem('mv_played_dates')||'[]').includes(today);
+}
+
+/* ══════════════════════════════════════
+   TODAY'S PLAN
+══════════════════════════════════════ */
+const GAME_TIMES={word:'~2 min',sequence:'~2 min',symbol:'~2 min',gridmem:'~2 min',missing:'~2 min',growing:'~3 min',pairs:'~2 min'};
+const GAME_OUTCOMES={word:'Remember names and vocabulary faster',sequence:'Hold numbers, PINs and steps in mind',symbol:'Catch changes — train sharp attention',gridmem:'Remember layouts and patterns',missing:'Read with deeper comprehension',growing:'Expand your short-term memory',pairs:'Connect names, faces and linked facts'};
+
+function getTodaysPlan(){
+  const dayNum=getDayNumber();
+  return[DAILY_GAME_ORDER[(dayNum-1)%7],DAILY_GAME_ORDER[(dayNum+1)%7],DAILY_GAME_ORDER[(dayNum+3)%7]];
+}
+
+function renderTodaysPlan(){
+  const plan=getTodaysPlan();
+  const el=$('todays-plan');if(!el)return;
+  el.innerHTML='';
+  plan.forEach(game=>{
+    const row=document.createElement('div');row.className='tp-row';
+    row.onclick=()=>selectFromPlan(game);
+    row.innerHTML=`<span class="tp-icon">${GAME_ICONS[game]}</span><div class="tp-info"><span class="tp-name">${DAILY_GAME_NAMES[game]}</span><span class="tp-outcome">${GAME_OUTCOMES[game]}</span></div><span class="tp-time">${GAME_TIMES[game]}</span><span class="tp-arrow">→</span>`;
+    el.appendChild(row);
+  });
+}
+
+function selectFromPlan(game){
+  selectGame(game);
+  // Expand exercises section so cards are visible if user wants to explore
+  const ex=$('all-exercises');
+  if(ex&&ex.style.display==='none'){ex.style.display='block';const lk=$('exercises-link');if(lk)lk.textContent='Hide exercises ↑';}
+  setTimeout(()=>$('start-btn')?.scrollIntoView({behavior:'smooth',block:'center'}),120);
+}
+
+function toggleExercises(){
+  const el=$('all-exercises');const link=$('exercises-link');if(!el)return;
+  const showing=el.style.display!=='none';
+  el.style.display=showing?'none':'block';
+  if(link)link.textContent=showing?'Explore all exercises ↓':'Hide exercises ↑';
+}
+
+function startQuickSession(){
+  const plan=getTodaysPlan();
+  const game=plan[0];
+  G.game=game;G.diff='easy';G.round=1;
+  if(G.game==='growing')G.glItems=[];
+  selectGame(game);
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff==='easy'));
+  launchRound();
+}
+
+/* ══════════════════════════════════════
+   COMFORT MODE
+══════════════════════════════════════ */
+function toggleComfortMode(){
+  const isOn=document.documentElement.getAttribute('data-comfort')==='true';
+  if(isOn){document.documentElement.removeAttribute('data-comfort');}else{document.documentElement.setAttribute('data-comfort','true');}
+  $('comfort-btn')?.classList.toggle('active',!isOn);
+  localStorage.setItem('mv_comfort',isOn?'':'true');
+}
+
+/* ══════════════════════════════════════
+   PAIR MATCH
+══════════════════════════════════════ */
+function startPairsRound(){
+  const cfg=PAIR_DIFF[G.diff];
+  const shuffled=[...PAIR_ITEMS].sort(()=>Math.random()-.5);
+  G.pPairs=shuffled.slice(0,cfg.count);
+  G.pAnswers=[];G.pCurrent=0;
+  $('pm-eyebrow').textContent=`Pair Match · Round ${G.round} · ${cap(G.diff)}`;
+  const grid=$('pm-pair-grid');grid.innerHTML='';
+  G.pPairs.forEach((pair,i)=>{
+    const card=mk('div','pair-card','');
+    card.style.setProperty('--delay',i*.08+'s');
+    card.innerHTML=`<span class="pair-word">${pair[0]}</span><span class="pair-arrow">↔</span><span class="pair-word">${pair[1]}</span>`;
+    grid.appendChild(card);
+  });
+  showScreen('pair-study');
+  runTimer('pm-timer','pm-prog',cfg.secs,'fill-lime',()=>showPairRecall());
+}
+
+function showPairRecall(){
+  clearTimeout(G._tid);
+  G.pCurrent=0;G.pAnswers=[];
+  showPairQuestion();
+}
+
+function showPairQuestion(){
+  const pair=G.pPairs[G.pCurrent];
+  const total=G.pPairs.length;
+  $('pr-eyebrow').textContent=`Pair Match · Round ${G.round}`;
+  $('pr-progress').textContent=`${G.pCurrent+1} / ${total}`;
+  $('pr-target').textContent=pair[0];
+  $('pr-sub').textContent=`Which word was paired with "${pair[0]}"?`;
+  const correct=pair[1];
+  const allBs=[...new Set(PAIR_ITEMS.map(p=>p[1]).filter(b=>b!==correct))];
+  const distractors=allBs.sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[correct,...distractors].sort(()=>Math.random()-.5);
+  const pool=$('pr-choices');pool.innerHTML='';
+  opts.forEach(opt=>{
+    const btn=mk('div','pair-choice',opt);
+    btn.addEventListener('click',()=>pairSelect(btn,opt,correct));
+    pool.appendChild(btn);
+  });
+  showScreen('pair-recall');
+}
+
+function pairSelect(btn,chosen,correct){
+  clearTimeout(G._mwTid);
+  document.querySelectorAll('.pair-choice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  G.pAnswers.push({correct,given:chosen,ok:chosen===correct});
+  G._mwTid=setTimeout(()=>{
+    G.pCurrent++;
+    if(G.pCurrent<G.pPairs.length){showPairQuestion();}
+    else{pairShowResults();}
+  },600);
+}
+
+function pairShowResults(){
+  const correct=G.pAnswers.filter(a=>a.ok).length;
+  const wrong=G.pAnswers.filter(a=>!a.ok).length;
+  const pct=Math.round(correct/G.pAnswers.length*100);
+  const bk=`<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;">
+    ${G.pAnswers.map((a,i)=>`<div style="padding:6px 14px;border-radius:100px;border:1px solid;font-family:'Cormorant Garamond',serif;font-size:17px;
+      ${a.ok?'border-color:var(--green);color:var(--green);background:#4caf8a14;':'border-color:var(--red);color:var(--red);background:#d9606014;'}">
+      ${G.pPairs[i][0]} ↔ ${a.given}${a.ok?'':` <span style="font-size:12px;opacity:.7;">(${a.correct})</span>`}
+    </div>`).join('')}
+  </div>`;
+  showResults(pct,correct,wrong,0,bk,'pairs');
+}
+
+/* ══════════════════════════════════════
+   DAILY CHALLENGE
+══════════════════════════════════════ */
+const LAUNCH_DATE=new Date('2025-03-10');
+const DAILY_GAME_ORDER=['word','sequence','gridmem','symbol','missing','growing','pairs'];
+const DAILY_GAME_NAMES={word:'Word Recall',sequence:'Number Chain',symbol:'Spot the Swap',gridmem:'Grid Memory',missing:'Missing Word',growing:'Growing List',pairs:'Pair Match'};
+
+function getDayNumber(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const launch=new Date(LAUNCH_DATE);launch.setHours(0,0,0,0);
+  return Math.max(1,Math.floor((today-launch)/86400000)+1);
+}
+
+function getDailyConfig(){
+  const dayNum=getDayNumber();
+  const game=DAILY_GAME_ORDER[(dayNum-1)%DAILY_GAME_ORDER.length];
+  // Difficulty cycles: medium, hard, hard, expert
+  const diffs=['medium','hard','hard','expert'];
+  const diff=diffs[(dayNum-1)%diffs.length];
+  return{game,diff,dayNum};
+}
+
+function updateDailyCard(){
+  const cfg=getDailyConfig();
+  $('dc-game-name').textContent=DAILY_GAME_NAMES[cfg.game];
+  $('dc-meta').textContent=`${cap(cfg.diff)} · Day ${cfg.dayNum}`;
+  const todayISO=new Date().toISOString().split('T')[0];
+  const done=localStorage.getItem('mv_daily_date')===todayISO;
+  const score=localStorage.getItem('mv_daily_score');
+  if(done){
+    $('dc-score').textContent=score+'%';
+    $('dc-done').style.display='block';
+    const btn=$('dc-btn');btn.textContent='Done ✓';btn.disabled=true;btn.style.opacity='0.45';
+    $('dc-share').style.display='block';
+  } else {
+    $('dc-done').style.display='none';
+    const btn=$('dc-btn');btn.textContent='Go ✦';btn.disabled=false;btn.style.opacity='';
+    $('dc-share').style.display='none';
+  }
+}
+
+function launchDailyChallenge(){
+  const cfg=getDailyConfig();
+  G.isDailyChallenge=true;
+  G.game=cfg.game;G.diff=cfg.diff;G.round=1;
+  if(G.game==='growing')G.glItems=[];
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===cfg.diff));
+  launchRound();
+}
+
+function shareDaily(){
+  const cfg=getDailyConfig();
+  const score=localStorage.getItem('mv_daily_score')||'—';
+  const pct=parseInt(score)||0;
+  const filled=Math.round(pct/20);
+  const bar='🟨'.repeat(Math.min(filled,5))+'⬛'.repeat(Math.max(0,5-filled));
+  const text=`MindVault Daily — Day ${cfg.dayNum}\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nmindvault.app`;
+  if(navigator.share){navigator.share({text}).catch(()=>{});}
+  else{navigator.clipboard?.writeText(text).then(()=>alert('Result copied!')).catch(()=>alert(text));}
+}
 
 /* ─── SERVICE WORKER ─── */
 if ('serviceWorker' in navigator) {
@@ -1463,6 +1922,36 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
 }
+
+/* ─── ERROR BOUNDARY ─── */
+function showErrorBoundary(message) {
+  // Don't show if already showing
+  if (document.getElementById('error-boundary')) return;
+  const el = document.createElement('div');
+  el.id = 'error-boundary';
+  el.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)';
+  el.innerHTML = `
+    <div style="text-align:center;max-width:360px">
+      <div style="font-size:36px;margin-bottom:16px">⚠</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:10px;color:var(--text)">Something went wrong</h2>
+      <p style="color:var(--text-mid);font-size:14px;margin-bottom:28px;line-height:1.6">${message || 'An unexpected error occurred. Your progress is saved.'}</p>
+      <button onclick="window.location.reload()" style="padding:12px 28px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:100px;color:var(--gold2);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;">Reload App</button>
+    </div>`;
+  document.body.appendChild(el);
+}
+
+window.addEventListener('error', e => {
+  console.error('Unhandled error:', e.error);
+  showErrorBoundary('An unexpected error occurred. Your progress is saved.');
+});
+
+window.addEventListener('unhandledrejection', e => {
+  console.error('Unhandled promise rejection:', e.reason);
+  // Only surface as UI error for non-network errors (network failures are handled inline)
+  if (!(e.reason instanceof TypeError && e.reason.message?.includes('fetch'))) {
+    showErrorBoundary('An unexpected error occurred. Your progress is saved.');
+  }
+});
 </script>
 </body>
 </html>

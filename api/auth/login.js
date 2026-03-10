@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { sql } = require('../../lib/db');
 const { signToken } = require('../../lib/auth');
+const { checkRateLimit, getIp } = require('../../lib/rate-limit');
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -17,6 +18,16 @@ module.exports = async (req, res) => {
 
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  try {
+    const { allowed, remaining } = await checkRateLimit(getIp(req), 'login');
+    if (!allowed) {
+      return res.status(429).json({ error: 'Too many attempts. Please try again in an hour.' });
+    }
+    res.setHeader('X-RateLimit-Remaining', remaining);
+  } catch (_) {
+    // Fail open — don't block users if rate limit DB check fails
   }
 
   try {

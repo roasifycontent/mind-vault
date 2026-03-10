@@ -935,6 +935,40 @@ function showScreen(id){
 
 /* ─── HOME / STATS ─── */
 const GAME_ACCENTS={word:'gold',sequence:'blue',symbol:'violet',gridmem:'teal',missing:'orange',growing:'rose',pairs:'lime'};
+/* ── READY SCREEN ── */
+const GAME_READY_TEXT={
+  word:     'Words will appear on screen for a few seconds.<br>Study them carefully — then pick them from a list.',
+  sequence: 'Digits will flash one at a time.<br>Lock in the full sequence, then type it back in order.',
+  symbol:   'Two symbol grids will appear side by side.<br>Find every cell on the right that has changed.',
+  gridmem:  'A pattern of cells will light up briefly.<br>Then recreate the exact pattern from memory.',
+  missing:  'A sentence will appear with one word highlighted.<br>Read it carefully — then identify that word from four choices.',
+  growing:  'A list builds one item at a time.<br>Remember every item — and the exact order they appear.',
+  pairs:    'Word pairs will appear on screen together.<br>Remember which word belongs with which.',
+};
+let _rdCb=null,_rdTimer=null;
+function showReadyScreen(game,onStart){
+  clearInterval(_rdTimer);_rdCb=onStart;
+  $('rd-eyebrow').textContent=`${DAILY_GAME_NAMES[game]} · Round ${G.round} · ${cap(G.diff)}`;
+  $('rd-icon').textContent=GAME_ICONS[game];
+  $('rd-game').textContent=DAILY_GAME_NAMES[game];
+  $('rd-instruction').innerHTML=GAME_READY_TEXT[game];
+  const btn=$('rd-btn');
+  btn.className=`btn btn-${GAME_ACCENTS[game]}`;
+  btn.textContent=G.round===1?"I'm Ready →":'Start Round →';
+  let secs=G.round===1?5:3;
+  $('rd-auto').textContent=`Starting in ${secs}s — or tap above`;
+  showScreen('ready');
+  _rdTimer=setInterval(()=>{
+    secs--;
+    if(secs<=0){clearInterval(_rdTimer);rdStart();return;}
+    $('rd-auto').textContent=`Starting in ${secs}s — or tap above`;
+  },1000);
+}
+function rdStart(){
+  clearInterval(_rdTimer);
+  if(_rdCb){const cb=_rdCb;_rdCb=null;cb();}
+}
+
 const GAME_ICONS  ={word:'✦',sequence:'◈',symbol:'⬡',gridmem:'▦',missing:'✎',growing:'✦✦',pairs:'⟷'};
 
 function selectGame(g){
@@ -1003,13 +1037,15 @@ function startWordRound(){
   G.wWords=sh.slice(0,cfg.words);
   G.wChoices=[...G.wWords,...sh.slice(cfg.words,cfg.words+cfg.choices-cfg.words)].sort(()=>Math.random()-.5);
   G.wSelected=[];
-  document.getElementById('wm-eyebrow').textContent=`Word Recall · Round ${G.round} · ${cap(G.diff)}`;
-  const grid=document.getElementById('wm-grid');grid.innerHTML='';
-  G.wWords.forEach((w,i)=>{const p=mk('div','word-pill',w);p.style.setProperty('--delay',i*.07+'s');grid.appendChild(p);});
-  showScreen('word-mem');
-  runTimer('wm-timer','wm-prog',cfg.secs,'fill-gold',()=>{
-    document.querySelectorAll('#wm-grid .word-pill').forEach((p,i)=>{p.classList.add('fade-out');p.style.setProperty('--out-delay',i*.04+'s');});
-    setTimeout(showWordRecall,380+G.wWords.length*42);
+  showReadyScreen('word',()=>{
+    document.getElementById('wm-eyebrow').textContent=`Word Recall · Round ${G.round} · ${cap(G.diff)}`;
+    const grid=document.getElementById('wm-grid');grid.innerHTML='';
+    G.wWords.forEach((w,i)=>{const p=mk('div','word-pill',w);p.style.setProperty('--delay',i*.07+'s');grid.appendChild(p);});
+    showScreen('word-mem');
+    runTimer('wm-timer','wm-prog',cfg.secs,'fill-gold',()=>{
+      document.querySelectorAll('#wm-grid .word-pill').forEach((p,i)=>{p.classList.add('fade-out');p.style.setProperty('--out-delay',i*.04+'s');});
+      setTimeout(showWordRecall,380+G.wWords.length*42);
+    });
   });
 }
 function showWordRecall(){
@@ -1047,26 +1083,28 @@ function startNumRound(){
   const cfg=NUM_DIFF[G.diff];
   G.nSeq=[];G.nInput=[];G.nCurSlot=0;
   for(let i=0;i<cfg.len;i++)G.nSeq.push(cfg.dbl&&Math.random()>.5?rnd(10,99):rnd(1,9));
-  document.getElementById('nf-eyebrow').textContent=`Number Chain · Round ${G.round} · ${cap(G.diff)}`;
-  const dots=document.getElementById('nf-dots');
-  dots.innerHTML=G.nSeq.map((_,i)=>`<div class="seq-dot" id="dot-${i}"></div>`).join('');
-  const numEl=document.getElementById('nf-number'),statusEl=document.getElementById('nf-status');
-  numEl.style.opacity='0';
-  showScreen('num-flash');
-  statusEl.textContent='Get ready…';
-  let idx=-1;
-  function flash(){
-    if(idx>=0){$(`dot-${idx}`)?.classList.remove('cur');$(`dot-${idx}`)?.classList.add('done');}
-    idx++;
-    if(idx>=G.nSeq.length){numEl.classList.add('out');statusEl.textContent='Now recall the sequence…';G._tid=setTimeout(showNumRecall,700);return;}
-    $(`dot-${idx}`)?.classList.add('cur');
-    statusEl.textContent=`Number ${idx+1} of ${G.nSeq.length}`;
-    numEl.classList.remove('out');numEl.style.opacity='1';
-    numEl.style.animation='none';void numEl.offsetWidth;numEl.style.animation='';
-    numEl.textContent=G.nSeq[idx];numEl.className='num-flash';
-    G._tid=setTimeout(()=>{numEl.classList.add('out');G._tid=setTimeout(flash,300);},cfg.ms);
-  }
-  G._tid=setTimeout(flash,900);
+  showReadyScreen('sequence',()=>{
+    document.getElementById('nf-eyebrow').textContent=`Number Chain · Round ${G.round} · ${cap(G.diff)}`;
+    const dots=document.getElementById('nf-dots');
+    dots.innerHTML=G.nSeq.map((_,i)=>`<div class="seq-dot" id="dot-${i}"></div>`).join('');
+    const numEl=document.getElementById('nf-number'),statusEl=document.getElementById('nf-status');
+    numEl.style.opacity='0';
+    showScreen('num-flash');
+    statusEl.textContent='Get ready…';
+    let idx=-1;
+    function flash(){
+      if(idx>=0){$(`dot-${idx}`)?.classList.remove('cur');$(`dot-${idx}`)?.classList.add('done');}
+      idx++;
+      if(idx>=G.nSeq.length){numEl.classList.add('out');statusEl.textContent='Now recall the sequence…';G._tid=setTimeout(showNumRecall,700);return;}
+      $(`dot-${idx}`)?.classList.add('cur');
+      statusEl.textContent=`Number ${idx+1} of ${G.nSeq.length}`;
+      numEl.classList.remove('out');numEl.style.opacity='1';
+      numEl.style.animation='none';void numEl.offsetWidth;numEl.style.animation='';
+      numEl.textContent=G.nSeq[idx];numEl.className='num-flash';
+      G._tid=setTimeout(()=>{numEl.classList.add('out');G._tid=setTimeout(flash,300);},cfg.ms);
+    }
+    G._tid=setTimeout(flash,900);
+  });
 }
 function showNumRecall(){
   document.getElementById('nr-eyebrow').textContent=`Number Chain · Round ${G.round}`;
@@ -1137,15 +1175,14 @@ function startSymRound(){
     G.sModified[idx]=others[Math.floor(Math.random()*others.length)];
   });
 
-  document.getElementById('sp-eyebrow').textContent=`Spot the Swap · Round ${G.round} · ${cap(G.diff)}`;
-  document.getElementById('sp-sub').textContent=`${cfg.changes} symbol${cfg.changes>1?'s have':' has'} been swapped on the right — find them all`;
-  document.getElementById('sp-hint').textContent=`0 / ${cfg.changes} found`;
-
-  // Build both grids
-  buildSymGridSide('ss-grid', G.sOriginal, cfg.cols, false);
-  buildSymGridSide('sp-grid', G.sModified, cfg.cols, true);
-
-  showScreen('sym-spot');
+  showReadyScreen('symbol',()=>{
+    document.getElementById('sp-eyebrow').textContent=`Spot the Swap · Round ${G.round} · ${cap(G.diff)}`;
+    document.getElementById('sp-sub').textContent=`${cfg.changes} symbol${cfg.changes>1?'s have':' has'} been swapped on the right — find them all`;
+    document.getElementById('sp-hint').textContent=`0 / ${cfg.changes} found`;
+    buildSymGridSide('ss-grid', G.sOriginal, cfg.cols, false);
+    buildSymGridSide('sp-grid', G.sModified, cfg.cols, true);
+    showScreen('sym-spot');
+  });
 }
 
 function buildSymGridSide(gridId, symbols, cols, selectable){
@@ -1215,20 +1252,20 @@ function startGridRound(){
   G.gLit=new Set(indices.slice(0,cfg.cells));
   G.gChosen=new Set();
 
-  document.getElementById('gs-eyebrow').textContent=`Grid Memory · Round ${G.round} · ${cap(G.diff)}`;
-  buildMemGrid('gs-grid',false);
-  // light up cells with stagger
-  G.gLit.forEach((i,order)=>{
-    setTimeout(()=>{
-      const cell=$(`gs-cell-${i}`);
-      if(cell){cell.classList.add('lit','mem-pulse');}
-    },order*80);
-  });
-  showScreen('grid-show');
-  runTimer('gs-timer','gs-prog',cfg.secs,'fill-teal',()=>{
-    // flash off
-    document.querySelectorAll('#gs-grid .mem-cell').forEach(c=>c.classList.remove('lit'));
-    setTimeout(showGridRecall,300);
+  showReadyScreen('gridmem',()=>{
+    document.getElementById('gs-eyebrow').textContent=`Grid Memory · Round ${G.round} · ${cap(G.diff)}`;
+    buildMemGrid('gs-grid',false);
+    G.gLit.forEach((i,order)=>{
+      setTimeout(()=>{
+        const cell=$(`gs-cell-${i}`);
+        if(cell){cell.classList.add('lit','mem-pulse');}
+      },order*80);
+    });
+    showScreen('grid-show');
+    runTimer('gs-timer','gs-prog',cfg.secs,'fill-teal',()=>{
+      document.querySelectorAll('#gs-grid .mem-cell').forEach(c=>c.classList.remove('lit'));
+      setTimeout(showGridRecall,300);
+    });
   });
 }
 function buildMemGrid(gridId,selectable){
@@ -1293,8 +1330,10 @@ function startMWRound(){
   G.mwQueue=shuffled.slice(0,count);
   G.mwCurrent=0;
   G.mwAnswers=[];
-  document.getElementById('mwr-eyebrow').textContent=`Missing Word · Round ${G.round} · ${cap(G.diff)}`;
-  showMWRead();
+  showReadyScreen('missing',()=>{
+    document.getElementById('mwr-eyebrow').textContent=`Missing Word · Round ${G.round} · ${cap(G.diff)}`;
+    showMWRead();
+  });
 }
 function showMWRead(){
   const cfg=MW_DIFF[G.diff];
@@ -1392,8 +1431,10 @@ function startGLRound(){
   });
 
   const secs=cfg2.secs+G.glItems.length; // more time as list grows
-  showScreen('gl-reveal');
-  runTimer('glr-timer','glr-prog',secs,'fill-rose',()=>showGLRecall());
+  showReadyScreen('growing',()=>{
+    showScreen('gl-reveal');
+    runTimer('glr-timer','glr-prog',secs,'fill-rose',()=>showGLRecall());
+  });
 }
 function showGLRecall(){
   clearTimeout(G._tid);
@@ -1800,8 +1841,10 @@ function startPairsRound(){
     card.innerHTML=`<span class="pair-word">${pair[0]}</span><span class="pair-arrow">↔</span><span class="pair-word">${pair[1]}</span>`;
     grid.appendChild(card);
   });
-  showScreen('pair-study');
-  runTimer('pm-timer','pm-prog',cfg.secs,'fill-lime',()=>showPairRecall());
+  showReadyScreen('pairs',()=>{
+    showScreen('pair-study');
+    runTimer('pm-timer','pm-prog',cfg.secs,'fill-lime',()=>showPairRecall());
+  });
 }
 
 function showPairRecall(){

@@ -80,7 +80,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 .screen{width:100%;max-width:720px;display:none;}
 .screen.active{display:flex;flex-direction:column;align-items:center;animation:fadeUp .42s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-.slide-out{animation:slideOut .28s ease both!important;}
+.slide-out{animation:slideOut .28s ease both!important;pointer-events:none;}
 @keyframes slideOut{to{opacity:0;transform:translateY(-12px) scale(.98);}}
 
 /* ── LOGO ── */
@@ -574,8 +574,8 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 <!-- ══════ MISSING WORD: READ ══════ -->
 <div id="screen-mw-read" class="screen">
   <div class="screen-eyebrow" id="mwr-eyebrow">Missing Word · Round 1</div>
-  <div class="screen-title">Read the sentence</div>
-  <div class="screen-sub">Remember the missing word — choose it next</div>
+  <div class="screen-title">Study the sentence</div>
+  <div class="screen-sub">The highlighted word will disappear — remember it</div>
   <div class="card" style="text-align:center;">
     <div class="timer-wrap"><span class="timer-num" id="mwr-timer">5</span><span class="timer-label">seconds remaining</span></div>
     <div class="progress-track"><div class="progress-fill fill-orange" id="mwr-prog" style="width:100%"></div></div>
@@ -587,7 +587,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 <div id="screen-mw-choose" class="screen">
   <div class="screen-eyebrow" id="mwc-eyebrow">Missing Word · Round 1</div>
   <div class="screen-title">Which word was missing?</div>
-  <div class="screen-sub" id="mwc-sub">Tap the word that completed the sentence</div>
+  <div class="screen-sub" id="mwc-sub">Tap your answer — it advances automatically</div>
   <div class="card" style="text-align:center;">
     <div class="mw-sentence" id="mwc-sentence"></div>
     <div class="mw-choices" id="mwc-choices"></div>
@@ -725,7 +725,8 @@ let G={
   mwQueue:[],mwCurrent:0,mwAnswers:[],
   // growing list
   glItems:[],glAnswers:[],
-  _tid:null
+  _tid:null,
+  _mwTid:null
 };
 function saveStats(){ localStorage.setItem('mv_stats',JSON.stringify({scores:G.allScores,games:G.gamesPlayed})); }
 
@@ -764,7 +765,7 @@ function updateHomeStats(){
   if(G.streak>0){document.getElementById('streak-badge').style.display='inline-flex';document.getElementById('streak-num').textContent=G.streak;}
 }
 
-function goHome(){clearTimeout(G._tid);updateHomeStats();showScreen('home');}
+function goHome(){clearTimeout(G._tid);clearTimeout(G._mwTid);updateHomeStats();showScreen('home');}
 
 /* ─── ROUTER ─── */
 function startGame(){
@@ -1073,6 +1074,7 @@ function gridSubmit(){
 ══════════════════════════════════════ */
 function startMWRound(){
   const cfg=MW_DIFF[G.diff];
+  clearTimeout(G._mwTid);
   // Pick sentences for this round — scale with round number
   const count=Math.min(3+Math.floor((G.round-1)/2),6);
   const shuffled=[...SENTENCES].sort(()=>Math.random()-.5);
@@ -1085,7 +1087,7 @@ function startMWRound(){
 function showMWRead(){
   const cfg=MW_DIFF[G.diff];
   const item=G.mwQueue[G.mwCurrent];
-  const html=item.s.replace(`{${item.w}}`,`<span class="mw-blank"></span>`);
+  const html=item.s.replace(`{${item.w}}`,`<span style="color:var(--orange2);border-bottom:2px solid var(--orange);padding:0 3px;font-style:italic;">${item.w}</span>`);
   $('mwr-sentence').innerHTML=html;
   showScreen('mw-read');
   runTimer('mwr-timer','mwr-prog',cfg.secs,'fill-orange',()=>showMWChoose());
@@ -1114,20 +1116,23 @@ function showMWChoose(){
   showScreen('mw-choose');
 }
 function mwSelect(btn,chosen){
-  if(btn.classList.contains('selected'))return;
+  // Allow re-selection — clear any pending advance
+  clearTimeout(G._mwTid);
   document.querySelectorAll('.mw-choice').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
   const item=G.mwQueue[G.mwCurrent];
-  G.mwAnswers.push({correct:item.w,given:chosen,ok:chosen===item.w});
-  // brief visual then advance
-  setTimeout(()=>{
+  // Overwrite last answer if re-selecting
+  if(G.mwAnswers.length>G.mwCurrent) G.mwAnswers[G.mwCurrent]={correct:item.w,given:chosen,ok:chosen===item.w};
+  else G.mwAnswers.push({correct:item.w,given:chosen,ok:chosen===item.w});
+  // Show brief visual feedback then advance
+  G._mwTid=setTimeout(()=>{
     G.mwCurrent++;
     if(G.mwCurrent<G.mwQueue.length){
       showMWRead();
     } else {
       mwShowResults();
     }
-  },420);
+  },750);
 }
 function mwShowResults(){
   const correct=G.mwAnswers.filter(a=>a.ok).length;

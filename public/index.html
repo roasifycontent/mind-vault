@@ -575,7 +575,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 <div id="screen-mw-read" class="screen">
   <div class="screen-eyebrow" id="mwr-eyebrow">Missing Word · Round 1</div>
   <div class="screen-title">Study the sentence</div>
-  <div class="screen-sub">The highlighted word will disappear — remember it</div>
+  <div class="screen-sub">One word will go missing — read carefully</div>
   <div class="card" style="text-align:center;">
     <div class="timer-wrap"><span class="timer-num" id="mwr-timer">5</span><span class="timer-label">seconds remaining</span></div>
     <div class="progress-track"><div class="progress-fill fill-orange" id="mwr-prog" style="width:100%"></div></div>
@@ -1087,7 +1087,7 @@ function startMWRound(){
 function showMWRead(){
   const cfg=MW_DIFF[G.diff];
   const item=G.mwQueue[G.mwCurrent];
-  const html=item.s.replace(`{${item.w}}`,`<span style="color:var(--orange2);border-bottom:2px solid var(--orange);padding:0 3px;font-style:italic;">${item.w}</span>`);
+  const html=item.s.replace(`{${item.w}}`,item.w);
   $('mwr-sentence').innerHTML=html;
   showScreen('mw-read');
   runTimer('mwr-timer','mwr-prog',cfg.secs,'fill-orange',()=>showMWChoose());
@@ -1372,10 +1372,10 @@ async function loadFromServer(){
 
 /* Override saveStats to also sync */
 const _origSaveStats = saveStats;
-function saveStats(){
+saveStats = function(){
   _origSaveStats();
   syncToServer();
-}
+};
 
 /* UI helpers */
 function updateUserBtn(){

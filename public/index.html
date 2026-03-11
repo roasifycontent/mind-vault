@@ -1983,7 +1983,7 @@ function getDailyConfig(){
 function updateDailyCard(){
   const cfg=getDailyConfig();
   $('dc-game-name').textContent=DAILY_GAME_NAMES[cfg.game];
-  $('dc-meta').textContent=`${cap(cfg.diff)} · Day ${cfg.dayNum}`;
+  $('dc-meta').textContent=cap(G.diff);
   const todayISO=new Date().toISOString().split('T')[0];
   const done=localStorage.getItem('mv_daily_date')===todayISO;
   const score=localStorage.getItem('mv_daily_score');
@@ -2002,9 +2002,8 @@ function updateDailyCard(){
 function launchDailyChallenge(){
   const cfg=getDailyConfig();
   G.isDailyChallenge=true;
-  G.game=cfg.game;G.diff=cfg.diff;G.round=1;
+  G.game=cfg.game;G.round=1;
   if(G.game==='growing')G.glItems=[];
-  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===cfg.diff));
   launchRound();
 }
 
@@ -2014,7 +2013,7 @@ function shareDaily(){
   const pct=parseInt(score)||0;
   const filled=Math.round(pct/20);
   const bar='🟨'.repeat(Math.min(filled,5))+'⬛'.repeat(Math.max(0,5-filled));
-  const text=`MindVault Daily — Day ${cfg.dayNum}\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nmindvault.app`;
+  const text=`MindVault Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(G.diff)}\n${bar} ${score}%\n\nmindvault.app`;
   if(navigator.share){navigator.share({text}).catch(()=>{});}
   else{navigator.clipboard?.writeText(text).then(()=>alert('Result copied!')).catch(()=>alert(text));}
 }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MindVault — Train Your Memory</title>
-<meta name="description" content="Daily memory training for sharp minds. Six games targeting different memory skills.">
+<meta name="description" content="Daily memory training for sharp minds. Seven games targeting different memory skills.">
 <meta name="theme-color" content="#090b11" id="theme-meta">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -790,6 +790,22 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   </div>
 </div>
 
+<!-- ══════ READY ══════ -->
+<div id="screen-ready" class="screen">
+  <div class="screen-eyebrow" id="rd-eyebrow">Word Recall · Round 1 · Easy</div>
+  <div style="text-align:center;margin:18px 0 6px;">
+    <span id="rd-icon" style="font-size:48px;display:block;margin-bottom:12px;">✦</span>
+    <div class="screen-title" id="rd-game">Word Recall</div>
+  </div>
+  <div class="card" style="text-align:center;">
+    <div class="screen-sub" id="rd-instruction" style="margin-bottom:24px;line-height:1.7;">
+      Words will appear on screen for a few seconds.<br>Study them carefully — then pick them from a list.
+    </div>
+    <button id="rd-btn" class="btn btn-gold" onclick="rdStart()" style="width:100%;font-size:16px;min-height:58px;">I'm Ready →</button>
+    <div id="rd-auto" style="font-size:13px;color:var(--text-dim);margin-top:12px;letter-spacing:.04em;">Starting in 5s — or tap above</div>
+  </div>
+</div>
+
 <!-- ══════ RESULTS ══════ -->
 <div id="screen-results" class="screen">
   <div class="screen-eyebrow" id="rs-eyebrow">Round Complete</div>
@@ -1019,7 +1035,7 @@ function updateHomeStats(){
   Object.entries(bestMap).forEach(([game,key])=>{const el=$('best-'+key);if(el)el.textContent=bests[game]?'Best: '+bests[game]+'%':'';});
 }
 
-function goHome(){clearTimeout(G._tid);clearTimeout(G._mwTid);G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();showScreen('home');}
+function goHome(){clearTimeout(G._tid);clearInterval(G._tid);clearTimeout(G._mwTid);clearInterval(_rdTimer);_rdCb=null;G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();updateDailyCard();showScreen('home');}
 
 function updateStartBtn(){
   const btn=$('start-btn');if(!btn)return;
@@ -1036,6 +1052,13 @@ function updateStartBtn(){
 
 /* ─── ROUTER ─── */
 function startGame(){
+  // Auto-select next unplayed plan game for session flow
+  if(!isSessionComplete()){
+    const plan=getTodaysPlan();
+    const session=getSessionProgress();
+    const nextGame=plan.find(g=>!session.completed.includes(g));
+    if(nextGame){G.game=nextGame;selectGame(nextGame);}
+  }
   G.round=1;
   // Reset growing list state for fresh session
   if(G.game==='growing'){G.glItems=[];}
@@ -1359,7 +1382,7 @@ function startMWRound(){
 function showMWRead(){
   const cfg=MW_DIFF[G.diff];
   const item=G.mwQueue[G.mwCurrent];
-  const html=item.s.replace(`{${item.w}}`,item.w);
+  const html=item.s.replace(`{${item.w}}`,`<span style="color:var(--orange2);font-weight:600;border-bottom:2px solid var(--orange);padding-bottom:2px;">${item.w}</span>`);
   $('mwr-sentence').innerHTML=html;
   showScreen('mw-read');
   runTimer('mwr-timer','mwr-prog',cfg.secs,'fill-orange',()=>showMWChoose());
@@ -1755,6 +1778,17 @@ async function authRegister(){
 updateUserBtn();
 if(AUTH.token) loadFromServer();
 
+// Reset streak if user skipped a day
+(function checkStreakReset(){
+  if(G.lastDate){
+    const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+    const today=new Date().toDateString();
+    if(G.lastDate!==today&&G.lastDate!==yesterday.toDateString()){
+      G.streak=0;localStorage.setItem('mv_streak','0');
+    }
+  }
+})();
+
 updateHomeStats();
 
 /* ══════════════════════════════════════
@@ -1823,7 +1857,15 @@ function recordSessionGame(game){
     recordPlayedDate();
     const today=new Date().toDateString();
     if(G.lastDate!==today){
-      G.streak++;G.lastDate=today;
+      const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+      if(G.lastDate===yesterday.toDateString()){
+        G.streak++;
+      } else if(G.lastDate===''){
+        G.streak=1;
+      } else {
+        G.streak=1; // Reset — skipped a day
+      }
+      G.lastDate=today;
       localStorage.setItem('mv_streak',G.streak);
       localStorage.setItem('mv_lastdate',G.lastDate);
     }
@@ -1983,7 +2025,7 @@ function getDailyConfig(){
 function updateDailyCard(){
   const cfg=getDailyConfig();
   $('dc-game-name').textContent=DAILY_GAME_NAMES[cfg.game];
-  $('dc-meta').textContent=cap(G.diff);
+  $('dc-meta').textContent=cap(cfg.diff)+' · Day '+cfg.dayNum;
   const todayISO=new Date().toISOString().split('T')[0];
   const done=localStorage.getItem('mv_daily_date')===todayISO;
   const score=localStorage.getItem('mv_daily_score');
@@ -2002,8 +2044,9 @@ function updateDailyCard(){
 function launchDailyChallenge(){
   const cfg=getDailyConfig();
   G.isDailyChallenge=true;
-  G.game=cfg.game;G.round=1;
+  G.game=cfg.game;G.diff=cfg.diff;G.round=1;
   if(G.game==='growing')G.glItems=[];
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
   launchRound();
 }
 
@@ -2013,7 +2056,7 @@ function shareDaily(){
   const pct=parseInt(score)||0;
   const filled=Math.round(pct/20);
   const bar='🟨'.repeat(Math.min(filled,5))+'⬛'.repeat(Math.max(0,5-filled));
-  const text=`MindVault Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(G.diff)}\n${bar} ${score}%\n\nmindvault.app`;
+  const text=`MindVault Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nmindvault.app`;
   if(navigator.share){navigator.share({text}).catch(()=>{});}
   else{navigator.clipboard?.writeText(text).then(()=>alert('Result copied!')).catch(()=>alert(text));}
 }
@@ -2061,6 +2104,13 @@ renderTodaysPlan();
 updateStartBtn();
 updateHomeStats();
 if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttribute('data-comfort','true');$('comfort-btn')?.classList.add('active');}
+// Auto-select next unplayed plan game on load
+(function initGameSelection(){
+  const plan=getTodaysPlan();
+  const session=getSessionProgress();
+  const nextGame=plan.find(g=>!session.completed.includes(g))||plan[0];
+  selectGame(nextGame);
+})();
 </script>
 </body>
 </html>

@@ -432,6 +432,8 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 .tp-outcome{display:block;font-size:13px;color:var(--text-mid);margin-top:3px;line-height:1.4;}
 .tp-time{font-size:12px;color:var(--text-dim);letter-spacing:.04em;flex-shrink:0;padding:4px 10px;border:1px solid var(--border);border-radius:100px;}
 .tp-arrow{font-size:18px;color:var(--text-dim);flex-shrink:0;margin-left:2px;}
+.tp-done{opacity:.55;pointer-events:none;}
+.tp-done .tp-icon{color:var(--green);}
 
 /* ── EXERCISES TOGGLE LINK ── */
 #exercises-link{display:block;width:100%;text-align:center;font-size:14px;color:var(--text-mid);background:none;border:none;cursor:pointer;padding:10px 0 4px;letter-spacing:.03em;transition:color .18s;font-family:'DM Sans',sans-serif;}
@@ -988,9 +990,15 @@ document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=
 }));
 
 function updateHomeStats(){
-  // Today status
+  // Today status — based on session progress (guard against early init before DAILY_GAME_ORDER is defined)
   const todayEl=$('hm-today');
-  if(todayEl){const done=isTodayDone();todayEl.textContent=done?'Done ✓':'—';todayEl.style.color=done?'var(--green)':'';}
+  if(todayEl){
+    let sc=0,total=3,complete=false;
+    if(typeof DAILY_GAME_ORDER!=='undefined'){sc=getSessionCount();total=getTodaysPlan().length;complete=isSessionComplete();}
+    if(complete){todayEl.textContent='Done ✓';todayEl.style.color='var(--green)';todayEl.style.fontSize='';}
+    else if(sc>0){todayEl.textContent=sc+'/'+total;todayEl.style.color='var(--gold2)';todayEl.style.fontSize='';}
+    else{todayEl.textContent='—';todayEl.style.color='';todayEl.style.fontSize='';}
+  }
   // Streak
   $('hm-streak').textContent=(G.streak||0)+(G.streak===1?' day':' days');
   // This week
@@ -1011,7 +1019,20 @@ function updateHomeStats(){
   Object.entries(bestMap).forEach(([game,key])=>{const el=$('best-'+key);if(el)el.textContent=bests[game]?'Best: '+bests[game]+'%':'';});
 }
 
-function goHome(){clearTimeout(G._tid);clearTimeout(G._mwTid);G.isDailyChallenge=false;updateHomeStats();showScreen('home');}
+function goHome(){clearTimeout(G._tid);clearTimeout(G._mwTid);G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();showScreen('home');}
+
+function updateStartBtn(){
+  const btn=$('start-btn');if(!btn)return;
+  const sc=getSessionCount(),total=getTodaysPlan().length;
+  if(isSessionComplete()){
+    btn.textContent='Session complete — play more ✦';
+  } else if(sc>0){
+    const left=total-sc;
+    btn.textContent=`Continue session · ${left} game${left!==1?'s':''} left ✦`;
+  } else {
+    btn.textContent='Start today\'s 7-minute session ✦';
+  }
+}
 
 /* ─── ROUTER ─── */
 function startGame(){
@@ -1504,9 +1525,7 @@ function glSubmit(){
 function showResults(pct,correct,missed,extra,bkHTML,game){
   G.lastPct=pct;G.allScores.push(pct);G.gamesPlayed++;
   saveStats();
-  const today=new Date().toDateString();
-  if(G.lastDate!==today){G.streak++;G.lastDate=today;localStorage.setItem('mv_streak',G.streak);localStorage.setItem('mv_lastdate',G.lastDate);}
-  recordPlayedDate();
+  recordSessionGame(game);
   // Per-game personal best
   const bests=JSON.parse(localStorage.getItem('mv_bests')||'{}');
   const isNewBest=pct>(bests[game]||0);
@@ -1773,6 +1792,44 @@ function isTodayDone(){
   return JSON.parse(localStorage.getItem('mv_played_dates')||'[]').includes(today);
 }
 
+/* ── SESSION PROGRESS TRACKING ── */
+function getSessionProgress(){
+  const today=new Date().toISOString().split('T')[0];
+  const session=JSON.parse(localStorage.getItem('mv_session')||'{}');
+  if(session.date!==today) return {date:today,completed:[]};
+  return session;
+}
+
+function getSessionCount(){
+  const session=getSessionProgress();
+  const plan=getTodaysPlan();
+  return plan.filter(g=>session.completed.includes(g)).length;
+}
+
+function isSessionComplete(){
+  return getSessionCount()>=getTodaysPlan().length;
+}
+
+function recordSessionGame(game){
+  const plan=getTodaysPlan();
+  const session=getSessionProgress();
+  // Track any game played, but only plan games count toward session completion
+  if(plan.includes(game)&&!session.completed.includes(game)){
+    session.completed.push(game);
+    localStorage.setItem('mv_session',JSON.stringify(session));
+  }
+  // Only mark day as done + increment streak when full session is complete
+  if(isSessionComplete()){
+    recordPlayedDate();
+    const today=new Date().toDateString();
+    if(G.lastDate!==today){
+      G.streak++;G.lastDate=today;
+      localStorage.setItem('mv_streak',G.streak);
+      localStorage.setItem('mv_lastdate',G.lastDate);
+    }
+  }
+}
+
 /* ══════════════════════════════════════
    TODAY'S PLAN
 ══════════════════════════════════════ */
@@ -1786,12 +1843,14 @@ function getTodaysPlan(){
 
 function renderTodaysPlan(){
   const plan=getTodaysPlan();
+  const session=getSessionProgress();
   const el=$('todays-plan');if(!el)return;
   el.innerHTML='';
   plan.forEach(game=>{
-    const row=document.createElement('div');row.className='tp-row';
+    const done=session.completed.includes(game);
+    const row=document.createElement('div');row.className='tp-row'+(done?' tp-done':'');
     row.onclick=()=>selectFromPlan(game);
-    row.innerHTML=`<span class="tp-icon">${GAME_ICONS[game]}</span><div class="tp-info"><span class="tp-name">${DAILY_GAME_NAMES[game]}</span><span class="tp-outcome">${GAME_OUTCOMES[game]}</span></div><span class="tp-time">${GAME_TIMES[game]}</span><span class="tp-arrow">→</span>`;
+    row.innerHTML=`<span class="tp-icon">${done?'✓':GAME_ICONS[game]}</span><div class="tp-info"><span class="tp-name">${DAILY_GAME_NAMES[game]}</span><span class="tp-outcome">${done?'Completed':GAME_OUTCOMES[game]}</span></div><span class="tp-time">${GAME_TIMES[game]}</span><span class="tp-arrow">${done?'':'→'}</span>`;
     el.appendChild(row);
   });
 }
@@ -2000,6 +2059,8 @@ window.addEventListener('unhandledrejection', e => {
 /* ─── INIT (after all consts are defined) ─── */
 updateDailyCard();
 renderTodaysPlan();
+updateStartBtn();
+updateHomeStats();
 if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttribute('data-comfort','true');$('comfort-btn')?.classList.add('active');}
 </script>
 </body>

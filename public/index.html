@@ -830,6 +830,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
       <div class="stat-box"><span class="stat-val" id="rs-m">0</span><span class="stat-label">Missed</span></div>
       <div class="stat-box"><span class="stat-val" id="rs-x">0</span><span class="stat-label">Wrong</span></div>
     </div>
+    <button class="btn btn-ghost" id="rs-share" onclick="shareResult()" style="width:100%;margin-bottom:10px;display:none;">Share result →</button>
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="goHome()">Home</button>
       <button class="btn btn-gold" id="rs-next" onclick="nextRound()">Next Round ✦</button>
@@ -1596,6 +1597,7 @@ function showResults(pct,correct,missed,extra,bkHTML,game){
   const msgs={100:['Perfect! Flawless.','A true vault mind.','Extraordinary!'],90:['Excellent recall!','Nearly perfect.','Sharp as ever.'],70:['Great effort!','Solid recall.','Your mind is strong.'],50:['Good attempt!','Keep training.','Getting sharper.'],0:['Keep going!','Every rep counts.','Practice daily.']};
   const k=[100,90,70,50,0].find(x=>pct>=x);
   $('rs-message').textContent=msgs[k][G.round%3];
+  $('rs-share').style.display=pct>0?'':'none';
   updateHomeStats();
   if(pct===100)launchConfetti();
   showScreen('results');
@@ -1825,9 +1827,11 @@ if(AUTH.token){ loadFromServer(); fetchMe(); }
 // Reset streak if user skipped a day
 (function checkStreakReset(){
   if(G.lastDate){
+    const toISO=d=>d.toISOString().split('T')[0];
+    const today=toISO(new Date());
     const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-    const today=new Date().toDateString();
-    if(G.lastDate!==today&&G.lastDate!==yesterday.toDateString()){
+    const last=G.lastDate.length===10?G.lastDate:toISO(new Date(G.lastDate));
+    if(last!==today&&last!==toISO(yesterday)){
       G.streak=0;localStorage.setItem('mv_streak','0');
     }
   }
@@ -1897,12 +1901,14 @@ function recordSessionGame(game){
   // Only mark day as done + increment streak when full session is complete
   if(isSessionComplete()){
     recordPlayedDate();
-    const today=new Date().toDateString();
-    if(G.lastDate!==today){
+    const toISO=d=>d.toISOString().split('T')[0];
+    const today=toISO(new Date());
+    const last=G.lastDate?(G.lastDate.length===10?G.lastDate:toISO(new Date(G.lastDate))):'';
+    if(last!==today){
       const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
-      if(G.lastDate===yesterday.toDateString()){
+      if(last===toISO(yesterday)){
         G.streak++;
-      } else if(G.lastDate===''){
+      } else if(last===''){
         G.streak=1;
       } else {
         G.streak=1; // Reset — skipped a day
@@ -2092,6 +2098,11 @@ function launchDailyChallenge(){
   launchRound();
 }
 
+function shareText(text){
+  if(navigator.share){navigator.share({text}).catch(()=>{});}
+  else{navigator.clipboard?.writeText(text).then(()=>alert('Result copied!')).catch(()=>alert(text));}
+}
+
 function shareDaily(){
   const cfg=getDailyConfig();
   const score=localStorage.getItem('mv_daily_score')||'—';
@@ -2099,8 +2110,14 @@ function shareDaily(){
   const filled=Math.round(pct/20);
   const bar='🟨'.repeat(Math.min(filled,5))+'⬛'.repeat(Math.max(0,5-filled));
   const text=`MindVault Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nmindvault.app`;
-  if(navigator.share){navigator.share({text}).catch(()=>{});}
-  else{navigator.clipboard?.writeText(text).then(()=>alert('Result copied!')).catch(()=>alert(text));}
+  shareText(text);
+}
+
+function shareResult(){
+  const gameName=DAILY_GAME_NAMES[G.game]||cap(G.game);
+  const streak=G.streak||0;
+  const text=`I scored ${G.lastPct}% on ${gameName} — Day ${streak} streak 🧠\nDaily memory training: mind-vault-lake.vercel.app`;
+  shareText(text);
 }
 
 /* ─── SERVICE WORKER ─── */

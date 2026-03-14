@@ -919,7 +919,7 @@ function getVaultLevel(){
 /* ─── STATE ─── */
 const _saved = JSON.parse(localStorage.getItem('mv_stats')||'{}');
 let G={
-  game:'word',diff:'easy',round:1,lastPct:0,
+  game:'word',diff:localStorage.getItem('mv_diff')||'easy',round:1,lastPct:0,
   allScores: _saved.scores||[],
   gamesPlayed: _saved.games||0,
   streak:parseInt(localStorage.getItem('mv_streak')||'0'),
@@ -997,12 +997,12 @@ function selectGame(g){
   const b=document.getElementById('start-btn');
   const accent=GAME_ACCENTS[g];
   b.className=`btn btn-${accent}`;
-  b.textContent=`Begin Session ${GAME_ICONS[g]}`;
+  b.textContent='Start today\'s memory session';
 }
 
 document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.diff-btn').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');G.diff=b.dataset.diff;
+  b.classList.add('active');G.diff=b.dataset.diff;localStorage.setItem('mv_diff',G.diff);
 }));
 
 function updateHomeStats(){
@@ -1399,9 +1399,8 @@ function showMWChoose(){
   $('mwc-sub').textContent=`Sentence ${G.mwCurrent+1} of ${total} — which word fits?`;
   $('mwc-progress').textContent=`${G.mwCurrent+1} / ${total}`;
   // build shuffled options
-  const opts=[item.w,...item.d].sort(()=>Math.random()-.5).slice(0,cfg.opts);
-  // ensure correct answer is included
-  if(!opts.includes(item.w)){opts[Math.floor(Math.random()*opts.length)]=item.w;}
+  const distractors=item.d.sort(()=>Math.random()-.5).slice(0,cfg.opts-1);
+  const opts=[item.w,...distractors].sort(()=>Math.random()-.5);
   const pool=$('mwc-choices');pool.innerHTML='';
   opts.forEach(opt=>{
     const btn=mk('div','mw-choice',opt);
@@ -1907,10 +1906,10 @@ function toggleExercises(){
 function startQuickSession(){
   const plan=getTodaysPlan();
   const game=plan[0];
-  G.game=game;G.diff='easy';G.round=1;
+  G.game=game;G.diff=localStorage.getItem('mv_diff')||'easy';G.round=1;
   if(G.game==='growing')G.glItems=[];
   selectGame(game);
-  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff==='easy'));
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
   launchRound();
 }
 
@@ -2023,7 +2022,7 @@ function getDailyConfig(){
 function updateDailyCard(){
   const cfg=getDailyConfig();
   $('dc-game-name').textContent=DAILY_GAME_NAMES[cfg.game];
-  $('dc-meta').textContent=cap(cfg.diff)+' · Day '+cfg.dayNum;
+  $('dc-meta').textContent='';
   const todayISO=new Date().toISOString().split('T')[0];
   const done=localStorage.getItem('mv_daily_date')===todayISO;
   const score=localStorage.getItem('mv_daily_score');
@@ -2101,6 +2100,7 @@ updateDailyCard();
 renderTodaysPlan();
 updateStartBtn();
 updateHomeStats();
+document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
 if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttribute('data-comfort','true');$('comfort-btn')?.classList.add('active');}
 // Auto-select next unplayed plan game on load
 (function initGameSelection(){

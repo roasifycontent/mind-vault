@@ -48,8 +48,8 @@ module.exports = async (req, res) => {
       ON CONFLICT (user_id) DO NOTHING
     `;
 
-    const token = signToken(user.id);
-    return res.status(201).json({ token, user: { id: user.id, email: user.email } });
+    const token = signToken(user.id, false);
+    return res.status(201).json({ token, user: { id: user.id, email: user.email, is_pro: false } });
 
   } catch (err) {
     if (err.message?.includes('unique') || err.code === '23505') {

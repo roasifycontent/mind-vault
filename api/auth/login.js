@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
 
   try {
     const [user] = await sql`
-      SELECT id, email, password_hash FROM users
+      SELECT id, email, password_hash, is_pro FROM users
       WHERE email = ${email.toLowerCase()}
     `;
 
@@ -45,8 +45,8 @@ module.exports = async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = signToken(user.id);
-    return res.json({ token, user: { id: user.id, email: user.email } });
+    const token = signToken(user.id, user.is_pro);
+    return res.json({ token, user: { id: user.id, email: user.email, is_pro: user.is_pro } });
 
   } catch (err) {
     console.error('Login error:', err);

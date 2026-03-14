@@ -491,6 +491,16 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   </div>
 </div>
 
+<div class="auth-overlay" id="pro-overlay" style="display:none">
+  <div class="auth-card" style="text-align:center;">
+    <button class="auth-close" onclick="closeProModal()">×</button>
+    <h2 style="margin-bottom:12px;">Unlock Expert Training</h2>
+    <p style="margin-bottom:20px;line-height:1.6;">Hard and Expert modes are available with MindVault Pro — 7 days free, then $7.99/month or $49/year.</p>
+    <a id="pro-cta" href="#" onclick="openCheckout();return false;" class="btn btn-gold" style="display:block;width:100%;font-size:16px;min-height:56px;padding:16px 24px;text-decoration:none;margin-bottom:12px;">Start 7-day free trial →</a>
+    <div class="auth-divider"><a href="#" onclick="closeProModal();return false;" style="color:var(--text-dim);">Maybe later</a></div>
+  </div>
+</div>
+
 <div id="app">
 
 <!-- ══════ HOME ══════ -->
@@ -1002,7 +1012,7 @@ function selectGame(g){
 
 document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.diff-btn').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');G.diff=b.dataset.diff;localStorage.setItem('mv_diff',G.diff);
+  b.classList.add('active');G.diff=b.dataset.diff;localStorage.setItem('mv_diff',G.diff);updateStartBtn();
 }));
 
 function updateHomeStats(){
@@ -1037,8 +1047,20 @@ function updateHomeStats(){
 
 function goHome(){clearTimeout(G._tid);clearInterval(G._tid);clearTimeout(G._mwTid);clearInterval(_rdTimer);_rdCb=null;G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();updateDailyCard();showScreen('home');}
 
+function isProLocked(){
+  return (G.diff==='hard'||G.diff==='expert') && !AUTH.user?.is_pro;
+}
+
 function updateStartBtn(){
   const btn=$('start-btn');if(!btn)return;
+  if(isProLocked()){
+    btn.textContent='🔒 Unlock with Pro →';
+    btn.className='btn btn-ghost';
+    return;
+  }
+  const g=G.game;
+  const accent=GAME_ACCENTS[g];
+  btn.className=`btn btn-${accent}`;
   const sc=getSessionCount(),total=getTodaysPlan().length;
   if(isSessionComplete()){
     btn.textContent='Session complete — play more ✦';
@@ -1046,12 +1068,13 @@ function updateStartBtn(){
     const left=total-sc;
     btn.textContent=`Continue session · ${left} game${left!==1?'s':''} left ✦`;
   } else {
-    btn.textContent='Start today\'s 7-minute session ✦';
+    btn.textContent='Start today\'s memory session';
   }
 }
 
 /* ─── ROUTER ─── */
 function startGame(){
+  if(isProLocked()){ showProModal(); return; }
   // Auto-select next unplayed plan game for session flow
   if(!isSessionComplete()){
     const plan=getTodaysPlan();
@@ -1633,6 +1656,7 @@ function toggleTheme(){
    AUTH + CLOUD SYNC
 ═══════════════════════════════════════ */
 const API = ''; // same origin on Vercel
+const CHECKOUT_URL = ''; // Lemon Squeezy checkout URL — fill in when ready
 
 let AUTH = {
   token: localStorage.getItem('mv_token') || null,
@@ -1640,6 +1664,18 @@ let AUTH = {
 };
 
 function authHeader(){ return AUTH.token ? {'Authorization':'Bearer '+AUTH.token,'Content-Type':'application/json'} : {'Content-Type':'application/json'}; }
+
+async function fetchMe(){
+  if(!AUTH.token) return;
+  try {
+    const r = await fetch(API+'/api/auth/me',{ method:'POST', headers:authHeader() });
+    if(!r.ok) return;
+    const me = await r.json();
+    AUTH.user = me;
+    localStorage.setItem('mv_user',JSON.stringify(me));
+    updateStartBtn();
+  } catch(e){ /* offline */ }
+}
 
 /* Sync stats to server (non-blocking) */
 async function syncToServer(){
@@ -1706,6 +1742,13 @@ function openAuth(){
 }
 function closeAuth(){ $('auth-overlay').style.display='none'; }
 
+function showProModal(){ $('pro-overlay').style.display='flex'; }
+function closeProModal(){ $('pro-overlay').style.display='none'; }
+function openCheckout(){
+  if(!CHECKOUT_URL){ alert('Checkout not configured yet.'); return; }
+  window.open(CHECKOUT_URL,'_blank');
+}
+
 function showLogoutPrompt(){
   const email = AUTH.user?.email || '';
   if(confirm(`Signed in as ${email}\n\nSign out?`)){
@@ -1753,6 +1796,7 @@ async function authLogin(){
     localStorage.setItem('mv_user',JSON.stringify(d.user));
     closeAuth(); updateUserBtn();
     await loadFromServer();
+    fetchMe();
   } catch(e){ setAuthErr('Network error. Check connection.'); }
 }
 
@@ -1770,12 +1814,13 @@ async function authRegister(){
     localStorage.setItem('mv_user',JSON.stringify(d.user));
     closeAuth(); updateUserBtn();
     await syncToServer(); // push any existing local stats
+    fetchMe();
   } catch(e){ setAuthErr('Network error. Check connection.'); }
 }
 
 /* Init on load */
 updateUserBtn();
-if(AUTH.token) loadFromServer();
+if(AUTH.token){ loadFromServer(); fetchMe(); }
 
 // Reset streak if user skipped a day
 (function checkStreakReset(){

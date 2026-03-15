@@ -108,6 +108,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 [data-theme="light"] .stat-box{border-color:#00000015;box-shadow:0 2px 8px #00000010;}
 [data-theme="light"] #rs-brain{border-color:#00000012;background:var(--card-solid);}
 [data-theme="light"] #rs-brain div:last-of-type>div:first-child{background:#00000008;}
+[data-theme="light"] #tp-progress div>div:first-child{background:#00000008;}
 .stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;display:block;}
 [data-theme="light"] .stat-val{color:var(--gold2);}
 [data-theme="light"] .progress-track{background:#c8c3b8;}
@@ -503,6 +504,21 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   </div>
 </div>
 
+<!-- Email capture modal (first-time visitors) -->
+<div class="auth-overlay" id="capture-overlay" style="display:none">
+  <div class="auth-card" style="text-align:center;">
+    <button class="auth-close" onclick="closeCaptureModal()">×</button>
+    <h2 style="margin-bottom:8px;">Save your score</h2>
+    <div id="cap-score" style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:400;color:var(--gold2);line-height:1;margin:12px 0 6px;"></div>
+    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Create a free account to track your streak and come back tomorrow — takes 10 seconds.</p>
+    <input class="auth-input" id="cap-email" type="email" placeholder="Email address" autocomplete="email">
+    <button class="btn btn-gold auth-submit" id="cap-submit" onclick="submitCapture()" style="width:100%;">Save my score →</button>
+    <div class="auth-err" id="cap-err" style="min-height:20px;"></div>
+    <div id="cap-success" style="display:none;padding:12px 16px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:12px;font-size:13px;color:var(--gold2);margin-top:8px;">Check your email! We'll remind you to train tomorrow.</div>
+    <div class="auth-divider"><a href="#" onclick="closeCaptureModal();return false;" style="color:var(--text-dim);">Continue without saving</a></div>
+  </div>
+</div>
+
 <div id="app">
 
 <!-- ══════ HOME ══════ -->
@@ -511,6 +527,12 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   <div class="tagline">Daily Memory Training for Sharp Minds</div>
   <div id="streak-badge" class="streak-badge">🔥 <span id="streak-num">0</span> Day Streak</div>
   <div id="vault-badge"><span id="vault-level-num" style="color:var(--gold2);font-weight:600;">Level 1</span><span style="color:var(--border2);">·</span><span id="vault-level-name">Novice</span></div>
+
+  <!-- Welcome back banner -->
+  <div id="comeback-banner" style="display:none;width:100%;max-width:520px;margin-bottom:10px;padding:12px 18px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:14px;position:relative;text-align:center;">
+    <button onclick="dismissComebackBanner()" style="position:absolute;top:6px;right:10px;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:4px;">×</button>
+    <span id="comeback-text" style="font-size:14px;color:var(--gold2);font-weight:500;"></span>
+  </div>
 
   <!-- Daily Challenge -->
   <div id="daily-card" class="card" style="padding:18px 22px;margin-bottom:10px;">
@@ -542,6 +564,14 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <div class="sep"></div>
 
     <div class="section-label" style="text-align:center;">Today's Plan</div>
+    <div id="tp-progress" style="display:none;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+        <span id="tp-prog-text" style="font-size:12px;color:var(--text-dim);font-weight:500;letter-spacing:.03em;"></span>
+      </div>
+      <div style="width:100%;height:4px;background:#ffffff12;border-radius:4px;overflow:hidden;">
+        <div id="tp-prog-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .4s ease;width:0;"></div>
+      </div>
+    </div>
     <div class="tp-list" id="todays-plan"><!-- rendered by JS --></div>
 
     <div class="sep"></div>
@@ -1068,7 +1098,7 @@ function updateHomeStats(){
   Object.entries(bestMap).forEach(([game,key])=>{const el=$('best-'+key);if(el)el.textContent=bests[game]?'Best: '+bests[game]+'%':'';});
 }
 
-function goHome(){clearTimeout(G._tid);clearInterval(G._tid);clearTimeout(G._mwTid);clearInterval(_rdTimer);_rdCb=null;G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();updateDailyCard();showScreen('home');}
+function goHome(){clearTimeout(G._tid);clearInterval(G._tid);clearTimeout(G._mwTid);clearInterval(_rdTimer);_rdCb=null;G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();updateDailyCard();checkComebackBanner();showScreen('home');}
 
 function isProLocked(){
   return (G.diff==='hard'||G.diff==='expert') && !AUTH.user?.is_pro;
@@ -1653,6 +1683,17 @@ function showResults(pct,correct,missed,extra,bkHTML,game){
   updateHomeStats();
   if(pct===100&&isNewBest)launchConfetti();
   showScreen('results');
+
+  /* ─── First-visit email capture ─── */
+  if(!localStorage.getItem('mv_visited') && !AUTH.user){
+    localStorage.setItem('mv_visited','1');
+    setTimeout(()=>showCaptureModal(pct),1200);
+  } else if(!localStorage.getItem('mv_visited')){
+    localStorage.setItem('mv_visited','1');
+  }
+
+  /* ─── Track last session date ─── */
+  localStorage.setItem('mv_last_session_date',new Date().toISOString().split('T')[0]);
 }
 
 /* ─── TIMER HELPER ─── */
@@ -1774,6 +1815,64 @@ saveStats = function(){
   _origSaveStats();
   syncToServer();
 };
+
+/* ─── EMAIL CAPTURE MODAL ─── */
+function showCaptureModal(pct){
+  $('cap-score').textContent=pct+'%';
+  $('cap-err').textContent='';
+  $('cap-success').style.display='none';
+  $('cap-email').value='';
+  $('cap-submit').disabled=false;
+  $('capture-overlay').style.display='flex';
+}
+function closeCaptureModal(){ $('capture-overlay').style.display='none'; }
+async function submitCapture(){
+  const email=$('cap-email').value.trim();
+  if(!email||!email.includes('@')){$('cap-err').textContent='Please enter a valid email.';return;}
+  $('cap-submit').disabled=true;$('cap-err').textContent='';
+  try{
+    const r=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+    const d=await r.json();
+    if(!r.ok){$('cap-err').textContent=d.error||'Something went wrong.';$('cap-submit').disabled=false;return;}
+    $('cap-success').style.display='block';$('cap-submit').style.display='none';
+    setTimeout(closeCaptureModal,3000);
+  }catch(e){$('cap-err').textContent='Network error — try again.';$('cap-submit').disabled=false;}
+}
+
+/* ─── COMEBACK BANNER ─── */
+function checkComebackBanner(){
+  const lastSession=localStorage.getItem('mv_last_session_date');
+  if(!lastSession||!AUTH.user) return;
+  const today=new Date().toISOString().split('T')[0];
+  if(lastSession>=today) return; // played today already
+  const shownDate=localStorage.getItem('mv_banner_shown_date');
+  if(shownDate===today) return; // already dismissed today
+  const banner=$('comeback-banner');
+  if(!banner) return;
+  const streak=G.streak||0;
+  $('comeback-text').textContent=streak>0
+    ?`Welcome back! Your ${streak}-day streak is waiting.`
+    :'Welcome back! Start a new streak today.';
+  banner.style.display='block';
+}
+function dismissComebackBanner(){
+  $('comeback-banner').style.display='none';
+  localStorage.setItem('mv_banner_shown_date',new Date().toISOString().split('T')[0]);
+}
+
+/* ─── SESSION PROGRESS BAR ─── */
+function updateSessionProgress(){
+  const progEl=$('tp-progress');
+  if(!progEl||typeof DAILY_GAME_ORDER==='undefined') return;
+  const sc=getSessionCount(),total=getTodaysPlan().length;
+  if(sc>0){
+    progEl.style.display='block';
+    $('tp-prog-text').textContent=sc>=total?`${total}/${total} complete ✓`:`${sc}/${total} complete`;
+    setTimeout(()=>{$('tp-prog-bar').style.width=Math.round((sc/total)*100)+'%';},60);
+  } else {
+    progEl.style.display='none';
+  }
+}
 
 /* UI helpers */
 function updateUserBtn(){
@@ -1995,6 +2094,7 @@ function renderTodaysPlan(){
     row.innerHTML=`<span class="tp-icon">${done?'✓':GAME_ICONS[game]}</span><div class="tp-info"><span class="tp-name">${DAILY_GAME_NAMES[game]}</span><span class="tp-outcome">${done?'Completed':GAME_OUTCOMES[game]}</span></div><span class="tp-time">${GAME_TIMES[game]}</span><span class="tp-arrow">${done?'':'→'}</span>`;
     el.appendChild(row);
   });
+  updateSessionProgress();
 }
 
 function selectFromPlan(game){
@@ -2214,6 +2314,7 @@ updateDailyCard();
 renderTodaysPlan();
 updateStartBtn();
 updateHomeStats();
+checkComebackBanner();
 document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
 if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttribute('data-comfort','true');$('comfort-btn')?.classList.add('active');}
 // Auto-select next unplayed plan game on load

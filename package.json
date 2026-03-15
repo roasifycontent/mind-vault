@@ -9,7 +9,9 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.9.4",
     "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "micro": "^10.0.1",
+    "stripe": "^20.4.1"
   },
   "scripts": {
     "dev": "vercel dev",

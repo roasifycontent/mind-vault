@@ -18,13 +18,32 @@ module.exports = async (req, res) => {
   try {
     const { userId } = verifyToken(token);
 
-    const { lemon_order_id } = req.body || {};
-    if (!lemon_order_id) {
-      return res.status(400).json({ error: 'lemon_order_id is required' });
+    const { stripe_session_id } = req.body || {};
+    if (!stripe_session_id) {
+      return res.status(400).json({ error: 'stripe_session_id is required' });
+    }
+
+    // Optionally retrieve session details from Stripe
+    let customerId = null;
+    let subscriptionId = null;
+    if (process.env.STRIPE_SECRET_KEY) {
+      try {
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        const session = await stripe.checkout.sessions.retrieve(stripe_session_id);
+        customerId = session.customer;
+        subscriptionId = session.subscription;
+      } catch (_) {
+        // Stripe lookup failed — still activate pro
+      }
     }
 
     await sql`
-      UPDATE users SET is_pro = true WHERE id = ${userId}
+      UPDATE users
+      SET is_pro = true,
+          stripe_customer_id = COALESCE(${customerId}, stripe_customer_id),
+          stripe_subscription_id = COALESCE(${subscriptionId}, stripe_subscription_id),
+          subscription_status = 'active'
+      WHERE id = ${userId}
     `;
 
     return res.json({ ok: true, is_pro: true });

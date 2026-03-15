@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mindvault-v7';
+const CACHE_NAME = 'mindvault-v8';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

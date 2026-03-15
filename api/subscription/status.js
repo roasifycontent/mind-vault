@@ -1,3 +1,4 @@
+// v2 — live Stripe subscription lookup
 const { sql } = require('../../lib/db');
 const { verifyToken, tokenFromRequest } = require('../../lib/auth');
 

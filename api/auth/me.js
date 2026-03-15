@@ -1,3 +1,4 @@
+// v2 — accepts GET and POST
 const { sql } = require('../../lib/db');
 const { verifyToken, tokenFromRequest } = require('../../lib/auth');
 

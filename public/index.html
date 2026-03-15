@@ -106,6 +106,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 .home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;margin-bottom:24px;}
 .stat-box{background:var(--card-solid);border:1px solid #ffffff22;border-radius:12px;padding:14px 8px;text-align:center;box-shadow:inset 0 1px 0 #ffffff08;}
 [data-theme="light"] .stat-box{border-color:#00000015;box-shadow:0 2px 8px #00000010;}
+[data-theme="light"] #rs-brain{border-color:#00000012;background:var(--card-solid);}
+[data-theme="light"] #rs-brain div:last-of-type>div:first-child{background:#00000008;}
 .stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;display:block;}
 [data-theme="light"] .stat-val{color:var(--gold2);}
 [data-theme="light"] .progress-track{background:#c8c3b8;}
@@ -823,6 +825,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <div id="pb-banner" style="display:none;padding:7px 16px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:100px;font-size:13px;color:var(--gold2);margin-bottom:10px;font-weight:500;">🏆 New Personal Best!</div>
     <div class="result-message" id="rs-message">Excellent recall!</div>
     <div class="result-score"><span class="pct" id="rs-pct">100</span><span class="sym-r">%</span></div>
+    <div id="rs-percentile" style="display:none;font-size:13px;color:var(--text-dim);margin:-4px 0 8px;"></div>
     <div class="sep"></div>
     <div id="rs-breakdown"></div>
     <div class="res-stats">
@@ -830,7 +833,26 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
       <div class="stat-box"><span class="stat-val" id="rs-m">0</span><span class="stat-label">Missed</span></div>
       <div class="stat-box"><span class="stat-val" id="rs-x">0</span><span class="stat-label">Wrong</span></div>
     </div>
-    <button class="btn btn-ghost" id="rs-share" onclick="shareResult()" style="width:100%;margin-bottom:10px;display:none;">Share result →</button>
+    <!-- Brain Score -->
+    <div id="rs-brain" style="display:none;margin-top:16px;padding:14px 16px;background:var(--card-solid);border:1px solid #ffffff12;border-radius:12px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:13px;color:var(--text-dim);font-weight:500;letter-spacing:.05em;text-transform:uppercase;">Brain Score</span>
+        <span id="rs-brain-val" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold2);line-height:1;"></span>
+      </div>
+      <div style="width:100%;height:4px;background:#ffffff12;border-radius:4px;overflow:hidden;">
+        <div id="rs-brain-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .6s ease;width:0;"></div>
+      </div>
+      <div id="rs-brain-pro" style="display:none;margin-top:6px;font-size:11px;color:var(--text-dim);">
+        <a href="#" onclick="showProModal();return false;" style="color:var(--text-dim);text-decoration:none;">Pro unlocks full history →</a>
+      </div>
+    </div>
+    <!-- Pro upsell -->
+    <div id="rs-pro-upsell" style="display:none;margin-top:14px;padding:14px 18px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:14px;text-align:center;">
+      <div style="font-size:14px;font-weight:600;color:var(--gold2);margin-bottom:2px;">Ready for a harder challenge?</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">Hard and Expert modes available with Pro — 7 days free</div>
+      <a href="#" onclick="showProModal();return false;" style="font-size:13px;color:var(--gold2);text-decoration:none;font-weight:500;">Try Pro free →</a>
+    </div>
+    <button class="btn btn-ghost" id="rs-share" onclick="shareResult()" style="width:100%;margin-bottom:10px;margin-top:14px;display:none;">Share result →</button>
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="goHome()">Home</button>
       <button class="btn btn-gold" id="rs-next" onclick="nextRound()">Next Round ✦</button>
@@ -1598,8 +1620,38 @@ function showResults(pct,correct,missed,extra,bkHTML,game){
   const k=[100,90,70,50,0].find(x=>pct>=x);
   $('rs-message').textContent=msgs[k][G.round%3];
   $('rs-share').style.display=pct>0?'':'none';
+
+  /* ─── Brain Score (weighted avg of last 5) ─── */
+  const allScores=G.allScores||[];
+  const recent5=allScores.slice(-5);
+  if(recent5.length>=2){
+    const weights=recent5.map((_,i)=>i+1);
+    const wSum=weights.reduce((a,b)=>a+b,0);
+    const brainScore=Math.round(recent5.reduce((acc,s,i)=>acc+s*weights[i],0)/wSum);
+    $('rs-brain').style.display='block';
+    $('rs-brain-val').textContent=brainScore;
+    setTimeout(()=>{$('rs-brain-bar').style.width=brainScore+'%';},60);
+    $('rs-brain-pro').style.display=AUTH.user?.is_pro?'none':'block';
+  } else {
+    $('rs-brain').style.display='none';
+  }
+
+  /* ─── Social comparison percentile ─── */
+  if(allScores.length>=3){
+    const beaten=allScores.filter(s=>pct>s).length;
+    const pctile=Math.max(1,Math.round(100-((beaten/allScores.length)*100)));
+    $('rs-percentile').style.display='block';
+    $('rs-percentile').textContent=`You're in the top ${pctile}% of your sessions`;
+  } else {
+    $('rs-percentile').style.display='none';
+  }
+
+  /* ─── Pro upsell (easy/medium only, non-Pro) ─── */
+  const showUpsell=!AUTH.user?.is_pro&&(G.diff==='easy'||G.diff==='medium');
+  $('rs-pro-upsell').style.display=showUpsell?'block':'none';
+
   updateHomeStats();
-  if(pct===100)launchConfetti();
+  if(pct===100&&isNewBest)launchConfetti();
   showScreen('results');
 }
 

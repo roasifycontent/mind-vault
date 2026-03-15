@@ -23,19 +23,19 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'stripe_session_id is required' });
     }
 
-    // Optionally retrieve session details from Stripe
-    let customerId = null;
-    let subscriptionId = null;
-    if (process.env.STRIPE_SECRET_KEY) {
-      try {
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        const session = await stripe.checkout.sessions.retrieve(stripe_session_id);
-        customerId = session.customer;
-        subscriptionId = session.subscription;
-      } catch (_) {
-        // Stripe lookup failed — still activate pro
-      }
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return res.status(500).json({ error: 'Stripe not configured' });
     }
+
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const session = await stripe.checkout.sessions.retrieve(stripe_session_id);
+
+    if (session.payment_status !== 'paid') {
+      return res.status(400).json({ error: 'Payment not completed' });
+    }
+
+    const customerId = session.customer || null;
+    const subscriptionId = session.subscription || null;
 
     await sql`
       UPDATE users
@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
       WHERE id = ${userId}
     `;
 
-    return res.json({ ok: true, is_pro: true });
+    return res.status(200).json({ ok: true, is_pro: true });
 
   } catch (err) {
     if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {

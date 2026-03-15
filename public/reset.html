@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reset Password — MindVault</title>
+<title>Reset Password — Mindspan</title>
 <meta name="theme-color" content="#090b11">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -154,14 +154,14 @@ h2 {
 </head>
 <body>
 <div class="card">
-  <div class="logo">MindVault</div>
+  <div class="logo">Mindspan</div>
   <div class="tagline">Memory Training</div>
 
   <!-- Token missing/invalid state -->
   <div id="form-invalid" style="display:none">
     <h2>Invalid Link</h2>
     <p class="sub">This password reset link is invalid. Please request a new one from the app.</p>
-    <a href="/" class="back">← Back to MindVault</a>
+    <a href="/" class="back">← Back to Mindspan</a>
   </div>
 
   <!-- Reset form -->
@@ -172,14 +172,14 @@ h2 {
     <input class="input" id="conf-pass" type="password" placeholder="Confirm password" autocomplete="new-password">
     <button class="btn" id="reset-btn" onclick="doReset()">Update Password ✦</button>
     <div class="msg error" id="reset-err"></div>
-    <a href="/" class="back">← Back to MindVault</a>
+    <a href="/" class="back">← Back to Mindspan</a>
   </div>
 
   <!-- Success state -->
   <div id="form-done" style="display:none">
     <h2>Password Updated</h2>
     <p class="sub">Your password has been changed. You can now sign in with your new password.</p>
-    <a href="/" class="btn" style="display:block; text-align:center; text-decoration:none; padding:14px;">Go to MindVault →</a>
+    <a href="/" class="btn" style="display:block; text-align:center; text-decoration:none; padding:14px;">Go to Mindspan →</a>
   </div>
 </div>
 

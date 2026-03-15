@@ -9,8 +9,8 @@ const CORS = {
 };
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RESEND_FROM    = process.env.RESEND_FROM || 'MindVault <noreply@mindvault.app>';
-const APP_URL        = process.env.APP_URL      || 'https://mindvault.app';
+const RESEND_FROM    = process.env.RESEND_FROM || 'Mindspan <noreply@mindspanapp.com>';
+const APP_URL        = process.env.APP_URL      || 'https://mindspanapp.com';
 
 module.exports = async (req, res) => {
   Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
@@ -67,10 +67,10 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         from: RESEND_FROM,
         to: email.toLowerCase(),
-        subject: 'Reset your MindVault password',
+        subject: 'Reset your Mindspan password',
         html: `
           <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 40px 24px; background: #090b11; color: #ede9df; border-radius: 12px;">
-            <h1 style="font-family: Georgia, serif; font-weight: 300; font-size: 32px; margin: 0 0 8px; color: #ede9df;">MindVault</h1>
+            <h1 style="font-family: Georgia, serif; font-weight: 300; font-size: 32px; margin: 0 0 8px; color: #ede9df;">Mindspan</h1>
             <p style="color: #9e9888; font-size: 14px; margin: 0 0 32px;">Daily Memory Training</p>
             <h2 style="font-weight: 400; font-size: 20px; margin: 0 0 16px; color: #ede9df;">Password Reset Request</h2>
             <p style="color: #9e9888; margin: 0 0 24px; line-height: 1.6;">Click the button below to reset your password. This link expires in <strong style="color: #ede9df;">1 hour</strong>.</p>

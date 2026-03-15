@@ -1,8 +1,8 @@
 {
   "packageId": "com.yourname.mindvault",
   "host": "your-app.vercel.app",
-  "name": "MindVault — Memory Training",
-  "launcherName": "MindVault",
+  "name": "Mindspan — Daily Memory Training",
+  "launcherName": "Mindspan",
   "display": "standalone",
   "orientation": "portrait",
   "themeColor": "#090b11",

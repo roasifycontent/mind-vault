@@ -1,13 +1,13 @@
 {
-  "name": "MindVault — Memory Training",
-  "short_name": "MindVault",
-  "description": "Daily memory training for sharp minds. Four games, six challenges.",
+  "name": "Mindspan — Daily Memory Training",
+  "short_name": "Mindspan",
+  "description": "Daily memory training to keep your mind sharp. Seven science-aligned games, a few minutes a day.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#090b11",
   "theme_color": "#090b11",
-  "categories": ["games", "health", "education"],
+  "categories": ["health", "education", "games"],
   "lang": "en",
   "icons": [
     { "src": "/icons/icon-72.png",   "sizes": "72x72",     "type": "image/png", "purpose": "any" },
@@ -25,7 +25,7 @@
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "MindVault Home Screen"
+      "label": "Mindspan Home Screen"
     }
   ],
   "shortcuts": [

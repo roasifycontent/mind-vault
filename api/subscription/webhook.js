@@ -59,6 +59,22 @@ module.exports = async (req, res) => {
         break;
       }
 
+      case 'customer.subscription.updated': {
+        const sub = event.data.object;
+        const custId = sub.customer;
+        const periodEnd = sub.current_period_end
+          ? new Date(sub.current_period_end * 1000).toISOString()
+          : null;
+
+        await sql`
+          UPDATE users
+          SET subscription_status = ${sub.status},
+              current_period_end = ${periodEnd}
+          WHERE stripe_customer_id = ${custId}
+        `;
+        break;
+      }
+
       case 'customer.subscription.deleted': {
         const subscription = event.data.object;
         const customerId = subscription.customer;

@@ -495,11 +495,24 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 </div>
 
 <div class="auth-overlay" id="pro-overlay" style="display:none">
-  <div class="auth-card" style="text-align:center;">
+  <div class="auth-card" style="text-align:center;max-width:420px;">
     <button class="auth-close" onclick="closeProModal()">×</button>
-    <h2 style="margin-bottom:12px;">Unlock Expert Training</h2>
-    <p style="margin-bottom:20px;line-height:1.6;">Hard and Expert modes are available with MindVault Pro — 7 days free, then $7.99/month or $49/year.</p>
-    <a id="pro-cta" href="#" onclick="openCheckout();return false;" class="btn btn-gold" style="display:block;width:100%;font-size:16px;min-height:56px;padding:16px 24px;text-decoration:none;margin-bottom:12px;">Start 7-day free trial →</a>
+    <h2 style="margin-bottom:8px;">Unlock Expert Training</h2>
+    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Hard and Expert modes plus full score history — 7 days free.</p>
+    <div id="pro-plans" style="display:flex;gap:10px;margin-bottom:16px;">
+      <div onclick="selectProPlan('monthly')" id="plan-monthly" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--border2);border-radius:14px;cursor:pointer;transition:border-color .2s;">
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Monthly</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text-main);">$7.99<span style="font-size:13px;font-weight:400;color:var(--text-dim);">/mo</span></div>
+      </div>
+      <div onclick="selectProPlan('annual')" id="plan-annual" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--gold);border-radius:14px;cursor:pointer;position:relative;transition:border-color .2s;">
+        <div style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--gold2);color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase;">Best value</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Annual</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text-main);">$49<span style="font-size:13px;font-weight:400;color:var(--text-dim);">/yr</span></div>
+        <div style="font-size:11px;color:var(--gold2);margin-top:2px;">$4.08/mo — save 49%</div>
+      </div>
+    </div>
+    <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Start 7-day free trial →</button>
+    <div id="pro-err" style="color:#c44;font-size:13px;min-height:18px;margin-bottom:4px;"></div>
     <div class="auth-divider"><a href="#" onclick="closeProModal();return false;" style="color:var(--text-dim);">Maybe later</a></div>
   </div>
 </div>
@@ -1751,7 +1764,8 @@ function toggleTheme(){
    AUTH + CLOUD SYNC
 ═══════════════════════════════════════ */
 const API = ''; // same origin on Vercel
-const CHECKOUT_URL = ''; // Stripe Payment Link — fill in when ready
+const STRIPE_PRICE_ID_MONTHLY = ''; // fill in from Stripe dashboard
+const STRIPE_PRICE_ID_ANNUAL  = ''; // fill in from Stripe dashboard
 
 let AUTH = {
   token: localStorage.getItem('mv_token') || null,
@@ -1763,7 +1777,7 @@ function authHeader(){ return AUTH.token ? {'Authorization':'Bearer '+AUTH.token
 async function fetchMe(){
   if(!AUTH.token) return;
   try {
-    const r = await fetch(API+'/api/auth/me',{ method:'POST', headers:authHeader() });
+    const r = await fetch(API+'/api/auth/me',{ headers:authHeader() });
     if(!r.ok) return;
     const me = await r.json();
     AUTH.user = me;
@@ -1895,20 +1909,86 @@ function openAuth(){
 }
 function closeAuth(){ $('auth-overlay').style.display='none'; }
 
-function showProModal(){ $('pro-overlay').style.display='flex'; }
+let _selectedPlan = 'annual'; // default selection
+function showProModal(){
+  $('pro-err').textContent='';
+  $('pro-cta').textContent='Start 7-day free trial →';
+  $('pro-cta').disabled=false;
+  selectProPlan(_selectedPlan);
+  $('pro-overlay').style.display='flex';
+}
 function closeProModal(){ $('pro-overlay').style.display='none'; }
-function openCheckout(){
-  if(!CHECKOUT_URL){ alert('Checkout not configured yet.'); return; }
-  window.open(CHECKOUT_URL,'_blank');
+function selectProPlan(plan){
+  _selectedPlan=plan;
+  $('plan-monthly').style.borderColor = plan==='monthly' ? 'var(--gold)' : 'var(--border2)';
+  $('plan-annual').style.borderColor  = plan==='annual'  ? 'var(--gold)' : 'var(--border2)';
+}
+async function startStripeCheckout(){
+  if(!AUTH.user){
+    closeProModal();
+    openAuth();
+    return;
+  }
+  const priceId = _selectedPlan==='annual' ? STRIPE_PRICE_ID_ANNUAL : STRIPE_PRICE_ID_MONTHLY;
+  if(!priceId){ $('pro-err').textContent='Checkout not configured yet.'; return; }
+  $('pro-cta').textContent='Opening checkout…';
+  $('pro-cta').disabled=true;
+  $('pro-err').textContent='';
+  try{
+    const r=await fetch(API+'/api/stripe?action=checkout',{
+      method:'POST',headers:authHeader(),
+      body:JSON.stringify({
+        price_id:priceId,
+        success_url:window.location.origin+'/?checkout=success',
+        cancel_url:window.location.origin+'/?checkout=cancelled'
+      })
+    });
+    const d=await r.json();
+    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start 7-day free trial →'; $('pro-cta').disabled=false; return; }
+    window.location.href=d.session_url;
+  }catch(e){
+    $('pro-err').textContent='Network error — try again.';
+    $('pro-cta').textContent='Start 7-day free trial →';
+    $('pro-cta').disabled=false;
+  }
+}
+
+/* ─── MANAGE SUBSCRIPTION ─── */
+async function openManageSubscription(){
+  if(!AUTH.token) return;
+  try{
+    const r=await fetch(API+'/api/stripe?action=portal',{method:'POST',headers:authHeader(),body:JSON.stringify({})});
+    const d=await r.json();
+    if(r.ok&&d.url) window.location.href=d.url;
+    else alert(d.error||'Could not open subscription management.');
+  }catch(e){ alert('Network error — try again.'); }
+}
+async function showSubscriptionInfo(){
+  if(!AUTH.token) return;
+  try{
+    const r=await fetch(API+'/api/stripe?action=status',{headers:authHeader()});
+    const d=await r.json();
+    if(!r.ok) return;
+    let msg=`MindVault Pro — ${d.plan==='annual'?'Annual':'Monthly'} plan`;
+    if(d.cancelled) msg+='\nCancelled — access until period end';
+    if(d.renewal_date) msg+=`\nRenews: ${new Date(d.renewal_date).toLocaleDateString()}`;
+    msg+='\n\nManage subscription?';
+    if(confirm(msg)) openManageSubscription();
+  }catch(e){}
 }
 
 function showLogoutPrompt(){
   const email = AUTH.user?.email || '';
-  if(confirm(`Signed in as ${email}\n\nSign out?`)){
-    AUTH.token=null; AUTH.user=null;
-    localStorage.removeItem('mv_token');
-    localStorage.removeItem('mv_user');
-    updateUserBtn();
+  const isPro = AUTH.user?.is_pro;
+  const msg = isPro
+    ? `Signed in as ${email}\nMindVault Pro ✦\n\n[1] Manage subscription\n[2] Sign out`
+    : `Signed in as ${email}\n\nSign out?`;
+  if(isPro){
+    const choice=prompt(msg,'2');
+    if(choice==='1') showSubscriptionInfo();
+    else if(choice==='2'){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); }
+  } else {
+    if(confirm(msg)){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); }
   }
 }
 
@@ -2308,6 +2388,83 @@ window.addEventListener('unhandledrejection', e => {
     showErrorBoundary('An unexpected error occurred. Your progress is saved.');
   }
 });
+
+/* ─── POST-CHECKOUT REDIRECT HANDLER ─── */
+(function handleCheckoutRedirect(){
+  const params=new URLSearchParams(window.location.search);
+  const checkout=params.get('checkout');
+  if(!checkout) return;
+
+  // Clean URL immediately
+  const clean=new URL(window.location);
+  clean.searchParams.delete('checkout');
+  clean.searchParams.delete('session_id');
+  history.replaceState(null,'',clean.toString());
+
+  if(checkout==='success'){
+    const sessionId=params.get('session_id');
+    showCheckoutToast('Verifying your upgrade…','pending');
+    // Try activate endpoint first
+    if(AUTH.token&&sessionId){
+      fetch(API+'/api/subscription/activate',{
+        method:'POST',headers:authHeader(),
+        body:JSON.stringify({stripe_session_id:sessionId})
+      }).then(r=>r.json()).then(d=>{
+        if(d.ok&&d.is_pro){
+          AUTH.user.is_pro=true;
+          localStorage.setItem('mv_user',JSON.stringify(AUTH.user));
+          showCheckoutToast('Pro unlocked! Hard and Expert modes available.','success');
+          updateStartBtn();
+          return;
+        }
+        // Fallback: poll /auth/me
+        pollForPro();
+      }).catch(()=>pollForPro());
+    } else if(AUTH.token){
+      pollForPro();
+    } else {
+      showCheckoutToast('Sign in to activate your Pro upgrade.','success');
+    }
+  } else if(checkout==='cancelled'){
+    showCheckoutToast('No worries — Pro is here when you\'re ready.','info');
+  }
+})();
+
+function showCheckoutToast(msg,type){
+  let el=$('checkout-toast');
+  if(!el){
+    el=document.createElement('div');
+    el.id='checkout-toast';
+    el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:300;padding:12px 24px;border-radius:14px;font-size:14px;font-weight:500;text-align:center;max-width:380px;transition:opacity .4s;';
+    document.body.appendChild(el);
+  }
+  el.style.background=type==='success'?'var(--gold-dim)':type==='pending'?'#fff8e7':'var(--card-solid)';
+  el.style.border=type==='success'?'1px solid var(--gold-glow)':'1px solid var(--border2)';
+  el.style.color=type==='success'?'var(--gold2)':'var(--text-main)';
+  el.textContent=msg;
+  el.style.opacity='1';
+  if(type!=='pending') setTimeout(()=>{el.style.opacity='0';setTimeout(()=>el.remove(),500);},4000);
+}
+
+function pollForPro(){
+  let attempts=0;
+  const iv=setInterval(async()=>{
+    attempts++;
+    if(attempts>15){clearInterval(iv);showCheckoutToast('Upgrade processing — may take a moment.','info');return;}
+    try{
+      const r=await fetch(API+'/api/auth/me',{headers:authHeader()});
+      if(!r.ok) return;
+      const me=await r.json();
+      if(me.is_pro){
+        clearInterval(iv);
+        AUTH.user=me;
+        localStorage.setItem('mv_user',JSON.stringify(me));
+        showCheckoutToast('Pro unlocked! Hard and Expert modes available.','success');
+        updateStartBtn();
+      }
+    }catch(e){}
+  },2000);
+}
 
 /* ─── INIT (after all consts are defined) ─── */
 updateDailyCard();

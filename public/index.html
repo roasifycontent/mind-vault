@@ -1042,7 +1042,7 @@ const GAME_READY_TEXT={
   sequence: 'Digits will flash one at a time.<br>Lock in the full sequence, then type it back in order.',
   symbol:   'Two symbol grids will appear side by side.<br>Find every cell on the right that has changed.',
   gridmem:  'A pattern of cells will light up briefly.<br>Then recreate the exact pattern from memory.',
-  missing:  'A sentence will appear with one word highlighted.<br>Read it carefully — then identify that word from four choices.',
+  missing:  'A sentence will appear. Read it carefully — then identify the missing word from four choices.',
   growing:  'A list builds one item at a time.<br>Remember every item — and the exact order they appear.',
   pairs:    'Word pairs will appear on screen together.<br>Remember which word belongs with which.',
 };
@@ -1478,7 +1478,7 @@ function startMWRound(){
 function showMWRead(){
   const cfg=MW_DIFF[G.diff];
   const item=G.mwQueue[G.mwCurrent];
-  const html=item.s.replace(`{${item.w}}`,`<span style="color:var(--orange2);font-weight:600;border-bottom:2px solid var(--orange);padding-bottom:2px;">${item.w}</span>`);
+  const html=item.s.replace(`{${item.w}}`,item.w);
   $('mwr-sentence').innerHTML=html;
   showScreen('mw-read');
   runTimer('mwr-timer','mwr-prog',cfg.secs,'fill-orange',()=>showMWChoose());

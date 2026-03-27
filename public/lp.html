@@ -755,6 +755,22 @@ function goNext() {
   }, 280);
 }
 
+let _countdownInterval = null;
+function startCountdown() {
+  if (_countdownInterval) clearInterval(_countdownInterval);
+  let secs = 10 * 60; // 10 minutes
+  const el = document.getElementById('countdownTimer');
+  function tick() {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (secs <= 0) { clearInterval(_countdownInterval); el.textContent = '00:00'; return; }
+    secs--;
+  }
+  tick();
+  _countdownInterval = setInterval(tick, 1000);
+}
+
 function selectOption(btn, key, value) {
   state.answers[key] = value;
   btn.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));

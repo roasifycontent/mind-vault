@@ -387,8 +387,44 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
       <div class="trust-row">🔒 Takes 2 minutes · No credit card needed</div>
     </div>
 
-    <!-- 1: AGE -->
+
+    <!-- SOCIAL PROOF -->
     <div class="screen" data-step="2">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div style="font-family:var(--font-display);font-size:28px;color:var(--text-bright);margin-bottom:6px;">Mindspan</div>
+        <div style="font-size:13px;letter-spacing:1.5px;color:var(--accent);font-weight:600;text-transform:uppercase;">Daily Memory Training</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(74,227,181,0.1),rgba(155,125,255,0.1));border:1.5px solid rgba(74,227,181,0.2);border-radius:var(--radius);padding:24px;margin-bottom:28px;text-align:center;">
+        <div style="font-size:17px;color:var(--text-bright);line-height:1.6;margin-bottom:12px;">"One of the most well-designed memory training apps I've tested. The science is solid and the daily habit loop actually works."</div>
+        <div style="font-size:13px;color:var(--accent);font-weight:600;">— Verified User Review</div>
+      </div>
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-size:12px;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;margin-bottom:16px;">Trusted by people who take memory seriously</div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px 20px;margin-bottom:8px;">
+          <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px 18px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:0.5px;">🧠 82% see improvement in 14 days</div>
+          <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px 18px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:0.5px;">⚡ 7 targeted cognitive games</div>
+          <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px 18px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:0.5px;">📅 Just 5 minutes a day</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:28px;">
+        <div style="flex:1;background:var(--bg-card);border-radius:var(--radius-sm);padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:var(--accent);margin-bottom:4px;">4.8★</div>
+          <div style="font-size:12px;color:var(--text-dim);">Average rating</div>
+        </div>
+        <div style="flex:1;background:var(--bg-card);border-radius:var(--radius-sm);padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:var(--purple);margin-bottom:4px;">10k+</div>
+          <div style="font-size:12px;color:var(--text-dim);">Active users</div>
+        </div>
+        <div style="flex:1;background:var(--bg-card);border-radius:var(--radius-sm);padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:700;color:var(--gold);margin-bottom:4px;">14d</div>
+          <div style="font-size:12px;color:var(--text-dim);">Avg. to results</div>
+        </div>
+      </div>
+      <button class="cta-btn cta-primary" onclick="goNext()">Continue →</button>
+    </div>
+
+    <!-- 1: AGE -->
+    <div class="screen" data-step="3">
       <div class="screen-icon">👋</div>
       <h1 class="screen-title">Let's personalize this for you</h1>
       <p class="screen-subtitle">What's your age range?</p>
@@ -401,7 +437,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 2: GOAL -->
-    <div class="screen" data-step="3">
+    <div class="screen" data-step="4">
       <div class="screen-icon">🎯</div>
       <h1 class="screen-title">What's your #1 goal?</h1>
       <p class="screen-subtitle">Your plan will be built around this.</p>
@@ -414,7 +450,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 3: FORGETFULNESS -->
-    <div class="screen" data-step="4">
+    <div class="screen" data-step="5">
       <div class="screen-icon">🚪</div>
       <h1 class="screen-title">How often do you forget why you walked into a room?</h1>
       <p class="screen-subtitle">Be honest — this helps us set your starting level.</p>
@@ -427,7 +463,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 4: REINFORCEMENT (age-adaptive) -->
-    <div class="screen" data-step="5">
+    <div class="screen" data-step="6">
       <div class="screen-icon">💡</div>
       <h1 class="screen-title">This is completely normal</h1>
       <div class="info-card" id="reinforcement1"></div>
@@ -435,7 +471,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 5: NAMES -->
-    <div class="screen" data-step="6">
+    <div class="screen" data-step="7">
       <div class="screen-icon">🏷️</div>
       <h1 class="screen-title">Is remembering names getting harder?</h1>
       <p class="screen-subtitle">Name recall is one of the most common frustrations — and one of the quickest to improve with practice.</p>
@@ -447,7 +483,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 6: PRIOR EXPERIENCE -->
-    <div class="screen" data-step="7">
+    <div class="screen" data-step="8">
       <div class="screen-icon">🧩</div>
       <h1 class="screen-title">Have you tried brain training before?</h1>
       <p class="screen-subtitle">This helps us calibrate where to start you.</p>
@@ -460,7 +496,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 7: DIFFERENTIATOR -->
-    <div class="screen" data-step="8">
+    <div class="screen" data-step="9">
       <div class="screen-icon">🔬</div>
       <h1 class="screen-title">Mindspan isn't a puzzle app</h1>
       <div class="info-card">
@@ -473,7 +509,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 8: TIME COMMITMENT -->
-    <div class="screen" data-step="9">
+    <div class="screen" data-step="10">
       <div class="screen-icon">⏱️</div>
       <h1 class="screen-title">How much time can you train each day?</h1>
       <p class="screen-subtitle">Your daily routine will be built around this. Even 5 minutes makes a measurable difference.</p>
@@ -485,7 +521,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 9: MEMORY TEST INTRO -->
-    <div class="screen" data-step="10">
+    <div class="screen" data-step="11">
       <div class="screen-icon">🧪</div>
       <h1 class="screen-title">One last thing — a quick memory test</h1>
       <p class="screen-subtitle">We'll show you <strong>5 symbols</strong> for 8 seconds. Then you pick them from a grid. This helps us fine-tune your plan.</p>
@@ -499,7 +535,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 10: MEMORIZE -->
-    <div class="screen" data-step="11">
+    <div class="screen" data-step="12">
       <h1 class="screen-title" style="text-align:center">Memorize these symbols</h1>
       <div class="memory-timer" id="memTimer">8</div>
       <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin: 16px 0;" id="memShowArea"></div>
@@ -507,14 +543,14 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 11: RECALL -->
-    <div class="screen" data-step="12">
+    <div class="screen" data-step="13">
       <h1 class="screen-title" style="text-align:center">Tap the symbols you saw</h1>
       <p class="screen-subtitle" style="text-align:center"><span id="recallCount">0</span> of 5 found</p>
       <div class="memory-grid" id="memRecallGrid"></div>
     </div>
 
     <!-- 12: ANALYZING -->
-    <div class="screen" data-step="13">
+    <div class="screen" data-step="14">
       <div class="screen-icon" style="text-align:center;">🔍</div>
       <h1 class="screen-title" style="text-align:center">Building your plan...</h1>
       <div class="analysis-steps" id="analysisSteps">
@@ -528,7 +564,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 13: RESULTS -->
-    <div class="screen" data-step="14">
+    <div class="screen" data-step="15">
       <h1 class="screen-title">Your Memory Profile</h1>
       <p class="screen-subtitle">Here's where you stand — and exactly what to work on.</p>
       <div class="score-bars">
@@ -542,7 +578,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 14: YOUR PLAN -->
-    <div class="screen" data-step="15">
+    <div class="screen" data-step="16">
       <div class="screen-icon">✅</div>
       <h1 class="screen-title">Your plan is ready</h1>
       <p class="screen-subtitle" id="planSubtitle"></p>
@@ -569,7 +605,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 15: EMAIL GATE -->
-    <div class="screen" data-step="16">
+    <div class="screen" data-step="17">
       <div class="screen-icon">🔓</div>
       <h1 class="screen-title">Where should we send your plan?</h1>
       <p class="screen-subtitle">We'll email your Memory Profile, daily routine, and 30-day schedule so you can start right away.</p>
@@ -581,7 +617,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     </div>
 
     <!-- 16: BILLING -->
-    <div class="screen" data-step="17">
+    <div class="screen" data-step="18">
       <h1 class="screen-title" style="text-align:center">Invest in your brain today</h1>
 
       <!-- Social proof -->
@@ -682,7 +718,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 </div>
 
 <script>
-const TOTAL_STEPS = 17;
+const TOTAL_STEPS = 18;
 const QUIZ_STEPS = 9;
 const TEST_ITEMS = 5;
 

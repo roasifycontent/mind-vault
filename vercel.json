@@ -2,7 +2,8 @@
   "version": 2,
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/lp", "destination": "/lp.html" }
   ],
   "headers": [
     {

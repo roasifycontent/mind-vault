@@ -1,8 +1,8 @@
 {
   "packageId": "com.yourname.mindvault",
   "host": "your-app.vercel.app",
-  "name": "Mindspan — Daily Memory Training",
-  "launcherName": "Mindspan",
+  "name": "Recall Better — Daily Memory Training",
+  "launcherName": "Recall Better",
   "display": "standalone",
   "orientation": "portrait",
   "themeColor": "#090b11",

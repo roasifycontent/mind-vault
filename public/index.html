@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mindspan — Daily Memory Training</title>
+<title>Recall Better — Daily Memory Training</title>
 <meta name="description" content="Daily memory training to keep your mind sharp. Seven science-aligned games, a few minutes a day.">
 <meta name="theme-color" content="#090b11" id="theme-meta">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Mindspan">
-<meta property="og:title" content="Mindspan — Daily Memory Training">
+<meta name="apple-mobile-web-app-title" content="Recall Better">
+<meta property="og:title" content="Recall Better — Daily Memory Training">
 <meta property="og:description" content="Keep your mind sharp with 7 daily memory games. A few minutes a day is all it takes.">
-<meta property="og:site_name" content="Mindspan">
+<meta property="og:site_name" content="Recall Better">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mindspan — Daily Memory Training">
+<meta name="twitter:title" content="Recall Better — Daily Memory Training">
 <meta name="twitter:description" content="Keep your mind sharp with 7 daily memory games.">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -911,7 +911,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 </div>
 
 </div><!-- #app -->
-<footer>Mindspan &nbsp;·&nbsp; Seven games · Daily memory training</footer>
+<footer>Recall Better &nbsp;·&nbsp; Seven games · Daily memory training</footer>
 
 <script>
 /* ─── STARFIELD ─── */
@@ -1976,7 +1976,7 @@ async function showSubscriptionInfo(){
     const r=await fetch(API+'/api/stripe?action=status',{headers:authHeader()});
     const d=await r.json();
     if(!r.ok) return;
-    let msg=`Mindspan Pro — ${d.plan==='annual'?'Annual':'Monthly'} plan`;
+    let msg=`Recall Better Pro — ${d.plan==='annual'?'Annual':'Monthly'} plan`;
     if(d.cancelled) msg+='\nCancelled — access until period end';
     if(d.renewal_date) msg+=`\nRenews: ${new Date(d.renewal_date).toLocaleDateString()}`;
     msg+='\n\nManage subscription?';
@@ -1988,7 +1988,7 @@ function showLogoutPrompt(){
   const email = AUTH.user?.email || '';
   const isPro = AUTH.user?.is_pro;
   const msg = isPro
-    ? `Signed in as ${email}\nMindspan Pro ✦\n\n[1] Manage subscription\n[2] Sign out`
+    ? `Signed in as ${email}\nRecall Better Pro ✦\n\n[1] Manage subscription\n[2] Sign out`
     : `Signed in as ${email}\n\nSign out?`;
   if(isPro){
     const choice=prompt(msg,'2');
@@ -2348,14 +2348,14 @@ function shareDaily(){
   const pct=parseInt(score)||0;
   const filled=Math.round(pct/20);
   const bar='🟨'.repeat(Math.min(filled,5))+'⬛'.repeat(Math.max(0,5-filled));
-  const text=`Mindspan Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nmindspanapp.com`;
+  const text=`Recall Better Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nrecallbetter.com`;
   shareText(text);
 }
 
 function shareResult(){
   const gameName=DAILY_GAME_NAMES[G.game]||cap(G.game);
   const streak=G.streak||0;
-  const text=`I scored ${G.lastPct}% on ${gameName} — Day ${streak} streak 🧠\nDaily memory training: mindspanapp.com`;
+  const text=`I scored ${G.lastPct}% on ${gameName} — Day ${streak} streak 🧠\nDaily memory training: recallbetter.com`;
   shareText(text);
 }
 

@@ -1,6 +1,6 @@
 {
-  "name": "Mindspan — Daily Memory Training",
-  "short_name": "Mindspan",
+  "name": "Recall Better — Daily Memory Training",
+  "short_name": "Recall Better",
   "description": "Daily memory training to keep your mind sharp. Seven science-aligned games, a few minutes a day.",
   "start_url": "/",
   "display": "standalone",
@@ -25,7 +25,7 @@
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Mindspan Home Screen"
+      "label": "Recall Better Home Screen"
     }
   ],
   "shortcuts": [

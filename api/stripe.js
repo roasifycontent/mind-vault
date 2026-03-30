@@ -78,7 +78,7 @@ async function createPortalSession(req, res) {
   const stripe = getStripe();
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: customerId,
-    return_url: req.headers.origin || process.env.APP_URL || 'https://mindspanapp.com',
+    return_url: req.headers.origin || process.env.APP_URL || 'https://recallbetter.com',
   });
 
   return res.status(200).json({ url: portalSession.url });

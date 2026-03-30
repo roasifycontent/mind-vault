@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mindvault-v12';
+const CACHE_NAME = 'recallbetter-v13';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

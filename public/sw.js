@@ -1,7 +1,7 @@
-const CACHE_NAME = 'recallbetter-v13';
+const CACHE_NAME = 'recallbetter-v14';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
+  '/app',
+  '/app.html',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',

@@ -2,7 +2,7 @@
   "name": "Recall Better — Daily Memory Training",
   "short_name": "Recall Better",
   "description": "Daily memory training to keep your mind sharp. Seven science-aligned games, a few minutes a day.",
-  "start_url": "/",
+  "start_url": "/app",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#090b11",

@@ -3,7 +3,16 @@
   "outputDirectory": "public",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/lp", "destination": "/lp.html" }
+    { "source": "/app", "destination": "/app.html" },
+    { "source": "/lp", "destination": "/lp.html" },
+    { "source": "/quiz", "destination": "/quiz.html" },
+    { "source": "/quiz2", "destination": "/quiz2.html" },
+    { "source": "/quiz3", "destination": "/quiz3.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/testimonials", "destination": "/testimonials.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/reset", "destination": "/reset.html" }
   ],
   "headers": [
     {

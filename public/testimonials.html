@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonials — Recall Better</title>
+<meta name="description" content="Real stories from Recall Better members aged 50+ who improved their memory with daily brain training.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #090b11;
+  --card: #10141f;
+  --border: #ffffff10;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --text: #ede9df;
+  --text-mid: #9e9888;
+  --text-dim: #5c594f;
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(9,11,17,0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.2px;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--bg) !important;
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 700 !important;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  color: var(--bg) !important;
+}
+.nav-mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-mid);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 24px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 6vw, 58px);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.hero h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+.hero p {
+  font-size: 17px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+/* STATS BAR */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 28px 24px;
+  max-width: 700px;
+  margin: 0 auto 24px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat-item {
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  letter-spacing: 0.3px;
+}
+
+/* CATEGORY FILTERS */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 24px 8px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+.filter-btn:hover {
+  border-color: rgba(201,168,76,0.3);
+  color: var(--text);
+}
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--bg);
+  border-color: transparent;
+}
+
+/* FEATURED TESTIMONIAL */
+.featured {
+  max-width: 800px;
+  margin: 48px auto 16px;
+  padding: 0 24px;
+}
+.featured-card {
+  background: var(--card);
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  padding: 44px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.featured-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at top left, rgba(201,168,76,0.08), transparent 60%);
+  pointer-events: none;
+}
+.featured-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(201,168,76,0.12);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.featured-quote {
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 28px;
+  position: relative;
+}
+.featured-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.featured-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.featured-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--bg);
+  font-family: var(--font-heading);
+}
+.featured-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text);
+}
+.featured-detail {
+  font-size: 13px;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+}
+.verified svg {
+  width: 14px;
+  height: 14px;
+}
+.featured-score {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  padding: 12px 20px;
+  text-align: center;
+}
+.score-change {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.score-label {
+  font-size: 11px;
+  color: var(--text-mid);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* MASONRY GRID */
+.grid-section {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  padding: 0 24px;
+}
+.masonry {
+  columns: 3;
+  column-gap: 20px;
+}
+.testimonial-card {
+  break-inside: avoid;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  transition: transform 0.3s, border-color 0.3s;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.testimonial-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s;
+}
+.testimonial-card:hover {
+  border-color: rgba(201,168,76,0.25);
+  transform: translateY(-3px);
+}
+.testimonial-card.visible:hover {
+  transform: translateY(-3px);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(201,168,76,0.3), rgba(232,201,106,0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gold-light);
+  font-family: var(--font-heading);
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.card-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+.card-detail {
+  font-size: 12px;
+  color: var(--text-mid);
+}
+.card-stars {
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.card-quote {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 18px;
+  opacity: 0.92;
+}
+.card-quote strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.card-stat {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.card-stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(201,168,76,0.08);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+}
+.card-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* CTA SECTION */
+.cta-section {
+  text-align: center;
+  padding: 80px 24px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.cta-section h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+.cta-big {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  padding: 18px 48px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.3px;
+}
+.cta-big:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.3);
+}
+.cta-sub {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-top: 16px;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 24px;
+  text-align: center;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.footer-logo {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 600;
+}
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--text-mid); }
+.footer-copy {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .masonry { columns: 2; }
+}
+@media (max-width: 640px) {
+  .masonry { columns: 1; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(9,11,17,0.97);
+    backdrop-filter: blur(20px);
+    padding: 24px;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-mobile-toggle { display: block; }
+  .stats-bar { gap: 24px; }
+  .stat-num { font-size: 22px; }
+  .featured-card { padding: 28px 22px; }
+  .featured-meta { flex-direction: column; align-items: flex-start; }
+  .hero { padding: 56px 24px 32px; }
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.fade-up.visible {
+  animation: fadeUp 0.6s ease forwards;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Recall Better</a>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">&#9776;</button>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/quiz" class="nav-cta">Start Free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero fade-up">
+  <h1>Real people. Real results.<br><em>Real relief.</em></h1>
+  <p>Every story here is from a verified Recall Better member. These are people just like you who decided to do something about their memory.</p>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar fade-up">
+  <div class="stat-item">
+    <div class="stat-num">53,000+</div>
+    <div class="stat-label">members</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4.8&#9733;</div>
+    <div class="stat-label">rating</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">82%</div>
+    <div class="stat-label">improve in 14 days</div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters fade-up">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="name-recall">Name Recall</button>
+  <button class="filter-btn" data-filter="word-retrieval">Word Retrieval</button>
+  <button class="filter-btn" data-filter="focus">Focus</button>
+  <button class="filter-btn" data-filter="independence">Independence</button>
+</div>
+
+<!-- FEATURED TESTIMONIAL -->
+<section class="featured fade-up">
+  <div class="featured-card">
+    <div class="featured-label">&#9733; Featured Story</div>
+    <div class="featured-quote">
+      &ldquo;I sat at Christmas dinner and couldn&rsquo;t remember my son-in-law&rsquo;s brother&rsquo;s name. I&rsquo;d known him for 15 years. That was the moment I thought: I have to do something. Six weeks later, I don&rsquo;t have those moments anymore. My wife says I&rsquo;m back to my old self.&rdquo;
+    </div>
+    <div class="featured-meta">
+      <div class="featured-author">
+        <div class="featured-avatar">R</div>
+        <div>
+          <div class="featured-name">Robert, 73</div>
+          <div class="featured-detail">
+            <span class="verified"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified Member</span>
+            &nbsp;&middot;&nbsp; 6 weeks on Recall Better
+          </div>
+        </div>
+      </div>
+      <div class="featured-score">
+        <div class="score-change">41 &rarr; 73</div>
+        <div class="score-label">+32 points in 6 weeks</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL GRID -->
+<section class="grid-section">
+  <div class="masonry">
+
+    <!-- Patricia, 67, Bristol -->
+    <div class="testimonial-card" data-category="name-recall">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">P</div>
+          <div>
+            <div class="card-name">Patricia, 67</div>
+            <div class="card-detail">Bristol</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;My three grandchildren have friends round every weekend and I kept mixing up their names. It was embarrassing &mdash; I could see them glancing at each other. I started Recall Better in January and within a month I had every name down. Last Saturday my granddaughter said, <strong>&lsquo;Nana, you even remembered Theo&rsquo;s dog&rsquo;s name!&rsquo;</strong> That made my whole week.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+34 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- David, 71, Manchester -->
+    <div class="testimonial-card" data-category="independence">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">D</div>
+          <div>
+            <div class="card-name">David, 71</div>
+            <div class="card-detail">Manchester</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I was genuinely frightened. Forgetting where I&rsquo;d put things, losing track of conversations mid-sentence. My wife booked me in with a specialist. Then she found Recall Better online and said, <strong>&lsquo;Just try it for a month.&rsquo;</strong> Four weeks later the change was obvious to both of us. I cancelled the appointment. My GP was impressed at my next check-up.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+31 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Jean, 64, Edinburgh -->
+    <div class="testimonial-card" data-category="focus">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">J</div>
+          <div>
+            <div class="card-name">Jean, 64</div>
+            <div class="card-detail">Edinburgh</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I do my five minutes of Recall Better every morning with my cup of tea. It&rsquo;s become my favourite part of the day. After four months my daughter sat me down and said, <strong>&lsquo;Mum, you&rsquo;re so much more present. You&rsquo;re actually listening again.&rsquo;</strong> I didn&rsquo;t even realise I&rsquo;d been drifting. That hit me.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">4 months</div>
+          <div class="card-stat-label">Daily user streak</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Eleanor, 69, London -->
+    <div class="testimonial-card" data-category="word-retrieval">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">E</div>
+          <div>
+            <div class="card-name">Eleanor, 69</div>
+            <div class="card-detail">London</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I used to dread bumping into neighbours because I&rsquo;d forget what we&rsquo;d last talked about. I&rsquo;d make excuses to avoid coffee mornings. Since I started Recall Better, <strong>conversations feel easy again.</strong> I actually look forward to chatting at the school gate when I pick up my grandson. It&rsquo;s given me my confidence back.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+34 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Margaret, 68, Surrey -->
+    <div class="testimonial-card" data-category="name-recall">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">M</div>
+          <div>
+            <div class="card-name">Margaret, 68</div>
+            <div class="card-detail">Surrey</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;At our Christmas dinner last year I called my nephew by his father&rsquo;s name &mdash; in front of everyone. The table went quiet. That silence stayed with me for weeks. Eight months into Recall Better and <strong>I haven&rsquo;t had a moment like that since.</strong> I can keep up with who&rsquo;s who, even with the extended family.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">8 months</div>
+          <div class="card-stat-label">Active member</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- James, 66, Leeds -->
+    <div class="testimonial-card" data-category="word-retrieval">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">J</div>
+          <div>
+            <div class="card-name">James, 66</div>
+            <div class="card-detail">Leeds</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I&rsquo;m a retired solicitor. Precision with words was my whole career. When I started stumbling over terms I&rsquo;d used for decades, it shook me. Recall Better brought that sharpness back. <strong>I trust my memory again.</strong> My wife says I&rsquo;ve stopped second-guessing myself, and she&rsquo;s right.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+42%</div>
+          <div class="card-stat-label">Recall improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Susan, 72, Yorkshire -->
+    <div class="testimonial-card" data-category="independence">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">S</div>
+          <div>
+            <div class="card-name">Susan, 72</div>
+            <div class="card-detail">Yorkshire</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;My daughter kept suggesting I see someone about my memory. I didn&rsquo;t want to be &lsquo;that person.&rsquo; Recall Better costs less than a coffee a day and after 12 weeks I can tell you it&rsquo;s <strong>the best money I&rsquo;ve ever spent on myself.</strong> I remember appointments, birthdays, shopping lists &mdash; things I&rsquo;d been writing down because I didn&rsquo;t trust my own head.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">12 weeks</div>
+          <div class="card-stat-label">On the Recall Better plan</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Peter, 70, Devon -->
+    <div class="testimonial-card" data-category="focus">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">P</div>
+          <div>
+            <div class="card-name">Peter, 70</div>
+            <div class="card-detail">Devon</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I taught secondary maths for 35 years. When I retired I thought my brain would just tick along. It didn&rsquo;t. My grandchildren started asking me for homework help and I was blanking on things I used to teach. <strong>Recall Better gave me my teacher&rsquo;s mind back.</strong> Now I&rsquo;m the go-to homework helper again and I love it.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+29 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Barbara, 65, Kent -->
+    <div class="testimonial-card" data-category="word-retrieval">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">B</div>
+          <div>
+            <div class="card-name">Barbara, 65</div>
+            <div class="card-detail">Kent</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I&rsquo;ve done the Times crossword every morning for twenty years. I thought that was enough to keep me sharp. It wasn&rsquo;t. Recall Better is different &mdash; it targets the exact kind of memory I was losing. <strong>Words don&rsquo;t get stuck on the tip of my tongue anymore.</strong> Even my crossword times have improved.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+27 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Michael, 74, Glasgow -->
+    <div class="testimonial-card" data-category="independence">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">M</div>
+          <div>
+            <div class="card-name">Michael, 74</div>
+            <div class="card-detail">Glasgow</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;My doctor told me to &lsquo;keep my mind active.&rsquo; I tried puzzles, apps, even a language course. Nothing stuck. <strong>Recall Better is the first thing that actually worked.</strong> After two months my doctor asked what I&rsquo;d been doing &mdash; he said my cognitive responses were noticeably sharper. I told him five minutes a day.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+36 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Dorothy, 68, Cardiff -->
+    <div class="testimonial-card" data-category="focus">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">D</div>
+          <div>
+            <div class="card-name">Dorothy, 68</div>
+            <div class="card-detail">Cardiff</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I forgot where I&rsquo;d parked my car. Twice. In the same week. I sat in the supermarket car park the second time and cried. That was my wake-up call. I found Recall Better that evening and <strong>I haven&rsquo;t had that feeling of panic since.</strong> Three months in and I feel like I&rsquo;m back in control of my own mind.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+33 points</div>
+          <div class="card-stat-label">Memory score improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+    <!-- Alan, 72, Norwich -->
+    <div class="testimonial-card" data-category="name-recall">
+      <div class="card-header">
+        <div class="card-author">
+          <div class="card-avatar">A</div>
+          <div>
+            <div class="card-name">Alan, 72</div>
+            <div class="card-detail">Norwich</div>
+          </div>
+        </div>
+        <div class="card-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      </div>
+      <div class="card-quote">
+        &ldquo;I play Recall Better every morning before breakfast now. It&rsquo;s the first thing I reach for instead of the news. My wife watched me improve for three weeks and then said, <strong>&lsquo;Right, set me up an account too.&rsquo;</strong> Now we do it together. Our kids think it&rsquo;s hilarious that we compete over scores.&rdquo;
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-stat">+38 points</div>
+          <div class="card-stat-label">Combined household improvement</div>
+        </div>
+        <div class="card-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section fade-up">
+  <h2>Your story could be next.</h2>
+  <a href="/quiz" class="cta-big">Take the Free Memory Check</a>
+  <p class="cta-sub">Join 53,000+ adults protecting their sharpest years</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Recall Better</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/testimonials">Testimonials</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/app">Open App</a>
+    </div>
+    <div class="footer-copy">&copy; 2025 Recall Better. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// Fade-up on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      if (!entry.target.classList.contains('testimonial-card')) {
+        observer.unobserve(entry.target);
+      }
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up, .testimonial-card').forEach(el => observer.observe(el));
+
+// Stagger testimonial card animations
+const cards = document.querySelectorAll('.testimonial-card');
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, 80 * Array.from(cards).indexOf(entry.target) % 400);
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+
+cards.forEach(card => cardObserver.observe(card));
+
+// Category filters
+const filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.testimonial-card').forEach(card => {
+      if (filter === 'all' || card.dataset.category === filter) {
+        card.style.display = '';
+        requestAnimationFrame(() => card.classList.add('visible'));
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>

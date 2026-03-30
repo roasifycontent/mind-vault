@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Recall Better</title>
+<meta name="description" content="We believe no one should lose their sharpest years without a fight. Learn how Recall Better bridges the gap between neuroscience research and everyday brain training.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #090b11;
+  --card: #10141f;
+  --border: #ffffff10;
+  --border2: #ffffff1e;
+  --gold: #c9a84c;
+  --gold2: #e8c96a;
+  --text: #ede9df;
+  --text-mid: #9e9888;
+  --text-dim: #5c594f;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --max-w: 1080px;
+  --narrow: 720px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%, #c9a84c06, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, #c9a84c04, transparent 60%);
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(#ffffff02 1px, transparent 1px), linear-gradient(90deg, #ffffff02 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(9, 11, 17, 0.72);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  transition: color 0.2s;
+  letter-spacing: 0.2px;
+}
+
+.nav-link:hover { color: var(--text); }
+.nav-link.active { color: var(--gold2); }
+
+.nav-cta {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  padding: 9px 22px;
+  border-radius: 8px;
+  transition: all 0.25s;
+  box-shadow: 0 2px 12px rgba(201, 168, 76, 0.2);
+}
+
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.35);
+}
+
+.nav-mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-mobile-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-mid);
+  margin: 5px 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* ========== SECTIONS ========== */
+.page-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+section {
+  padding: 100px 24px;
+}
+
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.narrow {
+  max-width: var(--narrow);
+  margin: 0 auto;
+}
+
+/* Fade-up animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-up.delay-1 { transition-delay: 0.1s; }
+.fade-up.delay-2 { transition-delay: 0.2s; }
+.fade-up.delay-3 { transition-delay: 0.3s; }
+.fade-up.delay-4 { transition-delay: 0.4s; }
+
+/* ========== HERO ========== */
+.hero {
+  padding: 160px 24px 100px;
+  text-align: center;
+}
+
+.hero-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--text);
+  max-width: 800px;
+  margin: 0 auto 24px;
+  letter-spacing: -0.5px;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-mid);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.hero-divider {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin: 48px auto 0;
+  opacity: 0.4;
+}
+
+/* ========== OUR STORY ========== */
+.story { background: transparent; }
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.story-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.story h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 32px;
+}
+
+.story p {
+  font-size: 16px;
+  color: var(--text-mid);
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.story p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.story-highlight {
+  border-left: 2px solid var(--gold);
+  padding-left: 24px;
+  margin: 32px 0;
+}
+
+.story-highlight p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ========== SCIENCE ========== */
+.science {
+  background: transparent;
+  border-top: 1px solid var(--border);
+}
+
+.science-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 17px;
+  color: var(--text-mid);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.science-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+.science-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.science-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-2px);
+}
+
+.science-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.science-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.science-card p {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.science-card .source {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-style: italic;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 36px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: var(--gold2);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+/* ========== APPROACH (3 PILLARS) ========== */
+.approach {
+  border-top: 1px solid var(--border);
+}
+
+.approach-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.pillar {
+  padding: 44px 32px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.pillar:hover {
+  border-color: rgba(201, 168, 76, 0.2);
+  transform: translateY(-3px);
+}
+
+.pillar-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: rgba(201, 168, 76, 0.15);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.pillar h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--gold2);
+  margin-bottom: 14px;
+}
+
+.pillar p {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+/* ========== VALUES ========== */
+.values {
+  border-top: 1px solid var(--border);
+}
+
+.values-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.value-card {
+  padding: 36px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  transition: border-color 0.3s;
+}
+
+.value-card:hover {
+  border-color: var(--border2);
+}
+
+.value-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.value-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.value-card p {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+/* ========== CTA SECTION ========== */
+.cta-section {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 120px 24px;
+}
+
+.cta-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+
+.cta-section .section-sub {
+  margin-bottom: 40px;
+}
+
+.cta-btn {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  padding: 16px 40px;
+  border-radius: 10px;
+  transition: all 0.25s;
+  box-shadow: 0 4px 24px rgba(201, 168, 76, 0.25);
+  letter-spacing: 0.3px;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.4);
+}
+
+.cta-note {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 16px;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 60px 24px 40px;
+}
+
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+}
+
+.footer-link {
+  font-size: 14px;
+  color: var(--text-mid);
+  transition: color 0.2s;
+}
+
+.footer-link:hover { color: var(--text); }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.footer-disclaimer {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .science-cards {
+    grid-template-columns: 1fr;
+  }
+  .pillars {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .stats-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(9, 11, 17, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 24px;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-links.open { display: flex; }
+  .nav-mobile-toggle { display: block; }
+
+  section { padding: 72px 20px; }
+  .hero { padding: 130px 20px 72px; }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 16px 24px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+<!-- ========== NAV ========== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Recall Better</a>
+    <div class="nav-links" id="navLinks">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/#how-it-works" class="nav-link">How It Works</a>
+      <a href="/testimonials" class="nav-link">Testimonials</a>
+      <a href="/#pricing" class="nav-link">Pricing</a>
+      <a href="/quiz" class="nav-cta">Start Free</a>
+    </div>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="container">
+    <div class="fade-up">
+      <p class="hero-label">Our Mission</p>
+    </div>
+    <h1 class="fade-up delay-1">We believe no one should lose their sharpest years without a fight.</h1>
+    <p class="hero-sub fade-up delay-2">Recall Better exists for one reason: to give every adult over 50 the tools neuroscience says actually work — delivered simply, daily, and without the jargon.</p>
+    <div class="hero-divider fade-up delay-3"></div>
+  </div>
+</section>
+
+<!-- ========== OUR STORY ========== -->
+<section class="story">
+  <div class="container">
+    <div class="story-grid">
+      <div>
+        <p class="story-label fade-up">Our Story</p>
+        <h2 class="fade-up delay-1">The advice was always the same. The tools never were.</h2>
+      </div>
+      <div>
+        <p class="fade-up">"Stay mentally active." That's what every doctor, every article, every well-meaning friend tells you once you pass 50. <strong>But no one tells you how.</strong></p>
+        <p class="fade-up delay-1">So most people reach for crosswords or Sudoku. And those are fine — but they only train one narrow type of thinking. Doing the same crossword every morning is like going to the gym and only ever using one machine.</p>
+        <p class="fade-up delay-2">Meanwhile, there are decades of peer-reviewed research showing exactly which kinds of mental exercise actually strengthen memory, processing speed, and reasoning. That research just never made it into something normal people could use.</p>
+        <div class="story-highlight fade-up delay-3">
+          <p>We built Recall Better to bridge that gap — real cognitive science, delivered in 5 minutes a day, designed for people who want to stay sharp but aren't interested in complicated apps or exaggerated claims.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== THE SCIENCE ========== -->
+<section class="science">
+  <div class="container">
+    <div class="science-header">
+      <p class="section-label fade-up">The Research</p>
+      <h2 class="section-title fade-up delay-1">Built on decades of peer-reviewed research</h2>
+      <p class="section-sub fade-up delay-2">We didn't invent the science. We made it accessible.</p>
+    </div>
+
+    <div class="science-cards">
+      <div class="science-card fade-up">
+        <div class="science-card-icon">N</div>
+        <h3>The NIH ACTIVE Study</h3>
+        <p>The largest cognitive training trial ever conducted. 2,832 participants showed that targeted brain training produced benefits lasting more than 10 years — far outperforming passive activities like reading or socialising alone.</p>
+        <p class="source">Ball et al., 2002 — Journal of the American Medical Association</p>
+      </div>
+      <div class="science-card fade-up delay-1">
+        <div class="science-card-icon">H</div>
+        <h3>Harvard Health Research</h3>
+        <p>Harvard Medical School's review found that targeted cognitive training — exercises designed around specific mental skills — consistently outperforms general puzzles in maintaining brain function as we age.</p>
+        <p class="source">Harvard Health Publishing — Cognitive fitness, 2020</p>
+      </div>
+    </div>
+
+    <div class="science-header" style="margin-bottom: 40px;">
+      <p class="section-label fade-up">Key Principles</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item fade-up">
+        <div class="stat-num">82%</div>
+        <div class="stat-label">of users report feeling<br>sharper within 4 weeks</div>
+      </div>
+      <div class="stat-item fade-up delay-1">
+        <div class="stat-num">5</div>
+        <div class="stat-label">cognitive domains trained:<br>memory, speed, focus,<br>reasoning, language</div>
+      </div>
+      <div class="stat-item fade-up delay-2">
+        <div class="stat-num">7</div>
+        <div class="stat-label">targeted games built on<br>spaced repetition, adaptive<br>difficulty &amp; multi-domain training</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== OUR APPROACH ========== -->
+<section class="approach">
+  <div class="container">
+    <div class="approach-header">
+      <p class="section-label fade-up">Our Approach</p>
+      <h2 class="section-title fade-up delay-1">Three principles behind everything we build</h2>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar fade-up">
+        <div class="pillar-num">01</div>
+        <h3>Evidence-Aligned</h3>
+        <p>Every game maps directly to a studied cognitive skill. We don't guess what might work. We follow the research — from spaced repetition to adaptive difficulty curves — and design around what the science has consistently shown.</p>
+      </div>
+      <div class="pillar fade-up delay-1">
+        <div class="pillar-num">02</div>
+        <h3>Personalised</h3>
+        <p>Your brain isn't the same as anyone else's. Recall Better adapts to your weak areas, adjusts difficulty in real time, and builds a daily plan around where you'll benefit most — not a one-size-fits-all puzzle feed.</p>
+      </div>
+      <div class="pillar fade-up delay-2">
+        <div class="pillar-num">03</div>
+        <h3>Effortless</h3>
+        <p>Five minutes a day. No complicated setup. No accounts to manage. Works on any device with a browser. We designed Recall Better for people who value their time and don't want another app that demands hours of attention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VALUES ========== -->
+<section class="values">
+  <div class="container">
+    <div class="values-header">
+      <p class="section-label fade-up">What We Stand For</p>
+      <h2 class="section-title fade-up delay-1">Honest brain training, no gimmicks</h2>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card fade-up">
+        <div class="value-icon">&#9670;</div>
+        <h3>Privacy First</h3>
+        <p>We never sell your data. Your cognitive scores, your email, your usage — none of it goes to advertisers or data brokers. Full stop.</p>
+      </div>
+      <div class="value-card fade-up delay-1">
+        <div class="value-icon">&#9670;</div>
+        <h3>Honest Claims</h3>
+        <p>We say "evidence-aligned," not "clinically proven." Because we respect the science enough not to overstate it. You deserve straight talk, not marketing hype.</p>
+      </div>
+      <div class="value-card fade-up delay-2">
+        <div class="value-icon">&#9670;</div>
+        <h3>Accessible by Design</h3>
+        <p>Larger text. Clear buttons. No buried menus. Recall Better is designed for people who want results, not a tech challenge. If you can use email, you can use this.</p>
+      </div>
+      <div class="value-card fade-up delay-3">
+        <div class="value-icon">&#9670;</div>
+        <h3>Affordable</h3>
+        <p>Brain health shouldn't be a luxury. Our free tier is genuinely useful, and our paid plans cost less than a single coffee per week. Everyone deserves access to sharper thinking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="fade-up">Ready to see where you stand?</h2>
+    <p class="section-sub fade-up delay-1">Take the free 2-minute cognitive assessment and get your personalised training plan.</p>
+    <div class="fade-up delay-2">
+      <a href="/quiz" class="cta-btn">Start Your Free Assessment</a>
+    </div>
+    <p class="cta-note fade-up delay-3">No credit card required. Takes about 2 minutes.</p>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <a href="/" class="footer-logo">Recall Better</a>
+      <div class="footer-links">
+        <a href="/" class="footer-link">Home</a>
+        <a href="/about" class="footer-link">About</a>
+        <a href="/testimonials" class="footer-link">Testimonials</a>
+        <a href="/privacy" class="footer-link">Privacy</a>
+        <a href="/terms" class="footer-link">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2025 Recall Better. All rights reserved.</span>
+      <span class="footer-disclaimer">Evidence-aligned cognitive training &middot; Not medical advice</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /page-wrap -->
+
+<script>
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+  const spans = navToggle.querySelectorAll('span');
+  if (navLinks.classList.contains('open')) {
+    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+  } else {
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  }
+});
+
+// Close mobile nav on link click
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    const spans = navToggle.querySelectorAll('span');
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
+  });
+});
+
+// Intersection Observer for fade-up animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.15,
+  rootMargin: '0px 0px -40px 0px'
+});
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

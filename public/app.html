@@ -1,0 +1,2493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recall Better — Daily Memory Training</title>
+<meta name="description" content="Daily memory training to keep your mind sharp. Seven science-aligned games, a few minutes a day.">
+<meta name="theme-color" content="#090b11" id="theme-meta">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Recall Better">
+<meta property="og:title" content="Recall Better — Daily Memory Training">
+<meta property="og:description" content="Keep your mind sharp with 7 daily memory games. A few minutes a day is all it takes.">
+<meta property="og:site_name" content="Recall Better">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Recall Better — Daily Memory Training">
+<meta name="twitter:description" content="Keep your mind sharp with 7 daily memory games.">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:          #090b11;
+  --card:        #10141f99;
+  --border:      #ffffff10;
+  --border2:     #ffffff1e;
+  --gold:        #c9a84c; --gold2: #e8c96a; --gold-dim: #c9a84c28; --gold-glow: #c9a84c55;
+  --blue:        #5b8ef0; --blue2: #7aaaf5; --blue-dim: #5b8ef028; --blue-glow: #5b8ef055;
+  --violet:      #9b6ef0; --violet2: #b48ef5; --violet-dim: #9b6ef028; --violet-glow: #9b6ef055;
+  --teal:        #2ec4b6; --teal2:   #4dddd0; --teal-dim:   #2ec4b628; --teal-glow:   #2ec4b655;
+  --orange:      #e07c3a; --orange2: #f0a060; --orange-dim: #e07c3a28; --orange-glow: #e07c3a55;
+  --rose:        #c0527a; --rose2:   #e07098; --rose-dim:   #c0527a28; --rose-glow:   #c0527a55;
+  --text:        #ede9df; --text-dim: #5c594f; --text-mid: #9e9888;
+  --green:       #4caf8a; --red: #d96060;
+  --lime:        #6bba3b; --lime2: #90d45e; --lime-dim: #6bba3b28; --lime-glow: #6bba3b55;
+  --radius:      18px;   --shadow: 0 28px 90px #00000099;
+  --card-solid:  #0d101a;
+  --num-bg:      #0a0c14;
+}
+[data-theme="light"]{
+  --bg:         #f0ede6;
+  --card:       #ffffffcc;
+  --border:     #00000014;
+  --border2:    #0000002a;
+  --text:       #1a1810;
+  --text-dim:   #6b685e;
+  --text-mid:   #4e4b42;
+  --shadow:     0 28px 90px #00000022;
+  --card-solid: #e8e3da;
+  --num-bg:     #ddd8ce;
+  /* Darken gold so it's readable on light backgrounds */
+  --gold:       #8a6215;
+  --gold2:      #9b7220;
+  --gold-dim:   #8a621518;
+  --gold-glow:  #8a621540;
+  /* Darken lime for light bg */
+  --lime:       #3d7a1a;
+  --lime2:      #4a9022;
+  --lime-dim:   #3d7a1a18;
+  --lime-glow:  #3d7a1a40;
+}
+/* ── AUTH BUTTON ── */
+#user-btn{position:fixed;top:18px;left:18px;z-index:100;height:44px;padding:0 16px;border-radius:100px;border:1px solid var(--border2);background:var(--card-solid);color:var(--text-mid);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .25s;touch-action:manipulation;backdrop-filter:blur(12px);white-space:nowrap;max-width:180px;overflow:hidden;}
+#user-btn:hover{border-color:var(--gold);color:var(--gold2);}
+#user-btn:active{transform:scale(.94);}
+#user-btn .ub-icon{font-size:16px;flex-shrink:0;}
+#user-btn .ub-label{overflow:hidden;text-overflow:ellipsis;}
+
+/* ── AUTH MODAL ── */
+.auth-overlay{position:fixed;inset:0;z-index:200;background:#00000088;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+.auth-card{background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius);padding:32px;width:100%;max-width:380px;box-shadow:var(--shadow);position:relative;}
+.auth-card h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;text-align:center;margin-bottom:6px;color:var(--text);}
+.auth-card p{font-size:13px;color:var(--text-mid);text-align:center;margin-bottom:24px;}
+.auth-tabs{display:flex;gap:0;background:var(--card-solid);border-radius:100px;padding:4px;margin-bottom:22px;}
+.auth-tab{flex:1;padding:9px;border:none;border-radius:100px;background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;touch-action:manipulation;}
+.auth-tab.active{background:var(--gold-dim);color:var(--gold2);border:1px solid var(--gold-glow);}
+.auth-input{width:100%;padding:13px 16px;border:1px solid var(--border2);border-radius:12px;background:var(--card-solid);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;margin-bottom:12px;outline:none;transition:border-color .18s;box-sizing:border-box;}
+.auth-input:focus{border-color:var(--gold);}
+.auth-input::placeholder{color:var(--text-dim);}
+.auth-submit{width:100%;margin-top:4px;}
+.auth-err{font-size:13px;color:var(--red);text-align:center;margin-top:10px;min-height:20px;}
+.auth-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text-dim);font-size:22px;cursor:pointer;line-height:1;padding:4px;touch-action:manipulation;}
+.auth-close:hover{color:var(--text);}
+.auth-divider{text-align:center;font-size:12px;color:var(--text-dim);margin:14px 0 0;}
+#theme-toggle{position:fixed;top:18px;right:18px;z-index:100;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card-solid);color:var(--text-mid);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;touch-action:manipulation;backdrop-filter:blur(12px);}
+#theme-toggle:hover{border-color:var(--gold);color:var(--gold2);}
+#theme-toggle:active{transform:scale(.9);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;font-size:16px;overflow-x:hidden;overflow-y:auto;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 0% 0%,#c9a84c08,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,#5b8ef008,transparent 60%),radial-gradient(ellipse 50% 35% at 50% 100%,#9b6ef006,transparent 60%);pointer-events:none;}
+[data-theme="light"] body::before{background:radial-gradient(ellipse 70% 50% at 0% 0%,#c9a84c12,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,#5b8ef012,transparent 60%);}
+body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(#00000006 1px,transparent 1px),linear-gradient(90deg,#00000006 1px,transparent 1px);background-size:52px 52px;pointer-events:none;}
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.3;}
+#app{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px 80px;padding-bottom:max(80px,env(safe-area-inset-bottom,0px) + 60px);}
+
+/* ── SCREENS ── */
+.screen{width:100%;max-width:720px;display:none;}
+.screen.active{display:flex;flex-direction:column;align-items:center;animation:fadeUp .42s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.slide-out{animation:slideOut .28s ease both!important;pointer-events:none;}
+@keyframes slideOut{to{opacity:0;transform:translateY(-12px) scale(.98);}}
+
+/* ── LOGO ── */
+.logo{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,9vw,74px);font-weight:300;letter-spacing:-.02em;line-height:1;color:var(--text);text-align:center;margin-bottom:6px;}
+.logo em{color:var(--gold);font-style:italic;}
+.tagline{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mid);text-align:center;margin-bottom:36px;}
+.streak-badge{display:none;align-items:center;gap:6px;padding:7px 18px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:100px;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:28px;font-weight:500;}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--border2);border-radius:var(--radius);padding:32px;width:100%;backdrop-filter:blur(24px);box-shadow:var(--shadow),inset 0 1px 0 #ffffff0a;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.3;}
+.home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;margin-bottom:24px;}
+.stat-box{background:var(--card-solid);border:1px solid #ffffff22;border-radius:12px;padding:14px 8px;text-align:center;box-shadow:inset 0 1px 0 #ffffff08;}
+[data-theme="light"] .stat-box{border-color:#00000015;box-shadow:0 2px 8px #00000010;}
+[data-theme="light"] #rs-brain{border-color:#00000012;background:var(--card-solid);}
+[data-theme="light"] #rs-brain div:last-of-type>div:first-child{background:#00000008;}
+[data-theme="light"] #tp-progress div>div:first-child{background:#00000008;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;display:block;}
+[data-theme="light"] .stat-val{color:var(--gold2);}
+[data-theme="light"] .progress-track{background:#c8c3b8;}
+[data-theme="light"] .timer-num{color:var(--gold2);}
+[data-theme="light"] .choice-pill{background:var(--card-solid);border-color:#0000003a;}
+[data-theme="light"] .word-pill{border-color:#0000003a;}
+.stat-label{font-size:13px;letter-spacing:.01em;color:var(--text-mid);margin-top:6px;display:block;font-weight:400;line-height:1.3;}
+.sep{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:20px auto;}
+
+/* ── GAME CARDS 3×2 ── */
+.game-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:100%;margin-bottom:24px;}
+.game-card{border-radius:14px;border:1px solid var(--border2);padding:22px 18px;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden;background:var(--card-solid);touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.game-card:active{transform:scale(.97);}
+.game-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;pointer-events:none;}
+.gc-word.active  {border-color:var(--gold);   box-shadow:0 0 0 1px var(--gold-glow),   0 14px 48px #c9a84c16;}
+.gc-num.active   {border-color:var(--blue);   box-shadow:0 0 0 1px var(--blue-glow),   0 14px 48px #5b8ef016;}
+.gc-sym.active   {border-color:var(--violet); box-shadow:0 0 0 1px var(--violet-glow), 0 14px 48px #9b6ef016;}
+.gc-grid.active  {border-color:var(--teal);   box-shadow:0 0 0 1px var(--teal-glow),   0 14px 48px #2ec4b616;}
+.gc-miss.active  {border-color:var(--orange); box-shadow:0 0 0 1px var(--orange-glow), 0 14px 48px #e07c3a16;}
+.gc-grow.active  {border-color:var(--rose);   box-shadow:0 0 0 1px var(--rose-glow),   0 14px 48px #c0527a16;}
+.gc-word.active::before  {background:radial-gradient(ellipse 80% 60% at 50% 0%,#c9a84c0a,transparent 70%);opacity:1;}
+.gc-num.active::before   {background:radial-gradient(ellipse 80% 60% at 50% 0%,#5b8ef00a,transparent 70%);opacity:1;}
+.gc-sym.active::before   {background:radial-gradient(ellipse 80% 60% at 50% 0%,#9b6ef00a,transparent 70%);opacity:1;}
+.gc-grid.active::before  {background:radial-gradient(ellipse 80% 60% at 50% 0%,#2ec4b60a,transparent 70%);opacity:1;}
+.gc-miss.active::before  {background:radial-gradient(ellipse 80% 60% at 50% 0%,#e07c3a0a,transparent 70%);opacity:1;}
+.gc-grow.active::before  {background:radial-gradient(ellipse 80% 60% at 50% 0%,#c0527a0a,transparent 70%);opacity:1;}
+.gc-icon{font-size:30px;margin-bottom:12px;display:block;}
+.gc-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:5px;}
+.gc-word .gc-title{color:var(--gold2);}
+.gc-num  .gc-title{color:var(--blue2);}
+.gc-sym  .gc-title{color:var(--violet2);}
+.gc-grid .gc-title{color:var(--teal2);}
+.gc-miss .gc-title{color:var(--orange2);}
+.gc-grow .gc-title{color:var(--rose2);}
+.gc-desc{font-size:15px;color:var(--text-mid);line-height:1.55;margin-bottom:10px;}
+.gc-tag{display:inline-block;font-size:12px;letter-spacing:.07em;text-transform:uppercase;padding:6px 14px;border-radius:100px;border:1px solid;font-weight:500;}
+.gc-word .gc-tag{border-color:var(--gold-glow);color:var(--gold);background:var(--gold-dim);}
+.gc-num  .gc-tag{border-color:var(--blue-glow);color:var(--blue2);background:var(--blue-dim);}
+.gc-sym  .gc-tag{border-color:var(--violet-glow);color:var(--violet2);background:var(--violet-dim);}
+.gc-grid .gc-tag{border-color:var(--teal-glow);color:var(--teal2);background:var(--teal-dim);}
+.gc-miss .gc-tag{border-color:var(--orange-glow);color:var(--orange2);background:var(--orange-dim);}
+.gc-grow .gc-tag{border-color:var(--rose-glow);color:var(--rose2);background:var(--rose-dim);}
+
+/* ── ORANGE / ROSE BUTTONS ── */
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#1a0e06;box-shadow:0 8px 26px var(--orange-glow);}
+.btn-rose  {background:linear-gradient(135deg,var(--rose),var(--rose2));  color:#1a0610;box-shadow:0 8px 26px var(--rose-glow);}
+.fill-orange{background:linear-gradient(90deg,var(--orange),var(--orange2));}
+.fill-rose  {background:linear-gradient(90deg,var(--rose),var(--rose2));}
+@media(hover:hover){
+  .btn-orange:hover{transform:translateY(-2px);box-shadow:0 14px 38px #e07c3a66;}
+  .btn-rose:hover  {transform:translateY(-2px);box-shadow:0 14px 38px #c0527a66;}
+}
+
+/* ── DIFF ── */
+.diff-row{display:flex;gap:8px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+.diff-btn{padding:12px 26px;min-height:52px;border:1px solid var(--border2);border-radius:100px;background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.diff-btn:active{transform:scale(.94);}
+.diff-btn.active{background:var(--gold);border-color:var(--gold2);color:#090b11;box-shadow:0 4px 16px var(--gold-glow);font-weight:600;}
+@media(hover:hover){.diff-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:17px 36px;min-height:58px;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.btn-gold  {background:linear-gradient(135deg,var(--gold),var(--gold2));     color:#090b11;box-shadow:0 8px 26px var(--gold-glow);}
+.btn-blue  {background:linear-gradient(135deg,var(--blue),var(--blue2));     color:#090b11;box-shadow:0 8px 26px var(--blue-glow);}
+.btn-violet{background:linear-gradient(135deg,var(--violet),var(--violet2)); color:#090b11;box-shadow:0 8px 26px var(--violet-glow);}
+.btn-teal  {background:linear-gradient(135deg,var(--teal),var(--teal2));     color:#090b11;box-shadow:0 8px 26px var(--teal-glow);}
+@media(hover:hover){
+  .btn-gold:hover  {transform:translateY(-2px);box-shadow:0 14px 38px #c9a84c66;}
+  .btn-blue:hover  {transform:translateY(-2px);box-shadow:0 14px 38px #5b8ef066;}
+  .btn-violet:hover{transform:translateY(-2px);box-shadow:0 14px 38px #9b6ef066;}
+  .btn-teal:hover  {transform:translateY(-2px);box-shadow:0 14px 38px #2ec4b666;}
+  .btn-ghost:hover{color:var(--text);}
+  .game-card:hover{transform:translateY(-3px);}
+}
+.btn:active{transform:scale(.95)!important;opacity:.88;}
+.btn-ghost{background:var(--card-solid);color:var(--text-mid);border:1px solid var(--border2);}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:22px;}
+
+/* ── SCREEN HEADERS ── */
+.screen-eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid);text-align:center;margin-bottom:6px;font-weight:500;}
+.screen-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,38px);font-weight:400;text-align:center;margin-bottom:6px;}
+.screen-sub{font-size:16px;color:var(--text-mid);text-align:center;margin-bottom:22px;line-height:1.5;}
+
+/* ── TIMER / PROGRESS ── */
+.timer-wrap{text-align:center;margin:8px 0;}
+.timer-num{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;color:var(--gold2);line-height:1;display:block;transition:color .3s;}
+.timer-num.urgent{color:var(--red);animation:pulse .5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.timer-label{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mid);font-weight:500;}
+.progress-track{width:100%;height:3px;background:#0d101a;border-radius:99px;overflow:hidden;margin:10px 0 4px;}
+.progress-fill{height:100%;border-radius:99px;transition:width 1s linear;}
+.fill-gold  {background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.fill-blue  {background:linear-gradient(90deg,var(--blue),var(--blue2));}
+.fill-violet{background:linear-gradient(90deg,var(--violet),var(--violet2));}
+.fill-teal  {background:linear-gradient(90deg,var(--teal),var(--teal2));}
+
+/* ════ WORD GAME ════ */
+.word-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0;min-height:80px;}
+.word-pill{padding:10px 22px;border:1px solid var(--border2);border-radius:100px;background:var(--card-solid);font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);animation:pop .4s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--delay);}
+.word-pill.fade-out{animation:fadeOut .35s ease both;animation-delay:var(--out-delay);}
+.choice-pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;background:var(--num-bg);border-radius:12px;border:1px solid var(--border);margin-bottom:8px;}
+.choice-pill{padding:10px 18px;min-height:44px;border:1px solid var(--border2);border-radius:100px;background:transparent;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text);cursor:pointer;transition:all .17s;animation:pop .3s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--delay);touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.choice-pill:active:not(.used){border-color:var(--gold);color:var(--gold2);transform:scale(.96);}
+@media(hover:hover){.choice-pill:hover:not(.used){border-color:var(--gold);color:var(--gold2);transform:translateY(-2px);}}
+.choice-pill.used{opacity:.2;pointer-events:none;}
+.answer-area{min-height:60px;padding:12px;background:var(--num-bg);border-radius:12px;border:1px dashed var(--border2);display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px;}
+.answer-pill{padding:10px 18px;min-height:44px;border:1px solid var(--gold);border-radius:100px;background:var(--gold-dim);font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold2);cursor:pointer;transition:all .17s;animation:pop .3s cubic-bezier(.34,1.56,.64,1) both;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.answer-pill:active{background:#c9a84c44;transform:scale(.96);}
+@media(hover:hover){.answer-pill:hover{background:#c9a84c44;}}
+.answer-empty{font-size:13px;color:var(--text-dim);margin:auto;}
+
+/* ════ NUMBER CHAIN ════ */
+.num-stage{display:flex;align-items:center;justify-content:center;min-height:160px;margin:14px 0;}
+.num-flash{font-family:'DM Mono',monospace;font-size:clamp(60px,15vw,112px);font-weight:300;color:var(--blue2);letter-spacing:-.02em;text-align:center;animation:pop .22s cubic-bezier(.34,1.56,.64,1) both;text-shadow:0 0 60px #5b8ef044;}
+.num-flash.out{animation:numOut .18s ease both;}
+@keyframes numOut{to{opacity:0;transform:scale(1.1);}}
+.seq-progress{display:flex;gap:5px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;}
+.seq-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);transition:all .3s;}
+.seq-dot.done{background:var(--blue);box-shadow:0 0 8px var(--blue);}
+.seq-dot.cur {background:var(--blue2);transform:scale(1.5);box-shadow:0 0 16px var(--blue2);}
+.num-slots{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:16px 0;}
+.num-slot{width:clamp(40px,11vw,54px);height:clamp(52px,13vw,66px);border:2px solid var(--border2);border-radius:12px;background:var(--num-bg);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:clamp(18px,5vw,26px);color:var(--blue2);transition:all .2s;position:relative;}
+.num-slot.active{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-dim),0 0 18px var(--blue-dim);}
+.num-slot.filled{border-color:var(--blue-glow);background:var(--blue-dim);}
+.num-slot.correct{border-color:var(--green);background:#4caf8a18;color:var(--green);}
+.num-slot.wrong  {border-color:var(--red);background:#d9606018;color:var(--red);}
+.cursor-blink{position:absolute;width:2px;height:28px;background:var(--blue2);animation:blink .8s infinite;}
+@keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;width:100%;max-width:280px;margin:0 auto 16px;}
+.num-key{padding:0;height:clamp(52px,13vw,64px);border:1px solid var(--border2);border-radius:12px;background:var(--card-solid);font-family:'DM Mono',monospace;font-size:clamp(18px,5vw,21px);color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .1s;text-align:center;user-select:none;-webkit-user-select:none;touch-action:manipulation;display:flex;align-items:center;justify-content:center;}
+.num-key:active{background:var(--blue-dim);border-color:var(--blue);color:var(--blue2);transform:scale(.92);}
+@media(hover:hover){.num-key:hover{border-color:var(--blue);color:var(--blue2);background:var(--blue-dim);}}
+.num-key.del{font-size:clamp(14px,4vw,16px);color:var(--text-dim);}
+.num-key.del:active{background:#d9606014;border-color:var(--red);color:var(--red);}
+
+/* ════ SYMBOL / SPOT THE SWAP ════ */
+.sym-compare-wrap{display:flex;align-items:flex-start;justify-content:center;gap:14px;margin:16px 0;width:100%;}
+.sym-compare-col{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;min-width:0;}
+.sym-compare-divider{font-size:22px;color:var(--text-dim);padding-top:40px;flex-shrink:0;}
+.sym-phase-label{font-size:12px;letter-spacing:.11em;text-transform:uppercase;padding:5px 14px;border-radius:100px;border:1px solid;display:inline-block;white-space:nowrap;font-weight:500;}
+.sym-label-orig{border-color:var(--border2);color:var(--text-dim);background:transparent;}
+.sym-label-new {border-color:var(--violet-glow);color:var(--violet2);background:var(--violet-dim);}
+.sym-grid{display:grid;gap:6px;width:100%;}
+.sym-cell{border:1px solid var(--border2);border-radius:9px;background:var(--card-solid);display:flex;align-items:center;justify-content:center;font-size:clamp(16px,3.5vw,26px);cursor:default;transition:background .2s,border-color .2s,transform .15s,color .2s;aspect-ratio:1;user-select:none;-webkit-user-select:none;min-height:40px;}
+.sym-cell.orig-cell{opacity:.55;border-color:var(--border);}
+.sym-cell.selectable{cursor:pointer;touch-action:manipulation;}
+.sym-cell.selectable:active{border-color:var(--violet);background:var(--violet-dim);transform:scale(.93);color:var(--violet2);}
+@media(hover:hover){.sym-cell.selectable:hover{border-color:var(--violet);background:var(--violet-dim);transform:scale(1.06);}}
+.sym-cell.selected{border-color:var(--violet);background:var(--violet-dim);box-shadow:0 0 0 1px var(--violet-glow);color:var(--violet2);}
+.sym-cell.reveal-correct{border-color:var(--green)!important;background:#4caf8a18!important;color:var(--green)!important;transform:scale(1.06)!important;}
+.sym-cell.reveal-wrong  {border-color:var(--red)!important;background:#d9606018!important;color:var(--red)!important;}
+.sym-cell.reveal-missed {border-color:var(--gold)!important;background:var(--gold-dim)!important;color:var(--gold2)!important;animation:missedPulse .5s ease;}
+@keyframes missedPulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
+
+/* ════ MISSING WORD ════ */
+.mw-sentence{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,4.5vw,30px);line-height:1.65;text-align:center;padding:18px 8px;color:var(--text);}
+.mw-blank{display:inline-block;min-width:100px;border-bottom:2px solid var(--orange);color:var(--orange2);font-style:italic;padding:0 8px;position:relative;}
+.mw-blank::after{content:'?';opacity:.5;}
+.mw-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;}
+.mw-choice{padding:16px 20px;border:1px solid var(--border2);border-radius:14px;background:var(--card-solid);font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);text-align:center;cursor:pointer;transition:all .18s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.mw-choice:active{transform:scale(.96);}
+@media(hover:hover){.mw-choice:hover{border-color:var(--orange);color:var(--orange2);background:var(--orange-dim);}}
+.mw-choice.selected{border-color:var(--orange);color:var(--orange2);background:var(--orange-dim);box-shadow:0 0 0 1px var(--orange-glow);}
+.mw-choice.reveal-correct{border-color:var(--green)!important;background:#4caf8a18!important;color:var(--green)!important;}
+.mw-choice.reveal-wrong  {border-color:var(--red)!important;background:#d9606018!important;color:var(--red)!important;}
+.mw-choice.reveal-missed {border-color:var(--gold)!important;background:var(--gold-dim)!important;color:var(--gold2)!important;}
+.mw-progress{font-size:13px;color:var(--text-mid);text-align:center;margin-top:10px;letter-spacing:.06em;font-weight:500;}
+
+/* ════ GROWING LIST ════ */
+.gl-list-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:16px 0;min-height:60px;}
+.gl-item{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--text);animation:pop .4s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--delay);}
+.gl-item.gl-new{color:var(--rose2);}
+.gl-recall-wrap{display:flex;flex-direction:column;gap:9px;margin:12px 0;width:100%;}
+.gl-slot{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border2);border-radius:12px;background:var(--card-solid);}
+.gl-slot-num{font-family:'DM Mono',monospace;font-size:13px;color:var(--text-dim);min-width:20px;font-weight:500;}
+.gl-slot-choices{display:flex;flex-wrap:wrap;gap:7px;flex:1;}
+.gl-chip{padding:8px 16px;border:1px solid var(--border2);border-radius:100px;background:transparent;font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--text);cursor:pointer;transition:all .15s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.gl-chip:active{transform:scale(.95);}
+@media(hover:hover){.gl-chip:hover{border-color:var(--rose);color:var(--rose2);background:var(--rose-dim);}}
+.gl-chip.selected{border-color:var(--rose);color:var(--rose2);background:var(--rose-dim);box-shadow:0 0 0 1px var(--rose-glow);}
+.gl-chip.reveal-correct{border-color:var(--green)!important;background:#4caf8a18!important;color:var(--green)!important;}
+.gl-chip.reveal-wrong  {border-color:var(--red)!important;background:#d9606018!important;color:var(--red)!important;}
+.gl-chip.reveal-missed {border-color:var(--gold)!important;background:var(--gold-dim)!important;color:var(--gold2)!important;}
+.mem-grid-wrap{display:flex;justify-content:center;margin:18px 0;}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:320px;width:100%;}
+.mem-cell{aspect-ratio:1;border:1px solid var(--border2);border-radius:10px;background:var(--card-solid);cursor:default;transition:background .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;}
+.mem-cell::after{content:'';position:absolute;inset:0;border-radius:9px;opacity:0;transition:opacity .25s;}
+.mem-cell.lit{background:var(--teal-dim);border-color:var(--teal);box-shadow:0 0 18px var(--teal-dim);}
+.mem-cell.lit::after{background:radial-gradient(circle,var(--teal2) 0%,transparent 70%);opacity:.25;}
+.mem-cell.selectable{cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.mem-cell.selectable:active:not(.chosen){background:var(--teal-dim);border-color:var(--teal);}
+@media(hover:hover){.mem-cell.selectable:hover:not(.chosen){border-color:var(--teal-glow);background:#131b1a;}}
+.mem-cell.chosen{background:var(--teal-dim);border-color:var(--teal);box-shadow:0 0 14px var(--teal-dim);}
+.mem-cell.chosen::after{background:radial-gradient(circle,var(--teal2) 0%,transparent 70%);opacity:.2;}
+.mem-cell.reveal-correct{background:#4caf8a18!important;border-color:var(--green)!important;box-shadow:0 0 14px #4caf8a44!important;}
+.mem-cell.reveal-wrong  {background:#d9606018!important;border-color:var(--red)!important;}
+.mem-cell.reveal-missed {background:var(--teal-dim)!important;border-color:var(--teal)!important;opacity:.6;}
+.mem-pulse{animation:memPulse .6s ease;}
+@keyframes memPulse{0%{transform:scale(.9);opacity:.5;}60%{transform:scale(1.05);}100%{transform:scale(1);opacity:1;}}
+
+/* ════ RESULTS ════ */
+.result-score{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,18vw,84px);font-weight:400;line-height:1;text-align:center;margin:10px 0;}
+.result-score .pct{color:var(--gold2);}
+.result-score .sym-r{font-size:clamp(26px,8vw,36px);color:var(--text-mid);vertical-align:super;}
+.result-message{font-family:'Cormorant Garamond',serif;font-size:clamp(19px,4.5vw,24px);font-style:italic;text-align:center;color:var(--text-mid);margin-bottom:6px;}
+.result-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;}
+.result-word{padding:6px 16px;border-radius:100px;font-family:'Cormorant Garamond',serif;font-size:18px;border:1px solid;}
+.result-word.correct{border-color:var(--green);color:var(--green);background:#4caf8a14;}
+.result-word.missed {border-color:var(--red);color:var(--red);background:#d9606014;}
+.result-word.extra  {border-color:var(--text-dim);color:var(--text-mid);}
+.result-seq-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:14px 0;}
+.result-seq-num{width:clamp(44px,10vw,54px);height:clamp(52px,12vw,64px);border-radius:9px;border:1px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:clamp(17px,4.5vw,22px);}
+.rn-given{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-top:3px;}
+.result-seq-num.correct{border-color:var(--green);color:var(--green);background:#4caf8a14;}
+.result-seq-num.wrong  {border-color:var(--red);color:var(--red);background:#d9606014;}
+.result-seq-num.empty  {border-color:var(--text-dim);color:var(--text-mid);}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;width:100%;margin-top:14px;}
+
+/* ── SHARED ANIMS ── */
+@keyframes pop{from{opacity:0;transform:scale(.78) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes fadeOut{to{opacity:0;transform:scale(.9) translateY(-8px);}}
+.confetti-piece{position:fixed;border-radius:2px;opacity:0;pointer-events:none;z-index:999;animation:confettiFall 1.2s ease forwards;}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0);}100%{opacity:0;transform:translateY(80vh) rotate(720deg);}}
+
+footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;padding-bottom:max(12px,env(safe-area-inset-bottom,0px));font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-mid);z-index:2;background:linear-gradient(to top,var(--bg) 55%,transparent);}
+
+@media(max-width:640px){
+  .game-cards{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:520px){
+  .game-cards{grid-template-columns:1fr 1fr;}
+  .home-stats{grid-template-columns:repeat(4,1fr);}
+  .card{padding:20px 14px;}
+  .mem-grid{max-width:270px;}
+  .sym-compare-wrap{gap:8px;}
+  .sym-compare-divider{font-size:16px;padding-top:34px;}
+  .sym-cell{font-size:15px!important;min-height:36px;}
+  .tagline{margin-bottom:24px;}
+  .screen-sub{font-size:15px;margin-bottom:16px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .btn-row{gap:9px;}
+  .numpad{max-width:260px;}
+  .gc-desc{font-size:13px;}
+  .mw-choices{grid-template-columns:1fr 1fr;}
+  .mw-choice{font-size:19px;padding:13px 14px;}
+}
+@media(max-width:400px){
+  /* Stack sym grids vertically on very small phones */
+  .sym-compare-wrap{flex-direction:column;align-items:center;gap:12px;}
+  .sym-compare-divider{display:none;}
+  .sym-compare-col{width:100%;max-width:220px;}
+  .sym-label-orig::before{content:'① ';}
+  .sym-label-new::before{content:'② ';}
+  .game-cards{grid-template-columns:1fr 1fr;}
+  .card{padding:18px 12px;}
+  .logo{font-size:38px;}
+}
+@media(max-width:360px){
+  .game-cards{grid-template-columns:1fr;}
+  .home-stats{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ── LIME (Pair Match) ── */
+.gc-lime.active  {border-color:var(--lime);   box-shadow:0 0 0 1px var(--lime-glow),   0 14px 48px #6bba3b16;}
+.gc-lime.active::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,#6bba3b0a,transparent 70%);opacity:1;}
+.gc-lime .gc-title{color:var(--lime2);}
+.gc-lime .gc-tag{border-color:var(--lime-glow);color:var(--lime);background:var(--lime-dim);}
+.btn-lime{background:linear-gradient(135deg,var(--lime),var(--lime2));color:#090b11;box-shadow:0 8px 26px var(--lime-glow);}
+@media(hover:hover){.btn-lime:hover{transform:translateY(-2px);box-shadow:0 14px 38px #6bba3b66;}}
+.fill-lime{background:linear-gradient(90deg,var(--lime),var(--lime2));}
+
+/* ── PER-GAME PERSONAL BEST on cards ── */
+.gc-best{display:block;font-size:11px;color:var(--text-dim);margin-top:7px;letter-spacing:.04em;min-height:14px;}
+
+/* ── VAULT LEVEL BADGE ── */
+#vault-badge{display:flex;align-items:center;gap:8px;padding:6px 16px;background:var(--card-solid);border:1px solid var(--border2);border-radius:100px;font-size:12px;color:var(--text-mid);margin-bottom:10px;letter-spacing:.06em;align-self:center;}
+
+/* ── DAILY CHALLENGE CARD ── */
+.daily-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:4px;}
+
+/* ════ PAIR MATCH ════ */
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+.pair-card{border:1px solid var(--border2);border-radius:12px;padding:13px 10px;background:var(--card-solid);display:flex;align-items:center;justify-content:center;gap:6px;animation:pop .4s cubic-bezier(.34,1.56,.64,1) both;animation-delay:var(--delay);}
+.pair-word{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--text);}
+.pair-arrow{font-size:13px;color:var(--lime);font-weight:bold;flex-shrink:0;}
+.pair-target{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,10vw,54px);font-weight:600;color:var(--lime2);text-align:center;padding:20px 0 12px;text-shadow:0 0 30px var(--lime-glow);}
+.pair-recall-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.pair-choice{padding:16px 18px;border:1px solid var(--border2);border-radius:14px;background:var(--card-solid);font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);text-align:center;cursor:pointer;transition:all .18s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+.pair-choice:active{transform:scale(.96);}
+@media(hover:hover){.pair-choice:hover{border-color:var(--lime);color:var(--lime2);background:var(--lime-dim);}}
+.pair-choice.selected{border-color:var(--lime);color:var(--lime2);background:var(--lime-dim);}
+.pair-choice.reveal-correct{border-color:var(--green)!important;background:#4caf8a18!important;color:var(--green)!important;}
+.pair-choice.reveal-wrong  {border-color:var(--red)!important;background:#d9606018!important;color:var(--red)!important;}
+.pair-choice.reveal-missed {border-color:var(--gold)!important;background:var(--gold-dim)!important;color:var(--gold2)!important;}
+@media(max-width:400px){.pair-grid{grid-template-columns:1fr;}.pair-card{padding:11px 10px;}}
+
+/* ── COMFORT MODE BUTTON ── */
+#comfort-btn{position:fixed;top:18px;right:70px;z-index:100;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--card-solid);color:var(--text-mid);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;touch-action:manipulation;backdrop-filter:blur(12px);}
+#comfort-btn:hover{border-color:var(--gold);color:var(--gold2);}
+#comfort-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}
+
+/* ── COMFORT MODE OVERRIDES ── */
+[data-comfort="true"] .gc-desc{font-size:17px!important;}
+[data-comfort="true"] .gc-tag{font-size:14px!important;padding:8px 16px!important;}
+[data-comfort="true"] .gc-title{font-size:28px!important;}
+[data-comfort="true"] .diff-btn{font-size:17px!important;min-height:58px!important;padding:14px 30px!important;}
+[data-comfort="true"] .btn{font-size:18px!important;min-height:64px!important;}
+[data-comfort="true"] .stat-val{font-size:30px!important;}
+[data-comfort="true"] .stat-label{font-size:15px!important;}
+[data-comfort="true"] .tp-name{font-size:22px!important;}
+[data-comfort="true"] .tp-outcome{font-size:15px!important;}
+[data-comfort="true"] .screen-sub{font-size:17px!important;}
+[data-comfort="true"] #starfield{opacity:0!important;}
+[data-comfort="true"]:not([data-theme="light"]){--text-mid:#b0ac9e;--text:#f5f1ea;}
+
+/* ── TODAY'S PLAN ── */
+.tp-list{display:flex;flex-direction:column;gap:9px;margin:4px 0 16px;}
+.tp-row{display:flex;align-items:center;gap:12px;padding:15px 16px;border:1px solid var(--border2);border-radius:14px;background:var(--card-solid);cursor:pointer;transition:all .2s;touch-action:manipulation;-webkit-user-select:none;user-select:none;min-height:68px;}
+.tp-row:active{transform:scale(.98);}
+@media(hover:hover){.tp-row:hover{border-color:var(--gold-glow);}}
+.tp-icon{font-size:22px;flex-shrink:0;width:34px;text-align:center;}
+.tp-info{flex:1;min-width:0;}
+.tp-name{display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--text);line-height:1.15;}
+.tp-outcome{display:block;font-size:13px;color:var(--text-mid);margin-top:3px;line-height:1.4;}
+.tp-time{font-size:12px;color:var(--text-dim);letter-spacing:.04em;flex-shrink:0;padding:4px 10px;border:1px solid var(--border);border-radius:100px;}
+.tp-arrow{font-size:18px;color:var(--text-dim);flex-shrink:0;margin-left:2px;}
+.tp-done{opacity:.55;pointer-events:none;}
+.tp-done .tp-icon{color:var(--green);}
+
+/* ── EXERCISES TOGGLE LINK ── */
+#exercises-link{display:block;width:100%;text-align:center;font-size:14px;color:var(--text-mid);background:none;border:none;cursor:pointer;padding:10px 0 4px;letter-spacing:.03em;transition:color .18s;font-family:'DM Sans',sans-serif;}
+#exercises-link:hover{color:var(--gold2);}
+
+/* ── GAME TIME BADGE ── */
+.gc-time{display:inline-block;font-size:11px;color:var(--text-dim);padding:3px 10px;border:1px solid var(--border);border-radius:100px;margin-top:8px;letter-spacing:.04em;}
+
+/* ── START BUTTON AREA ── */
+.start-area{text-align:center;margin-top:10px;}
+.start-sub{font-size:14px;color:var(--text-mid);margin-top:10px;line-height:1.5;}
+.start-reassurance{font-size:12px;color:var(--text-dim);margin-top:14px;line-height:1.6;letter-spacing:.01em;}
+
+/* ── HOME SECTION HEADER ── */
+.section-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid);margin-bottom:12px;font-weight:500;}
+</style>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<!-- User / Auth button -->
+<button id="user-btn" onclick="openAuth()">
+  <span class="ub-icon">👤</span>
+  <span class="ub-label" id="ub-label">Sign In</span>
+</button>
+
+<button id="comfort-btn" onclick="toggleComfortMode()" title="Comfort mode — larger text">Aa</button>
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+
+<!-- Auth Modal -->
+<div class="auth-overlay" id="auth-overlay" style="display:none">
+  <div class="auth-card">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <h2>Recall <em style="color:var(--gold);font-style:italic">Better</em></h2>
+    <p>Sync your progress across all devices</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+    <!-- Login form -->
+    <div id="form-login">
+      <input class="auth-input" id="li-email" type="email" placeholder="Email address" autocomplete="email">
+      <input class="auth-input" id="li-pass" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="btn btn-gold auth-submit" onclick="authLogin()">Sign In ✦</button>
+      <div style="text-align:center;margin-top:12px;"><a href="#" onclick="showForgotPassword();return false;" style="font-size:12px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--text-dim)'">Forgot password?</a></div>
+    </div>
+    <!-- Register form -->
+    <div id="form-register" style="display:none">
+      <input class="auth-input" id="rg-email" type="email" placeholder="Email address" autocomplete="email">
+      <input class="auth-input" id="rg-pass" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password">
+      <button class="btn btn-gold auth-submit" onclick="authRegister()">Create Account ✦</button>
+    </div>
+    <div class="auth-err" id="auth-err"></div>
+    <div class="auth-divider" id="auth-skip"><a href="#" onclick="closeAuth();return false;" style="color:var(--text-dim);">Continue without account →</a></div>
+  </div>
+</div>
+
+<div class="auth-overlay" id="pro-overlay" style="display:none">
+  <div class="auth-card" style="text-align:center;max-width:420px;">
+    <button class="auth-close" onclick="closeProModal()">×</button>
+    <h2 style="margin-bottom:8px;">Unlock Expert Training</h2>
+    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Hard and Expert modes plus full score history — 7 days free.</p>
+    <div id="pro-plans" style="display:flex;gap:10px;margin-bottom:16px;">
+      <div onclick="selectProPlan('monthly')" id="plan-monthly" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--border2);border-radius:14px;cursor:pointer;transition:border-color .2s;">
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Monthly</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text-main);">$7.99<span style="font-size:13px;font-weight:400;color:var(--text-dim);">/mo</span></div>
+      </div>
+      <div onclick="selectProPlan('annual')" id="plan-annual" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--gold);border-radius:14px;cursor:pointer;position:relative;transition:border-color .2s;">
+        <div style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--gold2);color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase;">Best value</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Annual</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text-main);">$49<span style="font-size:13px;font-weight:400;color:var(--text-dim);">/yr</span></div>
+        <div style="font-size:11px;color:var(--gold2);margin-top:2px;">$4.08/mo — save 49%</div>
+      </div>
+    </div>
+    <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Start 7-day free trial →</button>
+    <div id="pro-err" style="color:#c44;font-size:13px;min-height:18px;margin-bottom:4px;"></div>
+    <div class="auth-divider"><a href="#" onclick="closeProModal();return false;" style="color:var(--text-dim);">Maybe later</a></div>
+  </div>
+</div>
+
+<!-- Email capture modal (first-time visitors) -->
+<div class="auth-overlay" id="capture-overlay" style="display:none">
+  <div class="auth-card" style="text-align:center;">
+    <button class="auth-close" onclick="closeCaptureModal()">×</button>
+    <h2 style="margin-bottom:8px;">Save your score</h2>
+    <div id="cap-score" style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:400;color:var(--gold2);line-height:1;margin:12px 0 6px;"></div>
+    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Create a free account to track your streak and come back tomorrow — takes 10 seconds.</p>
+    <input class="auth-input" id="cap-email" type="email" placeholder="Email address" autocomplete="email">
+    <button class="btn btn-gold auth-submit" id="cap-submit" onclick="submitCapture()" style="width:100%;">Save my score →</button>
+    <div class="auth-err" id="cap-err" style="min-height:20px;"></div>
+    <div id="cap-success" style="display:none;padding:12px 16px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:12px;font-size:13px;color:var(--gold2);margin-top:8px;">Check your email! We'll remind you to train tomorrow.</div>
+    <div class="auth-divider"><a href="#" onclick="closeCaptureModal();return false;" style="color:var(--text-dim);">Continue without saving</a></div>
+  </div>
+</div>
+
+<div id="app">
+
+<!-- ══════ HOME ══════ -->
+<div id="screen-home" class="screen active">
+  <div class="logo">Recall <em>Better</em></div>
+  <div class="tagline">Daily Memory Training</div>
+  <div id="streak-badge" class="streak-badge">🔥 <span id="streak-num">0</span> Day Streak</div>
+  <div id="vault-badge"><span id="vault-level-num" style="color:var(--gold2);font-weight:600;">Level 1</span><span style="color:var(--border2);">·</span><span id="vault-level-name">Novice</span></div>
+
+  <!-- Welcome back banner -->
+  <div id="comeback-banner" style="display:none;width:100%;max-width:520px;margin-bottom:10px;padding:12px 18px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:14px;position:relative;text-align:center;">
+    <button onclick="dismissComebackBanner()" style="position:absolute;top:6px;right:10px;background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:4px;">×</button>
+    <span id="comeback-text" style="font-size:14px;color:var(--gold2);font-weight:500;"></span>
+  </div>
+
+  <!-- Daily Challenge -->
+  <div id="daily-card" class="card" style="padding:18px 22px;margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div style="flex:1;min-width:0;">
+        <div class="daily-label">Today's Challenge</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--text);line-height:1.2;" id="dc-game-name">—</div>
+        <div style="font-size:12px;color:var(--text-mid);margin-top:3px;" id="dc-meta">—</div>
+      </div>
+      <div id="dc-done" style="display:none;text-align:center;flex-shrink:0;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold2);line-height:1;" id="dc-score">—</div>
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-top:2px;">Done ✓</div>
+      </div>
+      <button id="dc-btn" class="btn btn-gold" onclick="launchDailyChallenge()" style="flex-shrink:0;padding:12px 20px;font-size:13px;min-height:44px;letter-spacing:.04em;">Go ✦</button>
+    </div>
+    <div id="dc-share" style="display:none;margin-top:14px;border-top:1px solid var(--border2);padding-top:12px;">
+      <button class="btn btn-ghost" onclick="shareDaily()" style="width:100%;padding:10px 20px;font-size:13px;min-height:40px;">Share Today's Result →</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="home-stats">
+      <div class="stat-box"><span class="stat-val" id="hm-today" style="font-size:20px;">—</span><span class="stat-label">Today</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-streak">0</span><span class="stat-label">Day streak</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-week">0/7</span><span class="stat-label">Days this week</span></div>
+      <div class="stat-box"><span class="stat-val" id="hm-focus" style="font-size:17px;">—</span><span class="stat-label" id="hm-focus-label">Progress</span></div>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="section-label" style="text-align:center;">Today's Plan</div>
+    <div id="tp-progress" style="display:none;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+        <span id="tp-prog-text" style="font-size:12px;color:var(--text-dim);font-weight:500;letter-spacing:.03em;"></span>
+      </div>
+      <div style="width:100%;height:4px;background:#ffffff12;border-radius:4px;overflow:hidden;">
+        <div id="tp-prog-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .4s ease;width:0;"></div>
+      </div>
+    </div>
+    <div class="tp-list" id="todays-plan"><!-- rendered by JS --></div>
+
+    <div class="sep"></div>
+
+    <div class="section-label" style="text-align:center;margin-bottom:11px;">Difficulty</div>
+    <div class="diff-row">
+      <button class="diff-btn active" data-diff="easy">Easy</button>
+      <button class="diff-btn" data-diff="medium">Medium</button>
+      <button class="diff-btn" data-diff="hard">Hard</button>
+      <button class="diff-btn" data-diff="expert">Expert</button>
+    </div>
+    <div class="start-area">
+      <button id="start-btn" class="btn btn-gold" onclick="startGame()" style="width:100%;font-size:17px;min-height:62px;padding:18px 28px;letter-spacing:.03em;text-transform:none;">Start today's 7-minute session ✦</button>
+      <div class="start-sub">No timer pressure — stop anytime.</div>
+      <button class="btn btn-ghost" onclick="startQuickSession()" style="margin-top:12px;font-size:14px;padding:13px 30px;min-height:50px;letter-spacing:.02em;text-transform:none;">Quick 2-minute session →</button>
+      <div class="start-reassurance">Evidence-aligned cognitive training · Not medical advice</div>
+    </div>
+
+    <div class="sep"></div>
+    <div class="section-label" style="text-align:center;margin-bottom:12px;">All 7 Games</div>
+    <div class="game-cards">
+      <div class="game-card gc-word active" id="card-word" onclick="selectGame('word')">
+        <span class="gc-icon">✦</span>
+        <div class="gc-title">Word Recall</div>
+        <div class="gc-desc">Remember names and vocabulary faster</div>
+        <span class="gc-tag">Lexical Memory</span>
+        <span class="gc-time">~2 min</span>
+        <span class="gc-best" id="best-word"></span>
+      </div>
+      <div class="game-card gc-num" id="card-num" onclick="selectGame('sequence')">
+        <span class="gc-icon">◈</span>
+        <div class="gc-title">Number Chain</div>
+        <div class="gc-desc">Hold numbers, PINs and steps in mind</div>
+        <span class="gc-tag">Sequential Memory</span>
+        <span class="gc-time">~2 min</span>
+        <span class="gc-best" id="best-num"></span>
+      </div>
+      <div class="game-card gc-sym" id="card-sym" onclick="selectGame('symbol')">
+        <span class="gc-icon">⬡</span>
+        <div class="gc-title">Spot the Swap</div>
+        <div class="gc-desc">Catch changes — train sharp visual attention</div>
+        <span class="gc-tag">Visual Comparison</span>
+        <span class="gc-time">~2 min</span>
+        <span class="gc-best" id="best-sym"></span>
+      </div>
+      <div class="game-card gc-grid" id="card-grid" onclick="selectGame('gridmem')">
+        <span class="gc-icon">▦</span>
+        <div class="gc-title">Grid Memory</div>
+        <div class="gc-desc">Remember layouts, patterns and arrangements</div>
+        <span class="gc-tag">Spatial Memory</span>
+        <span class="gc-time">~2 min</span>
+        <span class="gc-best" id="best-grid"></span>
+      </div>
+      <div class="game-card gc-miss" id="card-miss" onclick="selectGame('missing')">
+        <span class="gc-icon">✎</span>
+        <div class="gc-title">Missing Word</div>
+        <div class="gc-desc">Read with deeper comprehension and recall</div>
+        <span class="gc-tag">Reading Memory</span>
+        <span class="gc-time">~2 min</span>
+        <span class="gc-best" id="best-miss"></span>
+      </div>
+      <div class="game-card gc-grow" id="card-grow" onclick="selectGame('growing')">
+        <span class="gc-icon">✦✦</span>
+        <div class="gc-title">Growing List</div>
+        <div class="gc-desc">Expand your short-term memory capacity</div>
+        <span class="gc-tag">Working Memory</span>
+        <span class="gc-time">~3 min</span>
+        <span class="gc-best" id="best-grow"></span>
+      </div>
+      <div class="game-card gc-lime" id="card-pair" onclick="selectGame('pairs')">
+        <span class="gc-icon">⟷</span>
+        <div class="gc-title">Pair Match</div>
+        <div class="gc-desc">Connect names to faces and link related facts</div>
+        <span class="gc-tag">Associative Memory</span>
+        <span class="gc-time">~2 min</span>
+        <span class="gc-best" id="best-pair"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ WORD: MEMORIZE ══════ -->
+<div id="screen-word-mem" class="screen">
+  <div class="screen-eyebrow" id="wm-eyebrow">Word Recall · Round 1</div>
+  <div class="screen-title">Memorise these words</div>
+  <div class="screen-sub">Study carefully — they vanish soon</div>
+  <div class="card">
+    <div class="timer-wrap"><span class="timer-num" id="wm-timer">8</span><span class="timer-label">seconds remaining</span></div>
+    <div class="progress-track"><div class="progress-fill fill-gold" id="wm-prog" style="width:100%"></div></div>
+    <div class="word-grid" id="wm-grid"></div>
+  </div>
+</div>
+
+<!-- ══════ WORD: RECALL ══════ -->
+<div id="screen-word-recall" class="screen">
+  <div class="screen-eyebrow" id="wr-eyebrow">Word Recall · Round 1</div>
+  <div class="screen-title">Which words did you see?</div>
+  <div class="screen-sub" id="wr-sub">Select all words you remember</div>
+  <div class="card">
+    <div class="answer-area" id="wr-answer"><span class="answer-empty">Tap words below ↓</span></div>
+    <div class="choice-pool" id="wr-choices"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="wordClear()">Clear</button>
+      <button class="btn btn-gold" onclick="wordSubmit()">Submit ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ NUM: FLASH ══════ -->
+<div id="screen-num-flash" class="screen">
+  <div class="screen-eyebrow" id="nf-eyebrow">Number Chain · Round 1</div>
+  <div class="screen-title">Remember the sequence</div>
+  <div class="screen-sub">Each digit flashes once — lock it in</div>
+  <div class="card" style="text-align:center;">
+    <div class="seq-progress" id="nf-dots"></div>
+    <div class="num-stage"><div class="num-flash" id="nf-number" style="opacity:0">?</div></div>
+    <div style="font-size:14px;color:var(--text-mid);letter-spacing:.1em;text-transform:uppercase;font-weight:500;" id="nf-status">Get ready…</div>
+  </div>
+</div>
+
+<!-- ══════ NUM: RECALL ══════ -->
+<div id="screen-num-recall" class="screen">
+  <div class="screen-eyebrow" id="nr-eyebrow">Number Chain · Round 1</div>
+  <div class="screen-title">Enter the sequence</div>
+  <div class="screen-sub">Type each number in the exact order shown</div>
+  <div class="card" style="text-align:center;">
+    <div class="num-slots" id="nr-slots"></div>
+    <div class="numpad" id="nr-numpad"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="numClear()">Clear</button>
+      <button class="btn btn-blue" onclick="numSubmit()">Submit ◈</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SYM: SPOT (side-by-side) ══════ -->
+<div id="screen-sym-spot" class="screen">
+  <div class="screen-eyebrow" id="sp-eyebrow">Spot the Swap · Round 1</div>
+  <div class="screen-title">Find the swapped symbols</div>
+  <div class="screen-sub" id="sp-sub">Tap every cell on the right that differs from the left</div>
+  <div class="card" style="text-align:center;">
+    <div class="sym-compare-wrap" id="sym-compare-wrap">
+      <div class="sym-compare-col">
+        <span class="sym-phase-label sym-label-orig">Original ← Reference</span>
+        <div class="sym-grid" id="ss-grid"></div>
+      </div>
+      <div class="sym-compare-divider">⇄</div>
+      <div class="sym-compare-col">
+        <span class="sym-phase-label sym-label-new">New → Tap changes</span>
+        <div class="sym-grid" id="sp-grid"></div>
+      </div>
+    </div>
+    <div id="sp-hint" style="font-size:15px;color:var(--text-mid);margin:10px 0 4px;letter-spacing:.06em;font-weight:500;"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="symClear()">Clear</button>
+      <button class="btn btn-violet" onclick="symSubmit()">Submit ⬡</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ GRID: SHOW ══════ -->
+<div id="screen-grid-show" class="screen">
+  <div class="screen-eyebrow" id="gs-eyebrow">Grid Memory · Round 1</div>
+  <div class="screen-title">Remember the pattern</div>
+  <div class="screen-sub">Watch which cells light up</div>
+  <div class="card" style="text-align:center;">
+    <div class="timer-wrap"><span class="timer-num" id="gs-timer">3</span><span class="timer-label">seconds remaining</span></div>
+    <div class="progress-track"><div class="progress-fill fill-teal" id="gs-prog" style="width:100%"></div></div>
+    <div class="mem-grid-wrap"><div class="mem-grid" id="gs-grid"></div></div>
+  </div>
+</div>
+
+<!-- ══════ GRID: RECALL ══════ -->
+<div id="screen-grid-recall" class="screen">
+  <div class="screen-eyebrow" id="gr-eyebrow">Grid Memory · Round 1</div>
+  <div class="screen-title">Recreate the pattern</div>
+  <div class="screen-sub" id="gr-sub">Tap the cells that were lit</div>
+  <div class="card" style="text-align:center;">
+    <div class="mem-grid-wrap"><div class="mem-grid" id="gr-grid"></div></div>
+    <div id="gr-count" style="font-size:15px;color:var(--text-mid);letter-spacing:.08em;text-transform:uppercase;margin-top:10px;font-weight:500;"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="gridClear()">Clear</button>
+      <button class="btn btn-teal" onclick="gridSubmit()">Submit ▦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ MISSING WORD: READ ══════ -->
+<div id="screen-mw-read" class="screen">
+  <div class="screen-eyebrow" id="mwr-eyebrow">Missing Word · Round 1</div>
+  <div class="screen-title">Study the sentence</div>
+  <div class="screen-sub">One word will go missing — read carefully</div>
+  <div class="card" style="text-align:center;">
+    <div class="timer-wrap"><span class="timer-num" id="mwr-timer">5</span><span class="timer-label">seconds remaining</span></div>
+    <div class="progress-track"><div class="progress-fill fill-orange" id="mwr-prog" style="width:100%"></div></div>
+    <div class="mw-sentence" id="mwr-sentence"></div>
+  </div>
+</div>
+
+<!-- ══════ MISSING WORD: CHOOSE ══════ -->
+<div id="screen-mw-choose" class="screen">
+  <div class="screen-eyebrow" id="mwc-eyebrow">Missing Word · Round 1</div>
+  <div class="screen-title">Which word was missing?</div>
+  <div class="screen-sub" id="mwc-sub">Tap your answer — it advances automatically</div>
+  <div class="card" style="text-align:center;">
+    <div class="mw-sentence" id="mwc-sentence"></div>
+    <div class="mw-choices" id="mwc-choices"></div>
+    <div class="mw-progress" id="mwc-progress"></div>
+  </div>
+</div>
+
+<!-- ══════ GROWING LIST: REVEAL ══════ -->
+<div id="screen-gl-reveal" class="screen">
+  <div class="screen-eyebrow" id="glr-eyebrow">Growing List · Round 1</div>
+  <div class="screen-title" id="glr-title">Remember the list</div>
+  <div class="screen-sub" id="glr-sub">A new item has been added — memorise the full list</div>
+  <div class="card" style="text-align:center;">
+    <div class="timer-wrap"><span class="timer-num" id="glr-timer">5</span><span class="timer-label">seconds remaining</span></div>
+    <div class="progress-track"><div class="progress-fill fill-rose" id="glr-prog" style="width:100%"></div></div>
+    <div class="gl-list-wrap" id="glr-list"></div>
+  </div>
+</div>
+
+<!-- ══════ GROWING LIST: RECALL ══════ -->
+<div id="screen-gl-recall" class="screen">
+  <div class="screen-eyebrow" id="glrc-eyebrow">Growing List · Round 1</div>
+  <div class="screen-title">Recall the list in order</div>
+  <div class="screen-sub" id="glrc-sub">Tap the correct item for each position</div>
+  <div class="card">
+    <div class="gl-recall-wrap" id="glrc-slots"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="glClear()">Clear</button>
+      <button class="btn btn-rose" onclick="glSubmit()">Submit ✦✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ PAIRS: STUDY ══════ -->
+<div id="screen-pair-study" class="screen">
+  <div class="screen-eyebrow" id="pm-eyebrow">Pair Match · Round 1</div>
+  <div class="screen-title">Learn the pairs</div>
+  <div class="screen-sub">Memorise which words belong together</div>
+  <div class="card">
+    <div class="timer-wrap"><span class="timer-num" id="pm-timer">12</span><span class="timer-label">seconds remaining</span></div>
+    <div class="progress-track"><div class="progress-fill fill-lime" id="pm-prog" style="width:100%"></div></div>
+    <div class="pair-grid" id="pm-pair-grid"></div>
+  </div>
+</div>
+
+<!-- ══════ PAIRS: RECALL ══════ -->
+<div id="screen-pair-recall" class="screen">
+  <div class="screen-eyebrow" id="pr-eyebrow">Pair Match · Round 1</div>
+  <div class="screen-title" id="pr-sub">Which word was paired with this?</div>
+  <div class="card" style="text-align:center;">
+    <div class="mw-progress" id="pr-progress">1 / 3</div>
+    <div class="pair-target" id="pr-target">Harbor</div>
+    <div class="pair-recall-choices" id="pr-choices"></div>
+  </div>
+</div>
+
+<!-- ══════ READY ══════ -->
+<div id="screen-ready" class="screen">
+  <div class="screen-eyebrow" id="rd-eyebrow">Word Recall · Round 1 · Easy</div>
+  <div style="text-align:center;margin:18px 0 6px;">
+    <span id="rd-icon" style="font-size:48px;display:block;margin-bottom:12px;">✦</span>
+    <div class="screen-title" id="rd-game">Word Recall</div>
+  </div>
+  <div class="card" style="text-align:center;">
+    <div class="screen-sub" id="rd-instruction" style="margin-bottom:24px;line-height:1.7;">
+      Words will appear on screen for a few seconds.<br>Study them carefully — then pick them from a list.
+    </div>
+    <button id="rd-btn" class="btn btn-gold" onclick="rdStart()" style="width:100%;font-size:16px;min-height:58px;">I'm Ready →</button>
+    <div id="rd-auto" style="font-size:13px;color:var(--text-dim);margin-top:12px;letter-spacing:.04em;">Starting in 5s — or tap above</div>
+  </div>
+</div>
+
+<!-- ══════ RESULTS ══════ -->
+<div id="screen-results" class="screen">
+  <div class="screen-eyebrow" id="rs-eyebrow">Round Complete</div>
+  <div class="card" style="text-align:center;">
+    <div id="pb-banner" style="display:none;padding:7px 16px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:100px;font-size:13px;color:var(--gold2);margin-bottom:10px;font-weight:500;">🏆 New Personal Best!</div>
+    <div class="result-message" id="rs-message">Excellent recall!</div>
+    <div class="result-score"><span class="pct" id="rs-pct">100</span><span class="sym-r">%</span></div>
+    <div id="rs-percentile" style="display:none;font-size:13px;color:var(--text-dim);margin:-4px 0 8px;"></div>
+    <div class="sep"></div>
+    <div id="rs-breakdown"></div>
+    <div class="res-stats">
+      <div class="stat-box"><span class="stat-val" id="rs-c">0</span><span class="stat-label">Correct</span></div>
+      <div class="stat-box"><span class="stat-val" id="rs-m">0</span><span class="stat-label">Missed</span></div>
+      <div class="stat-box"><span class="stat-val" id="rs-x">0</span><span class="stat-label">Wrong</span></div>
+    </div>
+    <!-- Brain Score -->
+    <div id="rs-brain" style="display:none;margin-top:16px;padding:14px 16px;background:var(--card-solid);border:1px solid #ffffff12;border-radius:12px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:13px;color:var(--text-dim);font-weight:500;letter-spacing:.05em;text-transform:uppercase;">Brain Score</span>
+        <span id="rs-brain-val" style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold2);line-height:1;"></span>
+      </div>
+      <div style="width:100%;height:4px;background:#ffffff12;border-radius:4px;overflow:hidden;">
+        <div id="rs-brain-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:4px;transition:width .6s ease;width:0;"></div>
+      </div>
+      <div id="rs-brain-pro" style="display:none;margin-top:6px;font-size:11px;color:var(--text-dim);">
+        <a href="#" onclick="showProModal();return false;" style="color:var(--text-dim);text-decoration:none;">Pro unlocks full history →</a>
+      </div>
+    </div>
+    <!-- Pro upsell -->
+    <div id="rs-pro-upsell" style="display:none;margin-top:14px;padding:14px 18px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:14px;text-align:center;">
+      <div style="font-size:14px;font-weight:600;color:var(--gold2);margin-bottom:2px;">Ready for a harder challenge?</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">Hard and Expert modes available with Pro — 7 days free</div>
+      <a href="#" onclick="showProModal();return false;" style="font-size:13px;color:var(--gold2);text-decoration:none;font-weight:500;">Try Pro free →</a>
+    </div>
+    <button class="btn btn-ghost" id="rs-share" onclick="shareResult()" style="width:100%;margin-bottom:10px;margin-top:14px;display:none;">Share result →</button>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goHome()">Home</button>
+      <button class="btn btn-gold" id="rs-next" onclick="nextRound()">Next Round ✦</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- #app -->
+<footer>Recall Better &nbsp;·&nbsp; Seven games · Daily memory training</footer>
+
+<script>
+/* ─── STARFIELD ─── */
+(()=>{
+  const c=document.getElementById('starfield'),ctx=c.getContext('2d');let W,H,stars=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  function init(){stars=[];for(let i=0;i<110;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.9+.15,a:Math.random(),da:(Math.random()-.5)*.0025});}
+  function draw(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${s.a*.5})`;ctx.fill();});requestAnimationFrame(draw);}
+  addEventListener('resize',()=>{resize();init();});resize();init();draw();
+})();
+
+/* ─── WORD BANK ─── */
+const WORDS=['Harbor','Fern','Ember','Willow','Stone','Tide','Ridge','Bloom','Frost','Mist','Cedar','Dusk','Gale','Creek','Grove','Birch','Crest','Marsh','Summit','Delta','Valor','Grace','Calm','Swift','Bold','Wise','Keen','Pure','Bright','Still','Eager','Proud','Clear','Serene','Vivid','Tender','Noble','Gentle','Earnest','Lucid','Lantern','Compass','Anchor','Prism','Locket','Vessel','Cipher','Mantle','Bastion','Forge','Signet','Helm','Quill','Chalice','Emblem','Scroll','Relay','Hearth','Veil','Zenith','Pilgrim','Scholar','Artisan','Sentinel','Weaver','Herald','Sage','Warden','Scribe','Mason','Indigo','Marble','Thunder','Lacquer','Topaz','Velvet','Cobalt','Umber','Crimson','Amber'];
+
+/* ─── SYMBOLS ─── */
+const SYMBOLS=['♠','♥','♦','♣','★','▲','■','●','◆','✦','❖','⊕','⊗','◎','⬡','✺','✿','◇','△','⊞','∞','Ω','Σ','λ','β','π','Δ','ψ'];
+
+/* ─── CONFIG ─── */
+const WORD_DIFF={easy:{words:4,secs:8,choices:8},medium:{words:6,secs:7,choices:12},hard:{words:8,secs:6,choices:14},expert:{words:10,secs:5,choices:18}};
+const NUM_DIFF ={easy:{len:4,ms:900,dbl:false},medium:{len:6,ms:750,dbl:false},hard:{len:8,ms:600,dbl:true},expert:{len:10,ms:480,dbl:true}};
+const SYM_DIFF ={easy:{cols:3,changes:2},medium:{cols:3,changes:3},hard:{cols:4,changes:4},expert:{cols:4,changes:6}};
+const GRID_DIFF={easy:{cells:4,secs:3},medium:{cells:6,secs:3},hard:{cells:8,secs:2},expert:{cells:10,secs:2}};
+const MW_DIFF  ={easy:{secs:6,opts:4},medium:{secs:5,opts:4},hard:{secs:4,opts:4},expert:{secs:3,opts:4}};
+const GL_DIFF  ={easy:{startLen:2,addPer:1,secs:6},medium:{startLen:3,addPer:1,secs:5},hard:{startLen:3,addPer:1,secs:4},expert:{startLen:4,addPer:1,secs:3}};
+
+/* ─── SENTENCE BANK ─── */
+const SENTENCES=[
+  {s:'The cat sat quietly on the warm {windowsill}.',w:'windowsill',d:['doorstep','rooftop','armchair','garden']},
+  {s:'She poured herself a cup of strong {coffee} before breakfast.',w:'coffee',d:['tea','juice','broth','milk']},
+  {s:'The children laughed as they chased the {butterfly} across the meadow.',w:'butterfly',d:['puppy','kite','rabbit','sparrow']},
+  {s:'He found the old {compass} tucked inside a leather bag.',w:'compass',d:['lantern','journal','pocket-watch','telescope']},
+  {s:'The market was full of the scent of fresh {lavender}.',w:'lavender',d:['cinnamon','rosemary','vanilla','jasmine']},
+  {s:'She read the letter twice, then folded it into her {pocket}.',w:'pocket',d:['drawer','handbag','envelope','sleeve']},
+  {s:'The lighthouse beam swept slowly across the dark {harbour}.',w:'harbour',d:['skyline','clifftop','shoreline','horizon']},
+  {s:'He painted the front door a bold shade of {crimson}.',w:'crimson',d:['cobalt','amber','ivory','emerald']},
+  {s:'The old clock on the mantelpiece chimed at {midnight}.',w:'midnight',d:['sunrise','midday','twilight','dusk']},
+  {s:'She arranged the wildflowers in a tall glass {vase}.',w:'vase',d:['pitcher','jar','basket','bowl']},
+  {s:'The dog padded softly across the stone {courtyard}.',w:'courtyard',d:['hallway','garden','terrace','cellar']},
+  {s:'He left a {candle} burning on the windowsill.',w:'candle',d:['lantern','torch','lamp','flame']},
+  {s:'The bread came out of the oven golden and {fragrant}.',w:'fragrant',d:['crispy','steaming','tender','dense']},
+  {s:'She wrapped herself in a thick {blanket} and watched the rain.',w:'blanket',d:['shawl','coat','quilt','cardigan']},
+  {s:'The path wound through a forest of silver {birch} trees.',w:'birch',d:['oak','cedar','willow','pine']},
+  {s:'He tied the boat to the wooden {jetty} at the water\'s edge.',w:'jetty',d:['pier','buoy','anchor','mooring']},
+  {s:'The letter arrived on a cold {Tuesday} morning.',w:'Tuesday',d:['Friday','Sunday','Wednesday','Monday']},
+  {s:'She kept a small {notebook} in her coat pocket at all times.',w:'notebook',d:['mirror','compass','purse','photograph']},
+  {s:'The concert hall fell completely {silent} before the first note.',w:'silent',d:['dark','still','empty','hushed']},
+  {s:'He ordered a bowl of {tomato} soup with crusty bread.',w:'tomato',d:['mushroom','leek','carrot','onion']},
+  {s:'The fox disappeared into the {hedgerow} at dusk.',w:'hedgerow',d:['woodland','hillside','meadow','thicket']},
+  {s:'She pressed a single dried {rose} between the pages.',w:'rose',d:['fern','violet','daisy','sprig']},
+  {s:'The stairs creaked under his {footsteps} in the silence.',w:'footsteps',d:['weight','boots','shadow','hands']},
+  {s:'He spotted a {heron} standing still at the river\'s edge.',w:'heron',d:['crane','egret','kingfisher','stork']},
+  {s:'The recipe called for three tablespoons of {honey}.',w:'honey',d:['vinegar','syrup','molasses','butter']},
+  {s:'She sat beneath the {oak} and read until the sun set.',w:'oak',d:['willow','elm','chestnut','beech']},
+  {s:'The train pulled slowly out of the {station} into the mist.',w:'station',d:['tunnel','valley','village','crossing']},
+  {s:'He sketched the outline of a {lighthouse} on the napkin.',w:'lighthouse',d:['sailboat','harbour','cliff','island']},
+  {s:'The child slept soundly, one hand clutching a {teddy bear}.',w:'teddy bear',d:['blanket','torch','cushion','sock']},
+  {s:'She caught the faint smell of {woodsmoke} on the evening breeze.',w:'woodsmoke',d:['salt','pine','rain','blossom']},
+];
+
+/* ─── GROWING LIST ITEMS ─── */
+const GL_ITEMS=['an apple','a candle','a compass','a feather','a key','a lemon','a mirror','a notebook','a ribbon','a seashell','a thimble','a torch','a watch','a marble','a coin','a stamp','a button','a leaf','a stone','a thread'];
+
+/* ─── PAIR ITEMS ─── */
+const PAIR_ITEMS=[
+  ['Harbor','Lantern'], ['Fern','Dew'],      ['Stone','River'],   ['Ember','Night'],
+  ['Compass','Wind'],   ['Anchor','Tide'],   ['Quill','Ink'],     ['Forge','Iron'],
+  ['Pilgrim','Road'],   ['Sage','Dust'],     ['Prism','Light'],   ['Helm','Stars'],
+  ['Cedar','Moss'],     ['Chalice','Moon'],  ['Scroll','Cipher'], ['Bastion','Gate'],
+  ['Mantle','Crown'],   ['Veil','Shadow'],   ['Zenith','Peak'],   ['Signet','Wax'],
+  ['Locket','Memory'],  ['Weaver','Thread'], ['Hearth','Flame'],  ['Vault','Key'],
+  ['Mist','Dawn'],      ['Ridge','Falcon'],  ['Birch','Silver'],  ['Gale','Salt'],
+  ['Grove','Silence'],  ['Summit','Cloud'],
+];
+const PAIR_DIFF={easy:{count:3,secs:12},medium:{count:5,secs:10},hard:{count:6,secs:8},expert:{count:8,secs:7}};
+
+/* ─── VAULT LEVELS ─── */
+const VAULT_LEVELS=[
+  {min:0,   name:'Novice'},    {min:10,  name:'Apprentice'},
+  {min:25,  name:'Adept'},     {min:50,  name:'Scholar'},
+  {min:100, name:'Expert'},    {min:200, name:'Master'},
+  {min:350, name:'Sage'},      {min:500, name:'Vault Mind'},
+];
+function getVaultLevel(){
+  for(let i=VAULT_LEVELS.length-1;i>=0;i--){if(G.gamesPlayed>=VAULT_LEVELS[i].min)return{...VAULT_LEVELS[i],lvNum:i+1};}
+  return{...VAULT_LEVELS[0],lvNum:1};
+}
+
+/* ─── STATE ─── */
+const _saved = JSON.parse(localStorage.getItem('mv_stats')||'{}');
+let G={
+  game:'word',diff:localStorage.getItem('mv_diff')||'easy',round:1,lastPct:0,
+  allScores: _saved.scores||[],
+  gamesPlayed: _saved.games||0,
+  streak:parseInt(localStorage.getItem('mv_streak')||'0'),
+  lastDate:localStorage.getItem('mv_lastdate')||'',
+  // word
+  wWords:[],wChoices:[],wSelected:[],
+  // num
+  nSeq:[],nInput:[],nCurSlot:0,
+  // symbol
+  sOriginal:[],sModified:[],sChanged:new Set(),sSelected:new Set(),sCols:3,
+  // grid
+  gLit:new Set(),gChosen:new Set(),gTotal:16,
+  // missing word
+  mwQueue:[],mwCurrent:0,mwAnswers:[],
+  // growing list
+  glItems:[],glAnswers:[],
+  // pairs
+  pPairs:[],pAnswers:[],pCurrent:0,
+  // daily challenge
+  isDailyChallenge:false,
+  _tid:null,
+  _mwTid:null
+};
+function saveStats(){ localStorage.setItem('mv_stats',JSON.stringify({scores:G.allScores,games:G.gamesPlayed})); }
+
+/* ─── SCREEN NAV ─── */
+function showScreen(id){
+  document.querySelectorAll('.screen.active').forEach(s=>{s.classList.add('slide-out');setTimeout(()=>s.classList.remove('active','slide-out'),280);});
+  setTimeout(()=>{const el=document.getElementById('screen-'+id);el.style.animation='none';void el.offsetWidth;el.style.animation='';el.classList.add('active');},170);
+}
+
+/* ─── HOME / STATS ─── */
+const GAME_ACCENTS={word:'gold',sequence:'blue',symbol:'violet',gridmem:'teal',missing:'orange',growing:'rose',pairs:'lime'};
+/* ── READY SCREEN ── */
+const GAME_READY_TEXT={
+  word:     'Words will appear on screen for a few seconds.<br>Study them carefully — then pick them from a list.',
+  sequence: 'Digits will flash one at a time.<br>Lock in the full sequence, then type it back in order.',
+  symbol:   'Two symbol grids will appear side by side.<br>Find every cell on the right that has changed.',
+  gridmem:  'A pattern of cells will light up briefly.<br>Then recreate the exact pattern from memory.',
+  missing:  'A sentence will appear. Read it carefully — then identify the missing word from four choices.',
+  growing:  'A list builds one item at a time.<br>Remember every item — and the exact order they appear.',
+  pairs:    'Word pairs will appear on screen together.<br>Remember which word belongs with which.',
+};
+let _rdCb=null,_rdTimer=null;
+function showReadyScreen(game,onStart){
+  clearInterval(_rdTimer);_rdCb=onStart;
+  $('rd-eyebrow').textContent=`${DAILY_GAME_NAMES[game]} · Round ${G.round} · ${cap(G.diff)}`;
+  $('rd-icon').textContent=GAME_ICONS[game];
+  $('rd-game').textContent=DAILY_GAME_NAMES[game];
+  $('rd-instruction').innerHTML=GAME_READY_TEXT[game];
+  const btn=$('rd-btn');
+  btn.className=`btn btn-${GAME_ACCENTS[game]}`;
+  btn.textContent=G.round===1?"I'm Ready →":'Start Round →';
+  let secs=G.round===1?5:3;
+  $('rd-auto').textContent=`Starting in ${secs}s — or tap above`;
+  showScreen('ready');
+  _rdTimer=setInterval(()=>{
+    secs--;
+    if(secs<=0){clearInterval(_rdTimer);rdStart();return;}
+    $('rd-auto').textContent=`Starting in ${secs}s — or tap above`;
+  },1000);
+}
+function rdStart(){
+  clearInterval(_rdTimer);
+  if(_rdCb){const cb=_rdCb;_rdCb=null;cb();}
+}
+
+const GAME_ICONS  ={word:'✦',sequence:'◈',symbol:'⬡',gridmem:'▦',missing:'✎',growing:'✦✦',pairs:'⟷'};
+
+function selectGame(g){
+  G.game=g;
+  ['word','num','sym','grid','miss','grow','pair'].forEach(k=>document.getElementById('card-'+k)?.classList.remove('active'));
+  const map={word:'word',sequence:'num',symbol:'sym',gridmem:'grid',missing:'miss',growing:'grow',pairs:'pair'};
+  document.getElementById('card-'+map[g])?.classList.add('active');
+  const b=document.getElementById('start-btn');
+  const accent=GAME_ACCENTS[g];
+  b.className=`btn btn-${accent}`;
+  b.textContent='Start today\'s memory session';
+}
+
+document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.diff-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');G.diff=b.dataset.diff;localStorage.setItem('mv_diff',G.diff);updateStartBtn();
+}));
+
+function updateHomeStats(){
+  // Today status — based on session progress (guard against early init before DAILY_GAME_ORDER is defined)
+  const todayEl=$('hm-today');
+  if(todayEl){
+    let sc=0,total=3,complete=false;
+    if(typeof DAILY_GAME_ORDER!=='undefined'){sc=getSessionCount();total=getTodaysPlan().length;complete=isSessionComplete();}
+    if(complete){todayEl.textContent='Done ✓';todayEl.style.color='var(--green)';todayEl.style.fontSize='';}
+    else if(sc>0){todayEl.textContent=sc+'/'+total;todayEl.style.color='var(--gold2)';todayEl.style.fontSize='';}
+    else{todayEl.textContent='—';todayEl.style.color='';todayEl.style.fontSize='';}
+  }
+  // Streak
+  $('hm-streak').textContent=(G.streak||0)+(G.streak===1?' day':' days');
+  // This week
+  const wc=getWeeklyCount();if($('hm-week'))$('hm-week').textContent=wc+'/7';
+  // Focus
+  const [focusVal,focusLbl]=getFocusLabel();
+  if($('hm-focus'))$('hm-focus').textContent=focusVal;
+  if($('hm-focus-label'))$('hm-focus-label').textContent=focusLbl;
+  // Streak badge
+  if(G.streak>0){$('streak-badge').style.display='inline-flex';$('streak-num').textContent=G.streak;}
+  // Vault level
+  const lvl=getVaultLevel();
+  $('vault-level-num').textContent='Level '+lvl.lvNum;
+  $('vault-level-name').textContent=lvl.name;
+  // Per-game personal bests
+  const bests=JSON.parse(localStorage.getItem('mv_bests')||'{}');
+  const bestMap={word:'word',sequence:'num',symbol:'sym',gridmem:'grid',missing:'miss',growing:'grow',pairs:'pair'};
+  Object.entries(bestMap).forEach(([game,key])=>{const el=$('best-'+key);if(el)el.textContent=bests[game]?'Best: '+bests[game]+'%':'';});
+}
+
+function goHome(){clearTimeout(G._tid);clearInterval(G._tid);clearTimeout(G._mwTid);clearInterval(_rdTimer);_rdCb=null;G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();updateDailyCard();checkComebackBanner();showScreen('home');}
+
+function isProLocked(){
+  return (G.diff==='hard'||G.diff==='expert') && !AUTH.user?.is_pro;
+}
+
+function updateStartBtn(){
+  const btn=$('start-btn');if(!btn)return;
+  if(isProLocked()){
+    btn.textContent='🔒 Unlock with Pro →';
+    btn.className='btn btn-ghost';
+    return;
+  }
+  const g=G.game;
+  const accent=GAME_ACCENTS[g];
+  btn.className=`btn btn-${accent}`;
+  const sc=getSessionCount(),total=getTodaysPlan().length;
+  if(isSessionComplete()){
+    btn.textContent='Session complete — play more ✦';
+  } else if(sc>0){
+    const left=total-sc;
+    btn.textContent=`Continue session · ${left} game${left!==1?'s':''} left ✦`;
+  } else {
+    btn.textContent='Start today\'s memory session';
+  }
+}
+
+/* ─── ROUTER ─── */
+function startGame(){
+  if(isProLocked()){ showProModal(); return; }
+  // Auto-select next unplayed plan game for session flow
+  if(!isSessionComplete()){
+    const plan=getTodaysPlan();
+    const session=getSessionProgress();
+    const nextGame=plan.find(g=>!session.completed.includes(g));
+    if(nextGame){G.game=nextGame;selectGame(nextGame);}
+  }
+  G.round=1;
+  // Reset growing list state for fresh session
+  if(G.game==='growing'){G.glItems=[];}
+  launchRound();
+}
+function nextRound(){G.round++;autoEscalate();launchRound();}
+function launchRound(){({word:startWordRound,sequence:startNumRound,symbol:startSymRound,gridmem:startGridRound,missing:startMWRound,growing:startGLRound,pairs:startPairsRound})[G.game]();}
+
+function autoEscalate(){
+  if(G.lastPct===100){const l=['easy','medium','hard','expert'],i=l.indexOf(G.diff);
+    if(i<3){G.diff=l[i+1];document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));}}
+}
+
+/* ══════════════════════════════════════
+   WORD RECALL
+══════════════════════════════════════ */
+function startWordRound(){
+  const cfg=WORD_DIFF[G.diff];
+  const sh=[...WORDS].sort(()=>Math.random()-.5);
+  G.wWords=sh.slice(0,cfg.words);
+  G.wChoices=[...G.wWords,...sh.slice(cfg.words,cfg.words+cfg.choices-cfg.words)].sort(()=>Math.random()-.5);
+  G.wSelected=[];
+  showReadyScreen('word',()=>{
+    document.getElementById('wm-eyebrow').textContent=`Word Recall · Round ${G.round} · ${cap(G.diff)}`;
+    const grid=document.getElementById('wm-grid');grid.innerHTML='';
+    G.wWords.forEach((w,i)=>{const p=mk('div','word-pill',w);p.style.setProperty('--delay',i*.07+'s');grid.appendChild(p);});
+    showScreen('word-mem');
+    runTimer('wm-timer','wm-prog',cfg.secs,'fill-gold',()=>{
+      document.querySelectorAll('#wm-grid .word-pill').forEach((p,i)=>{p.classList.add('fade-out');p.style.setProperty('--out-delay',i*.04+'s');});
+      setTimeout(showWordRecall,380+G.wWords.length*42);
+    });
+  });
+}
+function showWordRecall(){
+  document.getElementById('wr-eyebrow').textContent=`Word Recall · Round ${G.round}`;
+  document.getElementById('wr-sub').textContent=`Select the ${G.wWords.length} words you remember`;
+  renderWordAnswers();
+  const pool=document.getElementById('wr-choices');pool.innerHTML='';
+  G.wChoices.forEach((w,i)=>{const p=mk('div','choice-pill',w);p.style.setProperty('--delay',i*.033+'s');p.dataset.word=w;p.addEventListener('click',()=>wordSelect(p,w));pool.appendChild(p);});
+  showScreen('word-recall');
+}
+function renderWordAnswers(){
+  const el=document.getElementById('wr-answer');el.innerHTML='';
+  if(!G.wSelected.length){el.innerHTML='<span class="answer-empty">Tap words below ↓</span>';return;}
+  G.wSelected.forEach((w,i)=>{const p=mk('div','answer-pill',w);p.style.setProperty('--delay',i*.033+'s');p.addEventListener('click',()=>wordDeselect(w));el.appendChild(p);});
+}
+function wordSelect(el,w){if(el.classList.contains('used'))return;if(G.wSelected.length>=G.wWords.length)return;G.wSelected.push(w);el.classList.add('used');renderWordAnswers();}
+function wordDeselect(w){G.wSelected=G.wSelected.filter(x=>x!==w);document.querySelectorAll('.choice-pill').forEach(p=>{if(p.dataset.word===w)p.classList.remove('used');});renderWordAnswers();}
+function wordClear(){G.wSelected=[];document.querySelectorAll('.choice-pill').forEach(p=>p.classList.remove('used'));renderWordAnswers();}
+function wordSubmit(){
+  const correct=G.wSelected.filter(w=>G.wWords.includes(w));
+  const missed=G.wWords.filter(w=>!G.wSelected.includes(w));
+  const extra=G.wSelected.filter(w=>!G.wWords.includes(w));
+  const pct=Math.round(correct.length/G.wWords.length*100);
+  let bk='<div class="result-tags">';
+  G.wWords.forEach(w=>{bk+=`<span class="result-word ${correct.includes(w)?'correct':'missed'}">${correct.includes(w)?'✓ ':'✗ '}${w}</span>`;});
+  extra.forEach(w=>{bk+=`<span class="result-word extra">+${w}</span>`;});
+  bk+='</div>';
+  showResults(pct,correct.length,missed.length,extra.length,bk,'word');
+}
+
+/* ══════════════════════════════════════
+   NUMBER CHAIN
+══════════════════════════════════════ */
+function startNumRound(){
+  const cfg=NUM_DIFF[G.diff];
+  G.nSeq=[];G.nInput=[];G.nCurSlot=0;
+  for(let i=0;i<cfg.len;i++)G.nSeq.push(cfg.dbl&&Math.random()>.5?rnd(10,99):rnd(1,9));
+  showReadyScreen('sequence',()=>{
+    document.getElementById('nf-eyebrow').textContent=`Number Chain · Round ${G.round} · ${cap(G.diff)}`;
+    const dots=document.getElementById('nf-dots');
+    dots.innerHTML=G.nSeq.map((_,i)=>`<div class="seq-dot" id="dot-${i}"></div>`).join('');
+    const numEl=document.getElementById('nf-number'),statusEl=document.getElementById('nf-status');
+    numEl.style.opacity='0';
+    showScreen('num-flash');
+    statusEl.textContent='Get ready…';
+    let idx=-1;
+    function flash(){
+      if(idx>=0){$(`dot-${idx}`)?.classList.remove('cur');$(`dot-${idx}`)?.classList.add('done');}
+      idx++;
+      if(idx>=G.nSeq.length){numEl.classList.add('out');statusEl.textContent='Now recall the sequence…';G._tid=setTimeout(showNumRecall,700);return;}
+      $(`dot-${idx}`)?.classList.add('cur');
+      statusEl.textContent=`Number ${idx+1} of ${G.nSeq.length}`;
+      numEl.classList.remove('out');numEl.style.opacity='1';
+      numEl.style.animation='none';void numEl.offsetWidth;numEl.style.animation='';
+      numEl.textContent=G.nSeq[idx];numEl.className='num-flash';
+      G._tid=setTimeout(()=>{numEl.classList.add('out');G._tid=setTimeout(flash,300);},cfg.ms);
+    }
+    G._tid=setTimeout(flash,900);
+  });
+}
+function showNumRecall(){
+  document.getElementById('nr-eyebrow').textContent=`Number Chain · Round ${G.round}`;
+  G.nInput=[];G.nCurSlot=0;
+  const slots=$('nr-slots');
+  slots.innerHTML=G.nSeq.map((_,i)=>`<div class="num-slot${i===0?' active':''}" id="slot-${i}">${i===0?'<div class="cursor-blink"></div>':''}</div>`).join('');
+  const pad=$('nr-numpad');pad.innerHTML='';
+  ['1','2','3','4','5','6','7','8','9','⌫','0','✓'].forEach(k=>{
+    const d=mk('div','num-key'+(k==='⌫'?' del':''),k);d.onclick=()=>numKey(k);pad.appendChild(d);
+  });
+  showScreen('num-recall');
+}
+function updateSlots(){
+  for(let i=0;i<G.nSeq.length;i++){
+    const s=$(`slot-${i}`);if(!s)continue;
+    const v=G.nInput[i]||'';
+    s.innerHTML=v?v:(i===G.nCurSlot?'<div class="cursor-blink"></div>':'');
+    s.className='num-slot'+(i===G.nCurSlot?' active':v?' filled':'');
+  }
+}
+function numKey(k){
+  if(k==='⌫'){
+    if(G.nInput[G.nCurSlot]?.length>0)G.nInput[G.nCurSlot]=G.nInput[G.nCurSlot].slice(0,-1);
+    else if(G.nCurSlot>0){G.nCurSlot--;G.nInput[G.nCurSlot]='';}
+    updateSlots();return;
+  }
+  if(k==='✓'){numSubmit();return;}
+  if(!G.nInput[G.nCurSlot])G.nInput[G.nCurSlot]='';
+  const maxLen=String(G.nSeq[G.nCurSlot]).length;
+  G.nInput[G.nCurSlot]=(G.nInput[G.nCurSlot]+k).slice(-maxLen);
+  updateSlots();
+  if(G.nInput[G.nCurSlot].length>=maxLen&&G.nCurSlot<G.nSeq.length-1){G.nCurSlot++;updateSlots();}
+}
+function numClear(){G.nInput=[];G.nCurSlot=0;updateSlots();}
+function numSubmit(){
+  let correct=0,wrong=0,empty=0;
+  let bk='<div class="result-seq-row">';
+  G.nSeq.forEach((n,i)=>{
+    const given=parseInt(G.nInput[i]||'');const ok=given===n;
+    if(isNaN(given))empty++;else if(ok)correct++;else wrong++;
+    bk+=`<div class="result-seq-num ${isNaN(given)?'empty':ok?'correct':'wrong'}">${isNaN(given)?'?':G.nInput[i]}<span class="rn-given">${ok?'✓':n}</span></div>`;
+  });
+  bk+='</div>';
+  showResults(Math.round(correct/G.nSeq.length*100),correct,wrong+empty,0,bk,'sequence');
+}
+
+/* ══════════════════════════════════════
+   SPOT THE SWAP
+══════════════════════════════════════ */
+function startSymRound(){
+  const cfg=SYM_DIFF[G.diff];
+  G.sCols=cfg.cols;
+  const total=cfg.cols*cfg.cols;
+
+  // Build original grid with unique symbols
+  const pool=[...SYMBOLS].sort(()=>Math.random()-.5);
+  G.sOriginal=pool.slice(0,total);
+  G.sModified=[...G.sOriginal];
+
+  // Choose which cells to swap
+  const indices=[...Array(total).keys()].sort(()=>Math.random()-.5);
+  G.sChanged=new Set(indices.slice(0,cfg.changes));
+  G.sSelected=new Set();
+
+  // Replace changed cells with a different symbol
+  G.sChanged.forEach(idx=>{
+    const others=SYMBOLS.filter(s=>s!==G.sOriginal[idx]);
+    G.sModified[idx]=others[Math.floor(Math.random()*others.length)];
+  });
+
+  showReadyScreen('symbol',()=>{
+    document.getElementById('sp-eyebrow').textContent=`Spot the Swap · Round ${G.round} · ${cap(G.diff)}`;
+    document.getElementById('sp-sub').textContent=`${cfg.changes} symbol${cfg.changes>1?'s have':' has'} been swapped on the right — find them all`;
+    document.getElementById('sp-hint').textContent=`0 / ${cfg.changes} found`;
+    buildSymGridSide('ss-grid', G.sOriginal, cfg.cols, false);
+    buildSymGridSide('sp-grid', G.sModified, cfg.cols, true);
+    showScreen('sym-spot');
+  });
+}
+
+function buildSymGridSide(gridId, symbols, cols, selectable){
+  const grid=$(gridId);
+  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  grid.innerHTML='';
+  symbols.forEach((sym,i)=>{
+    const cell=mk('div','sym-cell'+(selectable?' selectable':' orig-cell'),sym);
+    cell.dataset.idx=i;
+    if(selectable) cell.addEventListener('click',()=>symToggle(cell,i));
+    grid.appendChild(cell);
+  });
+}
+
+function symToggle(cell,idx){
+  const cfg=SYM_DIFF[G.diff];
+  if(G.sSelected.has(idx)){
+    G.sSelected.delete(idx);
+    cell.classList.remove('selected');
+  } else {
+    G.sSelected.add(idx);
+    cell.classList.add('selected');
+  }
+  $('sp-hint').textContent=`${G.sSelected.size} / ${cfg.changes} found`;
+}
+
+function symClear(){
+  G.sSelected=new Set();
+  document.querySelectorAll('#sp-grid .sym-cell').forEach(c=>c.classList.remove('selected'));
+  $('sp-hint').textContent=`0 / ${SYM_DIFF[G.diff].changes} found`;
+}
+
+function symSubmit(){
+  let correct=0,wrong=0,missed=0;
+  const cells=document.querySelectorAll('#sp-grid .sym-cell');
+  cells.forEach(c=>{
+    const idx=parseInt(c.dataset.idx);
+    const wasChanged=G.sChanged.has(idx), wasSelected=G.sSelected.has(idx);
+    if(wasChanged&&wasSelected)  {correct++;c.classList.add('reveal-correct');}
+    else if(!wasChanged&&wasSelected){wrong++;c.classList.add('reveal-wrong');}
+    else if(wasChanged&&!wasSelected){missed++;c.classList.add('reveal-missed');}
+  });
+  // Also highlight on left grid
+  document.querySelectorAll('#ss-grid .sym-cell').forEach(c=>{
+    const idx=parseInt(c.dataset.idx);
+    if(G.sChanged.has(idx)) c.style.cssText='opacity:1;border-color:var(--gold);color:var(--gold2);';
+  });
+  setTimeout(()=>{
+    const total=G.sChanged.size;
+    const pct=Math.round(correct/total*100);
+    const bk=`<div style="font-size:12px;color:var(--text-mid);margin:12px 0;line-height:2;">
+      <span style="color:var(--green)">✓ ${correct} swap${correct!==1?'s':''} found correctly</span><br>
+      <span style="color:var(--gold2)">◎ ${missed} swap${missed!==1?'s':''} missed</span>
+      ${wrong?`<br><span style="color:var(--red)">✗ ${wrong} wrong cell${wrong!==1?'s':''} tapped</span>`:''}
+    </div>`;
+    showResults(pct,correct,missed,wrong,bk,'symbol');
+  },900);
+}
+
+/* ══════════════════════════════════════
+   GRID MEMORY
+══════════════════════════════════════ */
+function startGridRound(){
+  const cfg=GRID_DIFF[G.diff];
+  G.gTotal=16;
+  const indices=[...Array(16).keys()].sort(()=>Math.random()-.5);
+  G.gLit=new Set(indices.slice(0,cfg.cells));
+  G.gChosen=new Set();
+
+  showReadyScreen('gridmem',()=>{
+    document.getElementById('gs-eyebrow').textContent=`Grid Memory · Round ${G.round} · ${cap(G.diff)}`;
+    buildMemGrid('gs-grid',false);
+    G.gLit.forEach((i,order)=>{
+      setTimeout(()=>{
+        const cell=$(`gs-cell-${i}`);
+        if(cell){cell.classList.add('lit','mem-pulse');}
+      },order*80);
+    });
+    showScreen('grid-show');
+    runTimer('gs-timer','gs-prog',cfg.secs,'fill-teal',()=>{
+      document.querySelectorAll('#gs-grid .mem-cell').forEach(c=>c.classList.remove('lit'));
+      setTimeout(showGridRecall,300);
+    });
+  });
+}
+function buildMemGrid(gridId,selectable){
+  const grid=$(gridId);grid.innerHTML='';
+  for(let i=0;i<16;i++){
+    const cell=mk('div','mem-cell'+(selectable?' selectable':''));
+    cell.id=`${gridId.replace('-grid','-cell')}-${i}`;
+    if(selectable)cell.addEventListener('click',()=>gridToggle(cell,i));
+    grid.appendChild(cell);
+  }
+}
+function showGridRecall(){
+  const cfg=GRID_DIFF[G.diff];
+  G.gChosen=new Set();
+  document.getElementById('gr-eyebrow').textContent=`Grid Memory · Round ${G.round}`;
+  document.getElementById('gr-sub').textContent=`Select the ${cfg.cells} cells that were lit`;
+  buildMemGrid('gr-grid',true);
+  updateGridCount();
+  showScreen('grid-recall');
+}
+function gridToggle(cell,idx){
+  if(G.gChosen.has(idx)){G.gChosen.delete(idx);cell.classList.remove('chosen');}
+  else{G.gChosen.add(idx);cell.classList.add('chosen');}
+  updateGridCount();
+}
+function updateGridCount(){
+  const cfg=GRID_DIFF[G.diff];
+  $('gr-count').textContent=`${G.gChosen.size} / ${cfg.cells} selected`;
+}
+function gridClear(){G.gChosen=new Set();document.querySelectorAll('#gr-grid .mem-cell').forEach(c=>c.classList.remove('chosen'));updateGridCount();}
+function gridSubmit(){
+  let correct=0,wrong=0,missed=0;
+  const cells=document.querySelectorAll('#gr-grid .mem-cell');
+  cells.forEach(c=>{
+    const idx=parseInt(c.id.split('-').pop());
+    const wasLit=G.gLit.has(idx),wasChosen=G.gChosen.has(idx);
+    if(wasLit&&wasChosen){correct++;c.classList.add('reveal-correct');}
+    else if(!wasLit&&wasChosen){wrong++;c.classList.add('reveal-wrong');}
+    else if(wasLit&&!wasChosen){missed++;c.classList.add('reveal-missed');}
+  });
+  setTimeout(()=>{
+    const total=G.gLit.size;
+    const pct=Math.round(correct/total*100);
+    const bk=`<div style="font-size:12px;color:var(--text-mid);margin:12px 0;line-height:1.8;">
+      <span style="color:var(--green)">✓ ${correct} cells correct</span><br>
+      <span style="color:var(--teal2)">◎ ${missed} cells missed</span><br>
+      <span style="color:var(--red)">✗ ${wrong} wrong selections</span>
+    </div>`;
+    showResults(pct,correct,missed,wrong,bk,'gridmem');
+  },800);
+}
+
+/* ══════════════════════════════════════
+   MISSING WORD
+══════════════════════════════════════ */
+function startMWRound(){
+  const cfg=MW_DIFF[G.diff];
+  clearTimeout(G._mwTid);
+  // Pick sentences for this round — scale with round number
+  const count=Math.min(3+Math.floor((G.round-1)/2),6);
+  const shuffled=[...SENTENCES].sort(()=>Math.random()-.5);
+  G.mwQueue=shuffled.slice(0,count);
+  G.mwCurrent=0;
+  G.mwAnswers=[];
+  showReadyScreen('missing',()=>{
+    document.getElementById('mwr-eyebrow').textContent=`Missing Word · Round ${G.round} · ${cap(G.diff)}`;
+    showMWRead();
+  });
+}
+function showMWRead(){
+  const cfg=MW_DIFF[G.diff];
+  const item=G.mwQueue[G.mwCurrent];
+  const html=item.s.replace(`{${item.w}}`,item.w);
+  $('mwr-sentence').innerHTML=html;
+  showScreen('mw-read');
+  runTimer('mwr-timer','mwr-prog',cfg.secs,'fill-orange',()=>showMWChoose());
+}
+function showMWChoose(){
+  clearTimeout(G._tid);
+  const cfg=MW_DIFF[G.diff];
+  const item=G.mwQueue[G.mwCurrent];
+  const total=G.mwQueue.length;
+  // sentence with blank shown again above choices
+  const html=item.s.replace(`{${item.w}}`,`<span class="mw-blank"></span>`);
+  $('mwc-sentence').innerHTML=html;
+  $('mwc-eyebrow').textContent=`Missing Word · Round ${G.round}`;
+  $('mwc-sub').textContent=`Sentence ${G.mwCurrent+1} of ${total} — which word fits?`;
+  $('mwc-progress').textContent=`${G.mwCurrent+1} / ${total}`;
+  // build shuffled options
+  const distractors=item.d.sort(()=>Math.random()-.5).slice(0,cfg.opts-1);
+  const opts=[item.w,...distractors].sort(()=>Math.random()-.5);
+  const pool=$('mwc-choices');pool.innerHTML='';
+  opts.forEach(opt=>{
+    const btn=mk('div','mw-choice',opt);
+    btn.addEventListener('click',()=>mwSelect(btn,opt));
+    pool.appendChild(btn);
+  });
+  showScreen('mw-choose');
+}
+function mwSelect(btn,chosen){
+  // Allow re-selection — clear any pending advance
+  clearTimeout(G._mwTid);
+  document.querySelectorAll('.mw-choice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const item=G.mwQueue[G.mwCurrent];
+  // Overwrite last answer if re-selecting
+  if(G.mwAnswers.length>G.mwCurrent) G.mwAnswers[G.mwCurrent]={correct:item.w,given:chosen,ok:chosen===item.w};
+  else G.mwAnswers.push({correct:item.w,given:chosen,ok:chosen===item.w});
+  // Show brief visual feedback then advance
+  G._mwTid=setTimeout(()=>{
+    G.mwCurrent++;
+    if(G.mwCurrent<G.mwQueue.length){
+      showMWRead();
+    } else {
+      mwShowResults();
+    }
+  },750);
+}
+function mwShowResults(){
+  const correct=G.mwAnswers.filter(a=>a.ok).length;
+  const wrong=G.mwAnswers.filter(a=>!a.ok).length;
+  const pct=Math.round(correct/G.mwAnswers.length*100);
+  const bk=`<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;">
+    ${G.mwAnswers.map(a=>`<div style="padding:6px 14px;border-radius:100px;border:1px solid;font-family:'Cormorant Garamond',serif;font-size:18px;
+      ${a.ok?'border-color:var(--green);color:var(--green);background:#4caf8a14;':'border-color:var(--red);color:var(--red);background:#d9606014;'}">
+      ${a.given}${a.ok?'':` <span style="font-size:13px;opacity:.7;">→ ${a.correct}</span>`}
+    </div>`).join('')}
+  </div>`;
+  showResults(pct,correct,wrong,0,bk,'missing');
+}
+
+/* ══════════════════════════════════════
+   GROWING LIST
+══════════════════════════════════════ */
+function startGLRound(){
+  const cfg=GL_DIFF[G.diff];
+  // First round: start fresh list. Subsequent rounds: add one item.
+  if(G.round===1){
+    const shuffled=[...GL_ITEMS].sort(()=>Math.random()-.5);
+    G.glItems=shuffled.slice(0,cfg.startLen);
+  } else {
+    // Add one new item each round from remaining pool
+    const used=new Set(G.glItems);
+    const remaining=GL_ITEMS.filter(x=>!used.has(x));
+    if(remaining.length>0){
+      G.glItems=[...G.glItems,remaining[Math.floor(Math.random()*remaining.length)]];
+    }
+  }
+  G.glAnswers=new Array(G.glItems.length).fill(null);
+
+  const cfg2=GL_DIFF[G.diff];
+  $('glr-eyebrow').textContent=`Growing List · Round ${G.round} · ${cap(G.diff)}`;
+  $('glr-title').textContent=G.round===1?'Memorise this list':'A new item was added!';
+  $('glr-sub').textContent=`Remember all ${G.glItems.length} item${G.glItems.length>1?'s':''} in order`;
+
+  // Render list items, highlight the newest
+  const listEl=$('glr-list');listEl.innerHTML='';
+  G.glItems.forEach((item,i)=>{
+    const d=mk('div','gl-item'+(i===G.glItems.length-1&&G.round>1?' gl-new':''),`${i+1}. ${item}`);
+    d.style.setProperty('--delay',i*.12+'s');
+    listEl.appendChild(d);
+  });
+
+  const secs=cfg2.secs+G.glItems.length; // more time as list grows
+  showReadyScreen('growing',()=>{
+    showScreen('gl-reveal');
+    runTimer('glr-timer','glr-prog',secs,'fill-rose',()=>showGLRecall());
+  });
+}
+function showGLRecall(){
+  clearTimeout(G._tid);
+  G.glAnswers=new Array(G.glItems.length).fill(null);
+  $('glrc-eyebrow').textContent=`Growing List · Round ${G.round}`;
+  $('glrc-sub').textContent=`Fill in all ${G.glItems.length} positions`;
+
+  // Build distractors — items not in the list
+  const used=new Set(G.glItems);
+  const distractors=GL_ITEMS.filter(x=>!used.has(x)).sort(()=>Math.random()-.5).slice(0,4);
+  const allOpts=[...G.glItems,...distractors].sort(()=>Math.random()-.5);
+
+  const wrap=$('glrc-slots');wrap.innerHTML='';
+  G.glItems.forEach((_,i)=>{
+    const slot=document.createElement('div');slot.className='gl-slot';
+    slot.innerHTML=`<span class="gl-slot-num">${i+1}.</span><div class="gl-slot-choices" id="gl-slot-choices-${i}"></div>`;
+    wrap.appendChild(slot);
+    const choicesEl=slot.querySelector('.gl-slot-choices');
+    allOpts.forEach(opt=>{
+      const chip=mk('div','gl-chip',opt);
+      chip.dataset.opt=opt;chip.dataset.slot=i;
+      chip.addEventListener('click',()=>glSelect(chip,i,opt));
+      choicesEl.appendChild(chip);
+    });
+  });
+  showScreen('gl-recall');
+}
+function glSelect(chip,slotIdx,opt){
+  // Deselect previous in same slot
+  document.querySelectorAll(`#gl-slot-choices-${slotIdx} .gl-chip`).forEach(c=>c.classList.remove('selected'));
+  chip.classList.add('selected');
+  G.glAnswers[slotIdx]=opt;
+}
+function glClear(){
+  G.glAnswers=new Array(G.glItems.length).fill(null);
+  document.querySelectorAll('.gl-chip').forEach(c=>c.classList.remove('selected'));
+}
+function glSubmit(){
+  let correct=0,wrong=0,missed=0;
+  G.glItems.forEach((item,i)=>{
+    const given=G.glAnswers[i];
+    const ok=given===item;
+    if(ok)correct++;
+    else if(given===null)missed++;
+    else wrong++;
+    // highlight chips in this slot
+    document.querySelectorAll(`#gl-slot-choices-${i} .gl-chip`).forEach(c=>{
+      if(c.dataset.opt===item&&!ok)c.classList.add('reveal-missed');
+      if(c.dataset.opt===given){
+        if(ok)c.classList.add('reveal-correct');
+        else c.classList.add('reveal-wrong');
+      }
+    });
+  });
+  setTimeout(()=>{
+    const pct=Math.round(correct/G.glItems.length*100);
+    const bk=`<div style="font-size:14px;color:var(--text-mid);margin:12px 0;line-height:2;">
+      <span style="color:var(--green)">✓ ${correct} item${correct!==1?'s':''} correct</span><br>
+      ${missed?`<span style="color:var(--gold2)">◎ ${missed} item${missed!==1?'s':''} left blank</span><br>`:''}
+      ${wrong?`<span style="color:var(--red)">✗ ${wrong} item${wrong!==1?'s':''} wrong</span>`:''}
+    </div>`;
+    showResults(pct,correct,missed+wrong,0,bk,'growing');
+  },700);
+}
+
+
+function showResults(pct,correct,missed,extra,bkHTML,game){
+  G.lastPct=pct;G.allScores.push(pct);G.gamesPlayed++;
+  saveStats();
+  recordSessionGame(game);
+  // Per-game personal best
+  const bests=JSON.parse(localStorage.getItem('mv_bests')||'{}');
+  const isNewBest=pct>(bests[game]||0);
+  if(isNewBest){bests[game]=pct;localStorage.setItem('mv_bests',JSON.stringify(bests));}
+  $('pb-banner').style.display=isNewBest?'block':'none';
+  // Daily challenge completion
+  if(G.isDailyChallenge){
+    const todayISO=new Date().toISOString().split('T')[0];
+    localStorage.setItem('mv_daily_date',todayISO);
+    localStorage.setItem('mv_daily_score',pct);
+    G.isDailyChallenge=false;
+    updateDailyCard();
+  }
+  const names={word:'Word Recall',sequence:'Number Chain',symbol:'Spot the Swap',gridmem:'Grid Memory',missing:'Missing Word',growing:'Growing List',pairs:'Pair Match'};
+  document.getElementById('rs-eyebrow').textContent=`${names[game]} · Round ${G.round} Complete`;
+  document.getElementById('rs-pct').textContent=pct;
+  document.getElementById('rs-c').textContent=correct;
+  document.getElementById('rs-m').textContent=missed;
+  document.getElementById('rs-x').textContent=extra;
+  document.getElementById('rs-breakdown').innerHTML=bkHTML;
+  const accent=GAME_ACCENTS[game];
+  const nb=$('rs-next');nb.className=`btn btn-${accent}`;nb.textContent=`Next Round ${GAME_ICONS[game]}`;
+  const msgs={100:['Perfect! Flawless.','A true vault mind.','Extraordinary!'],90:['Excellent recall!','Nearly perfect.','Sharp as ever.'],70:['Great effort!','Solid recall.','Your mind is strong.'],50:['Good attempt!','Keep training.','Getting sharper.'],0:['Keep going!','Every rep counts.','Practice daily.']};
+  const k=[100,90,70,50,0].find(x=>pct>=x);
+  $('rs-message').textContent=msgs[k][G.round%3];
+  $('rs-share').style.display=pct>0?'':'none';
+
+  /* ─── Brain Score (weighted avg of last 5) ─── */
+  const allScores=G.allScores||[];
+  const recent5=allScores.slice(-5);
+  if(recent5.length>=2){
+    const weights=recent5.map((_,i)=>i+1);
+    const wSum=weights.reduce((a,b)=>a+b,0);
+    const brainScore=Math.round(recent5.reduce((acc,s,i)=>acc+s*weights[i],0)/wSum);
+    $('rs-brain').style.display='block';
+    $('rs-brain-val').textContent=brainScore;
+    setTimeout(()=>{$('rs-brain-bar').style.width=brainScore+'%';},60);
+    $('rs-brain-pro').style.display=AUTH.user?.is_pro?'none':'block';
+  } else {
+    $('rs-brain').style.display='none';
+  }
+
+  /* ─── Social comparison percentile ─── */
+  if(allScores.length>=3){
+    const beaten=allScores.filter(s=>pct>s).length;
+    const pctile=Math.max(1,Math.round(100-((beaten/allScores.length)*100)));
+    $('rs-percentile').style.display='block';
+    $('rs-percentile').textContent=`You're in the top ${pctile}% of your sessions`;
+  } else {
+    $('rs-percentile').style.display='none';
+  }
+
+  /* ─── Pro upsell (easy/medium only, non-Pro) ─── */
+  const showUpsell=!AUTH.user?.is_pro&&(G.diff==='easy'||G.diff==='medium');
+  $('rs-pro-upsell').style.display=showUpsell?'block':'none';
+
+  updateHomeStats();
+  if(pct===100&&isNewBest)launchConfetti();
+  showScreen('results');
+
+  /* ─── First-visit email capture ─── */
+  if(!localStorage.getItem('mv_visited') && !AUTH.user){
+    localStorage.setItem('mv_visited','1');
+    setTimeout(()=>showCaptureModal(pct),1200);
+  } else if(!localStorage.getItem('mv_visited')){
+    localStorage.setItem('mv_visited','1');
+  }
+
+  /* ─── Track last session date ─── */
+  localStorage.setItem('mv_last_session_date',new Date().toISOString().split('T')[0]);
+}
+
+/* ─── TIMER HELPER ─── */
+function runTimer(numId,progId,secs,fillClass,onDone){
+  let t=secs;
+  const te=$(numId),pe=$(progId);
+  te.textContent=t;te.className='timer-num';
+  pe.className=`progress-fill ${fillClass}`;
+  pe.style.transition='none';pe.style.width='100%';void pe.offsetWidth;
+  pe.style.transition=`width ${secs}s linear`;
+  setTimeout(()=>{pe.style.width='0%';},40);
+  clearTimeout(G._tid);
+  const iv=setInterval(()=>{
+    t--;te.textContent=t;
+    if(t<=2)te.className='timer-num urgent';
+    if(t<=0){clearInterval(iv);onDone();}
+  },1000);
+  G._tid=iv;
+}
+
+/* ─── CONFETTI ─── */
+function launchConfetti(){
+  const cols=['#c9a84c','#e8c96a','#5b8ef0','#9b6ef0','#2ec4b6','#4caf8a','#f0e6c8'];
+  for(let i=0;i<70;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*12}vh;background:${cols[i%cols.length]};animation-duration:${.6+Math.random()*.9}s;animation-delay:${Math.random()*.6}s;width:${4+Math.random()*9}px;height:${4+Math.random()*9}px;`;document.body.appendChild(p);setTimeout(()=>p.remove(),2400);}
+}
+
+/* ─── KEYBOARD (num game) ─── */
+document.addEventListener('keydown',e=>{
+  if(!$('screen-num-recall')?.classList.contains('active'))return;
+  if(e.key>='0'&&e.key<='9')numKey(e.key);
+  else if(e.key==='Backspace')numKey('⌫');
+  else if(e.key==='Enter')numSubmit();
+});
+
+/* ─── UTILS ─── */
+const $=id=>document.getElementById(id);
+function mk(tag,cls,txt){const el=document.createElement(tag);el.className=cls;if(txt!==undefined)el.textContent=txt;return el;}
+function cap(s){return s[0].toUpperCase()+s.slice(1);}
+function rnd(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+
+/* ─── THEME TOGGLE ─── */
+function toggleTheme(){
+  const isLight=document.documentElement.getAttribute('data-theme')==='light';
+  const next=isLight?'dark':'light';
+  document.documentElement.setAttribute('data-theme',next);
+  $('theme-toggle').textContent=next==='light'?'🌙':'☀️';
+  localStorage.setItem('mv_theme',next);
+}
+(function initTheme(){
+  const saved=localStorage.getItem('mv_theme');
+  if(saved==='light'){document.documentElement.setAttribute('data-theme','light');$('theme-toggle').textContent='🌙';}
+})();
+
+/* ═══════════════════════════════════════
+   AUTH + CLOUD SYNC
+═══════════════════════════════════════ */
+const API = ''; // same origin on Vercel
+const STRIPE_PRICE_ID_MONTHLY = ''; // fill in from Stripe dashboard
+const STRIPE_PRICE_ID_ANNUAL  = ''; // fill in from Stripe dashboard
+
+let AUTH = {
+  token: localStorage.getItem('mv_token') || null,
+  user: JSON.parse(localStorage.getItem('mv_user') || 'null')
+};
+
+function authHeader(){ return AUTH.token ? {'Authorization':'Bearer '+AUTH.token,'Content-Type':'application/json'} : {'Content-Type':'application/json'}; }
+
+async function fetchMe(){
+  if(!AUTH.token) return;
+  try {
+    const r = await fetch(API+'/api/auth/me',{ headers:authHeader() });
+    if(!r.ok) return;
+    const me = await r.json();
+    AUTH.user = me;
+    localStorage.setItem('mv_user',JSON.stringify(me));
+    updateStartBtn();
+  } catch(e){ /* offline */ }
+}
+
+/* Sync stats to server (non-blocking) */
+async function syncToServer(){
+  if(!AUTH.token) return;
+  try {
+    await fetch(API+'/api/stats/save', {
+      method:'POST', headers:authHeader(),
+      body: JSON.stringify({ scores: G.allScores, games_played: G.gamesPlayed, streak: G.streak, last_played: new Date().toISOString().split('T')[0] })
+    });
+  } catch(e){ /* offline — localStorage already saved */ }
+}
+
+/* Load stats from server on login */
+async function loadFromServer(){
+  if(!AUTH.token) return false;
+  try {
+    const r = await fetch(API+'/api/stats/get', { headers: authHeader() });
+    if(!r.ok) return false;
+    const data = await r.json();
+    // Merge: keep whichever has more games
+    const serverGames = data.games_played || 0;
+    const localGames  = G.gamesPlayed || 0;
+    if(serverGames >= localGames){
+      G.allScores   = data.scores || [];
+      G.gamesPlayed = data.games_played || 0;
+      G.streak      = data.streak || 0;
+      if(data.last_played) localStorage.setItem('mv_lastdate', data.last_played);
+      localStorage.setItem('mv_streak', G.streak);
+      saveStats();
+    } else {
+      // Push local stats up
+      await syncToServer();
+    }
+    updateHomeStats();
+    return true;
+  } catch(e){ return false; }
+}
+
+/* Override saveStats to also sync */
+const _origSaveStats = saveStats;
+saveStats = function(){
+  _origSaveStats();
+  syncToServer();
+};
+
+/* ─── EMAIL CAPTURE MODAL ─── */
+function showCaptureModal(pct){
+  $('cap-score').textContent=pct+'%';
+  $('cap-err').textContent='';
+  $('cap-success').style.display='none';
+  $('cap-email').value='';
+  $('cap-submit').disabled=false;
+  $('capture-overlay').style.display='flex';
+}
+function closeCaptureModal(){ $('capture-overlay').style.display='none'; }
+async function submitCapture(){
+  const email=$('cap-email').value.trim();
+  if(!email||!email.includes('@')){$('cap-err').textContent='Please enter a valid email.';return;}
+  $('cap-submit').disabled=true;$('cap-err').textContent='';
+  try{
+    const r=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+    const d=await r.json();
+    if(!r.ok){$('cap-err').textContent=d.error||'Something went wrong.';$('cap-submit').disabled=false;return;}
+    $('cap-success').style.display='block';$('cap-submit').style.display='none';
+    setTimeout(closeCaptureModal,3000);
+  }catch(e){$('cap-err').textContent='Network error — try again.';$('cap-submit').disabled=false;}
+}
+
+/* ─── COMEBACK BANNER ─── */
+function checkComebackBanner(){
+  const lastSession=localStorage.getItem('mv_last_session_date');
+  if(!lastSession||!AUTH.user) return;
+  const today=new Date().toISOString().split('T')[0];
+  if(lastSession>=today) return; // played today already
+  const shownDate=localStorage.getItem('mv_banner_shown_date');
+  if(shownDate===today) return; // already dismissed today
+  const banner=$('comeback-banner');
+  if(!banner) return;
+  const streak=G.streak||0;
+  $('comeback-text').textContent=streak>0
+    ?`Welcome back! Your ${streak}-day streak is waiting.`
+    :'Welcome back! Start a new streak today.';
+  banner.style.display='block';
+}
+function dismissComebackBanner(){
+  $('comeback-banner').style.display='none';
+  localStorage.setItem('mv_banner_shown_date',new Date().toISOString().split('T')[0]);
+}
+
+/* ─── SESSION PROGRESS BAR ─── */
+function updateSessionProgress(){
+  const progEl=$('tp-progress');
+  if(!progEl||typeof DAILY_GAME_ORDER==='undefined') return;
+  const sc=getSessionCount(),total=getTodaysPlan().length;
+  if(sc>0){
+    progEl.style.display='block';
+    $('tp-prog-text').textContent=sc>=total?`${total}/${total} complete ✓`:`${sc}/${total} complete`;
+    setTimeout(()=>{$('tp-prog-bar').style.width=Math.round((sc/total)*100)+'%';},60);
+  } else {
+    progEl.style.display='none';
+  }
+}
+
+/* UI helpers */
+function updateUserBtn(){
+  const lbl = $('ub-label');
+  if(AUTH.user){
+    $('user-btn').querySelector('.ub-icon').textContent = '✓';
+    lbl.textContent = AUTH.user.email.split('@')[0];
+    $('auth-skip').style.display='none';
+  } else {
+    $('user-btn').querySelector('.ub-icon').textContent = '👤';
+    lbl.textContent = 'Sign In';
+    $('auth-skip').style.display='block';
+  }
+}
+
+function openAuth(){
+  if(AUTH.user){ showLogoutPrompt(); return; }
+  $('auth-overlay').style.display='flex';
+  $('auth-err').textContent='';
+}
+function closeAuth(){ $('auth-overlay').style.display='none'; }
+
+let _selectedPlan = 'annual'; // default selection
+function showProModal(){
+  $('pro-err').textContent='';
+  $('pro-cta').textContent='Start 7-day free trial →';
+  $('pro-cta').disabled=false;
+  selectProPlan(_selectedPlan);
+  $('pro-overlay').style.display='flex';
+}
+function closeProModal(){ $('pro-overlay').style.display='none'; }
+function selectProPlan(plan){
+  _selectedPlan=plan;
+  $('plan-monthly').style.borderColor = plan==='monthly' ? 'var(--gold)' : 'var(--border2)';
+  $('plan-annual').style.borderColor  = plan==='annual'  ? 'var(--gold)' : 'var(--border2)';
+}
+async function startStripeCheckout(){
+  if(!AUTH.user){
+    closeProModal();
+    openAuth();
+    return;
+  }
+  const priceId = _selectedPlan==='annual' ? STRIPE_PRICE_ID_ANNUAL : STRIPE_PRICE_ID_MONTHLY;
+  if(!priceId){ $('pro-err').textContent='Checkout not configured yet.'; return; }
+  $('pro-cta').textContent='Opening checkout…';
+  $('pro-cta').disabled=true;
+  $('pro-err').textContent='';
+  try{
+    const r=await fetch(API+'/api/stripe?action=checkout',{
+      method:'POST',headers:authHeader(),
+      body:JSON.stringify({
+        price_id:priceId,
+        success_url:window.location.origin+'/?checkout=success',
+        cancel_url:window.location.origin+'/?checkout=cancelled'
+      })
+    });
+    const d=await r.json();
+    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start 7-day free trial →'; $('pro-cta').disabled=false; return; }
+    window.location.href=d.session_url;
+  }catch(e){
+    $('pro-err').textContent='Network error — try again.';
+    $('pro-cta').textContent='Start 7-day free trial →';
+    $('pro-cta').disabled=false;
+  }
+}
+
+/* ─── MANAGE SUBSCRIPTION ─── */
+async function openManageSubscription(){
+  if(!AUTH.token) return;
+  try{
+    const r=await fetch(API+'/api/stripe?action=portal',{method:'POST',headers:authHeader(),body:JSON.stringify({})});
+    const d=await r.json();
+    if(r.ok&&d.url) window.location.href=d.url;
+    else alert(d.error||'Could not open subscription management.');
+  }catch(e){ alert('Network error — try again.'); }
+}
+async function showSubscriptionInfo(){
+  if(!AUTH.token) return;
+  try{
+    const r=await fetch(API+'/api/stripe?action=status',{headers:authHeader()});
+    const d=await r.json();
+    if(!r.ok) return;
+    let msg=`Recall Better Pro — ${d.plan==='annual'?'Annual':'Monthly'} plan`;
+    if(d.cancelled) msg+='\nCancelled — access until period end';
+    if(d.renewal_date) msg+=`\nRenews: ${new Date(d.renewal_date).toLocaleDateString()}`;
+    msg+='\n\nManage subscription?';
+    if(confirm(msg)) openManageSubscription();
+  }catch(e){}
+}
+
+function showLogoutPrompt(){
+  const email = AUTH.user?.email || '';
+  const isPro = AUTH.user?.is_pro;
+  const msg = isPro
+    ? `Signed in as ${email}\nRecall Better Pro ✦\n\n[1] Manage subscription\n[2] Sign out`
+    : `Signed in as ${email}\n\nSign out?`;
+  if(isPro){
+    const choice=prompt(msg,'2');
+    if(choice==='1') showSubscriptionInfo();
+    else if(choice==='2'){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); }
+  } else {
+    if(confirm(msg)){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); }
+  }
+}
+
+function switchTab(t){
+  $('form-login').style.display    = t==='login'    ? '' : 'none';
+  $('form-register').style.display = t==='register' ? '' : 'none';
+  $('tab-login').classList.toggle('active', t==='login');
+  $('tab-register').classList.toggle('active', t==='register');
+  $('auth-err').textContent='';
+}
+
+function setAuthErr(msg){ $('auth-err').textContent = msg; }
+
+async function showForgotPassword(){
+  const email = $('li-email').value.trim();
+  const prompt = email || '';
+  const entered = window.prompt('Enter your email address and we\'ll send a reset link:', prompt);
+  if(entered === null) return; // cancelled
+  if(!entered || !entered.includes('@')){ alert('Please enter a valid email address.'); return; }
+  setAuthErr('Sending reset link…');
+  try {
+    const r = await fetch(API+'/api/auth/forgot-password',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:entered.trim()}) });
+    setAuthErr('');
+    alert('If an account exists for that email, a reset link has been sent. Check your inbox.');
+  } catch(e){ setAuthErr('Network error. Check connection.'); }
+}
+
+async function authLogin(){
+  const email=$('li-email').value.trim(), pass=$('li-pass').value;
+  if(!email||!pass){ setAuthErr('Please fill in all fields.'); return; }
+  setAuthErr('Signing in…');
+  try {
+    const r = await fetch(API+'/api/auth/login',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password:pass}) });
+    const d = await r.json();
+    if(!r.ok){ setAuthErr(d.error||'Sign in failed.'); return; }
+    AUTH.token=d.token; AUTH.user=d.user;
+    localStorage.setItem('mv_token',d.token);
+    localStorage.setItem('mv_user',JSON.stringify(d.user));
+    closeAuth(); updateUserBtn();
+    await loadFromServer();
+    fetchMe();
+  } catch(e){ setAuthErr('Network error. Check connection.'); }
+}
+
+async function authRegister(){
+  const email=$('rg-email').value.trim(), pass=$('rg-pass').value;
+  if(!email||!pass){ setAuthErr('Please fill in all fields.'); return; }
+  if(pass.length<6){ setAuthErr('Password must be at least 6 characters.'); return; }
+  setAuthErr('Creating account…');
+  try {
+    const r = await fetch(API+'/api/auth/register',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password:pass}) });
+    const d = await r.json();
+    if(!r.ok){ setAuthErr(d.error||'Registration failed.'); return; }
+    AUTH.token=d.token; AUTH.user=d.user;
+    localStorage.setItem('mv_token',d.token);
+    localStorage.setItem('mv_user',JSON.stringify(d.user));
+    closeAuth(); updateUserBtn();
+    await syncToServer(); // push any existing local stats
+    fetchMe();
+  } catch(e){ setAuthErr('Network error. Check connection.'); }
+}
+
+/* Init on load */
+updateUserBtn();
+if(AUTH.token){ loadFromServer(); fetchMe(); }
+
+// Reset streak if user skipped a day
+(function checkStreakReset(){
+  if(G.lastDate){
+    const toISO=d=>d.toISOString().split('T')[0];
+    const today=toISO(new Date());
+    const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+    const last=G.lastDate.length===10?G.lastDate:toISO(new Date(G.lastDate));
+    if(last!==today&&last!==toISO(yesterday)){
+      G.streak=0;localStorage.setItem('mv_streak','0');
+    }
+  }
+})();
+
+/* ══════════════════════════════════════
+   WEEKLY TRACKING + STATS
+══════════════════════════════════════ */
+function recordPlayedDate(){
+  const today=new Date().toISOString().split('T')[0];
+  const dates=JSON.parse(localStorage.getItem('mv_played_dates')||'[]');
+  if(!dates.includes(today)){dates.unshift(today);if(dates.length>60)dates.pop();localStorage.setItem('mv_played_dates',JSON.stringify(dates));}
+}
+
+function getWeeklyCount(){
+  const dates=JSON.parse(localStorage.getItem('mv_played_dates')||'[]');
+  const now=new Date();
+  const day=now.getDay();
+  const monday=new Date(now);monday.setDate(now.getDate()-(day===0?6:day-1));monday.setHours(0,0,0,0);
+  return dates.filter(d=>new Date(d)>=monday).length;
+}
+
+function getFocusLabel(){
+  const s=G.allScores;
+  if(s.length<6) return['—','Progress'];
+  const recent=s.slice(-5).reduce((a,b)=>a+b,0)/5;
+  const older=s.slice(-10,-5);
+  if(!older.length) return['—','Progress'];
+  const olderAvg=older.reduce((a,b)=>a+b,0)/older.length;
+  const diff=recent-olderAvg;
+  if(diff>4)  return['Better ↑','Getting better'];
+  if(diff<-4) return['Practise','Keep going'];
+  return['Steady →','Holding strong'];
+}
+
+function isTodayDone(){
+  const today=new Date().toISOString().split('T')[0];
+  return JSON.parse(localStorage.getItem('mv_played_dates')||'[]').includes(today);
+}
+
+/* ── SESSION PROGRESS TRACKING ── */
+function getSessionProgress(){
+  const today=new Date().toISOString().split('T')[0];
+  const session=JSON.parse(localStorage.getItem('mv_session')||'{}');
+  if(session.date!==today) return {date:today,completed:[]};
+  return session;
+}
+
+function getSessionCount(){
+  const session=getSessionProgress();
+  const plan=getTodaysPlan();
+  return plan.filter(g=>session.completed.includes(g)).length;
+}
+
+function isSessionComplete(){
+  return getSessionCount()>=getTodaysPlan().length;
+}
+
+function recordSessionGame(game){
+  const plan=getTodaysPlan();
+  const session=getSessionProgress();
+  // Track any game played, but only plan games count toward session completion
+  if(plan.includes(game)&&!session.completed.includes(game)){
+    session.completed.push(game);
+    localStorage.setItem('mv_session',JSON.stringify(session));
+  }
+  // Only mark day as done + increment streak when full session is complete
+  if(isSessionComplete()){
+    recordPlayedDate();
+    const toISO=d=>d.toISOString().split('T')[0];
+    const today=toISO(new Date());
+    const last=G.lastDate?(G.lastDate.length===10?G.lastDate:toISO(new Date(G.lastDate))):'';
+    if(last!==today){
+      const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+      if(last===toISO(yesterday)){
+        G.streak++;
+      } else if(last===''){
+        G.streak=1;
+      } else {
+        G.streak=1; // Reset — skipped a day
+      }
+      G.lastDate=today;
+      localStorage.setItem('mv_streak',G.streak);
+      localStorage.setItem('mv_lastdate',G.lastDate);
+    }
+  }
+}
+
+/* ══════════════════════════════════════
+   TODAY'S PLAN
+══════════════════════════════════════ */
+const GAME_TIMES={word:'~2 min',sequence:'~2 min',symbol:'~2 min',gridmem:'~2 min',missing:'~2 min',growing:'~3 min',pairs:'~2 min'};
+const GAME_OUTCOMES={word:'Remember names and vocabulary faster',sequence:'Hold numbers, PINs and steps in mind',symbol:'Catch changes — train sharp attention',gridmem:'Remember layouts and patterns',missing:'Read with deeper comprehension',growing:'Expand your short-term memory',pairs:'Connect names, faces and linked facts'};
+
+function getTodaysPlan(){
+  const dayNum=getDayNumber();
+  return[DAILY_GAME_ORDER[(dayNum-1)%7],DAILY_GAME_ORDER[(dayNum+1)%7],DAILY_GAME_ORDER[(dayNum+3)%7]];
+}
+
+function renderTodaysPlan(){
+  const plan=getTodaysPlan();
+  const session=getSessionProgress();
+  const el=$('todays-plan');if(!el)return;
+  el.innerHTML='';
+  plan.forEach(game=>{
+    const done=session.completed.includes(game);
+    const row=document.createElement('div');row.className='tp-row'+(done?' tp-done':'');
+    row.onclick=()=>selectFromPlan(game);
+    row.innerHTML=`<span class="tp-icon">${done?'✓':GAME_ICONS[game]}</span><div class="tp-info"><span class="tp-name">${DAILY_GAME_NAMES[game]}</span><span class="tp-outcome">${done?'Completed':GAME_OUTCOMES[game]}</span></div><span class="tp-time">${GAME_TIMES[game]}</span><span class="tp-arrow">${done?'':'→'}</span>`;
+    el.appendChild(row);
+  });
+  updateSessionProgress();
+}
+
+function selectFromPlan(game){
+  selectGame(game);
+  setTimeout(()=>$('start-btn')?.scrollIntoView({behavior:'smooth',block:'center'}),120);
+}
+
+function toggleExercises(){
+  // Games are always visible now
+}
+
+function startQuickSession(){
+  const plan=getTodaysPlan();
+  const game=plan[0];
+  G.game=game;G.diff=localStorage.getItem('mv_diff')||'easy';G.round=1;
+  if(G.game==='growing')G.glItems=[];
+  selectGame(game);
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
+  launchRound();
+}
+
+/* ══════════════════════════════════════
+   COMFORT MODE
+══════════════════════════════════════ */
+function toggleComfortMode(){
+  const isOn=document.documentElement.getAttribute('data-comfort')==='true';
+  if(isOn){document.documentElement.removeAttribute('data-comfort');}else{document.documentElement.setAttribute('data-comfort','true');}
+  $('comfort-btn')?.classList.toggle('active',!isOn);
+  localStorage.setItem('mv_comfort',isOn?'':'true');
+}
+
+/* ══════════════════════════════════════
+   PAIR MATCH
+══════════════════════════════════════ */
+function startPairsRound(){
+  const cfg=PAIR_DIFF[G.diff];
+  const shuffled=[...PAIR_ITEMS].sort(()=>Math.random()-.5);
+  G.pPairs=shuffled.slice(0,cfg.count);
+  G.pAnswers=[];G.pCurrent=0;
+  $('pm-eyebrow').textContent=`Pair Match · Round ${G.round} · ${cap(G.diff)}`;
+  const grid=$('pm-pair-grid');grid.innerHTML='';
+  G.pPairs.forEach((pair,i)=>{
+    const card=mk('div','pair-card','');
+    card.style.setProperty('--delay',i*.08+'s');
+    card.innerHTML=`<span class="pair-word">${pair[0]}</span><span class="pair-arrow">↔</span><span class="pair-word">${pair[1]}</span>`;
+    grid.appendChild(card);
+  });
+  showReadyScreen('pairs',()=>{
+    showScreen('pair-study');
+    runTimer('pm-timer','pm-prog',cfg.secs,'fill-lime',()=>showPairRecall());
+  });
+}
+
+function showPairRecall(){
+  clearTimeout(G._tid);
+  G.pCurrent=0;G.pAnswers=[];
+  showPairQuestion();
+}
+
+function showPairQuestion(){
+  if(G.pCurrent>=G.pPairs.length){pairShowResults();return;}
+  const pair=G.pPairs[G.pCurrent];
+  const total=G.pPairs.length;
+  $('pr-eyebrow').textContent=`Pair Match · Round ${G.round}`;
+  $('pr-progress').textContent=`${G.pCurrent+1} / ${total}`;
+  $('pr-target').textContent=pair[0];
+  $('pr-sub').textContent=`Which word was paired with "${pair[0]}"?`;
+  const correct=pair[1];
+  const allBs=[...new Set(PAIR_ITEMS.map(p=>p[1]).filter(b=>b!==correct))];
+  const distractors=allBs.sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[correct,...distractors].sort(()=>Math.random()-.5);
+  const pool=$('pr-choices');pool.innerHTML='';
+  opts.forEach(opt=>{
+    const btn=mk('div','pair-choice',opt);
+    btn.addEventListener('click',()=>pairSelect(btn,opt,correct));
+    pool.appendChild(btn);
+  });
+  showScreen('pair-recall');
+}
+
+function pairSelect(btn,chosen,correct){
+  clearTimeout(G._mwTid);
+  document.querySelectorAll('.pair-choice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  G.pAnswers.push({correct,given:chosen,ok:chosen===correct});
+  G._mwTid=setTimeout(()=>{
+    G.pCurrent++;
+    if(G.pCurrent<G.pPairs.length){showPairQuestion();}
+    else{pairShowResults();}
+  },600);
+}
+
+function pairShowResults(){
+  const correct=G.pAnswers.filter(a=>a.ok).length;
+  const wrong=G.pAnswers.filter(a=>!a.ok).length;
+  const pct=Math.round(correct/G.pAnswers.length*100);
+  const bk=`<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;">
+    ${G.pAnswers.map((a,i)=>`<div style="padding:6px 14px;border-radius:100px;border:1px solid;font-family:'Cormorant Garamond',serif;font-size:17px;
+      ${a.ok?'border-color:var(--green);color:var(--green);background:#4caf8a14;':'border-color:var(--red);color:var(--red);background:#d9606014;'}">
+      ${G.pPairs[i][0]} ↔ ${a.given}${a.ok?'':` <span style="font-size:12px;opacity:.7;">(${a.correct})</span>`}
+    </div>`).join('')}
+  </div>`;
+  showResults(pct,correct,wrong,0,bk,'pairs');
+}
+
+/* ══════════════════════════════════════
+   DAILY CHALLENGE
+══════════════════════════════════════ */
+const LAUNCH_DATE=new Date('2025-03-10');
+const DAILY_GAME_ORDER=['word','sequence','gridmem','symbol','missing','growing','pairs'];
+const DAILY_GAME_NAMES={word:'Word Recall',sequence:'Number Chain',symbol:'Spot the Swap',gridmem:'Grid Memory',missing:'Missing Word',growing:'Growing List',pairs:'Pair Match'};
+
+function getDayNumber(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const launch=new Date(LAUNCH_DATE);launch.setHours(0,0,0,0);
+  return Math.max(1,Math.floor((today-launch)/86400000)+1);
+}
+
+function getDailyConfig(){
+  const dayNum=getDayNumber();
+  const game=DAILY_GAME_ORDER[(dayNum-1)%DAILY_GAME_ORDER.length];
+  // Difficulty cycles: medium, hard, hard, expert
+  const diffs=['medium','hard','hard','expert'];
+  const diff=diffs[(dayNum-1)%diffs.length];
+  return{game,diff,dayNum};
+}
+
+function updateDailyCard(){
+  const cfg=getDailyConfig();
+  $('dc-game-name').textContent=DAILY_GAME_NAMES[cfg.game];
+  $('dc-meta').textContent='';
+  const todayISO=new Date().toISOString().split('T')[0];
+  const done=localStorage.getItem('mv_daily_date')===todayISO;
+  const score=localStorage.getItem('mv_daily_score');
+  if(done){
+    $('dc-score').textContent=score+'%';
+    $('dc-done').style.display='block';
+    const btn=$('dc-btn');btn.textContent='Done ✓';btn.disabled=true;btn.style.opacity='0.45';
+    $('dc-share').style.display='block';
+  } else {
+    $('dc-done').style.display='none';
+    const btn=$('dc-btn');btn.textContent='Go ✦';btn.disabled=false;btn.style.opacity='';
+    $('dc-share').style.display='none';
+  }
+}
+
+function launchDailyChallenge(){
+  const cfg=getDailyConfig();
+  G.isDailyChallenge=true;
+  G.game=cfg.game;G.diff=cfg.diff;G.round=1;
+  if(G.game==='growing')G.glItems=[];
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
+  launchRound();
+}
+
+function shareText(text){
+  if(navigator.share){navigator.share({text}).catch(()=>{});}
+  else{navigator.clipboard?.writeText(text).then(()=>alert('Result copied!')).catch(()=>alert(text));}
+}
+
+function shareDaily(){
+  const cfg=getDailyConfig();
+  const score=localStorage.getItem('mv_daily_score')||'—';
+  const pct=parseInt(score)||0;
+  const filled=Math.round(pct/20);
+  const bar='🟨'.repeat(Math.min(filled,5))+'⬛'.repeat(Math.max(0,5-filled));
+  const text=`Recall Better Daily\n${DAILY_GAME_NAMES[cfg.game]} · ${cap(cfg.diff)}\n${bar} ${score}%\n\nrecallbetter.com`;
+  shareText(text);
+}
+
+function shareResult(){
+  const gameName=DAILY_GAME_NAMES[G.game]||cap(G.game);
+  const streak=G.streak||0;
+  const text=`I scored ${G.lastPct}% on ${gameName} — Day ${streak} streak 🧠\nDaily memory training: recallbetter.com`;
+  shareText(text);
+}
+
+/* ─── SERVICE WORKER ─── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+/* ─── ERROR BOUNDARY ─── */
+function showErrorBoundary(message) {
+  // Don't show if already showing
+  if (document.getElementById('error-boundary')) return;
+  const el = document.createElement('div');
+  el.id = 'error-boundary';
+  el.style.cssText = 'position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)';
+  el.innerHTML = `
+    <div style="text-align:center;max-width:360px">
+      <div style="font-size:36px;margin-bottom:16px">⚠</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:10px;color:var(--text)">Something went wrong</h2>
+      <p style="color:var(--text-mid);font-size:14px;margin-bottom:28px;line-height:1.6">${message || 'An unexpected error occurred. Your progress is saved.'}</p>
+      <button onclick="window.location.reload()" style="padding:12px 28px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:100px;color:var(--gold2);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;">Reload App</button>
+    </div>`;
+  document.body.appendChild(el);
+}
+
+window.addEventListener('error', e => {
+  console.error('Unhandled error:', e.error);
+  showErrorBoundary('An unexpected error occurred. Your progress is saved.');
+});
+
+window.addEventListener('unhandledrejection', e => {
+  console.error('Unhandled promise rejection:', e.reason);
+  // Only surface as UI error for non-network errors (network failures are handled inline)
+  if (!(e.reason instanceof TypeError && e.reason.message?.includes('fetch'))) {
+    showErrorBoundary('An unexpected error occurred. Your progress is saved.');
+  }
+});
+
+/* ─── POST-CHECKOUT REDIRECT HANDLER ─── */
+(function handleCheckoutRedirect(){
+  const params=new URLSearchParams(window.location.search);
+  const checkout=params.get('checkout');
+  if(!checkout) return;
+
+  // Clean URL immediately
+  const clean=new URL(window.location);
+  clean.searchParams.delete('checkout');
+  clean.searchParams.delete('session_id');
+  history.replaceState(null,'',clean.toString());
+
+  if(checkout==='success'){
+    const sessionId=params.get('session_id');
+    showCheckoutToast('Verifying your upgrade…','pending');
+    // Try activate endpoint first
+    if(AUTH.token&&sessionId){
+      fetch(API+'/api/subscription/activate',{
+        method:'POST',headers:authHeader(),
+        body:JSON.stringify({stripe_session_id:sessionId})
+      }).then(r=>r.json()).then(d=>{
+        if(d.ok&&d.is_pro){
+          AUTH.user.is_pro=true;
+          localStorage.setItem('mv_user',JSON.stringify(AUTH.user));
+          showCheckoutToast('Pro unlocked! Hard and Expert modes available.','success');
+          updateStartBtn();
+          return;
+        }
+        // Fallback: poll /auth/me
+        pollForPro();
+      }).catch(()=>pollForPro());
+    } else if(AUTH.token){
+      pollForPro();
+    } else {
+      showCheckoutToast('Sign in to activate your Pro upgrade.','success');
+    }
+  } else if(checkout==='cancelled'){
+    showCheckoutToast('No worries — Pro is here when you\'re ready.','info');
+  }
+})();
+
+function showCheckoutToast(msg,type){
+  let el=$('checkout-toast');
+  if(!el){
+    el=document.createElement('div');
+    el.id='checkout-toast';
+    el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:300;padding:12px 24px;border-radius:14px;font-size:14px;font-weight:500;text-align:center;max-width:380px;transition:opacity .4s;';
+    document.body.appendChild(el);
+  }
+  el.style.background=type==='success'?'var(--gold-dim)':type==='pending'?'#fff8e7':'var(--card-solid)';
+  el.style.border=type==='success'?'1px solid var(--gold-glow)':'1px solid var(--border2)';
+  el.style.color=type==='success'?'var(--gold2)':'var(--text-main)';
+  el.textContent=msg;
+  el.style.opacity='1';
+  if(type!=='pending') setTimeout(()=>{el.style.opacity='0';setTimeout(()=>el.remove(),500);},4000);
+}
+
+function pollForPro(){
+  let attempts=0;
+  const iv=setInterval(async()=>{
+    attempts++;
+    if(attempts>15){clearInterval(iv);showCheckoutToast('Upgrade processing — may take a moment.','info');return;}
+    try{
+      const r=await fetch(API+'/api/auth/me',{headers:authHeader()});
+      if(!r.ok) return;
+      const me=await r.json();
+      if(me.is_pro){
+        clearInterval(iv);
+        AUTH.user=me;
+        localStorage.setItem('mv_user',JSON.stringify(me));
+        showCheckoutToast('Pro unlocked! Hard and Expert modes available.','success');
+        updateStartBtn();
+      }
+    }catch(e){}
+  },2000);
+}
+
+/* ─── INIT (after all consts are defined) ─── */
+updateDailyCard();
+renderTodaysPlan();
+updateStartBtn();
+updateHomeStats();
+checkComebackBanner();
+document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
+if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttribute('data-comfort','true');$('comfort-btn')?.classList.add('active');}
+// Auto-select next unplayed plan game on load
+(function initGameSelection(){
+  const plan=getTodaysPlan();
+  const session=getSessionProgress();
+  const nextGame=plan.find(g=>!session.completed.includes(g))||plan[0];
+  selectGame(nextGame);
+})();
+</script>
+</body>
+</html>

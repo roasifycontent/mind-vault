@@ -2,9 +2,9 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.yourname.mindvault",
+    "package_name": "com.recallbetter.app",
     "sha256_cert_fingerprints": [
-      "REPLACE_WITH_YOUR_SHA256_FINGERPRINT"
+      "A0:E9:87:7F:A9:79:BB:9E:B3:88:88:6C:D4:D2:D7:B4:11:68:B4:14:2F:D5:F2:20:77:BB:69:6D:68:DF:F1:B0"
     ]
   }
 }]

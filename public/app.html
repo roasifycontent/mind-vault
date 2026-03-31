@@ -2040,7 +2040,7 @@ function googleSignIn(){
     return;
   }
   google.accounts.id.initialize({
-    client_id: document.querySelector('meta[name="google-client-id"]')?.content || 'YOUR_GOOGLE_CLIENT_ID',
+    client_id: document.querySelector('meta[name="google-client-id"]')?.content || '582362046844-4nh0qdp49qqkf1bdrfafdb3ct5j1a0t3.apps.googleusercontent.com',
     callback: handleGoogleCredential,
     auto_select: false
   });
@@ -2053,7 +2053,7 @@ function googleSignIn(){
       );
       // Fallback: use popup mode
       google.accounts.oauth2.initTokenClient({
-        client_id: document.querySelector('meta[name="google-client-id"]')?.content || 'YOUR_GOOGLE_CLIENT_ID',
+        client_id: document.querySelector('meta[name="google-client-id"]')?.content || '582362046844-4nh0qdp49qqkf1bdrfafdb3ct5j1a0t3.apps.googleusercontent.com',
         scope: 'email profile',
         callback: ()=>{}
       });

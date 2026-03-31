@@ -539,10 +539,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <div class="login-divider">or continue with</div>
 
     <div class="login-social">
-      <button class="login-social-btn login-google" onclick="googleSignIn()">
-        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.0 24.0 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-        Continue with Google
-      </button>
+      <div id="googleBtnContainer" style="display:flex;justify-content:center;min-height:44px;"></div>
     </div>
 
     <div class="login-legal">
@@ -2026,6 +2023,8 @@ function showLoginScreen(){
   $('loginScreen').classList.remove('hidden');
   document.getElementById('app').style.display='none';
   document.getElementById('user-btn').style.display='none';
+  // Render Google button when login screen appears
+  setTimeout(initGoogleSignIn, 300);
 }
 function hideLoginScreen(){
   $('loginScreen').classList.add('hidden');
@@ -2034,33 +2033,33 @@ function hideLoginScreen(){
 }
 
 /* ─── GOOGLE SIGN-IN ─── */
-function googleSignIn(){
-  if(typeof google==='undefined'||!google.accounts){
-    setAuthErr('Google Sign-In is loading. Please try again in a moment.');
+function initGoogleSignIn(){
+  if(typeof google==='undefined'||!google.accounts) {
+    // Retry after SDK loads
+    setTimeout(initGoogleSignIn, 500);
     return;
   }
   google.accounts.id.initialize({
-    client_id: document.querySelector('meta[name="google-client-id"]')?.content || '582362046844-4nh0qdp49qqkf1bdrfafdb3ct5j1a0t3.apps.googleusercontent.com',
+    client_id: '582362046844-4nh0qdp49qqkf1bdrfafdb3ct5j1a0t3.apps.googleusercontent.com',
     callback: handleGoogleCredential,
+    ux_mode: 'popup',
     auto_select: false
   });
-  google.accounts.id.prompt(notification => {
-    if(notification.isNotDisplayed()||notification.isSkippedMoment()){
-      // One Tap not available, try popup
-      google.accounts.id.renderButton(
-        document.createElement('div'),
-        { type:'standard', theme:'outline' }
-      );
-      // Fallback: use popup mode
-      google.accounts.oauth2.initTokenClient({
-        client_id: document.querySelector('meta[name="google-client-id"]')?.content || '582362046844-4nh0qdp49qqkf1bdrfafdb3ct5j1a0t3.apps.googleusercontent.com',
-        scope: 'email profile',
-        callback: ()=>{}
-      });
-      setAuthErr('Please allow the Google popup or try email sign-in.');
-    }
-  });
+  const container = document.getElementById('googleBtnContainer');
+  if(container){
+    google.accounts.id.renderButton(container, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      width: 360,
+      text: 'continue_with',
+      shape: 'rectangular',
+      logo_alignment: 'left'
+    });
+  }
 }
+// Legacy alias in case anything calls it
+function googleSignIn(){ initGoogleSignIn(); }
 async function handleGoogleCredential(response){
   setAuthErr('Signing in with Google...');
   try{

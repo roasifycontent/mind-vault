@@ -175,7 +175,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background-image:linear-
 .diff-btn{padding:12px 26px;min-height:52px;border:1px solid var(--border2);border-radius:100px;background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
 .diff-btn:active{transform:scale(.94);}
 .diff-btn.active{background:var(--gold);border-color:var(--gold2);color:#090b11;box-shadow:0 4px 16px var(--gold-glow);font-weight:600;}
-@media(hover:hover){.diff-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}}
+.diff-btn.pro-diff{opacity:.55;}
+@media(hover:hover){.diff-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2);}.diff-btn.pro-diff:hover{opacity:.75;}}
 
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:17px 36px;min-height:58px;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
@@ -633,9 +634,9 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <div class="section-label" style="text-align:center;margin-bottom:11px;">Difficulty</div>
     <div class="diff-row">
       <button class="diff-btn active" data-diff="easy">Easy</button>
-      <button class="diff-btn" data-diff="medium">Medium</button>
-      <button class="diff-btn" data-diff="hard">Hard</button>
-      <button class="diff-btn" data-diff="expert">Expert</button>
+      <button class="diff-btn pro-diff" data-diff="medium">Medium 🔒</button>
+      <button class="diff-btn pro-diff" data-diff="hard">Hard 🔒</button>
+      <button class="diff-btn pro-diff" data-diff="expert">Expert 🔒</button>
     </div>
     <div class="start-area">
       <button id="start-btn" class="btn btn-gold" onclick="startGame()" style="width:100%;font-size:17px;min-height:62px;padding:18px 28px;letter-spacing:.03em;text-transform:none;">Start today's 7-minute session ✦</button>
@@ -1118,8 +1119,11 @@ function selectGame(g){
 }
 
 document.querySelectorAll('.diff-btn').forEach(b=>b.addEventListener('click',()=>{
+  const d=b.dataset.diff;
+  const proOnly=d==='medium'||d==='hard'||d==='expert';
+  if(proOnly && !AUTH.user?.is_pro){ showProModal(); return; }
   document.querySelectorAll('.diff-btn').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');G.diff=b.dataset.diff;localStorage.setItem('mv_diff',G.diff);updateStartBtn();
+  b.classList.add('active');G.diff=d;localStorage.setItem('mv_diff',G.diff);updateStartBtn();
 }));
 
 function updateHomeStats(){
@@ -1155,7 +1159,7 @@ function updateHomeStats(){
 function goHome(){clearTimeout(G._tid);clearInterval(G._tid);clearTimeout(G._mwTid);clearInterval(_rdTimer);_rdCb=null;G.isDailyChallenge=false;updateHomeStats();renderTodaysPlan();updateStartBtn();updateDailyCard();checkComebackBanner();showScreen('home');}
 
 function isProLocked(){
-  return (G.diff==='hard'||G.diff==='expert') && !AUTH.user?.is_pro;
+  return (G.diff==='medium'||G.diff==='hard'||G.diff==='expert') && !AUTH.user?.is_pro;
 }
 
 function updateStartBtn(){
@@ -1198,8 +1202,14 @@ function nextRound(){G.round++;autoEscalate();launchRound();}
 function launchRound(){({word:startWordRound,sequence:startNumRound,symbol:startSymRound,gridmem:startGridRound,missing:startMWRound,growing:startGLRound,pairs:startPairsRound})[G.game]();}
 
 function autoEscalate(){
-  if(G.lastPct===100){const l=['easy','medium','hard','expert'],i=l.indexOf(G.diff);
-    if(i<3){G.diff=l[i+1];document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));}}
+  if(G.lastPct===100){
+    const l=['easy','medium','hard','expert'],i=l.indexOf(G.diff);
+    const next=l[i+1];
+    if(next && (AUTH.user?.is_pro || next==='easy')){
+      G.diff=next;
+      document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff===G.diff));
+    }
+  }
 }
 
 /* ══════════════════════════════════════
@@ -1918,6 +1928,18 @@ function updateUserBtn(){
     $('user-btn').querySelector('.ub-icon').textContent = '👤';
     lbl.textContent = 'Sign In';
   }
+  updateDiffBtns();
+}
+
+function updateDiffBtns(){
+  const isPro = AUTH.user?.is_pro;
+  const labels = { medium:'Medium', hard:'Hard', expert:'Expert' };
+  ['medium','hard','expert'].forEach(d=>{
+    const b = document.querySelector(`.diff-btn[data-diff="${d}"]`);
+    if(!b) return;
+    b.textContent = isPro ? labels[d] : labels[d]+' 🔒';
+    b.classList.toggle('pro-diff', !isPro);
+  });
 }
 
 function openAuth(){

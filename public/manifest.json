@@ -19,28 +19,19 @@
     { "src": "/icons/icon-384.png",  "sizes": "384x384",   "type": "image/png", "purpose": "any" },
     { "src": "/icons/icon-512.png",  "sizes": "512x512",   "type": "image/png", "purpose": "any maskable" }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/home.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Recall Better Home Screen"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Word Recall",
       "short_name": "Words",
       "description": "Start a Word Recall game",
-      "url": "/?game=word",
+      "url": "/app?game=word",
       "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Number Chain",
       "short_name": "Numbers",
       "description": "Start a Number Chain game",
-      "url": "/?game=sequence",
+      "url": "/app?game=sequence",
       "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
     }
   ]

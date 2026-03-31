@@ -705,7 +705,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
       <!-- Guarantee -->
       <div class="guarantee">
         <span class="guarantee-icon">🛡️</span>
-        <div class="guarantee-text"><strong>Risk-free guarantee.</strong> Try Recall Better for 7 days free. If it's not for you, cancel before your trial ends and you won't be charged a penny. We'll send a reminder on Day 5.</div>
+        <div class="guarantee-text"><strong>Risk-free guarantee.</strong> Try Recall Better with complete confidence. Cancel anytime. 30-day money-back guarantee — no questions asked.</div>
       </div>
 
       <!-- Testimonial -->
@@ -965,14 +965,14 @@ function goPro() {
   fetch('/api/stripe?action=checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ plan: state.selectedPlan, email: state.email, trial_period_days: 7 })
+    body: JSON.stringify({ plan: state.selectedPlan, email: state.email })
   })
   .then(r => r.json())
   .then(d => {
     if (d.url) { window.location.href = d.url; }
-    else { alert('Something went wrong. Please try again.'); if (btn) { btn.textContent = 'Start My Free Trial →'; btn.disabled = false; } }
+    else { alert('Something went wrong. Please try again.'); if (btn) { btn.textContent = 'Continue →'; btn.disabled = false; } }
   })
-  .catch(() => { alert('Something went wrong. Please try again.'); if (btn) { btn.textContent = 'Start My Free Trial →'; btn.disabled = false; } });
+  .catch(() => { alert('Something went wrong. Please try again.'); if (btn) { btn.textContent = 'Continue →'; btn.disabled = false; } });
 }
 updateProgress();
 

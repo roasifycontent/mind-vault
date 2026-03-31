@@ -403,8 +403,8 @@ h1.hero em{color:var(--accent);font-style:italic}
         </div>
       </div>
 
-      <button class="cta cta-gold" onclick="goNext()">Start My Plan — Free for 7 Days</button>
-      <div class="sub-cta">No commitment. Cancel anytime. Takes 60 seconds to set up.</div>
+      <button class="cta cta-gold" onclick="goNext()">Start My Plan Now</button>
+      <div class="sub-cta">Cancel anytime. 30-day money-back guarantee.</div>
     </div>
 
     <!-- STEP 10: EMAIL -->
@@ -457,7 +457,7 @@ h1.hero em{color:var(--accent);font-style:italic}
       <div class="plan-cards">
         <div class="plan-card" onclick="selectPlan(this,'weekly')">
           <div class="pc-left">
-            <h4>1-Week Trial</h4>
+            <h4>1-Week Plan</h4>
             <div class="pc-detail">See results in 7 days</div>
           </div>
           <div class="pc-right">
@@ -489,7 +489,7 @@ h1.hero em{color:var(--accent);font-style:italic}
         </div>
       </div>
 
-      <button class="cta cta-gold" onclick="goPro()">Start 7-Day Free Trial</button>
+      <button class="cta cta-gold" onclick="goPro()">Get Started Now</button>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0;font-size:12px;color:var(--text-dim);">
         <span style="background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:4px;font-weight:600;">VISA</span>
@@ -500,7 +500,7 @@ h1.hero em{color:var(--accent);font-style:italic}
 
       <div class="guarantee">
         <span class="guarantee-icon">🛡️</span>
-        <div class="guarantee-text"><strong>Our promise to you.</strong> Try Recall Better free for 7 full days. We'll remind you on Day 5 — cancel in 2 taps if it's not for you. And if your score doesn't improve in 30 days, we'll refund every penny. No questions asked.</div>
+        <div class="guarantee-text"><strong>Our promise to you.</strong> Try Recall Better with complete confidence. Cancel anytime. And if your score doesn't improve in 30 days, we'll refund every penny. No questions asked.</div>
       </div>
 
       <div class="story">
@@ -747,14 +747,14 @@ function goPro() {
   fetch('/api/stripe?action=checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ plan: S.plan, email: S.email, trial_period_days: 7 })
+    body: JSON.stringify({ plan: S.plan, email: S.email })
   })
   .then(r => r.json())
   .then(d => {
     if (d.url) window.location.href = d.url;
-    else { alert('Something went wrong. Please try again.'); btn.textContent = 'Start 7-Day Free Trial'; btn.disabled = false; }
+    else { alert('Something went wrong. Please try again.'); btn.textContent = 'Get Started Now'; btn.disabled = false; }
   })
-  .catch(() => { alert('Something went wrong. Please try again.'); btn.textContent = 'Start 7-Day Free Trial'; btn.disabled = false; });
+  .catch(() => { alert('Something went wrong. Please try again.'); btn.textContent = 'Get Started Now'; btn.disabled = false; });
 }
 
 /* ========== SOCIAL PROOF NOTIFICATIONS ========== */
@@ -764,7 +764,7 @@ const notifMessages = [
   'Margaret improved from 38 to 72 in 5 weeks',
   'Jean just finished her daily training — Day 32',
   'Robert told us: "My family noticed within a week"',
-  'Susan from Yorkshire just began her free trial',
+  'Susan from Yorkshire just started her plan',
   'A new member in your area started 4 minutes ago'
 ];
 let _ni = 0;

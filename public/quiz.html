@@ -622,7 +622,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
       <div class="plan-cards">
         <div class="plan-card-v2" onclick="selectPlan(this, 'weekly')">
           <div class="pc-left">
-            <h4>1-Week Trial</h4>
+            <h4>1-Week Plan</h4>
             <div class="pc-total">$4.99</div>
           </div>
           <div class="pc-right">
@@ -654,7 +654,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         </div>
       </div>
 
-      <button class="cta-btn cta-primary" onclick="goPro()">Start My Plan — 7 Days Free</button>
+      <button class="cta-btn cta-primary" onclick="goPro()">Start My Plan Now</button>
 
       <div class="payment-badges">
         <span class="pb-label">Secured by</span>
@@ -668,7 +668,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 
       <div class="guarantee">
         <span class="guarantee-icon">🛡️</span>
-        <div class="guarantee-text"><strong>100% risk-free guarantee.</strong> Try Recall Better free for 7 days. If it's not for you, cancel with one tap before your trial ends — you won't be charged. We'll remind you on Day 5.</div>
+        <div class="guarantee-text"><strong>100% risk-free guarantee.</strong> Try Recall Better with complete confidence. If it's not for you, cancel anytime. 30-day money-back guarantee — no questions asked.</div>
       </div>
 
       <div class="testimonial">
@@ -1097,14 +1097,14 @@ function goPro() {
   fetch('/api/stripe?action=checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ plan: state.selectedPlan, email: state.email, trial_period_days: 7 })
+    body: JSON.stringify({ plan: state.selectedPlan, email: state.email })
   })
   .then(r => r.json())
   .then(d => {
     if (d.url) window.location.href = d.url;
-    else { alert('Something went wrong. Please try again.'); btn.textContent = 'Start My Plan — 7 Days Free'; btn.disabled = false; }
+    else { alert('Something went wrong. Please try again.'); btn.textContent = 'Start My Plan Now'; btn.disabled = false; }
   })
-  .catch(() => { alert('Something went wrong. Please try again.'); btn.textContent = 'Start My Plan — 7 Days Free'; btn.disabled = false; });
+  .catch(() => { alert('Something went wrong. Please try again.'); btn.textContent = 'Start My Plan Now'; btn.disabled = false; });
 }
 
 // ========== SOCIAL PROOF TOASTS ==========

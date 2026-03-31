@@ -503,8 +503,8 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
         </div>
       </div>
 
-      <button class="cta-btn cta-primary" onclick="goNext()">Start my plan — free for 7 days</button>
-      <div class="trust-bar">🔒 No commitment. Cancel anytime in 2 taps.</div>
+      <button class="cta-btn cta-primary" onclick="goNext()">Start my plan now</button>
+      <div class="trust-bar">🔒 Cancel anytime. 30-day money-back guarantee.</div>
     </div>
 
     <!-- STEP 10: EMAIL CAPTURE -->
@@ -593,7 +593,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
         </div>
       </div>
 
-      <button class="cta-btn cta-primary" onclick="goPro()">Start 7-Day Free Trial</button>
+      <button class="cta-btn cta-primary" onclick="goPro()">Get Started Now</button>
 
       <div class="payment-row">
         <span>VISA</span><span>MC</span><span>PayPal</span><span>Apple Pay</span>
@@ -601,7 +601,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 
       <div class="guarantee">
         <span class="guarantee-icon">🛡️</span>
-        <div class="guarantee-text"><strong>Zero-risk guarantee.</strong> Try Recall Better free for 7 days. Cancel anytime with 2 taps — we'll even remind you on Day 5. If your memory health score doesn't improve in 30 days, we'll refund every penny.</div>
+        <div class="guarantee-text"><strong>Zero-risk guarantee.</strong> Try Recall Better with complete confidence. Cancel anytime. If your memory health score doesn't improve in 30 days, we'll refund every penny. No questions asked.</div>
       </div>
 
       <div class="doctor-card">
@@ -896,14 +896,14 @@ function goPro() {
   fetch('/api/stripe?action=checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ plan: state.selectedPlan, email: state.email, trial_period_days: 7 })
+    body: JSON.stringify({ plan: state.selectedPlan, email: state.email })
   })
   .then(r => r.json())
   .then(d => {
     if (d.url) window.location.href = d.url;
-    else { alert('Something went wrong. Please try again.'); btn.textContent = 'Start 7-Day Free Trial'; btn.disabled = false; }
+    else { alert('Something went wrong. Please try again.'); btn.textContent = 'Get Started Now'; btn.disabled = false; }
   })
-  .catch(() => { alert('Something went wrong. Please try again.'); btn.textContent = 'Start 7-Day Free Trial'; btn.disabled = false; });
+  .catch(() => { alert('Something went wrong. Please try again.'); btn.textContent = 'Get Started Now'; btn.disabled = false; });
 }
 
 // ========== SOCIAL PROOF NOTIFICATIONS ==========
@@ -914,7 +914,7 @@ const notifs = [
   'James just completed his daily training — Day 18',
   'Patricia scored 34 points higher after 3 weeks',
   'Robert: "Best decision I\'ve made for my health this year"',
-  'Susan from Yorkshire just started her free trial'
+  'Susan from Yorkshire just started her plan'
 ];
 let notifIdx = 0;
 function showNotif() {

@@ -505,7 +505,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   <div class="auth-card" style="text-align:center;max-width:420px;">
     <button class="auth-close" onclick="closeProModal()">×</button>
     <h2 style="margin-bottom:8px;">Unlock Expert Training</h2>
-    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Hard and Expert modes plus full score history — 7 days free.</p>
+    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Hard and Expert modes plus full score history. 30-day money-back guarantee.</p>
     <div id="pro-plans" style="display:flex;gap:10px;margin-bottom:16px;">
       <div onclick="selectProPlan('monthly')" id="plan-monthly" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--border2);border-radius:14px;cursor:pointer;transition:border-color .2s;">
         <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Monthly</div>
@@ -518,7 +518,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
         <div style="font-size:11px;color:var(--gold2);margin-top:2px;">$4.08/mo — save 49%</div>
       </div>
     </div>
-    <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Start 7-day free trial →</button>
+    <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Get Started Now →</button>
     <div id="pro-err" style="color:#c44;font-size:13px;min-height:18px;margin-bottom:4px;"></div>
     <div class="auth-divider"><a href="#" onclick="closeProModal();return false;" style="color:var(--text-dim);">Maybe later</a></div>
   </div>
@@ -899,8 +899,8 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <!-- Pro upsell -->
     <div id="rs-pro-upsell" style="display:none;margin-top:14px;padding:14px 18px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:14px;text-align:center;">
       <div style="font-size:14px;font-weight:600;color:var(--gold2);margin-bottom:2px;">Ready for a harder challenge?</div>
-      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">Hard and Expert modes available with Pro — 7 days free</div>
-      <a href="#" onclick="showProModal();return false;" style="font-size:13px;color:var(--gold2);text-decoration:none;font-weight:500;">Try Pro free →</a>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">Hard and Expert modes available with Pro</div>
+      <a href="#" onclick="showProModal();return false;" style="font-size:13px;color:var(--gold2);text-decoration:none;font-weight:500;">Try Pro →</a>
     </div>
     <button class="btn btn-ghost" id="rs-share" onclick="shareResult()" style="width:100%;margin-bottom:10px;margin-top:14px;display:none;">Share result →</button>
     <div class="btn-row">
@@ -1919,7 +1919,7 @@ function closeAuth(){ $('auth-overlay').style.display='none'; }
 let _selectedPlan = 'annual'; // default selection
 function showProModal(){
   $('pro-err').textContent='';
-  $('pro-cta').textContent='Start 7-day free trial →';
+  $('pro-cta').textContent='Get Started Now →';
   $('pro-cta').disabled=false;
   selectProPlan(_selectedPlan);
   $('pro-overlay').style.display='flex';
@@ -1951,11 +1951,11 @@ async function startStripeCheckout(){
       })
     });
     const d=await r.json();
-    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start 7-day free trial →'; $('pro-cta').disabled=false; return; }
+    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Get Started Now →'; $('pro-cta').disabled=false; return; }
     window.location.href=d.session_url;
   }catch(e){
     $('pro-err').textContent='Network error — try again.';
-    $('pro-cta').textContent='Start 7-day free trial →';
+    $('pro-cta').textContent='Get Started Now →';
     $('pro-cta').disabled=false;
   }
 }

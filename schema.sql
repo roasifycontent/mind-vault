@@ -20,6 +20,13 @@ CREATE TABLE IF NOT EXISTS user_stats (
   updated_at   TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Social auth & Stripe columns (run as ALTER if table already exists)
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS auth_provider TEXT DEFAULT 'email';
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS stripe_customer_id TEXT;
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS stripe_subscription_id TEXT;
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS subscription_status TEXT;
+-- ALTER TABLE users ADD COLUMN IF NOT EXISTS current_period_end TIMESTAMPTZ;
+
 -- Index for faster lookups
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 

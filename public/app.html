@@ -19,6 +19,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root {
   --bg:          #090b11;
@@ -459,6 +460,42 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 
 /* ── HOME SECTION HEADER ── */
 .section-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid);margin-bottom:12px;font-weight:500;}
+
+/* ── LOGIN SCREEN ── */
+.login-screen{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px;overflow-y:auto;}
+.login-screen::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 0% 0%,#c9a84c08,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,#5b8ef008,transparent 60%);pointer-events:none;}
+.login-inner{position:relative;z-index:1;width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(46px,10vw,68px);font-weight:300;letter-spacing:-.02em;line-height:1;color:var(--text);text-align:center;margin-bottom:8px;}
+.login-logo em{color:var(--gold);font-style:italic;}
+.login-tagline{font-size:14px;color:var(--text-mid);text-align:center;margin-bottom:36px;letter-spacing:.04em;}
+.login-tabs{display:flex;gap:0;background:var(--card-solid);border-radius:100px;padding:4px;margin-bottom:22px;width:100%;}
+.login-tab{flex:1;padding:10px;border:none;border-radius:100px;background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .18s;touch-action:manipulation;}
+.login-tab.active{background:var(--gold-dim);color:var(--gold2);border:1px solid var(--gold-glow);}
+.login-form{width:100%;}
+.login-input{width:100%;padding:14px 18px;border:1px solid var(--border2);border-radius:12px;background:var(--card-solid);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;margin-bottom:12px;outline:none;transition:border-color .18s;box-sizing:border-box;}
+.login-input:focus{border-color:var(--gold);}
+.login-input::placeholder{color:var(--text-dim);}
+.login-btn{width:100%;padding:16px;border:none;border-radius:100px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#090b11;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;touch-action:manipulation;margin-top:4px;}
+.login-btn:active{transform:scale(.97);opacity:.9;}
+@media(hover:hover){.login-btn:hover{transform:translateY(-2px);box-shadow:0 14px 38px #c9a84c66;}}
+.login-forgot{text-align:center;margin-top:12px;}
+.login-forgot a{font-size:12px;color:var(--text-dim);text-decoration:none;transition:color .18s;}
+.login-forgot a:hover{color:var(--gold2);}
+.login-err{font-size:13px;color:var(--red);text-align:center;margin-top:10px;min-height:20px;}
+.login-divider{display:flex;align-items:center;gap:14px;margin:24px 0;width:100%;color:var(--text-dim);font-size:12px;letter-spacing:.06em;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border2);}
+.login-social{width:100%;display:flex;flex-direction:column;gap:10px;}
+.login-social-btn{width:100%;padding:14px 20px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:10px;touch-action:manipulation;border:none;}
+.login-social-btn:active{transform:scale(.97);}
+.login-google{background:#ffffff;color:#1a1a1a;border:1px solid #dadce0;}
+.login-google:hover{background:#f7f7f7;box-shadow:0 2px 12px #00000018;}
+.login-apple{background:#000000;color:#ffffff;border:1px solid #333;}
+.login-apple:hover{background:#1a1a1a;box-shadow:0 2px 12px #00000028;}
+.login-social-btn svg{flex-shrink:0;}
+.login-legal{display:flex;gap:18px;justify-content:center;margin-top:28px;font-size:12px;}
+.login-legal a{color:var(--text-dim);text-decoration:none;transition:color .18s;}
+.login-legal a:hover{color:var(--text-mid);}
+.login-screen.hidden{display:none;}
 </style>
 </head>
 <body>
@@ -473,34 +510,55 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 <button id="comfort-btn" onclick="toggleComfortMode()" title="Comfort mode — larger text">Aa</button>
 <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
 
-<!-- Auth Modal -->
-<div class="auth-overlay" id="auth-overlay" style="display:none">
-  <div class="auth-card">
-    <button class="auth-close" onclick="closeAuth()">×</button>
-    <h2>Recall <em style="color:var(--gold);font-style:italic">Better</em></h2>
-    <p>Sync your progress across all devices</p>
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
-      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+<!-- Login Screen (full-screen gate) -->
+<div id="loginScreen" class="login-screen hidden">
+  <div class="login-inner">
+    <div class="login-logo">Recall <em>Better</em></div>
+    <p class="login-tagline">Daily memory training for a sharper mind</p>
+
+    <div class="login-tabs">
+      <button class="login-tab active" id="lt-login" onclick="switchLoginTab('login')">Sign In</button>
+      <button class="login-tab" id="lt-register" onclick="switchLoginTab('register')">Create Account</button>
     </div>
-    <!-- Login form -->
-    <div id="form-login">
-      <input class="auth-input" id="li-email" type="email" placeholder="Email address" autocomplete="email">
-      <input class="auth-input" id="li-pass" type="password" placeholder="Password" autocomplete="current-password">
-      <button class="btn btn-gold auth-submit" onclick="authLogin()">Sign In ✦</button>
-      <div style="text-align:center;margin-top:12px;"><a href="#" onclick="showForgotPassword();return false;" style="font-size:12px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--gold2)'" onmouseout="this.style.color='var(--text-dim)'">Forgot password?</a></div>
+
+    <!-- Sign In form -->
+    <div class="login-form" id="lf-login">
+      <input class="login-input" id="li-email" type="email" placeholder="Email address" autocomplete="email">
+      <input class="login-input" id="li-pass" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="login-btn" onclick="authLogin()">Sign In</button>
+      <div class="login-forgot"><a href="#" onclick="showForgotPassword();return false;">Forgot password?</a></div>
     </div>
+
     <!-- Register form -->
-    <div id="form-register" style="display:none">
-      <input class="auth-input" id="rg-email" type="email" placeholder="Email address" autocomplete="email">
-      <input class="auth-input" id="rg-pass" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password">
-      <button class="btn btn-gold auth-submit" onclick="authRegister()">Create Account ✦</button>
+    <div class="login-form" id="lf-register" style="display:none">
+      <input class="login-input" id="rg-email" type="email" placeholder="Email address" autocomplete="email">
+      <input class="login-input" id="rg-pass" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password">
+      <button class="login-btn" onclick="authRegister()">Create Account</button>
     </div>
-    <div class="auth-err" id="auth-err"></div>
-    <div class="auth-divider" id="auth-skip"><a href="#" onclick="closeAuth();return false;" style="color:var(--text-dim);">Continue without account →</a></div>
+
+    <div class="login-err" id="auth-err"></div>
+
+    <div class="login-divider">or continue with</div>
+
+    <div class="login-social">
+      <button class="login-social-btn login-google" onclick="googleSignIn()">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.0 24.0 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continue with Google
+      </button>
+      <button class="login-social-btn login-apple" onclick="appleSignIn()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        Continue with Apple
+      </button>
+    </div>
+
+    <div class="login-legal">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
   </div>
 </div>
 
+<!-- Pro Upgrade Modal -->
 <div class="auth-overlay" id="pro-overlay" style="display:none">
   <div class="auth-card" style="text-align:center;max-width:420px;">
     <button class="auth-close" onclick="closeProModal()">×</button>
@@ -521,21 +579,6 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Get Started Now →</button>
     <div id="pro-err" style="color:#c44;font-size:13px;min-height:18px;margin-bottom:4px;"></div>
     <div class="auth-divider"><a href="#" onclick="closeProModal();return false;" style="color:var(--text-dim);">Maybe later</a></div>
-  </div>
-</div>
-
-<!-- Email capture modal (first-time visitors) -->
-<div class="auth-overlay" id="capture-overlay" style="display:none">
-  <div class="auth-card" style="text-align:center;">
-    <button class="auth-close" onclick="closeCaptureModal()">×</button>
-    <h2 style="margin-bottom:8px;">Save your score</h2>
-    <div id="cap-score" style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:400;color:var(--gold2);line-height:1;margin:12px 0 6px;"></div>
-    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Create a free account to track your streak and come back tomorrow — takes 10 seconds.</p>
-    <input class="auth-input" id="cap-email" type="email" placeholder="Email address" autocomplete="email">
-    <button class="btn btn-gold auth-submit" id="cap-submit" onclick="submitCapture()" style="width:100%;">Save my score →</button>
-    <div class="auth-err" id="cap-err" style="min-height:20px;"></div>
-    <div id="cap-success" style="display:none;padding:12px 16px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:12px;font-size:13px;color:var(--gold2);margin-top:8px;">Check your email! We'll remind you to train tomorrow.</div>
-    <div class="auth-divider"><a href="#" onclick="closeCaptureModal();return false;" style="color:var(--text-dim);">Continue without saving</a></div>
   </div>
 </div>
 
@@ -1704,11 +1747,8 @@ function showResults(pct,correct,missed,extra,bkHTML,game){
   if(pct===100&&isNewBest)launchConfetti();
   showScreen('results');
 
-  /* ─── First-visit email capture ─── */
-  if(!localStorage.getItem('mv_visited') && !AUTH.user){
-    localStorage.setItem('mv_visited','1');
-    setTimeout(()=>showCaptureModal(pct),1200);
-  } else if(!localStorage.getItem('mv_visited')){
+  /* ─── First-visit tracking (login is now required) ─── */
+  if(!localStorage.getItem('mv_visited')){
     localStorage.setItem('mv_visited','1');
   }
 
@@ -1837,28 +1877,10 @@ saveStats = function(){
   syncToServer();
 };
 
-/* ─── EMAIL CAPTURE MODAL ─── */
-function showCaptureModal(pct){
-  $('cap-score').textContent=pct+'%';
-  $('cap-err').textContent='';
-  $('cap-success').style.display='none';
-  $('cap-email').value='';
-  $('cap-submit').disabled=false;
-  $('capture-overlay').style.display='flex';
-}
-function closeCaptureModal(){ $('capture-overlay').style.display='none'; }
-async function submitCapture(){
-  const email=$('cap-email').value.trim();
-  if(!email||!email.includes('@')){$('cap-err').textContent='Please enter a valid email.';return;}
-  $('cap-submit').disabled=true;$('cap-err').textContent='';
-  try{
-    const r=await fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
-    const d=await r.json();
-    if(!r.ok){$('cap-err').textContent=d.error||'Something went wrong.';$('cap-submit').disabled=false;return;}
-    $('cap-success').style.display='block';$('cap-submit').style.display='none';
-    setTimeout(closeCaptureModal,3000);
-  }catch(e){$('cap-err').textContent='Network error — try again.';$('cap-submit').disabled=false;}
-}
+/* ─── EMAIL CAPTURE MODAL (removed — login now required) ─── */
+function showCaptureModal(){ /* no-op */ }
+function closeCaptureModal(){ /* no-op */ }
+function submitCapture(){ /* no-op */ }
 
 /* ─── COMEBACK BANNER ─── */
 function checkComebackBanner(){
@@ -1901,20 +1923,18 @@ function updateUserBtn(){
   if(AUTH.user){
     $('user-btn').querySelector('.ub-icon').textContent = '✓';
     lbl.textContent = AUTH.user.email.split('@')[0];
-    $('auth-skip').style.display='none';
   } else {
     $('user-btn').querySelector('.ub-icon').textContent = '👤';
     lbl.textContent = 'Sign In';
-    $('auth-skip').style.display='block';
   }
 }
 
 function openAuth(){
   if(AUTH.user){ showLogoutPrompt(); return; }
-  $('auth-overlay').style.display='flex';
+  showLoginScreen();
   $('auth-err').textContent='';
 }
-function closeAuth(){ $('auth-overlay').style.display='none'; }
+function closeAuth(){ /* no-op, login screen is dismissed via hideLoginScreen */ }
 
 let _selectedPlan = 'annual'; // default selection
 function showProModal(){
@@ -1993,18 +2013,117 @@ function showLogoutPrompt(){
   if(isPro){
     const choice=prompt(msg,'2');
     if(choice==='1') showSubscriptionInfo();
-    else if(choice==='2'){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); }
+    else if(choice==='2'){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); showLoginScreen(); }
   } else {
-    if(confirm(msg)){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); }
+    if(confirm(msg)){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); showLoginScreen(); }
   }
 }
 
-function switchTab(t){
-  $('form-login').style.display    = t==='login'    ? '' : 'none';
-  $('form-register').style.display = t==='register' ? '' : 'none';
-  $('tab-login').classList.toggle('active', t==='login');
-  $('tab-register').classList.toggle('active', t==='register');
+function switchTab(t){ switchLoginTab(t); }
+function switchLoginTab(t){
+  $('lf-login').style.display    = t==='login'    ? '' : 'none';
+  $('lf-register').style.display = t==='register' ? '' : 'none';
+  $('lt-login').classList.toggle('active', t==='login');
+  $('lt-register').classList.toggle('active', t==='register');
   $('auth-err').textContent='';
+}
+
+function showLoginScreen(){
+  $('loginScreen').classList.remove('hidden');
+  document.getElementById('app').style.display='none';
+  document.getElementById('user-btn').style.display='none';
+}
+function hideLoginScreen(){
+  $('loginScreen').classList.add('hidden');
+  document.getElementById('app').style.display='';
+  document.getElementById('user-btn').style.display='';
+}
+
+/* ─── GOOGLE SIGN-IN ─── */
+function googleSignIn(){
+  if(typeof google==='undefined'||!google.accounts){
+    setAuthErr('Google Sign-In is loading. Please try again in a moment.');
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id: document.querySelector('meta[name="google-client-id"]')?.content || 'YOUR_GOOGLE_CLIENT_ID',
+    callback: handleGoogleCredential,
+    auto_select: false
+  });
+  google.accounts.id.prompt(notification => {
+    if(notification.isNotDisplayed()||notification.isSkippedMoment()){
+      // One Tap not available, try popup
+      google.accounts.id.renderButton(
+        document.createElement('div'),
+        { type:'standard', theme:'outline' }
+      );
+      // Fallback: use popup mode
+      google.accounts.oauth2.initTokenClient({
+        client_id: document.querySelector('meta[name="google-client-id"]')?.content || 'YOUR_GOOGLE_CLIENT_ID',
+        scope: 'email profile',
+        callback: ()=>{}
+      });
+      setAuthErr('Please allow the Google popup or try email sign-in.');
+    }
+  });
+}
+async function handleGoogleCredential(response){
+  setAuthErr('Signing in with Google...');
+  try{
+    const r=await fetch(API+'/api/auth/google',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({credential:response.credential})
+    });
+    const d=await r.json();
+    if(!r.ok){setAuthErr(d.error||'Google sign-in failed.');return;}
+    AUTH.token=d.token; AUTH.user=d.user;
+    localStorage.setItem('mv_token',d.token);
+    localStorage.setItem('mv_user',JSON.stringify(d.user));
+    hideLoginScreen(); updateUserBtn();
+    await loadFromServer();
+    fetchMe();
+  }catch(e){setAuthErr('Network error. Check connection.');}
+}
+
+/* ─── APPLE SIGN-IN ─── */
+async function appleSignIn(){
+  // Dynamically load Apple JS SDK if not loaded
+  if(typeof AppleID==='undefined'){
+    setAuthErr('Loading Apple Sign-In...');
+    await new Promise((resolve,reject)=>{
+      const s=document.createElement('script');
+      s.src='https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js';
+      s.onload=resolve; s.onerror=reject;
+      document.head.appendChild(s);
+    });
+  }
+  try{
+    AppleID.auth.init({
+      clientId: 'YOUR_APPLE_CLIENT_ID',
+      scope: 'email name',
+      redirectURI: window.location.origin + '/api/auth/apple-callback',
+      usePopup: true
+    });
+    const response=await AppleID.auth.signIn();
+    setAuthErr('Signing in with Apple...');
+    const r=await fetch(API+'/api/auth/apple',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id_token:response.authorization.id_token, user:response.user||null})
+    });
+    const d=await r.json();
+    if(!r.ok){setAuthErr(d.error||'Apple sign-in failed.');return;}
+    AUTH.token=d.token; AUTH.user=d.user;
+    localStorage.setItem('mv_token',d.token);
+    localStorage.setItem('mv_user',JSON.stringify(d.user));
+    hideLoginScreen(); updateUserBtn();
+    await loadFromServer();
+    fetchMe();
+  }catch(e){
+    if(e.error==='popup_closed_by_user') return;
+    setAuthErr('Apple sign-in failed. Try email instead.');
+  }
 }
 
 function setAuthErr(msg){ $('auth-err').textContent = msg; }
@@ -2034,7 +2153,7 @@ async function authLogin(){
     AUTH.token=d.token; AUTH.user=d.user;
     localStorage.setItem('mv_token',d.token);
     localStorage.setItem('mv_user',JSON.stringify(d.user));
-    closeAuth(); updateUserBtn();
+    hideLoginScreen(); updateUserBtn();
     await loadFromServer();
     fetchMe();
   } catch(e){ setAuthErr('Network error. Check connection.'); }
@@ -2052,15 +2171,25 @@ async function authRegister(){
     AUTH.token=d.token; AUTH.user=d.user;
     localStorage.setItem('mv_token',d.token);
     localStorage.setItem('mv_user',JSON.stringify(d.user));
-    closeAuth(); updateUserBtn();
+    hideLoginScreen(); updateUserBtn();
     await syncToServer(); // push any existing local stats
     fetchMe();
   } catch(e){ setAuthErr('Network error. Check connection.'); }
 }
 
-/* Init on load */
+/* Init on load — gate behind login */
 updateUserBtn();
-if(AUTH.token){ loadFromServer(); fetchMe(); }
+if(AUTH.token){
+  // Validate token is still good
+  fetchMe().then(()=>{
+    if(AUTH.user){ hideLoginScreen(); }
+    else { showLoginScreen(); }
+  }).catch(()=>{ showLoginScreen(); });
+  loadFromServer();
+  hideLoginScreen();
+} else {
+  showLoginScreen();
+}
 
 // Reset streak if user skipped a day
 (function checkStreakReset(){

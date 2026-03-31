@@ -33,7 +33,11 @@ module.exports = async (req, res) => {
     const payload = await verifyRes.json();
 
     // Validate the audience matches our client ID
-    if (payload.aud !== process.env.GOOGLE_CLIENT_ID) {
+    const expectedAud = (process.env.GOOGLE_CLIENT_ID || '').trim();
+    const actualAud = (payload.aud || '').trim();
+    console.log('Google auth aud check:', { actualAud, expectedAud, match: actualAud === expectedAud });
+    if (actualAud !== expectedAud) {
+      console.error('Token audience mismatch:', { actualAud, expectedAud });
       return res.status(401).json({ error: 'Token audience mismatch' });
     }
 

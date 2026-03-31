@@ -489,8 +489,6 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 .login-social-btn:active{transform:scale(.97);}
 .login-google{background:#ffffff;color:#1a1a1a;border:1px solid #dadce0;}
 .login-google:hover{background:#f7f7f7;box-shadow:0 2px 12px #00000018;}
-.login-apple{background:#000000;color:#ffffff;border:1px solid #333;}
-.login-apple:hover{background:#1a1a1a;box-shadow:0 2px 12px #00000028;}
 .login-social-btn svg{flex-shrink:0;}
 .login-legal{display:flex;gap:18px;justify-content:center;margin-top:28px;font-size:12px;}
 .login-legal a{color:var(--text-dim);text-decoration:none;transition:color .18s;}
@@ -544,10 +542,6 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
       <button class="login-social-btn login-google" onclick="googleSignIn()">
         <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.0 24.0 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
         Continue with Google
-      </button>
-      <button class="login-social-btn login-apple" onclick="appleSignIn()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-        Continue with Apple
       </button>
     </div>
 
@@ -1837,7 +1831,7 @@ async function fetchMe(){
 async function syncToServer(){
   if(!AUTH.token) return;
   try {
-    await fetch(API+'/api/stats/save', {
+    await fetch(API+'/api/stats', {
       method:'POST', headers:authHeader(),
       body: JSON.stringify({ scores: G.allScores, games_played: G.gamesPlayed, streak: G.streak, last_played: new Date().toISOString().split('T')[0] })
     });
@@ -1848,7 +1842,7 @@ async function syncToServer(){
 async function loadFromServer(){
   if(!AUTH.token) return false;
   try {
-    const r = await fetch(API+'/api/stats/get', { headers: authHeader() });
+    const r = await fetch(API+'/api/stats', { headers: authHeader() });
     if(!r.ok) return false;
     const data = await r.json();
     // Merge: keep whichever has more games
@@ -2084,46 +2078,6 @@ async function handleGoogleCredential(response){
     await loadFromServer();
     fetchMe();
   }catch(e){setAuthErr('Network error. Check connection.');}
-}
-
-/* ─── APPLE SIGN-IN ─── */
-async function appleSignIn(){
-  // Dynamically load Apple JS SDK if not loaded
-  if(typeof AppleID==='undefined'){
-    setAuthErr('Loading Apple Sign-In...');
-    await new Promise((resolve,reject)=>{
-      const s=document.createElement('script');
-      s.src='https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js';
-      s.onload=resolve; s.onerror=reject;
-      document.head.appendChild(s);
-    });
-  }
-  try{
-    AppleID.auth.init({
-      clientId: 'YOUR_APPLE_CLIENT_ID',
-      scope: 'email name',
-      redirectURI: window.location.origin + '/api/auth/apple-callback',
-      usePopup: true
-    });
-    const response=await AppleID.auth.signIn();
-    setAuthErr('Signing in with Apple...');
-    const r=await fetch(API+'/api/auth/apple',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({id_token:response.authorization.id_token, user:response.user||null})
-    });
-    const d=await r.json();
-    if(!r.ok){setAuthErr(d.error||'Apple sign-in failed.');return;}
-    AUTH.token=d.token; AUTH.user=d.user;
-    localStorage.setItem('mv_token',d.token);
-    localStorage.setItem('mv_user',JSON.stringify(d.user));
-    hideLoginScreen(); updateUserBtn();
-    await loadFromServer();
-    fetchMe();
-  }catch(e){
-    if(e.error==='popup_closed_by_user') return;
-    setAuthErr('Apple sign-in failed. Try email instead.');
-  }
 }
 
 function setAuthErr(msg){ $('auth-err').textContent = msg; }

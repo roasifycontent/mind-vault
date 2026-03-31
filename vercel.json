@@ -1,14 +1,6 @@
 {
   "version": 2,
   "outputDirectory": "public",
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.recallbetter.com" }],
-      "destination": "https://recallbetter.com/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/app", "destination": "/app.html" },

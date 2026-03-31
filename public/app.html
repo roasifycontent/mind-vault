@@ -643,6 +643,7 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
       <div class="start-sub">No timer pressure — stop anytime.</div>
       <button class="btn btn-ghost" onclick="startQuickSession()" style="margin-top:12px;font-size:14px;padding:13px 30px;min-height:50px;letter-spacing:.02em;text-transform:none;">Quick 2-minute session →</button>
       <div class="start-reassurance">Evidence-aligned cognitive training · Not medical advice</div>
+      <button id="pwa-install-btn" onclick="installPWA()" style="display:none;margin-top:14px;width:100%;background:transparent;border:1px solid var(--border2);color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:13px;padding:11px 20px;border-radius:100px;cursor:pointer;letter-spacing:.04em;">⬇ Add to Home Screen</button>
     </div>
 
     <div class="sep"></div>
@@ -2592,6 +2593,25 @@ if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttr
   const nextGame=plan.find(g=>!session.completed.includes(g))||plan[0];
   selectGame(nextGame);
 })();
+
+/* ─── PWA INSTALL PROMPT ─── */
+let _installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _installPrompt = e;
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'block';
+});
+window.addEventListener('appinstalled', () => {
+  _installPrompt = null;
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'none';
+});
+function installPWA() {
+  if (!_installPrompt) return;
+  _installPrompt.prompt();
+  _installPrompt.userChoice.then(() => { _installPrompt = null; });
+}
 </script>
 </body>
 </html>

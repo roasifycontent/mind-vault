@@ -2364,7 +2364,7 @@ function showPairQuestion(){
     btn.addEventListener('click',()=>pairSelect(btn,opt,correct));
     pool.appendChild(btn);
   });
-  showScreen('pair-recall');
+  if(G.pCurrent===0) showScreen('pair-recall');
 }
 
 function pairSelect(btn,chosen,correct){

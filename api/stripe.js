@@ -50,9 +50,6 @@ async function createPublicCheckout(req, res) {
       trial_period_days: 7,
       metadata: { app: 'recall-better', plan },
     },
-    payment_settings: {
-      statement_descriptor_suffix: 'RECALLBETTER',
-    },
     success_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://recallbetter.com/quiz',
   });
@@ -83,9 +80,6 @@ async function createCheckoutSession(req, res) {
     subscription_data: {
       trial_period_days: 7,
       metadata: { app: 'recall-better', plan: plan || 'unknown' },
-    },
-    payment_settings: {
-      statement_descriptor_suffix: 'RECALLBETTER',
     },
     success_url: (success_url || req.headers.origin) + '&session_id={CHECKOUT_SESSION_ID}',
     cancel_url: cancel_url || req.headers.origin,
@@ -200,7 +194,8 @@ module.exports = async (req, res) => {
     if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
       return res.status(401).json({ error: 'Session expired, please sign in again' });
     }
-    console.error('Stripe API error:', err);
-    return res.status(500).json({ error: 'Server error' });
+    console.error('Stripe API error:', err.type, err.code, err.message, err.param);
+    const msg = err.type === 'StripeInvalidRequestError' ? err.message : 'Server error';
+    return res.status(500).json({ error: msg });
   }
 };

@@ -20,10 +20,10 @@ function authUser(req) {
 
 // POST /api/stripe?action=public-checkout (no auth - for quiz pages)
 const PUBLIC_PRICE_MAP = {
-  weekly:    'price_1THKkdAWM5kTbKjpctRLzxoh',
-  monthly:   'price_1THKkjAWM5kTbKjpPcdnX7KJ',
-  quarterly: 'price_1THKkpAWM5kTbKjpzn2VKP8C',
-  yearly:    'price_1THKkpAWM5kTbKjpzn2VKP8C', // alias for quarterly (12-week plan)
+  weekly:    'price_1THN9rAWM5kTbKjpw42Yp8t7',
+  monthly:   'price_1THN9uAWM5kTbKjpFvvvh3YB',
+  quarterly: 'price_1THN9xAWM5kTbKjpMoMkkNM4',
+  yearly:    'price_1THN9xAWM5kTbKjpMoMkkNM4',
 };
 
 async function createPublicCheckout(req, res) {
@@ -47,7 +47,6 @@ async function createPublicCheckout(req, res) {
     metadata: { app: 'recall-better', plan, source: 'quiz' },
     allow_promotion_codes: true,
     subscription_data: {
-      trial_period_days: 7,
       metadata: { app: 'recall-better', plan },
     },
     success_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
@@ -78,7 +77,6 @@ async function createCheckoutSession(req, res) {
     metadata: { user_id: String(user.id), app: 'recall-better', plan: plan || 'unknown' },
     allow_promotion_codes: true,
     subscription_data: {
-      trial_period_days: 7,
       metadata: { app: 'recall-better', plan: plan || 'unknown' },
     },
     success_url: (success_url || req.headers.origin) + '&session_id={CHECKOUT_SESSION_ID}',

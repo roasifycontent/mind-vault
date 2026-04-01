@@ -23,6 +23,7 @@ const PUBLIC_PRICE_MAP = {
   weekly:    'price_1THKkdAWM5kTbKjpctRLzxoh',
   monthly:   'price_1THKkjAWM5kTbKjpPcdnX7KJ',
   quarterly: 'price_1THKkpAWM5kTbKjpzn2VKP8C',
+  yearly:    'price_1THKkpAWM5kTbKjpzn2VKP8C', // alias for quarterly (12-week plan)
 };
 
 async function createPublicCheckout(req, res) {

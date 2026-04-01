@@ -34,7 +34,7 @@
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.08);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 .app { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
 
 /* Progress */
@@ -47,7 +47,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .nav-badge { font-size: 11px; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; }
 
 /* Screens */
-.screen-container { width: 100%; max-width: var(--max-w); flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 0 40px; min-height: calc(100vh - 80px); }
+.screen-container { width: 100%; max-width: var(--max-w); flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 0 40px;}
 .screen { display: none; animation: fadeIn 0.5s ease forwards; }
 .screen.active { display: flex; flex-direction: column; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
@@ -504,7 +504,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
       </div>
 
       <button class="cta-btn cta-primary" onclick="goNext()">Start my plan now</button>
-      <div class="trust-bar">🔒 Cancel anytime. 30-day money-back guarantee.</div>
+      <div class="trust-bar">🔒 Cancel anytime. 30-day money back guarantee.</div>
     </div>
 
     <!-- STEP 10: EMAIL CAPTURE -->
@@ -580,7 +580,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
             <div class="pc-per">per day</div>
           </div>
         </div>
-        <div class="plan-card" onclick="selectPlan(this, 'yearly')">
+        <div class="plan-card" onclick="selectPlan(this, 'quarterly')">
           <div class="badge badge-gold">Best Value</div>
           <div class="pc-left">
             <h4>12-Week Plan</h4>
@@ -657,10 +657,14 @@ function goNext() {
     cur.classList.remove('exiting');
     cur.style.display = 'none';
     const next = document.querySelector(`.screen[data-step="${state.step}"]`);
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
     if (next) {
       next.classList.add('active');
       next.style.display = '';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
       onStepEnter(state.step);
     }
   }, 280);

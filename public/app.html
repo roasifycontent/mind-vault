@@ -573,6 +573,9 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
         <div style="font-size:11px;color:var(--gold2);margin-top:2px;">$1.67/wk — save 67%</div>
       </div>
     </div>
+    <div id="pro-email-row" style="display:none;margin-bottom:12px;">
+      <input id="pro-email" type="email" placeholder="Your email address" class="auth-input" style="margin-bottom:0;">
+    </div>
     <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Get Started Now →</button>
     <div id="pro-err" style="color:#c44;font-size:13px;min-height:18px;margin-bottom:4px;"></div>
     <div class="auth-divider"><a href="#" onclick="closeProModal();return false;" style="color:var(--text-dim);">Maybe later</a></div>
@@ -1964,6 +1967,9 @@ function showProModal(){
   $('pro-cta').textContent='Start Free Trial →';
   $('pro-cta').disabled=false;
   selectProPlan(_selectedPlan);
+  // Show email input if user is not logged in
+  const emailRow=$('pro-email-row');
+  if(emailRow) emailRow.style.display = AUTH.user ? 'none' : 'block';
   $('pro-overlay').style.display='flex';
 }
 function closeProModal(){ $('pro-overlay').style.display='none'; }
@@ -1975,29 +1981,47 @@ function selectProPlan(plan){
   });
 }
 async function startStripeCheckout(){
-  if(!AUTH.user){
-    closeProModal();
-    openAuth();
-    return;
-  }
   const priceId = STRIPE_PRICES[_selectedPlan];
   if(!priceId){ $('pro-err').textContent='Checkout not configured yet.'; return; }
   $('pro-cta').textContent='Opening checkout…';
   $('pro-cta').disabled=true;
   $('pro-err').textContent='';
   try{
-    const r=await fetch(API+'/api/stripe?action=checkout',{
-      method:'POST',headers:authHeader(),
-      body:JSON.stringify({
-        price_id:priceId,
-        plan:_selectedPlan,
-        success_url:window.location.origin+'/app?checkout=success',
-        cancel_url:window.location.origin+'/app?checkout=cancelled'
-      })
-    });
-    const d=await r.json();
-    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start Free Trial →'; $('pro-cta').disabled=false; return; }
-    window.location.href=d.session_url;
+    let r, d;
+    if(AUTH.token){
+      // Authenticated checkout
+      r=await fetch(API+'/api/stripe?action=checkout',{
+        method:'POST',headers:authHeader(),
+        body:JSON.stringify({
+          price_id:priceId,
+          plan:_selectedPlan,
+          success_url:window.location.origin+'/app?checkout=success',
+          cancel_url:window.location.origin+'/app?checkout=cancelled'
+        })
+      });
+      d=await r.json();
+      if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start Free Trial →'; $('pro-cta').disabled=false; return; }
+      window.location.href=d.session_url;
+    } else {
+      // Public checkout (no auth) — needs email
+      const emailInput=$('pro-email');
+      const email=emailInput?emailInput.value.trim():'';
+      if(!email||!email.includes('@')){
+        $('pro-err').textContent='Please enter a valid email address.';
+        $('pro-cta').textContent='Start Free Trial →';
+        $('pro-cta').disabled=false;
+        if(emailInput) emailInput.focus();
+        return;
+      }
+      r=await fetch(API+'/api/stripe?action=public-checkout',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ plan:_selectedPlan, email:email })
+      });
+      d=await r.json();
+      if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start Free Trial →'; $('pro-cta').disabled=false; return; }
+      window.location.href=d.url;
+    }
   }catch(e){
     $('pro-err').textContent='Network error — try again.';
     $('pro-cta').textContent='Start Free Trial →';

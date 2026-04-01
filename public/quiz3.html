@@ -31,7 +31,7 @@
   --shadow: 0 4px 24px rgba(0,0,0,0.3);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .app{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 20px}
 
 /* Progress */
@@ -43,7 +43,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#E8C36A);border-radius:2px;transition:width 0.6s cubic-bezier(0.22,1,0.36,1)}
 
 /* Screens */
-.screen-container{width:100%;max-width:var(--max-w);flex:1;display:flex;flex-direction:column;justify-content:center;padding:72px 0 40px;min-height:calc(100vh - 60px)}
+.screen-container{width:100%;max-width:var(--max-w);flex:1;display:flex;flex-direction:column;justify-content:center;padding:72px 0 40px;}
 .screen{display:none;animation:fadeUp 0.55s ease forwards}
 .screen.active{display:flex;flex-direction:column}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -404,7 +404,7 @@ h1.hero em{color:var(--accent);font-style:italic}
       </div>
 
       <button class="cta cta-gold" onclick="goNext()">Start My Plan Now</button>
-      <div class="sub-cta">Cancel anytime. 30-day money-back guarantee.</div>
+      <div class="sub-cta">Cancel anytime. 30-day money back guarantee.</div>
     </div>
 
     <!-- STEP 10: EMAIL -->
@@ -476,7 +476,7 @@ h1.hero em{color:var(--accent);font-style:italic}
             <div class="pc-per">$0.36/day</div>
           </div>
         </div>
-        <div class="plan-card" onclick="selectPlan(this,'yearly')">
+        <div class="plan-card" onclick="selectPlan(this,'quarterly')">
           <div class="badge" style="background:linear-gradient(135deg,#4AE3B5,#45C7A0);color:#1A1A1A;">Best Value</div>
           <div class="pc-left">
             <h4>12-Week Plan</h4>
@@ -542,10 +542,14 @@ function goNext() {
     cur.classList.remove('exiting');
     cur.style.display = 'none';
     const nxt = document.querySelector(`.screen[data-step="${S.step}"]`);
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
     if (nxt) {
       nxt.classList.add('active');
       nxt.style.display = '';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
       onEnter(S.step);
     }
   }, 280);

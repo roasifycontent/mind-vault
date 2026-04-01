@@ -554,18 +554,23 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 <div class="auth-overlay" id="pro-overlay" style="display:none">
   <div class="auth-card" style="text-align:center;max-width:420px;">
     <button class="auth-close" onclick="closeProModal()">×</button>
-    <h2 style="margin-bottom:8px;">Unlock Expert Training</h2>
-    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Hard and Expert modes plus full score history. 30-day money-back guarantee.</p>
-    <div id="pro-plans" style="display:flex;gap:10px;margin-bottom:16px;">
-      <div onclick="selectProPlan('monthly')" id="plan-monthly" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--border2);border-radius:14px;cursor:pointer;transition:border-color .2s;">
-        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Monthly</div>
-        <div style="font-size:22px;font-weight:600;color:var(--text-main);">$7.99<span style="font-size:13px;font-weight:400;color:var(--text-dim);">/mo</span></div>
+    <h2 style="margin-bottom:8px;">Unlock Full Training</h2>
+    <p style="margin-bottom:18px;line-height:1.6;font-size:14px;">Medium, Hard and Expert modes plus full score history. 7-day free trial on all plans.</p>
+    <div id="pro-plans" style="display:flex;gap:8px;margin-bottom:16px;">
+      <div onclick="selectProPlan('weekly')" id="plan-weekly" class="pro-plan-card" style="flex:1;padding:14px 8px;border:1.5px solid var(--border2);border-radius:14px;cursor:pointer;transition:border-color .2s;">
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">1 Week</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text);">$4.99<span style="font-size:12px;font-weight:400;color:var(--text-dim);">/wk</span></div>
       </div>
-      <div onclick="selectProPlan('annual')" id="plan-annual" class="pro-plan-card" style="flex:1;padding:14px 10px;border:1.5px solid var(--gold);border-radius:14px;cursor:pointer;position:relative;transition:border-color .2s;">
+      <div onclick="selectProPlan('monthly')" id="plan-monthly" class="pro-plan-card" style="flex:1;padding:14px 8px;border:1.5px solid var(--border2);border-radius:14px;cursor:pointer;position:relative;transition:border-color .2s;">
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">4 Weeks</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text);">$9.99<span style="font-size:12px;font-weight:400;color:var(--text-dim);">/4wk</span></div>
+        <div style="font-size:11px;color:var(--gold2);margin-top:2px;">Save 50%</div>
+      </div>
+      <div onclick="selectProPlan('quarterly')" id="plan-quarterly" class="pro-plan-card" style="flex:1;padding:14px 8px;border:1.5px solid var(--gold);border-radius:14px;cursor:pointer;position:relative;transition:border-color .2s;">
         <div style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--gold2);color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase;">Best value</div>
-        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">Annual</div>
-        <div style="font-size:22px;font-weight:600;color:var(--text-main);">$49<span style="font-size:13px;font-weight:400;color:var(--text-dim);">/yr</span></div>
-        <div style="font-size:11px;color:var(--gold2);margin-top:2px;">$4.08/mo — save 49%</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-bottom:4px;">12 Weeks</div>
+        <div style="font-size:22px;font-weight:600;color:var(--text);">$19.99<span style="font-size:12px;font-weight:400;color:var(--text-dim);">/12wk</span></div>
+        <div style="font-size:11px;color:var(--gold2);margin-top:2px;">$1.67/wk — save 67%</div>
       </div>
     </div>
     <button id="pro-cta" onclick="startStripeCheckout()" class="btn btn-gold" style="width:100%;font-size:16px;min-height:56px;padding:16px 24px;margin-bottom:8px;">Get Started Now →</button>
@@ -1813,8 +1818,11 @@ function toggleTheme(){
    AUTH + CLOUD SYNC
 ═══════════════════════════════════════ */
 const API = ''; // same origin on Vercel
-const STRIPE_PRICE_ID_MONTHLY = ''; // fill in from Stripe dashboard
-const STRIPE_PRICE_ID_ANNUAL  = ''; // fill in from Stripe dashboard
+const STRIPE_PRICES = {
+  weekly:    'price_1THKkdAWM5kTbKjpctRLzxoh',
+  monthly:   'price_1THKkjAWM5kTbKjpPcdnX7KJ',
+  quarterly: 'price_1THKkpAWM5kTbKjpzn2VKP8C'
+};
 
 let AUTH = {
   token: localStorage.getItem('mv_token') || null,
@@ -1950,10 +1958,10 @@ function openAuth(){
 }
 function closeAuth(){ /* no-op, login screen is dismissed via hideLoginScreen */ }
 
-let _selectedPlan = 'annual'; // default selection
+let _selectedPlan = 'quarterly'; // default selection
 function showProModal(){
   $('pro-err').textContent='';
-  $('pro-cta').textContent='Get Started Now →';
+  $('pro-cta').textContent='Start Free Trial →';
   $('pro-cta').disabled=false;
   selectProPlan(_selectedPlan);
   $('pro-overlay').style.display='flex';
@@ -1961,8 +1969,10 @@ function showProModal(){
 function closeProModal(){ $('pro-overlay').style.display='none'; }
 function selectProPlan(plan){
   _selectedPlan=plan;
-  $('plan-monthly').style.borderColor = plan==='monthly' ? 'var(--gold)' : 'var(--border2)';
-  $('plan-annual').style.borderColor  = plan==='annual'  ? 'var(--gold)' : 'var(--border2)';
+  ['weekly','monthly','quarterly'].forEach(p=>{
+    const el=$('plan-'+p);
+    if(el) el.style.borderColor = p===plan ? 'var(--gold)' : 'var(--border2)';
+  });
 }
 async function startStripeCheckout(){
   if(!AUTH.user){
@@ -1970,7 +1980,7 @@ async function startStripeCheckout(){
     openAuth();
     return;
   }
-  const priceId = _selectedPlan==='annual' ? STRIPE_PRICE_ID_ANNUAL : STRIPE_PRICE_ID_MONTHLY;
+  const priceId = STRIPE_PRICES[_selectedPlan];
   if(!priceId){ $('pro-err').textContent='Checkout not configured yet.'; return; }
   $('pro-cta').textContent='Opening checkout…';
   $('pro-cta').disabled=true;
@@ -1980,16 +1990,17 @@ async function startStripeCheckout(){
       method:'POST',headers:authHeader(),
       body:JSON.stringify({
         price_id:priceId,
-        success_url:window.location.origin+'/?checkout=success',
-        cancel_url:window.location.origin+'/?checkout=cancelled'
+        plan:_selectedPlan,
+        success_url:window.location.origin+'/app?checkout=success',
+        cancel_url:window.location.origin+'/app?checkout=cancelled'
       })
     });
     const d=await r.json();
-    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Get Started Now →'; $('pro-cta').disabled=false; return; }
+    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start Free Trial →'; $('pro-cta').disabled=false; return; }
     window.location.href=d.session_url;
   }catch(e){
     $('pro-err').textContent='Network error — try again.';
-    $('pro-cta').textContent='Get Started Now →';
+    $('pro-cta').textContent='Start Free Trial →';
     $('pro-cta').disabled=false;
   }
 }
@@ -2612,6 +2623,19 @@ function installPWA() {
   _installPrompt.prompt();
   _installPrompt.userChoice.then(() => { _installPrompt = null; });
 }
+
+/* ─── iOS PWA INSTALL BANNER ─── */
+(function iosPwaBanner(){
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  const dismissed = localStorage.getItem('mv_ios_banner_dismissed');
+  if(!isIOS || isStandalone || dismissed) return;
+  const banner = document.createElement('div');
+  banner.id='ios-install-banner';
+  banner.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--card-solid);border-top:1px solid var(--border2);padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text);backdrop-filter:blur(12px);';
+  banner.innerHTML='<span style="flex:1;line-height:1.4;">Install Recall Better: tap <strong>Share</strong> ↑ then <strong>"Add to Home Screen"</strong></span><button onclick="this.parentElement.remove();localStorage.setItem(\'mv_ios_banner_dismissed\',\'1\')" style="background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;padding:4px;">×</button>';
+  document.body.appendChild(banner);
+})();
 </script>
 </body>
 </html>

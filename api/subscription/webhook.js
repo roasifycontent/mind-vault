@@ -32,10 +32,23 @@ module.exports = async (req, res) => {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object;
+        // Only process Recall Better events (shared Stripe account)
+        if (session.metadata?.app && session.metadata.app !== 'recall-better') {
+          console.log('Skipping non-recall-better checkout:', session.metadata.app);
+          break;
+        }
         const email = session.customer_email;
         const userId = session.metadata?.user_id;
         const customerId = session.customer;
         const subscriptionId = session.subscription;
+
+        // Tag the Stripe customer with app metadata
+        if (customerId) {
+          try {
+            const stripe = require('stripe')(stripeSecretKey);
+            await stripe.customers.update(customerId, { metadata: { app: 'recall-better' } });
+          } catch (_) { /* non-critical */ }
+        }
 
         if (userId) {
           await sql`
@@ -91,6 +104,13 @@ module.exports = async (req, res) => {
       case 'invoice.payment_failed': {
         const invoice = event.data.object;
         console.warn('Payment failed for customer:', invoice.customer);
+        if (invoice.customer) {
+          await sql`
+            UPDATE users
+            SET subscription_status = 'past_due'
+            WHERE stripe_customer_id = ${invoice.customer}
+          `;
+        }
         break;
       }
 

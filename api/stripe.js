@@ -23,24 +23,40 @@ async function createCheckoutSession(req, res) {
   const decoded = authUser(req);
   if (!decoded) return res.status(401).json({ error: 'Authentication required' });
 
-  const { price_id, success_url, cancel_url } = req.body || {};
+  const { price_id, plan, success_url, cancel_url } = req.body || {};
   if (!price_id) return res.status(400).json({ error: 'price_id is required' });
 
-  const rows = await sql`SELECT id, email FROM users WHERE id = ${decoded.userId}`;
+  const rows = await sql`SELECT id, email, stripe_customer_id FROM users WHERE id = ${decoded.userId}`;
   if (!rows || rows.length === 0) return res.status(404).json({ error: 'User not found' });
   const user = rows[0];
 
   const stripe = getStripe();
-  const session = await stripe.checkout.sessions.create({
+
+  // Re-use existing Stripe customer if available
+  const sessionParams = {
     mode: 'subscription',
-    customer_email: user.email,
     line_items: [{ price: price_id, quantity: 1 }],
-    metadata: { user_id: String(user.id) },
+    metadata: { user_id: String(user.id), app: 'recall-better', plan: plan || 'unknown' },
     allow_promotion_codes: true,
-    subscription_data: { trial_period_days: 7 },
-    success_url: (success_url || req.headers.origin) + '?session_id={CHECKOUT_SESSION_ID}',
+    subscription_data: {
+      trial_period_days: 7,
+      metadata: { app: 'recall-better', plan: plan || 'unknown' },
+    },
+    payment_settings: {
+      statement_descriptor_suffix: 'RECALLBETTER',
+    },
+    success_url: (success_url || req.headers.origin) + '&session_id={CHECKOUT_SESSION_ID}',
     cancel_url: cancel_url || req.headers.origin,
-  });
+  };
+
+  // Attach existing customer or use email for new
+  if (user.stripe_customer_id) {
+    sessionParams.customer = user.stripe_customer_id;
+  } else {
+    sessionParams.customer_email = user.email;
+  }
+
+  const session = await stripe.checkout.sessions.create(sessionParams);
 
   return res.status(200).json({ session_url: session.url, session_id: session.id });
 }
@@ -103,8 +119,13 @@ async function getSubscriptionStatus(req, res) {
     try {
       const stripe = getStripe();
       const sub = await stripe.subscriptions.retrieve(user.stripe_subscription_id);
-      const interval = sub.items?.data?.[0]?.price?.recurring?.interval;
-      plan = interval === 'year' ? 'annual' : 'monthly';
+      const price = sub.items?.data?.[0]?.price;
+      const interval = price?.recurring?.interval;
+      const intervalCount = price?.recurring?.interval_count || 1;
+      if (interval === 'week' && intervalCount === 1) plan = 'weekly';
+      else if (interval === 'week' && intervalCount === 4) plan = 'monthly';
+      else if (interval === 'week' && intervalCount === 12) plan = 'quarterly';
+      else plan = sub.metadata?.plan || 'unknown';
       if (sub.current_period_end) renewalDate = new Date(sub.current_period_end * 1000).toISOString();
       cancelled = sub.cancel_at_period_end === true;
     } catch (_) {

@@ -893,7 +893,7 @@ function goPro() {
   const btn = event.currentTarget;
   btn.textContent = 'Starting...';
   btn.disabled = true;
-  fetch('/api/stripe?action=checkout', {
+  fetch('/api/create-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ plan: state.selectedPlan, email: state.email })

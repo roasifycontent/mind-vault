@@ -1962,14 +1962,15 @@ function openAuth(){
 function closeAuth(){ /* no-op, login screen is dismissed via hideLoginScreen */ }
 
 let _selectedPlan = 'quarterly'; // default selection
+const PRO_CTA_TEXT = 'Get Started Now →';
 function showProModal(){
   $('pro-err').textContent='';
-  $('pro-cta').textContent='Start Free Trial →';
+  $('pro-cta').textContent=PRO_CTA_TEXT;
   $('pro-cta').disabled=false;
   selectProPlan(_selectedPlan);
   // Show email input if user is not logged in
   const emailRow=$('pro-email-row');
-  if(emailRow) emailRow.style.display = AUTH.user ? 'none' : 'block';
+  if(emailRow) emailRow.style.display = (AUTH.token && AUTH.user) ? 'none' : 'block';
   $('pro-overlay').style.display='flex';
 }
 function closeProModal(){ $('pro-overlay').style.display='none'; }
@@ -1986,11 +1987,34 @@ async function startStripeCheckout(){
   $('pro-cta').textContent='Opening checkout…';
   $('pro-cta').disabled=true;
   $('pro-err').textContent='';
+
+  // Helper to do public checkout with email
+  async function doPublicCheckout(email){
+    if(!email||!email.includes('@')){
+      $('pro-err').textContent='Please enter a valid email address.';
+      $('pro-cta').textContent=PRO_CTA_TEXT;
+      $('pro-cta').disabled=false;
+      const emailInput=$('pro-email');
+      if(emailInput) emailInput.focus();
+      // Make sure email row is visible
+      const emailRow=$('pro-email-row');
+      if(emailRow) emailRow.style.display='block';
+      return;
+    }
+    const r=await fetch(API+'/api/stripe?action=public-checkout',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ plan:_selectedPlan, email:email })
+    });
+    const d=await r.json();
+    if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent=PRO_CTA_TEXT; $('pro-cta').disabled=false; return; }
+    window.location.href=d.url;
+  }
+
   try{
-    let r, d;
-    if(AUTH.token){
-      // Authenticated checkout
-      r=await fetch(API+'/api/stripe?action=checkout',{
+    if(AUTH.token && AUTH.user){
+      // Try authenticated checkout first
+      const r=await fetch(API+'/api/stripe?action=checkout',{
         method:'POST',headers:authHeader(),
         body:JSON.stringify({
           price_id:priceId,
@@ -1999,32 +2023,28 @@ async function startStripeCheckout(){
           cancel_url:window.location.origin+'/app?checkout=cancelled'
         })
       });
-      d=await r.json();
-      if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start Free Trial →'; $('pro-cta').disabled=false; return; }
-      window.location.href=d.session_url;
-    } else {
-      // Public checkout (no auth) — needs email
-      const emailInput=$('pro-email');
-      const email=emailInput?emailInput.value.trim():'';
-      if(!email||!email.includes('@')){
-        $('pro-err').textContent='Please enter a valid email address.';
-        $('pro-cta').textContent='Start Free Trial →';
-        $('pro-cta').disabled=false;
-        if(emailInput) emailInput.focus();
+      if(r.status===401){
+        // Token expired/invalid — fall back to public checkout with user email
+        const email = AUTH.user?.email || '';
+        const emailRow=$('pro-email-row');
+        if(emailRow) emailRow.style.display='block';
+        const emailInput=$('pro-email');
+        if(emailInput && email) emailInput.value=email;
+        await doPublicCheckout(email);
         return;
       }
-      r=await fetch(API+'/api/stripe?action=public-checkout',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({ plan:_selectedPlan, email:email })
-      });
-      d=await r.json();
-      if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent='Start Free Trial →'; $('pro-cta').disabled=false; return; }
-      window.location.href=d.url;
+      const d=await r.json();
+      if(!r.ok){ $('pro-err').textContent=d.error||'Something went wrong, try again.'; $('pro-cta').textContent=PRO_CTA_TEXT; $('pro-cta').disabled=false; return; }
+      window.location.href=d.session_url;
+    } else {
+      // Public checkout — needs email
+      const emailInput=$('pro-email');
+      const email=emailInput?emailInput.value.trim():'';
+      await doPublicCheckout(email);
     }
   }catch(e){
     $('pro-err').textContent='Network error — try again.';
-    $('pro-cta').textContent='Start Free Trial →';
+    $('pro-cta').textContent=PRO_CTA_TEXT;
     $('pro-cta').disabled=false;
   }
 }

@@ -1012,24 +1012,24 @@
             <h2>Choose Your Plan</h2>
             <div class="ticker">Join <span>2,847</span> members improving their memory today</div>
             <div class="pricing-tiers">
-                <div class="pricing-card" onclick="selectPlan(this, 4.99)">
-                    <h3>Starter</h3>
-                    <div class="pricing-price">4.99</div>
-                    <div class="pricing-description">First month</div>
+                <div class="pricing-card" onclick="selectPlan(this, 'weekly')">
+                    <h3>Weekly</h3>
+                    <div class="pricing-price">$4.99</div>
+                    <div class="pricing-description">Per week</div>
                 </div>
-                <div class="pricing-card" onclick="selectPlan(this, 9.99)">
-                    <h3>Essential</h3>
-                    <div class="pricing-price">9.99</div>
-                    <div class="pricing-description">Monthly</div>
+                <div class="pricing-card" onclick="selectPlan(this, 'monthly')">
+                    <h3>4 Week Plan</h3>
+                    <div class="pricing-price">$9.99</div>
+                    <div class="pricing-description">Most Popular</div>
                 </div>
-                <div class="pricing-card" onclick="selectPlan(this, 19.99)">
-                    <h3>Premium</h3>
-                    <div class="pricing-price">19.99</div>
-                    <div class="pricing-description">Quarterly</div>
+                <div class="pricing-card" onclick="selectPlan(this, 'quarterly')">
+                    <h3>12 Week Plan</h3>
+                    <div class="pricing-price">$19.99</div>
+                    <div class="pricing-description">Best Value</div>
                 </div>
             </div>
             <div class="guarantee">
-                7 day free trial. Cancel anytime. No questions asked.
+                30 day money back guarantee. Cancel anytime.
             </div>
             <div class="payment-badges">
                 <div class="badge">Visa</div>
@@ -1042,7 +1042,7 @@
             </div>
             <div class="spacer"></div>
             <div class="button-group">
-                <button class="btn btn-primary" id="startTrial" onclick="startTrial()" style="opacity: 0.5; cursor: not-allowed;" disabled>Start 7 Day Trial</button>
+                <button class="btn btn-primary" id="startTrial" onclick="startCheckout()" style="opacity: 0.5; cursor: not-allowed;" disabled>Start My Plan Now</button>
             </div>
         </div>
     </div>
@@ -1110,10 +1110,10 @@
             document.getElementById('continueAge').disabled = false;
         }
 
-        function selectPlan(element, price) {
+        function selectPlan(element, plan) {
             document.querySelectorAll('.pricing-card').forEach(card => card.classList.remove('selected'));
             element.classList.add('selected');
-            selectedPlan = price;
+            selectedPlan = plan;
             document.getElementById('startTrial').style.opacity = '1';
             document.getElementById('startTrial').style.cursor = 'pointer';
             document.getElementById('startTrial').disabled = false;
@@ -1377,10 +1377,27 @@
             nextScreen();
         }
 
-        function startTrial() {
-            if (selectedPlan) {
-                alert(`Starting 7-day free trial at $${selectedPlan}/month. You will be redirected to payment.`);
-                // In production, redirect to payment processor
+        async function startCheckout() {
+            if (!selectedPlan) {
+                alert('Please select a plan.');
+                return;
+            }
+            const email = document.getElementById('emailInput')?.value?.trim() || '';
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            try {
+                const r = await fetch('/api/stripe?action=public-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan: selectedPlan, email })
+                });
+                const d = await r.json();
+                if (d.url) window.location.href = d.url;
+                else alert(d.error || 'Something went wrong. Please try again.');
+            } catch (e) {
+                alert('Something went wrong. Please try again.');
             }
         }
 

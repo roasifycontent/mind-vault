@@ -1014,36 +1014,36 @@
 
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <h3 style="margin-bottom: 8px;">Monthly</h3>
+                    <h3 style="margin-bottom: 8px;">Weekly</h3>
                     <div class="pricing-amount">$4.99</div>
-                    <div class="pricing-period">per month, cancel anytime</div>
+                    <div class="pricing-period">per week, cancel anytime</div>
                     <div class="pricing-benefit">Full access to all programmes</div>
                     <div class="pricing-benefit">Personalised tracking</div>
                     <div class="pricing-benefit">Unlimited tests</div>
-                    <button class="btn" onclick="processPurchase('4.99')">Start Free Trial</button>
+                    <button class="btn" onclick="startCheckout('weekly')">Get Started Now</button>
                 </div>
 
                 <div class="pricing-card recommended">
                     <div class="pricing-badge">Most Popular</div>
-                    <h3 style="margin-bottom: 8px;">Annual</h3>
+                    <h3 style="margin-bottom: 8px;">4 Week Plan</h3>
                     <div class="pricing-amount">$9.99</div>
-                    <div class="pricing-period">per month, billed annually</div>
-                    <div class="pricing-benefit">Save 58% vs monthly</div>
+                    <div class="pricing-period">$0.36 per day</div>
+                    <div class="pricing-benefit">Save 50% vs weekly</div>
                     <div class="pricing-benefit">Full access to all programmes</div>
                     <div class="pricing-benefit">Personalised tracking</div>
                     <div class="pricing-benefit">Priority support</div>
-                    <button class="btn" onclick="processPurchase('9.99')">Start Free Trial</button>
+                    <button class="btn" onclick="startCheckout('monthly')">Get Started Now</button>
                 </div>
 
                 <div class="pricing-card">
-                    <h3 style="margin-bottom: 8px;">Lifetime</h3>
+                    <h3 style="margin-bottom: 8px;">12 Week Plan</h3>
                     <div class="pricing-amount">$19.99</div>
-                    <div class="pricing-period">one time purchase</div>
+                    <div class="pricing-period">$0.24 per day</div>
                     <div class="pricing-benefit">Best value</div>
-                    <div class="pricing-benefit">Lifetime access</div>
+                    <div class="pricing-benefit">Full access to all programmes</div>
                     <div class="pricing-benefit">All future updates</div>
                     <div class="pricing-benefit">Premium support</div>
-                    <button class="btn" onclick="processPurchase('19.99')">Get Lifetime Access</button>
+                    <button class="btn" onclick="startCheckout('quarterly')">Get Started Now</button>
                 </div>
             </div>
 
@@ -1052,7 +1052,7 @@
             </p>
 
             <div class="guarantee">
-                60-day money-back guarantee. No questions asked.
+                30 day money back guarantee. Cancel anytime.
             </div>
 
             <div class="testimonial">
@@ -1455,9 +1455,25 @@
             goToScreen(11);
         }
 
-        // Purchase handling
-        function processPurchase(amount) {
-            alert(`Thank you for your interest in Recall Better. In a live environment, this would process a ${amount} payment with our payment provider. Your plan would be activated immediately.`);
+        // Stripe checkout
+        async function startCheckout(plan) {
+            const email = state.email || document.getElementById('emailInput')?.value?.trim() || '';
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            try {
+                const r = await fetch('/api/stripe?action=public-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan, email })
+                });
+                const d = await r.json();
+                if (d.url) window.location.href = d.url;
+                else alert(d.error || 'Something went wrong. Please try again.');
+            } catch (e) {
+                alert('Something went wrong. Please try again.');
+            }
         }
 
         // Initialize on load

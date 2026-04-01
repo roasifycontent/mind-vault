@@ -693,10 +693,7 @@
         }
 
         .pricing-trial {
-            font-size: 13px;
-            color: #2D7A5F;
-            font-weight: 500;
-            margin-bottom: 16px;
+            display: none;
         }
 
         .payment-badges {
@@ -1124,20 +1121,19 @@
                     <div class="ticker-item">Over 500,000 users trust Recall Better</div>
                     <div class="ticker-item">Average improvement: +28 points</div>
                     <div class="ticker-item">Results in 4 weeks</div>
-                    <div class="ticker-item">Money-back guarantee</div>
+                    <div class="ticker-item">Money back guarantee</div>
                     <div class="ticker-item">Over 500,000 users trust Recall Better</div>
                 </div>
             </div>
 
-            <h2>Start your free 7 day trial</h2>
+            <h2>Choose Your Plan</h2>
 
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <div class="pricing-duration">1 Week</div>
+                    <div class="pricing-duration">Weekly</div>
                     <div class="pricing-price">$4.99</div>
                     <div class="pricing-per">$0.71 per day</div>
-                    <div class="pricing-trial">7 day free trial</div>
-                    <button class="btn" onclick="selectPlan('1 Week', '$4.99')">Get Started</button>
+                    <button class="btn" onclick="startCheckout('weekly')">Get Started Now</button>
                 </div>
 
                 <div class="pricing-card featured">
@@ -1145,8 +1141,7 @@
                     <div class="pricing-duration">4 Week</div>
                     <div class="pricing-price">$9.99</div>
                     <div class="pricing-per">$0.36 per day</div>
-                    <div class="pricing-trial">7 day free trial</div>
-                    <button class="btn" onclick="selectPlan('4 Week', '$9.99')">Get Started</button>
+                    <button class="btn" onclick="startCheckout('monthly')">Get Started Now</button>
                 </div>
 
                 <div class="pricing-card">
@@ -1154,8 +1149,7 @@
                     <div class="pricing-duration">12 Week</div>
                     <div class="pricing-price">$19.99</div>
                     <div class="pricing-per">$0.24 per day</div>
-                    <div class="pricing-trial">7 day free trial</div>
-                    <button class="btn" onclick="selectPlan('12 Week', '$19.99')">Get Started</button>
+                    <button class="btn" onclick="startCheckout('quarterly')">Get Started Now</button>
                 </div>
             </div>
 
@@ -1167,7 +1161,7 @@
             </div>
 
             <div class="guarantee">
-                Zero risk. 7 day free trial. Full refund within 30 days if you do not see results.
+                30 day money back guarantee. Cancel anytime.
             </div>
 
             <div class="testimonial">
@@ -1596,9 +1590,24 @@
             nextScreen();
         }
 
-        function selectPlan(plan, price) {
-            console.log(`Selected plan: ${plan} - ${price}`);
-            alert(`Plan selected: ${plan} ${price}\n\nThis would complete the purchase flow in a production environment.`);
+        async function startCheckout(plan) {
+            const email = state.email || document.getElementById('emailInput')?.value?.trim() || '';
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            try {
+                const r = await fetch('/api/stripe?action=public-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan, email })
+                });
+                const d = await r.json();
+                if (d.url) window.location.href = d.url;
+                else alert(d.error || 'Something went wrong. Please try again.');
+            } catch (e) {
+                alert('Something went wrong. Please try again.');
+            }
         }
 
         // Initialize

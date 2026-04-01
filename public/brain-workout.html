@@ -958,25 +958,25 @@
             <div class="pricing-cards">
                 <div class="pricing-card">
                     <div class="pricing-price">$4.99</div>
-                    <div class="pricing-period">Monthly plan</div>
-                    <div class="pricing-desc">7 day free trial then $4.99 per month</div>
-                    <button class="btn btn-secondary" onclick="selectPlan('monthly', 4.99)">Select plan</button>
+                    <div class="pricing-period">Weekly</div>
+                    <div class="pricing-desc">$0.71 per day</div>
+                    <button class="btn btn-secondary" onclick="startCheckout('weekly')">Get Started Now</button>
                 </div>
 
                 <div class="pricing-card recommended">
                     <div class="pricing-badge">Recommended</div>
                     <div class="pricing-price">$9.99</div>
-                    <div class="pricing-period">Quarterly plan</div>
-                    <div class="pricing-desc">7 day free trial then $9.99 per quarter</div>
-                    <button class="btn" onclick="selectPlan('quarterly', 9.99)">Select plan</button>
+                    <div class="pricing-period">4 Week Plan</div>
+                    <div class="pricing-desc">$0.36 per day</div>
+                    <button class="btn" onclick="startCheckout('monthly')">Get Started Now</button>
                 </div>
 
                 <div class="pricing-card">
                     <div class="pricing-badge">Best value</div>
                     <div class="pricing-price">$19.99</div>
-                    <div class="pricing-period">Annual plan</div>
-                    <div class="pricing-desc">7 day free trial then $19.99 per year</div>
-                    <button class="btn btn-secondary" onclick="selectPlan('annual', 19.99)">Select plan</button>
+                    <div class="pricing-period">12 Week Plan</div>
+                    <div class="pricing-desc">$0.24 per day</div>
+                    <button class="btn btn-secondary" onclick="startCheckout('quarterly')">Get Started Now</button>
                 </div>
             </div>
 
@@ -988,7 +988,7 @@
             </div>
 
             <div class="guarantee">
-                <strong>7 day free trial.</strong> Zero risk. Cancel anytime.
+                30 day money back guarantee. Cancel anytime.
             </div>
 
             <div class="testimonial">
@@ -996,7 +996,7 @@
                 <div class="testimonial-author">Jean, 64</div>
             </div>
 
-            <button class="btn" onclick="completePurchase()">Start free trial</button>
+            <button class="btn" onclick="startCheckout('monthly')">Start My Plan Now</button>
         </div>
     </div>
 
@@ -1286,16 +1286,24 @@
             showScreen(11);
         }
 
-        function selectPlan(plan, price) {
-            testData.selectedPlan = { plan: plan, price: price };
-        }
-
-        function completePurchase() {
-            if (!testData.selectedPlan) {
-                alert('Please select a plan');
+        async function startCheckout(plan) {
+            const email = testData.email || document.getElementById('emailInput')?.value?.trim() || '';
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
                 return;
             }
-            alert('Thank you. Starting your free 7 day trial of ' + testData.selectedPlan.plan + ' at $' + testData.selectedPlan.price);
+            try {
+                const r = await fetch('/api/stripe?action=public-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan, email })
+                });
+                const d = await r.json();
+                if (d.url) window.location.href = d.url;
+                else alert(d.error || 'Something went wrong. Please try again.');
+            } catch (e) {
+                alert('Something went wrong. Please try again.');
+            }
         }
 
         displayPatternQuestion();

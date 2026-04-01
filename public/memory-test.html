@@ -793,10 +793,7 @@
         }
 
         .pricing-trial {
-            font-size: 12px;
-            color: #5A5A5A;
-            margin-bottom: 16px;
-            font-style: italic;
+            display: none;
         }
 
         .payment-badges {
@@ -1154,14 +1151,13 @@
                 </div>
             </div>
 
-            <h2>Start your free 7 day trial</h2>
+            <h2>Choose Your Plan</h2>
 
             <div class="pricing-card">
-                <div class="pricing-duration">1 Week Starter</div>
+                <div class="pricing-duration">Weekly</div>
                 <div class="pricing-price">$4.99</div>
                 <div class="pricing-per-day">$0.71 per day</div>
-                <div class="pricing-trial">7 day free trial included</div>
-                <button class="button button-wide" onclick="startTrial('1-week')">Start free trial</button>
+                <button class="button button-wide" onclick="startCheckout('weekly')">Get Started Now</button>
             </div>
 
             <div class="pricing-card featured">
@@ -1169,8 +1165,7 @@
                 <div class="pricing-duration">4 Week Plan</div>
                 <div class="pricing-price">$9.99</div>
                 <div class="pricing-per-day">$0.36 per day</div>
-                <div class="pricing-trial">7 day free trial included</div>
-                <button class="button button-wide" onclick="startTrial('4-week')">Start free trial</button>
+                <button class="button button-wide" onclick="startCheckout('monthly')">Get Started Now</button>
             </div>
 
             <div class="pricing-card">
@@ -1178,8 +1173,7 @@
                 <div class="pricing-duration">12 Week Plan</div>
                 <div class="pricing-price">$19.99</div>
                 <div class="pricing-per-day">$0.24 per day</div>
-                <div class="pricing-trial">7 day free trial included</div>
-                <button class="button button-wide" onclick="startTrial('12-week')">Start free trial</button>
+                <button class="button button-wide" onclick="startCheckout('quarterly')">Get Started Now</button>
             </div>
 
             <div class="payment-badges">
@@ -1190,7 +1184,7 @@
             </div>
 
             <div class="guarantee-box">
-                Try it free for 7 days. Cancel anytime. No questions asked.
+                30 day money back guarantee. Cancel anytime.
             </div>
 
             <div class="testimonial">
@@ -1604,10 +1598,25 @@
             }
         }
 
-        // TRIAL SELECTION
-        function startTrial(plan) {
-            console.log('Starting trial:', plan);
-            alert(`Thank you for signing up for the ${plan} plan. Your 7 day free trial has been activated.`);
+        // STRIPE CHECKOUT
+        async function startCheckout(plan) {
+            const email = document.getElementById('emailInput')?.value?.trim() || '';
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            try {
+                const r = await fetch('/api/stripe?action=public-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan, email })
+                });
+                const d = await r.json();
+                if (d.url) window.location.href = d.url;
+                else alert(d.error || 'Something went wrong. Please try again.');
+            } catch (e) {
+                alert('Something went wrong. Please try again.');
+            }
         }
 
         // INITIALIZATION

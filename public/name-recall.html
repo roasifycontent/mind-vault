@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recall Better - Name Recall Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF7F2;
+            color: #2C2C2C;
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #E8E2D9;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: #2D7A5F;
+            transition: width 0.4s ease;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            padding: 40px 30px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+        }
+
+        .logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2D7A5F;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 28px;
+            line-height: 1.3;
+            color: #2C2C2C;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 26px;
+            color: #2C2C2C;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #5A5A5A;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .subtitle {
+            color: #5A5A5A;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .word-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px 0;
+            height: 50px;
+            align-items: center;
+        }
+
+        .tag {
+            background: #E8F5EE;
+            color: #2D7A5F;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        .tag:nth-child(2) { animation-delay: 0.6s; }
+        .tag:nth-child(3) { animation-delay: 1.2s; }
+        .tag:nth-child(4) { animation-delay: 1.8s; }
+        .tag:nth-child(5) { animation-delay: 2.4s; }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .trust-line {
+            color: #8A8A8A;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn-primary {
+            background: #2D7A5F;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #246B52;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #E8F5EE;
+            color: #2D7A5F;
+            border: 2px solid #2D7A5F;
+        }
+
+        .btn-secondary:hover {
+            background: #2D7A5F;
+            color: white;
+        }
+
+        .age-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .age-btn {
+            padding: 20px;
+            border: 2px solid #E8E2D9;
+            background: #FAF7F2;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C2C2C;
+            transition: all 0.3s ease;
+        }
+
+        .age-btn:hover {
+            border-color: #2D7A5F;
+            background: #E8F5EE;
+        }
+
+        .age-btn.selected {
+            background: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        .word-recall-display {
+            background: #E8F5EE;
+            border-radius: 15px;
+            padding: 40px 20px;
+            margin: 30px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #2D7A5F;
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .word-recall-timer {
+            color: #8A8A8A;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .grid-4x4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .grid-3x3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+            aspect-ratio: 1;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border: 2px solid #E8E2D9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2C2C2C;
+            transition: all 0.2s ease;
+            background: #FFFFFF;
+        }
+
+        .grid-item:hover:not(.disabled) {
+            border-color: #2D7A5F;
+            transform: translateY(-2px);
+        }
+
+        .grid-item.selected {
+            background: #E8F5EE;
+            border-color: #2D7A5F;
+        }
+
+        .grid-item.correct {
+            background: #E8F5EE;
+            border-color: #2D7A5F;
+            color: #2D7A5F;
+        }
+
+        .grid-item.incorrect {
+            background: #FFE8E8;
+            border-color: #C0392B;
+            color: #C0392B;
+        }
+
+        .grid-item.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .sequence-number {
+            color: #D4D4D4;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .question-container {
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .question-text {
+            color: #2C2C2C;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .pattern-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .pattern-box {
+            border: 2px solid #E8E2D9;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-box:hover {
+            border-color: #2D7A5F;
+        }
+
+        .pattern-box.selected {
+            background: #E8F5EE;
+            border-color: #2D7A5F;
+        }
+
+        .pattern-circles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .pattern-circle {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: #E8E2D9;
+        }
+
+        .pattern-circle.filled {
+            background: #2D7A5F;
+        }
+
+        .loader-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .loader-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+
+        .loader-step.completed {
+            color: #2D7A5F;
+        }
+
+        .loader-step.active {
+            color: #2D7A5F;
+        }
+
+        .loader-step.pending {
+            color: #8A8A8A;
+        }
+
+        .loader-checkmark {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #E8F5EE;
+            color: #2D7A5F;
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-step.completed .loader-checkmark {
+            background: #2D7A5F;
+            color: white;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #E8F5EE;
+            border-top-color: #2D7A5F;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results-score {
+            font-family: 'Instrument Serif', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #2D7A5F;
+            margin: 30px 0 10px;
+        }
+
+        .results-label {
+            color: #5A5A5A;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .score-ring {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            position: relative;
+        }
+
+        .score-ring.excellent {
+            background: #2D7A5F;
+        }
+
+        .score-ring.good {
+            background: #4A9B7D;
+        }
+
+        .score-ring.fair {
+            background: #D4A017;
+        }
+
+        .score-ring.poor {
+            background: #C0392B;
+        }
+
+        .breakdown-bars {
+            margin: 30px 0;
+        }
+
+        .breakdown-bar {
+            margin-bottom: 20px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .bar-name {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .bar-score {
+            color: #5A5A5A;
+        }
+
+        .bar-background {
+            height: 8px;
+            background: #E8E2D9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #2D7A5F;
+            transition: width 0.6s ease;
+        }
+
+        .verdict-box {
+            background: #E8F5EE;
+            border-left: 4px solid #2D7A5F;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            text-align: left;
+            font-size: 14px;
+            color: #2C2C2C;
+        }
+
+        .comparison-table {
+            margin: 30px 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #E8E2D9;
+            font-size: 13px;
+        }
+
+        .comparison-table th {
+            background: #E8F5EE;
+            color: #2D7A5F;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .comparison-table td {
+            color: #5A5A5A;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stat-highlight {
+            font-family: 'Instrument Serif', serif;
+            font-size: 36px;
+            color: #2D7A5F;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .testimonial {
+            background: #FAF7F2;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid #D4A017;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #5A5A5A;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-author {
+            color: #2C2C2C;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .timeline {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-week {
+            min-width: 60px;
+            background: #E8F5EE;
+            color: #2D7A5F;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .timeline-description {
+            flex: 1;
+            color: #5A5A5A;
+            font-size: 14px;
+            padding-top: 6px;
+        }
+
+        .routine-card {
+            background: #E8F5EE;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .routine-card h3 {
+            color: #2D7A5F;
+            font-family: 'Instrument Serif', serif;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .routine-item {
+            color: #5A5A5A;
+            font-size: 14px;
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .routine-item:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: #2D7A5F;
+            border-radius: 50%;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E8E2D9;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 20px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #2D7A5F;
+        }
+
+        .email-input.error {
+            border-color: #C0392B;
+            background: #FFE8E8;
+        }
+
+        .error-message {
+            color: #C0392B;
+            font-size: 13px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+        }
+
+        .pricing-tiers {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .pricing-card {
+            border: 2px solid #E8E2D9;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pricing-card:hover {
+            border-color: #2D7A5F;
+            background: #E8F5EE;
+        }
+
+        .pricing-card.selected {
+            border-color: #2D7A5F;
+            background: #E8F5EE;
+        }
+
+        .pricing-card h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 20px;
+            color: #2C2C2C;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            color: #2D7A5F;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .pricing-description {
+            color: #5A5A5A;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .ticker {
+            background: #FAF7F2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #5A5A5A;
+            text-align: center;
+        }
+
+        .ticker span {
+            color: #2D7A5F;
+            font-weight: 600;
+        }
+
+        .guarantee {
+            background: #E8F5EE;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #2C2C2C;
+            border-left: 4px solid #2D7A5F;
+        }
+
+        .payment-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            font-size: 11px;
+            color: #8A8A8A;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border: 1px solid #E8E2D9;
+            border-radius: 6px;
+            background: #FFFFFF;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        @media (max-height: 700px) {
+            .screen {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-bar-fill"></div>
+        </div>
+
+        <!-- SCREEN 1: OPENER -->
+        <div class="screen active" data-screen="1">
+            <div class="logo">Recall Better</div>
+            <h1>Forgetting names at dinner parties, meetings, and reunions</h1>
+            <div class="word-tags">
+                <div class="tag">Neighbours</div>
+                <div class="tag">Colleagues</div>
+                <div class="tag">In laws</div>
+                <div class="tag">New friends</div>
+                <div class="tag">Doctors</div>
+            </div>
+            <p class="subtitle">Name recall is the first cognitive skill to fade with age. It is also the fastest to improve.</p>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="nextScreen()">Test my name recall</button>
+                <p class="trust-line">Free 2 minute test. Private results.</p>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: AGE SELECTION -->
+        <div class="screen" data-screen="2">
+            <h2>How old are you</h2>
+            <p class="subtitle">We personalise your results based on age.</p>
+            <div class="age-options">
+                <div class="age-btn" onclick="selectAge(this, '45-54')">45-54</div>
+                <div class="age-btn" onclick="selectAge(this, '55-64')">55-64</div>
+                <div class="age-btn" onclick="selectAge(this, '65-74')">65-74</div>
+                <div class="age-btn" onclick="selectAge(this, '75+')">75+</div>
+            </div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="continueAge" onclick="nextScreen()" style="opacity: 0.5; cursor: not-allowed;" disabled>Continue</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: TEST 1 - WORD RECALL -->
+        <div class="screen" data-screen="3">
+            <h2>Test 1: Word Recall</h2>
+            <p class="subtitle">Remember these words, then find them.</p>
+            <div class="word-recall-display" id="wordDisplay">Ready</div>
+            <div class="word-recall-timer" id="wordTimer"></div>
+            <div class="grid-4x4" id="wordGrid" style="display: none;"></div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="wordSubmit" onclick="submitWordRecall()" style="display: none;">Submit Answers</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: TEST 2 - SEQUENCE MEMORY -->
+        <div class="screen" data-screen="4">
+            <h2>Test 2: Sequence Memory</h2>
+            <p class="subtitle">Remember the sequence and repeat it.</p>
+            <p style="color: #8A8A8A; font-size: 14px; margin: 20px 0;">Round <span id="sequenceRound">1</span> of 4</p>
+            <div class="grid-3x3" id="sequenceGrid"></div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="sequenceSubmit" onclick="submitSequence()" style="display: none;">Submit Sequence</button>
+                <button class="btn btn-secondary" id="sequencePlay" onclick="playSequence()" style="display: none;">Play Again</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: TEST 3 - PATTERN RECOGNITION -->
+        <div class="screen" data-screen="5">
+            <h2>Test 3: Pattern Recognition</h2>
+            <p class="subtitle">Identify the next pattern in the sequence.</p>
+            <div id="patternContainer"></div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="patternSubmit" onclick="submitPattern()" style="display: none;">Submit Answers</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 6: ANALYSING LOADER -->
+        <div class="screen" data-screen="6">
+            <h2>Analysing your results</h2>
+            <div class="spacer"></div>
+            <div class="loader-steps">
+                <div class="loader-step pending" data-step="1">
+                    <span class="loader-checkmark">✓</span>
+                    <span>Scoring word recall</span>
+                </div>
+                <div class="loader-step pending" data-step="2">
+                    <span class="loader-checkmark">✓</span>
+                    <span>Scoring sequence memory</span>
+                </div>
+                <div class="loader-step pending" data-step="3">
+                    <span class="loader-checkmark">✓</span>
+                    <span>Scoring pattern recognition</span>
+                </div>
+                <div class="loader-step pending" data-step="4">
+                    <span class="loader-checkmark">✓</span>
+                    <span>Calculating overall score</span>
+                </div>
+                <div class="loader-step pending" data-step="5">
+                    <span class="loader-checkmark">✓</span>
+                    <span>Generating your plan</span>
+                </div>
+            </div>
+            <div class="spacer"></div>
+        </div>
+
+        <!-- SCREEN 7: RESULTS -->
+        <div class="screen" data-screen="7">
+            <h2>Your Results</h2>
+            <div class="score-ring" id="scoreRing">0</div>
+            <div class="results-score" id="overallScore">0</div>
+            <div class="results-label">out of 100</div>
+            <div class="breakdown-bars">
+                <div class="breakdown-bar">
+                    <div class="bar-label">
+                        <span class="bar-name">Word Recall (40%)</span>
+                        <span class="bar-score" id="wordScore">0</span>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar-fill" id="wordBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="breakdown-bar">
+                    <div class="bar-label">
+                        <span class="bar-name">Sequence Memory (35%)</span>
+                        <span class="bar-score" id="sequenceScore">0</span>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar-fill" id="sequenceBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="breakdown-bar">
+                    <div class="bar-label">
+                        <span class="bar-name">Pattern Recognition (25%)</span>
+                        <span class="bar-score" id="patternScore">0</span>
+                    </div>
+                    <div class="bar-background">
+                        <div class="bar-fill" id="patternBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="verdict-box" id="verdictBox">
+                <strong>Your Results</strong>
+            </div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="nextScreen()">See Your Solution</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 8: SOLUTION -->
+        <div class="screen" data-screen="8">
+            <h2>Your Personalised Solution</h2>
+            <div class="stat-highlight">+28 points</div>
+            <p style="color: #5A5A5A; text-align: center;">with just 5 minutes daily practice</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Improvement</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Crosswords</td>
+                        <td>+8 points</td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td>Recall Better</td>
+                        <td>+28 points</td>
+                        <td>5 min</td>
+                    </tr>
+                    <tr>
+                        <td>Sudoku</td>
+                        <td>+6 points</td>
+                        <td>30 min</td>
+                    </tr>
+                    <tr>
+                        <td>Nothing</td>
+                        <td>-2 points</td>
+                        <td>0 min</td>
+                    </tr>
+                    <tr>
+                        <td>Books</td>
+                        <td>+12 points</td>
+                        <td>60 min</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="testimonial">
+                <div class="testimonial-text">"After just two weeks I was remembering names straight away. This is a game changer."</div>
+                <div class="testimonial-author">Robert, 71</div>
+            </div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="nextScreen()">Create My Plan</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 9: PLAN -->
+        <div class="screen" data-screen="9">
+            <h2>Your 4 Week Plan</h2>
+            <div class="routine-card">
+                <h3>Daily Routine</h3>
+                <div class="routine-item">Wake up with 2 min memory test</div>
+                <div class="routine-item">Evening review session</div>
+                <div class="routine-item">Weekend challenge games</div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 1</div>
+                    <div class="timeline-description">Build habits with easy games</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 2</div>
+                    <div class="timeline-description">Increase difficulty gradually</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 3</div>
+                    <div class="timeline-description">Master advanced techniques</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 4</div>
+                    <div class="timeline-description">Peak performance achieved</div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text">"My family noticed the difference within days. I remembered everyone at my reunion."</div>
+                <div class="testimonial-author">Eleanor, 69</div>
+            </div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="nextScreen()">Get Started Today</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 10: EMAIL -->
+        <div class="screen" data-screen="10">
+            <h2>Get Your Results</h2>
+            <p class="subtitle">We will email your detailed analysis and personalised plan.</p>
+            <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" onkeypress="if(event.key==='Enter') submitEmail()">
+            <div class="error-message" id="emailError" style="display: none;"></div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="submitEmail()">Send My Results</button>
+                <p style="color: #8A8A8A; font-size: 12px; margin-top: 10px;">We never share your details. Ever.</p>
+            </div>
+        </div>
+
+        <!-- SCREEN 11: BILLING -->
+        <div class="screen" data-screen="11">
+            <h2>Choose Your Plan</h2>
+            <div class="ticker">Join <span>2,847</span> members improving their memory today</div>
+            <div class="pricing-tiers">
+                <div class="pricing-card" onclick="selectPlan(this, 4.99)">
+                    <h3>Starter</h3>
+                    <div class="pricing-price">4.99</div>
+                    <div class="pricing-description">First month</div>
+                </div>
+                <div class="pricing-card" onclick="selectPlan(this, 9.99)">
+                    <h3>Essential</h3>
+                    <div class="pricing-price">9.99</div>
+                    <div class="pricing-description">Monthly</div>
+                </div>
+                <div class="pricing-card" onclick="selectPlan(this, 19.99)">
+                    <h3>Premium</h3>
+                    <div class="pricing-price">19.99</div>
+                    <div class="pricing-description">Quarterly</div>
+                </div>
+            </div>
+            <div class="guarantee">
+                7 day free trial. Cancel anytime. No questions asked.
+            </div>
+            <div class="payment-badges">
+                <div class="badge">Visa</div>
+                <div class="badge">Mastercard</div>
+                <div class="badge">Apple Pay</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text">"Best money I have spent. Worth every penny."</div>
+                <div class="testimonial-author">Jean, 64</div>
+            </div>
+            <div class="spacer"></div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="startTrial" onclick="startTrial()" style="opacity: 0.5; cursor: not-allowed;" disabled>Start 7 Day Trial</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentScreen = 1;
+        let selectedAge = null;
+        let selectedPlan = null;
+        let testScores = {
+            word: 0,
+            sequence: 0,
+            pattern: 0
+        };
+
+        // Test data
+        const WORDS_TO_REMEMBER = ['Sunset', 'Garden', 'Violin', 'Harbor', 'Candle', 'Marble', 'Thunder', 'Sparrow'];
+        const WORD_DECOYS = ['Window', 'Bridge', 'Feather', 'Glacier', 'Anchor', 'Pepper', 'Blanket', 'Crystal'];
+        let wordRecallAnswers = [];
+        let sequenceRounds = [[1], [1, 5], [1, 5, 8], [1, 5, 8, 3]];
+        let currentSequenceRound = 0;
+        let sequenceAnswers = [];
+        let patternAnswers = [];
+
+        function updateProgressBar() {
+            const progress = (currentScreen / 11) * 100;
+            document.querySelector('.progress-bar-fill').style.width = progress + '%';
+        }
+
+        function showScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const screen = document.querySelector(`[data-screen="${screenNum}"]`);
+            if (screen) {
+                screen.classList.add('active');
+            }
+            updateProgressBar();
+
+            // Handle screen-specific initialization
+            if (screenNum === 3) {
+                startWordRecallTest();
+            } else if (screenNum === 4) {
+                initSequenceTest();
+            } else if (screenNum === 5) {
+                initPatternTest();
+            } else if (screenNum === 6) {
+                startLoader();
+            } else if (screenNum === 7) {
+                displayResults();
+            }
+        }
+
+        function nextScreen() {
+            if (currentScreen < 11) {
+                currentScreen++;
+                showScreen(currentScreen);
+            }
+        }
+
+        function selectAge(element, age) {
+            document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedAge = age;
+            document.getElementById('continueAge').style.opacity = '1';
+            document.getElementById('continueAge').style.cursor = 'pointer';
+            document.getElementById('continueAge').disabled = false;
+        }
+
+        function selectPlan(element, price) {
+            document.querySelectorAll('.pricing-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPlan = price;
+            document.getElementById('startTrial').style.opacity = '1';
+            document.getElementById('startTrial').style.cursor = 'pointer';
+            document.getElementById('startTrial').disabled = false;
+        }
+
+        function startWordRecallTest() {
+            const display = document.getElementById('wordDisplay');
+            const timer = document.getElementById('wordTimer');
+            const grid = document.getElementById('wordGrid');
+
+            let wordIndex = 0;
+            display.textContent = 'Get ready...';
+
+            setTimeout(() => {
+                const showWord = () => {
+                    if (wordIndex < WORDS_TO_REMEMBER.length) {
+                        display.textContent = WORDS_TO_REMEMBER[wordIndex];
+                        timer.textContent = `Word ${wordIndex + 1} of ${WORDS_TO_REMEMBER.length}`;
+                        wordIndex++;
+                        setTimeout(showWord, 2000);
+                    } else {
+                        display.style.display = 'none';
+                        timer.style.display = 'none';
+                        grid.style.display = 'grid';
+                        createWordGrid();
+                        document.getElementById('wordSubmit').style.display = 'block';
+                    }
+                };
+                showWord();
+            }, 1000);
+        }
+
+        function createWordGrid() {
+            const allWords = [...WORDS_TO_REMEMBER, ...WORD_DECOYS].sort(() => Math.random() - 0.5);
+            const grid = document.getElementById('wordGrid');
+            grid.innerHTML = '';
+            wordRecallAnswers = [];
+
+            allWords.forEach((word, index) => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.textContent = word;
+                item.onclick = () => toggleWord(item, word, index);
+                grid.appendChild(item);
+            });
+        }
+
+        function toggleWord(element, word, index) {
+            element.classList.toggle('selected');
+            if (element.classList.contains('selected')) {
+                wordRecallAnswers.push(word);
+            } else {
+                wordRecallAnswers = wordRecallAnswers.filter(w => w !== word);
+            }
+        }
+
+        function submitWordRecall() {
+            const correct = wordRecallAnswers.filter(w => WORDS_TO_REMEMBER.includes(w)).length;
+            testScores.word = Math.round((correct / 8) * 100);
+            nextScreen();
+        }
+
+        function initSequenceTest() {
+            currentSequenceRound = 0;
+            sequenceAnswers = [];
+            document.getElementById('sequenceRound').textContent = '1';
+            createSequenceGrid();
+            playSequence();
+        }
+
+        function createSequenceGrid() {
+            const grid = document.getElementById('sequenceGrid');
+            grid.innerHTML = '';
+            sequenceAnswers = [];
+
+            for (let i = 1; i <= 9; i++) {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.innerHTML = `<span class="sequence-number">${i}</span>`;
+                item.onclick = () => selectSequence(item, i);
+                grid.appendChild(item);
+            }
+        }
+
+        function playSequence() {
+            const grid = document.getElementById('sequenceGrid');
+            const items = grid.querySelectorAll('.grid-item');
+            const sequence = sequenceRounds[currentSequenceRound];
+
+            document.getElementById('sequencePlay').style.display = 'none';
+            document.getElementById('sequenceSubmit').style.display = 'none';
+
+            let delay = 0;
+            sequence.forEach(num => {
+                setTimeout(() => {
+                    items[num - 1].style.background = '#2D7A5F';
+                    items[num - 1].style.color = 'white';
+                }, delay);
+                setTimeout(() => {
+                    items[num - 1].style.background = '#FFFFFF';
+                    items[num - 1].style.color = '#2C2C2C';
+                }, delay + 300);
+                delay += 600;
+            });
+
+            setTimeout(() => {
+                document.getElementById('sequenceSubmit').style.display = 'block';
+                document.getElementById('sequencePlay').style.display = 'block';
+            }, delay);
+        }
+
+        function selectSequence(item, num) {
+            item.classList.add('selected');
+            sequenceAnswers.push(num);
+        }
+
+        function submitSequence() {
+            const expected = sequenceRounds[currentSequenceRound];
+            const isCorrect = JSON.stringify(sequenceAnswers) === JSON.stringify(expected);
+
+            if (isCorrect) {
+                testScores.sequence += 25;
+            }
+
+            currentSequenceRound++;
+            if (currentSequenceRound < 4) {
+                document.getElementById('sequenceRound').textContent = (currentSequenceRound + 1).toString();
+                createSequenceGrid();
+                playSequence();
+            } else {
+                nextScreen();
+            }
+        }
+
+        function initPatternTest() {
+            const patterns = [
+                { question: 'Which pattern comes next?', options: [1, 0] },
+                { question: 'Complete the sequence', options: [0, 1] },
+                { question: 'What is the next pattern?', options: [1, 0] },
+                { question: 'Find the missing pattern', options: [0, 1] }
+            ];
+
+            const container = document.getElementById('patternContainer');
+            container.innerHTML = '';
+            patternAnswers = [];
+
+            patterns.forEach((pattern, idx) => {
+                const q = document.createElement('div');
+                q.className = 'question-container';
+                q.innerHTML = `
+                    <div class="question-text">Question ${idx + 1}</div>
+                    <div class="pattern-options">
+                        <div class="pattern-box" onclick="selectPatternAnswer(this, ${idx}, 0)">
+                            <div class="pattern-circles">
+                                ${[1,2,3,4,5,6,7,8,9].map((i, j) => `<div class="pattern-circle ${j < 5 ? 'filled' : ''}"></div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="pattern-box" onclick="selectPatternAnswer(this, ${idx}, 1)">
+                            <div class="pattern-circles">
+                                ${[1,2,3,4,5,6,7,8,9].map((i, j) => `<div class="pattern-circle ${j % 2 === 0 ? 'filled' : ''}"></div>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(q);
+            });
+
+            document.getElementById('patternSubmit').style.display = 'block';
+        }
+
+        function selectPatternAnswer(element, questionIdx, answerIdx) {
+            const boxes = element.parentElement.querySelectorAll('.pattern-box');
+            boxes.forEach(box => box.classList.remove('selected'));
+            element.classList.add('selected');
+            patternAnswers[questionIdx] = answerIdx;
+        }
+
+        function submitPattern() {
+            testScores.pattern = Math.round((patternAnswers.filter(a => a !== undefined).length / 4) * 100);
+            nextScreen();
+        }
+
+        function startLoader() {
+            const steps = document.querySelectorAll('.loader-step');
+            let currentStep = 1;
+
+            const completeStep = () => {
+                if (currentStep <= 5) {
+                    const step = document.querySelector(`.loader-step[data-step="${currentStep}"]`);
+                    if (step) {
+                        step.classList.remove('pending', 'active');
+                        step.classList.add('completed');
+                    }
+                    currentStep++;
+                    if (currentStep <= 5) {
+                        const nextStep = document.querySelector(`.loader-step[data-step="${currentStep}"]`);
+                        if (nextStep) nextStep.classList.add('active');
+                        setTimeout(completeStep, 1000);
+                    } else {
+                        setTimeout(() => nextScreen(), 1000);
+                    }
+                }
+            };
+
+            steps[0].classList.add('active');
+            completeStep();
+        }
+
+        function displayResults() {
+            const wordScore = testScores.word;
+            const sequenceScore = Math.min(testScores.sequence, 100);
+            const patternScore = testScores.pattern;
+
+            const overall = Math.round(
+                (wordScore * 0.4) +
+                (sequenceScore * 0.35) +
+                (patternScore * 0.25)
+            );
+
+            document.getElementById('overallScore').textContent = overall;
+            document.getElementById('wordScore').textContent = wordScore;
+            document.getElementById('sequenceScore').textContent = sequenceScore;
+            document.getElementById('patternScore').textContent = patternScore;
+
+            const ringClass = overall >= 80 ? 'excellent' : overall >= 60 ? 'good' : overall >= 40 ? 'fair' : 'poor';
+            const scoreRing = document.getElementById('scoreRing');
+            scoreRing.textContent = overall;
+            scoreRing.className = 'score-ring ' + ringClass;
+
+            document.getElementById('wordBar').style.width = wordScore + '%';
+            document.getElementById('sequenceBar').style.width = sequenceScore + '%';
+            document.getElementById('patternBar').style.width = patternScore + '%';
+
+            let verdict = '';
+            if (overall >= 80) {
+                verdict = 'Excellent name recall. You have strong memory skills and should focus on maintaining them with daily practice.';
+            } else if (overall >= 60) {
+                verdict = 'Good recall ability. With consistent practice, you can improve significantly within 4 weeks.';
+            } else if (overall >= 40) {
+                verdict = 'Room for improvement. This is exactly what Recall Better is designed to help with. Most users see major improvements quickly.';
+            } else {
+                verdict = 'Name recall challenges. The good news: this is the fastest cognitive skill to improve. Start today.';
+            }
+
+            document.getElementById('verdictBox').innerHTML = `<strong>Your Results</strong><br><br>${verdict}`;
+        }
+
+        function submitEmail() {
+            const email = document.getElementById('emailInput').value;
+            const errorMsg = document.getElementById('emailError');
+
+            if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                errorMsg.textContent = 'Please enter a valid email address';
+                errorMsg.style.display = 'block';
+                document.getElementById('emailInput').classList.add('error');
+                return;
+            }
+
+            errorMsg.style.display = 'none';
+            document.getElementById('emailInput').classList.remove('error');
+            nextScreen();
+        }
+
+        function startTrial() {
+            if (selectedPlan) {
+                alert(`Starting 7-day free trial at $${selectedPlan}/month. You will be redirected to payment.`);
+                // In production, redirect to payment processor
+            }
+        }
+
+        // Initialize
+        showScreen(1);
+    </script>
+</body>
+</html>

@@ -12,7 +12,12 @@
     { "source": "/testimonials", "destination": "/testimonials.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/reset", "destination": "/reset.html" }
+    { "source": "/reset", "destination": "/reset.html" },
+    { "source": "/memory-test", "destination": "/memory-test.html" },
+    { "source": "/tip-of-tongue", "destination": "/tip-of-tongue.html" },
+    { "source": "/name-recall", "destination": "/name-recall.html" },
+    { "source": "/brain-workout", "destination": "/brain-workout.html" },
+    { "source": "/family-noticed", "destination": "/family-noticed.html" }
   ],
   "headers": [
     {

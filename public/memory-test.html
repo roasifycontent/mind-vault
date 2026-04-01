@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recall Better - Cognitive Assessment</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background-color: #FAF7F2;
+            color: #2C2C2C;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: #2D7A5F;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 32px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .screen {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .screen.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .screen.exit {
+            animation: fadeOut 0.3s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #2E86AB;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 40px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: #2C2C2C;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: #2C2C2C;
+        }
+
+        .subtitle {
+            color: #5A5A5A;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: #E8F5EE;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card-value {
+            font-family: 'Instrument Serif', serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: #2D7A5F;
+            margin-bottom: 4px;
+        }
+
+        .stat-card-label {
+            font-size: 13px;
+            color: #5A5A5A;
+            font-weight: 500;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #2D7A5F;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            text-decoration: none;
+            width: 100%;
+            text-align: center;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .button:hover {
+            background-color: #246B52;
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button-secondary {
+            background-color: #FFFFFF;
+            color: #2D7A5F;
+            border: 2px solid #2D7A5F;
+        }
+
+        .button-secondary:hover {
+            background-color: #E8F5EE;
+        }
+
+        .button-small {
+            padding: 12px 20px;
+            font-size: 15px;
+            min-height: 44px;
+        }
+
+        .button-wide {
+            width: 100%;
+        }
+
+        .trust-line {
+            text-align: center;
+            color: #8A8A8A;
+            font-size: 13px;
+            margin-top: 16px;
+        }
+
+        .logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: #2D7A5F;
+            margin-bottom: 32px;
+            letter-spacing: -0.5px;
+        }
+
+        .age-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .age-button {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #2C2C2C;
+        }
+
+        .age-button:hover {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .age-button.selected {
+            background-color: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        .test-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: #2D7A5F;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .test-instructions {
+            color: #5A5A5A;
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .word-display {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 12px;
+            padding: 48px 32px;
+            text-align: center;
+            margin-bottom: 32px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word-display-text {
+            font-family: 'Instrument Serif', serif;
+            font-size: 36px;
+            color: #2D7A5F;
+            font-weight: 400;
+        }
+
+        .countdown {
+            font-size: 14px;
+            color: #8A8A8A;
+            margin-top: 12px;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .word-card {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word-card:hover {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .word-card.selected {
+            background-color: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        .grid-3x3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+            aspect-ratio: 1;
+        }
+
+        .cell {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.1s ease;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #D0D0D0;
+            font-weight: 500;
+        }
+
+        .cell:hover {
+            border-color: #2D7A5F;
+        }
+
+        .cell.active {
+            background-color: #2D7A5F;
+            border-color: #2D7A5F;
+        }
+
+        .sequence-message {
+            text-align: center;
+            color: #8A8A8A;
+            margin-bottom: 20px;
+            font-size: 15px;
+            min-height: 24px;
+        }
+
+        .pattern-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .pattern-card {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            padding: 24px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pattern-card:hover {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .pattern-card.selected {
+            background-color: #2D7A5F;
+            border-color: #2D7A5F;
+        }
+
+        .pattern-visual {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+
+        .loader-step {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 16px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            opacity: 0;
+            animation: fadeInStep 0.5s ease forwards;
+        }
+
+        @keyframes fadeInStep {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loader-checkmark {
+            width: 24px;
+            height: 24px;
+            background-color: #2D7A5F;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .loader-text {
+            color: #5A5A5A;
+            font-size: 15px;
+        }
+
+        .results-container {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            padding: 32px 24px;
+            margin-bottom: 24px;
+        }
+
+        .score-ring {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 44px;
+            font-weight: 400;
+            color: white;
+            position: relative;
+        }
+
+        .score-ring.green {
+            background: conic-gradient(#2D7A5F 0deg 252deg, #E8E2D9 252deg 360deg);
+        }
+
+        .score-ring.gold {
+            background: conic-gradient(#D4A017 0deg 162deg, #E8E2D9 162deg 360deg);
+        }
+
+        .score-ring.red {
+            background: conic-gradient(#C0392B 0deg 144deg, #E8E2D9 144deg 360deg);
+        }
+
+        .score-inner {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #FAF7F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Instrument Serif', serif;
+            font-size: 44px;
+            color: #2C2C2C;
+            font-weight: 400;
+        }
+
+        .skill-breakdown {
+            margin-top: 24px;
+        }
+
+        .skill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .skill-name {
+            font-weight: 500;
+            color: #2C2C2C;
+            flex-shrink: 0;
+            width: 140px;
+        }
+
+        .skill-bar-container {
+            flex: 1;
+            height: 24px;
+            background-color: #E8E2D9;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 12px;
+        }
+
+        .skill-bar {
+            height: 100%;
+            background-color: #2D7A5F;
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .skill-percentage {
+            font-weight: 600;
+            color: #2C2C2C;
+            width: 40px;
+            text-align: right;
+        }
+
+        .verdict {
+            background-color: #FEF9E7;
+            border-left: 4px solid #D4A017;
+            padding: 16px;
+            border-radius: 4px;
+            margin-top: 24px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #5A5A5A;
+        }
+
+        .verdict.warning {
+            background-color: #FDEDEC;
+            border-left-color: #C0392B;
+        }
+
+        .comparison-table {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid #E8E2D9;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 16px;
+            background-color: #E8F5EE;
+            border-bottom: 1px solid #E8E2D9;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .table-header-item {
+            text-align: center;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 16px;
+            border-bottom: 1px solid #E8E2D9;
+            align-items: center;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-label {
+            font-weight: 500;
+            color: #5A5A5A;
+            font-size: 14px;
+        }
+
+        .table-cell {
+            text-align: center;
+            font-size: 14px;
+            color: #2C2C2C;
+        }
+
+        .testimonial {
+            background-color: #FFFFFF;
+            border: 1px solid #E8E2D9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .testimonial-quote {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #5A5A5A;
+            font-size: 13px;
+        }
+
+        .daily-routine {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .routine-title {
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 16px;
+        }
+
+        .routine-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #E8E2D9;
+            font-size: 14px;
+            color: #5A5A5A;
+        }
+
+        .routine-item:last-child {
+            border-bottom: none;
+        }
+
+        .routine-time {
+            background-color: #E8F5EE;
+            color: #2D7A5F;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-right: 12px;
+            min-width: 50px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .timeline-week {
+            background-color: #E8F5EE;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .timeline-week-number {
+            font-weight: 600;
+            color: #2D7A5F;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .timeline-week-label {
+            font-size: 12px;
+            color: #5A5A5A;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #2D7A5F;
+            background-color: #FFFFFF;
+        }
+
+        .email-input::placeholder {
+            color: #D0D0D0;
+        }
+
+        .ticker {
+            background-color: #E8F5EE;
+            padding: 12px 0;
+            margin-bottom: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .ticker-item {
+            padding: 0 24px;
+            font-size: 14px;
+            color: #2D7A5F;
+            font-weight: 500;
+        }
+
+        .pricing-card {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .pricing-card:hover {
+            border-color: #2D7A5F;
+            box-shadow: 0 4px 16px rgba(45, 122, 95, 0.1);
+        }
+
+        .pricing-card.featured {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+            transform: scale(1.02);
+            margin-bottom: 16px;
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background-color: #2D7A5F;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .pricing-badge.value {
+            background-color: #D4A017;
+        }
+
+        .pricing-duration {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            font-weight: 400;
+            color: #2D7A5F;
+            margin-bottom: 4px;
+        }
+
+        .pricing-per-day {
+            font-size: 13px;
+            color: #8A8A8A;
+            margin-bottom: 16px;
+        }
+
+        .pricing-trial {
+            font-size: 12px;
+            color: #5A5A5A;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .payment-badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+
+        .payment-badge {
+            background-color: #F5F5F5;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #5A5A5A;
+            border: 1px solid #E8E2D9;
+        }
+
+        .guarantee-box {
+            background-color: #FEF9E7;
+            border: 1px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #5A5A5A;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .round-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .weakest-area {
+            background-color: #FDEDEC;
+            border-left: 4px solid #C0392B;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #5A5A5A;
+        }
+
+        .info-text {
+            color: #8A8A8A;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- SCREEN 1: OPENER -->
+    <div class="screen active" id="screen1">
+        <div class="container">
+            <div class="logo">Recall Better</div>
+            <div class="badge">Cognitive Assessment</div>
+            <h1>How strong is your memory right now?</h1>
+            <p class="subtitle">Take this free 2 minute test used by 53,000+ adults to measure recall, focus, and processing speed. Get your score instantly.</p>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-card-value">3</div>
+                    <div class="stat-card-label">tests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value">2</div>
+                    <div class="stat-card-label">min</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value">Free</div>
+                    <div class="stat-card-label">always</div>
+                </div>
+            </div>
+
+            <button class="button button-wide" onclick="nextScreen()">Test my memory</button>
+            <div class="trust-line">Private and confidential. No account needed.</div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: AGE QUESTION -->
+    <div class="screen" id="screen2">
+        <div class="container">
+            <h2>To personalise your results, what is your age range?</h2>
+
+            <div class="age-buttons">
+                <button class="age-button" onclick="selectAge('45 to 54')">45 to 54</button>
+                <button class="age-button" onclick="selectAge('55 to 64')">55 to 64</button>
+                <button class="age-button" onclick="selectAge('65 to 74')">65 to 74</button>
+                <button class="age-button" onclick="selectAge('75+')">75+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: TEST 1 - WORD RECALL -->
+    <div class="screen" id="screen3">
+        <div class="container">
+            <div class="test-title">Test 1 of 3: Word Recall</div>
+            <h2>Remember these 8 words</h2>
+
+            <div id="wordDisplayContainer">
+                <div class="word-display">
+                    <div class="word-display-text" id="currentWord">Ready</div>
+                </div>
+                <div class="countdown">
+                    <span id="countdown"></span>
+                </div>
+            </div>
+
+            <div id="gridContainer" style="display: none;">
+                <p class="test-instructions">Tap the words you remember</p>
+                <div class="word-grid" id="wordGrid"></div>
+                <button class="button button-wide" onclick="submitWordRecall()">Submit answers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: TEST 2 - SEQUENCE MEMORY -->
+    <div class="screen" id="screen4">
+        <div class="container">
+            <div class="test-title">Test 2 of 3: Sequence Memory</div>
+            <h2>Follow the pattern</h2>
+
+            <div class="sequence-message" id="sequenceMessage"></div>
+
+            <div class="grid-3x3" id="grid3x3">
+                <div class="cell" onclick="cellClicked(0)">1</div>
+                <div class="cell" onclick="cellClicked(1)">2</div>
+                <div class="cell" onclick="cellClicked(2)">3</div>
+                <div class="cell" onclick="cellClicked(3)">4</div>
+                <div class="cell" onclick="cellClicked(4)">5</div>
+                <div class="cell" onclick="cellClicked(5)">6</div>
+                <div class="cell" onclick="cellClicked(6)">7</div>
+                <div class="cell" onclick="cellClicked(7)">8</div>
+                <div class="cell" onclick="cellClicked(8)">9</div>
+            </div>
+
+            <div id="sequenceControls" style="display: none;">
+                <button class="button button-wide" onclick="startSequenceRound()">Start Round</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: TEST 3 - PATTERN RECOGNITION -->
+    <div class="screen" id="screen5">
+        <div class="container">
+            <div class="test-title">Test 3 of 3: Pattern Recognition</div>
+            <h2>What comes next?</h2>
+
+            <div id="patternContainer"></div>
+
+            <div id="patternControls" style="display: none;">
+                <button class="button button-wide" onclick="submitPatternTest()">Submit answers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: ANALYSING LOADER -->
+    <div class="screen" id="screen6">
+        <div class="container">
+            <h2>Analysing your results</h2>
+
+            <div id="loaderSteps"></div>
+        </div>
+    </div>
+
+    <!-- SCREEN 7: RESULTS -->
+    <div class="screen" id="screen7">
+        <div class="container">
+            <h2>Your cognitive score</h2>
+
+            <div class="results-container">
+                <div class="score-ring" id="scoreRing">
+                    <div class="score-inner">
+                        <span id="scoreValue">0</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <p style="color: #5A5A5A; font-size: 15px;">out of 100</p>
+                </div>
+
+                <div class="skill-breakdown" id="skillBreakdown"></div>
+
+                <div class="weakest-area" id="weakestArea"></div>
+
+                <div class="verdict" id="verdict"></div>
+            </div>
+
+            <button class="button button-wide" onclick="nextScreen()">Show me the solution</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 8: SOLUTION -->
+    <div class="screen" id="screen8">
+        <div class="container">
+            <h2 id="solutionHeadline">The good news: your memory is highly trainable</h2>
+
+            <div class="results-container" style="text-align: center;">
+                <div style="font-family: 'Instrument Serif', serif; font-size: 44px; color: #2D7A5F; margin-bottom: 8px; font-weight: 400;">+28</div>
+                <div style="color: #5A5A5A; font-size: 15px;">points average improvement</div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <p style="font-weight: 600; margin-bottom: 12px; color: #2C2C2C;">Crosswords vs Recall Better</p>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">
+                    <div class="table-header-item"></div>
+                    <div class="table-header-item">Crosswords</div>
+                    <div class="table-header-item">Recall Better</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-label">Skills trained</div>
+                    <div class="table-cell">1 skill</div>
+                    <div class="table-cell">7 targeted skills</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-label">Personalised</div>
+                    <div class="table-cell">No</div>
+                    <div class="table-cell">Adapts to weak spots</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-label">Time</div>
+                    <div class="table-cell">15 to 30 min</div>
+                    <div class="table-cell">5 minutes</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-label">Progress tracking</div>
+                    <div class="table-cell">None</div>
+                    <div class="table-cell">Weekly score updates</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-label">Research basis</div>
+                    <div class="table-cell">General</div>
+                    <div class="table-cell">NIH ACTIVE study</div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-quote">"My score went from 41 to 73. My wife says I am back to my old self."</div>
+                <div class="testimonial-author">Robert, 71</div>
+            </div>
+
+            <button class="button button-wide" onclick="nextScreen()">Show my personalised plan</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 9: PERSONALISED PLAN -->
+    <div class="screen" id="screen9">
+        <div class="container">
+            <h2>Your personalised training plan</h2>
+
+            <div class="daily-routine">
+                <div class="routine-title">Daily 5 minute routine</div>
+                <div class="routine-item">
+                    <div class="routine-time">9:00 AM</div>
+                    <span id="gameMatch1">Word pairs game</span>
+                </div>
+                <div class="routine-item">
+                    <div class="routine-time">12:00 PM</div>
+                    <span id="gameMatch2">Sequence recall</span>
+                </div>
+                <div class="routine-item">
+                    <div class="routine-time">6:00 PM</div>
+                    <span id="gameMatch3">Pattern puzzles</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <p style="font-weight: 600; margin-bottom: 12px; color: #2C2C2C;">4 week progression</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-week">
+                    <div class="timeline-week-number">Week 1</div>
+                    <div class="timeline-week-label">Foundation</div>
+                </div>
+                <div class="timeline-week">
+                    <div class="timeline-week-number">Week 2</div>
+                    <div class="timeline-week-label">Building</div>
+                </div>
+                <div class="timeline-week">
+                    <div class="timeline-week-number">Week 3</div>
+                    <div class="timeline-week-label">Strengthening</div>
+                </div>
+                <div class="timeline-week">
+                    <div class="timeline-week-number">Week 4</div>
+                    <div class="timeline-week-label">Mastery</div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-quote">"I improved 34 points. I trust my memory again."</div>
+                <div class="testimonial-author">Eleanor, 69</div>
+            </div>
+
+            <button class="button button-wide" onclick="nextScreen()">Continue</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 10: EMAIL CAPTURE -->
+    <div class="screen" id="screen10">
+        <div class="container">
+            <h2>Where should we send your results?</h2>
+            <p class="subtitle">Get your full cognitive report and personalised training plan</p>
+
+            <input type="email" class="email-input" id="emailInput" placeholder="Enter your email" onkeypress="if(event.key === 'Enter') submitEmail()">
+
+            <button class="button button-wide" onclick="submitEmail()">Send my results</button>
+            <div class="trust-line">We never share your email. Unsubscribe anytime.</div>
+        </div>
+    </div>
+
+    <!-- SCREEN 11: BILLING -->
+    <div class="screen" id="screen11">
+        <div class="container">
+            <div class="ticker">
+                <div class="ticker-content">
+                    <span class="ticker-item">Eleanor from London started today</span>
+                    <span class="ticker-item">Robert from Sydney improved 32 points</span>
+                    <span class="ticker-item">53,247 adults have trained this month</span>
+                    <span class="ticker-item">Eleanor from London started today</span>
+                    <span class="ticker-item">Robert from Sydney improved 32 points</span>
+                    <span class="ticker-item">53,247 adults have trained this month</span>
+                </div>
+            </div>
+
+            <h2>Start your free 7 day trial</h2>
+
+            <div class="pricing-card">
+                <div class="pricing-duration">1 Week Starter</div>
+                <div class="pricing-price">$4.99</div>
+                <div class="pricing-per-day">$0.71 per day</div>
+                <div class="pricing-trial">7 day free trial included</div>
+                <button class="button button-wide" onclick="startTrial('1-week')">Start free trial</button>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
+                <div class="pricing-duration">4 Week Plan</div>
+                <div class="pricing-price">$9.99</div>
+                <div class="pricing-per-day">$0.36 per day</div>
+                <div class="pricing-trial">7 day free trial included</div>
+                <button class="button button-wide" onclick="startTrial('4-week')">Start free trial</button>
+            </div>
+
+            <div class="pricing-card">
+                <div class="pricing-badge value">Best Value</div>
+                <div class="pricing-duration">12 Week Plan</div>
+                <div class="pricing-price">$19.99</div>
+                <div class="pricing-per-day">$0.24 per day</div>
+                <div class="pricing-trial">7 day free trial included</div>
+                <button class="button button-wide" onclick="startTrial('12-week')">Start free trial</button>
+            </div>
+
+            <div class="payment-badges">
+                <div class="payment-badge">VISA</div>
+                <div class="payment-badge">MASTERCARD</div>
+                <div class="payment-badge">PAYPAL</div>
+                <div class="payment-badge">APPLE PAY</div>
+            </div>
+
+            <div class="guarantee-box">
+                Try it free for 7 days. Cancel anytime. No questions asked.
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-quote">"I almost did not enter my email. So glad I did."</div>
+                <div class="testimonial-author">Jean, 64</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // STATE MANAGEMENT
+        const state = {
+            currentScreen: 1,
+            ageRange: null,
+            scores: {
+                wordRecall: 0,
+                sequence: 0,
+                pattern: 0
+            },
+            weakestArea: null,
+            selectedWords: new Set(),
+            wordSequence: ['Sunset', 'Garden', 'Violin', 'Harbor', 'Candle', 'Marble', 'Thunder', 'Sparrow'],
+            wordDecoys: ['Window', 'Bridge', 'Feather', 'Glacier', 'Anchor', 'Pepper', 'Blanket', 'Crystal'],
+            allWords: [],
+            sequenceRound: 0,
+            sequencePattern: [],
+            userSequence: [],
+            patternAnswers: [null, null, null, null]
+        };
+
+        // SCREEN NAVIGATION
+        function updateProgressBar() {
+            const progress = (state.currentScreen / 11) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active', 'exit');
+            });
+            const targetScreen = document.getElementById(`screen${screenNum}`);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
+            window.scrollTo(0, 0);
+            updateProgressBar();
+        }
+
+        function nextScreen() {
+            if (state.currentScreen < 11) {
+                state.currentScreen++;
+                showScreen(state.currentScreen);
+
+                // Initialize screen-specific content
+                if (state.currentScreen === 3) {
+                    initWordRecall();
+                } else if (state.currentScreen === 4) {
+                    initSequenceMemory();
+                } else if (state.currentScreen === 5) {
+                    initPatternRecognition();
+                } else if (state.currentScreen === 6) {
+                    startAnalysisLoader();
+                } else if (state.currentScreen === 7) {
+                    displayResults();
+                }
+            }
+        }
+
+        function selectAge(age) {
+            state.ageRange = age;
+            document.querySelectorAll('.age-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            setTimeout(() => nextScreen(), 300);
+        }
+
+        // WORD RECALL TEST
+        function initWordRecall() {
+            state.selectedWords.clear();
+            let wordIndex = 0;
+            const countdownContainer = document.getElementById('countdown');
+
+            function showNextWord() {
+                if (wordIndex < state.wordSequence.length) {
+                    const word = state.wordSequence[wordIndex];
+                    document.getElementById('currentWord').textContent = word;
+
+                    let countdown = 2;
+                    countdownContainer.textContent = countdown + 's';
+                    const timer = setInterval(() => {
+                        countdown--;
+                        if (countdown >= 0) {
+                            countdownContainer.textContent = countdown + 's';
+                        }
+                        if (countdown < 0) {
+                            clearInterval(timer);
+                            wordIndex++;
+                            setTimeout(showNextWord, 300);
+                        }
+                    }, 1000);
+                } else {
+                    displayWordGrid();
+                }
+            }
+
+            showNextWord();
+        }
+
+        function displayWordGrid() {
+            document.getElementById('wordDisplayContainer').style.display = 'none';
+            document.getElementById('gridContainer').style.display = 'block';
+
+            state.allWords = [...state.wordSequence, ...state.wordDecoys].sort(() => Math.random() - 0.5);
+
+            const gridHTML = state.allWords.map((word, index) =>
+                `<div class="word-card" data-word="${word}" onclick="toggleWord(this, '${word}')">${word}</div>`
+            ).join('');
+
+            document.getElementById('wordGrid').innerHTML = gridHTML;
+        }
+
+        function toggleWord(element, word) {
+            element.classList.toggle('selected');
+            if (element.classList.contains('selected')) {
+                state.selectedWords.add(word);
+            } else {
+                state.selectedWords.delete(word);
+            }
+        }
+
+        function submitWordRecall() {
+            let correct = 0;
+            state.selectedWords.forEach(word => {
+                if (state.wordSequence.includes(word)) {
+                    correct++;
+                }
+            });
+
+            // Penalize wrong selections
+            const wrong = state.selectedWords.size - correct;
+            state.scores.wordRecall = Math.max(0, correct - wrong * 0.5);
+
+            // Normalize to 0-100
+            state.scores.wordRecall = (state.scores.wordRecall / 8) * 100;
+
+            nextScreen();
+        }
+
+        // SEQUENCE MEMORY TEST
+        function initSequenceMemory() {
+            state.sequenceRound = 0;
+            state.sequencePattern = [];
+            startSequenceRound();
+        }
+
+        function startSequenceRound() {
+            if (state.sequenceRound < 4) {
+                const patterns = [[0, 1, 2], [0, 1, 2, 3], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4, 5]];
+                state.sequencePattern = patterns[state.sequenceRound];
+                state.userSequence = [];
+
+                updateSequenceMessage('Watch carefully...');
+                disableAllCells(true);
+
+                setTimeout(playSequencePattern, 800);
+            } else {
+                state.scores.sequence = (state.sequenceRound / 4) * 100;
+                nextScreen();
+            }
+        }
+
+        function playSequencePattern() {
+            let delay = 0;
+            state.sequencePattern.forEach((cellIndex, idx) => {
+                setTimeout(() => {
+                    const cell = document.querySelectorAll('.cell')[cellIndex];
+                    cell.classList.add('active');
+                    setTimeout(() => cell.classList.remove('active'), 300);
+                }, delay);
+                delay += 600;
+            });
+
+            setTimeout(() => {
+                updateSequenceMessage('Your turn');
+                disableAllCells(false);
+            }, delay + 300);
+        }
+
+        function cellClicked(index) {
+            const cell = document.querySelectorAll('.cell')[index];
+            cell.classList.add('active');
+            setTimeout(() => cell.classList.remove('active'), 200);
+
+            state.userSequence.push(index);
+
+            // Check if wrong
+            if (state.userSequence[state.userSequence.length - 1] !== state.sequencePattern[state.userSequence.length - 1]) {
+                updateSequenceMessage('Incorrect. Try the next round.');
+                disableAllCells(true);
+                setTimeout(() => {
+                    state.sequenceRound++;
+                    startSequenceRound();
+                }, 2000);
+                return;
+            }
+
+            // Check if complete
+            if (state.userSequence.length === state.sequencePattern.length) {
+                updateSequenceMessage('Correct. Next round...');
+                disableAllCells(true);
+                setTimeout(() => {
+                    state.sequenceRound++;
+                    startSequenceRound();
+                }, 2000);
+            }
+        }
+
+        function updateSequenceMessage(msg) {
+            document.getElementById('sequenceMessage').textContent = msg;
+        }
+
+        function disableAllCells(disable) {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.style.pointerEvents = disable ? 'none' : 'auto';
+                cell.style.opacity = disable ? '0.6' : '1';
+            });
+        }
+
+        // PATTERN RECOGNITION TEST
+        function initPatternRecognition() {
+            const patterns = [
+                {
+                    question: 'Circle sizes increasing: small, medium, large...',
+                    pattern: 'circles-growing',
+                    options: ['Extra large', 'Small again']
+                },
+                {
+                    question: 'Numbers: 2, 4, 6, 8...',
+                    pattern: 'numbers-even',
+                    options: ['10', '11']
+                },
+                {
+                    question: 'Shapes rotating: square, diamond, square...',
+                    pattern: 'shapes-rotate',
+                    options: ['Diamond', 'Triangle']
+                },
+                {
+                    question: 'Colors alternating: red, blue, red...',
+                    pattern: 'colors-alt',
+                    options: ['Blue', 'Green']
+                }
+            ];
+
+            let html = '';
+            patterns.forEach((p, idx) => {
+                html += `
+                    <div style="margin-bottom: 32px;">
+                        <p style="color: #5A5A5A; margin-bottom: 16px; font-size: 15px;">${p.question}</p>
+                        <div class="pattern-options">
+                            <div class="pattern-card" onclick="selectPatternAnswer(${idx}, 0, this)">
+                                <div class="pattern-visual">${p.options[0]}</div>
+                            </div>
+                            <div class="pattern-card" onclick="selectPatternAnswer(${idx}, 1, this)">
+                                <div class="pattern-visual">${p.options[1]}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('patternContainer').innerHTML = html;
+            document.getElementById('patternControls').style.display = 'block';
+        }
+
+        function selectPatternAnswer(questionIdx, optionIdx, element) {
+            const siblings = element.parentElement.querySelectorAll('.pattern-card');
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+            element.classList.add('selected');
+            state.patternAnswers[questionIdx] = optionIdx;
+        }
+
+        function submitPatternTest() {
+            const correctAnswers = [0, 0, 0, 0]; // First option is always correct for this demo
+            let correct = 0;
+            state.patternAnswers.forEach((answer, idx) => {
+                if (answer === correctAnswers[idx]) correct++;
+            });
+            state.scores.pattern = (correct / 4) * 100;
+            nextScreen();
+        }
+
+        // ANALYSIS LOADER
+        function startAnalysisLoader() {
+            const steps = [
+                'Scoring word recall...',
+                'Measuring sequence memory...',
+                'Evaluating pattern recognition...',
+                'Comparing to your age group...',
+                'Building your cognitive profile...'
+            ];
+
+            let html = '';
+            steps.forEach((step, idx) => {
+                html += `
+                    <div class="loader-step" style="animation-delay: ${idx * 1000}ms;">
+                        <div class="loader-checkmark">✓</div>
+                        <div class="loader-text">${step}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('loaderSteps').innerHTML = html;
+
+            setTimeout(() => {
+                nextScreen();
+            }, steps.length * 1000 + 1000);
+        }
+
+        // RESULTS DISPLAY
+        function displayResults() {
+            // Calculate overall score
+            const overallScore = Math.round(
+                (state.scores.wordRecall * 0.4) +
+                (state.scores.sequence * 0.35) +
+                (state.scores.pattern * 0.25)
+            );
+
+            // Determine weakest area
+            const scores = {
+                'Word Recall': state.scores.wordRecall,
+                'Sequence Memory': state.scores.sequence,
+                'Pattern Recognition': state.scores.pattern
+            };
+            state.weakestArea = Object.keys(scores).reduce((a, b) =>
+                scores[a] < scores[b] ? a : b
+            );
+
+            // Update score ring color
+            const scoreRing = document.getElementById('scoreRing');
+            scoreRing.className = 'score-ring';
+            if (overallScore >= 70) {
+                scoreRing.classList.add('green');
+            } else if (overallScore >= 45) {
+                scoreRing.classList.add('gold');
+            } else {
+                scoreRing.classList.add('red');
+            }
+
+            document.getElementById('scoreValue').textContent = overallScore;
+
+            // Skill breakdown
+            const breakdownHTML = `
+                <div class="skill-row">
+                    <div class="skill-name">Word Recall</div>
+                    <div class="skill-bar-container">
+                        <div class="skill-bar" style="width: ${state.scores.wordRecall}%"></div>
+                    </div>
+                    <div class="skill-percentage">${Math.round(state.scores.wordRecall)}%</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">Sequence Memory</div>
+                    <div class="skill-bar-container">
+                        <div class="skill-bar" style="width: ${state.scores.sequence}%"></div>
+                    </div>
+                    <div class="skill-percentage">${Math.round(state.scores.sequence)}%</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">Pattern Recognition</div>
+                    <div class="skill-bar-container">
+                        <div class="skill-bar" style="width: ${state.scores.pattern}%"></div>
+                    </div>
+                    <div class="skill-percentage">${Math.round(state.scores.pattern)}%</div>
+                </div>
+            `;
+            document.getElementById('skillBreakdown').innerHTML = breakdownHTML;
+
+            // Weakest area callout
+            const weakestHTML = `
+                <strong>Weakest area:</strong> ${state.weakestArea} (${Math.round(scores[state.weakestArea])}%)
+            `;
+            document.getElementById('weakestArea').innerHTML = weakestHTML;
+
+            // Verdict
+            const verdictElement = document.getElementById('verdict');
+            let verdictText = '';
+            let verdictClass = '';
+
+            if (overallScore >= 70) {
+                verdictText = 'Your memory is performing well for your age. With targeted training, you could push it even further.';
+                verdictClass = '';
+            } else if (overallScore >= 45) {
+                verdictText = `Your results suggest early cognitive softening in ${state.weakestArea}. This is common and highly trainable.`;
+                verdictClass = 'warning';
+            } else {
+                verdictText = `Your results indicate your ${state.weakestArea} needs attention. The good news: this is one of the most responsive areas to training.`;
+                verdictClass = 'warning';
+            }
+
+            verdictElement.textContent = verdictText;
+            verdictElement.className = 'verdict ' + verdictClass;
+        }
+
+        // EMAIL SUBMISSION
+        function submitEmail() {
+            const email = document.getElementById('emailInput').value;
+            if (email.includes('@') && email.includes('.')) {
+                nextScreen();
+            } else {
+                alert('Please enter a valid email address');
+            }
+        }
+
+        // TRIAL SELECTION
+        function startTrial(plan) {
+            console.log('Starting trial:', plan);
+            alert(`Thank you for signing up for the ${plan} plan. Your 7 day free trial has been activated.`);
+        }
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            showScreen(1);
+            updateProgressBar();
+        });
+
+        // Update solution headline based on weakest area
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new MutationObserver(() => {
+                if (state.weakestArea) {
+                    document.getElementById('solutionHeadline').textContent =
+                        `The good news: your ${state.weakestArea} is highly trainable`;
+
+                    // Update game matches based on weakest area
+                    let games = ['Word pairs game', 'Sequence recall', 'Pattern puzzles'];
+                    if (state.weakestArea === 'Sequence Memory') {
+                        games = ['Sequence recall', 'Memory chains', 'Pattern sequencing'];
+                    } else if (state.weakestArea === 'Pattern Recognition') {
+                        games = ['Pattern puzzles', 'Visual logic', 'Shape reasoning'];
+                    }
+
+                    document.getElementById('gameMatch1').textContent = games[0];
+                    document.getElementById('gameMatch2').textContent = games[1];
+                    document.getElementById('gameMatch3').textContent = games[2];
+                }
+            });
+            observer.observe(document.body, { subtree: true, childList: true });
+        });
+    </script>
+</body>
+</html>

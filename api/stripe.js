@@ -18,7 +18,48 @@ function authUser(req) {
   return verifyToken(token);
 }
 
-// POST /api/stripe?action=checkout
+// POST /api/stripe?action=public-checkout (no auth - for quiz pages)
+const PUBLIC_PRICE_MAP = {
+  weekly:    'price_1THKkdAWM5kTbKjpctRLzxoh',
+  monthly:   'price_1THKkjAWM5kTbKjpPcdnX7KJ',
+  quarterly: 'price_1THKkpAWM5kTbKjpzn2VKP8C',
+};
+
+async function createPublicCheckout(req, res) {
+  const { plan, email } = req.body || {};
+
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ error: 'Valid email is required' });
+  }
+
+  const priceId = PUBLIC_PRICE_MAP[plan];
+  if (!priceId) {
+    return res.status(400).json({ error: 'Invalid plan. Use: weekly, monthly, or quarterly' });
+  }
+
+  const stripe = getStripe();
+
+  const session = await stripe.checkout.sessions.create({
+    mode: 'subscription',
+    customer_email: email.toLowerCase().trim(),
+    line_items: [{ price: priceId, quantity: 1 }],
+    metadata: { app: 'recall-better', plan, source: 'quiz' },
+    allow_promotion_codes: true,
+    subscription_data: {
+      trial_period_days: 7,
+      metadata: { app: 'recall-better', plan },
+    },
+    payment_settings: {
+      statement_descriptor_suffix: 'RECALLBETTER',
+    },
+    success_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'https://recallbetter.com/quiz',
+  });
+
+  return res.status(200).json({ url: session.url });
+}
+
+// POST /api/stripe?action=checkout (authenticated - for app)
 async function createCheckoutSession(req, res) {
   const decoded = authUser(req);
   if (!decoded) return res.status(401).json({ error: 'Authentication required' });
@@ -147,12 +188,13 @@ module.exports = async (req, res) => {
   const action = req.query.action || req.body?.action;
 
   try {
+    if (req.method === 'POST' && action === 'public-checkout') return await createPublicCheckout(req, res);
     if (req.method === 'POST' && action === 'checkout') return await createCheckoutSession(req, res);
     if (req.method === 'POST' && action === 'portal') return await createPortalSession(req, res);
     if (req.method === 'GET' && action === 'session') return await getSession(req, res);
     if (req.method === 'GET' && action === 'status') return await getSubscriptionStatus(req, res);
 
-    return res.status(400).json({ error: 'Invalid action. Use: checkout, portal, session, or status' });
+    return res.status(400).json({ error: 'Invalid action. Use: public-checkout, checkout, portal, session, or status' });
   } catch (err) {
     if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
       return res.status(401).json({ error: 'Session expired, please sign in again' });

@@ -962,7 +962,7 @@ function selectPlan(plan) {
 function goPro() {
   const btn = document.querySelector('.cta-btn.cta-primary');
   if (btn) { btn.textContent = 'Starting…'; btn.disabled = true; }
-  fetch('/api/create-checkout', {
+  fetch('/api/stripe?action=public-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ plan: state.selectedPlan, email: state.email })

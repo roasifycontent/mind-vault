@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recall Better - Memory Test</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF7F2;
+            color: #2C2C2C;
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Instrument Serif', serif;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 32px;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            color: #2C2C2C;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2C2C2C;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #2C2C2C;
+        }
+
+        p {
+            color: #5A5A5A;
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 4px;
+            background-color: #E8E2D9;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #2D7A5F;
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Logo */
+        .logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #2D7A5F;
+            margin-bottom: 32px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Word tags animation */
+        .word-tags {
+            margin: 32px 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word-tag {
+            position: absolute;
+            padding: 8px 16px;
+            background-color: #E8F5EE;
+            color: #2D7A5F;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            animation: tagFade 3s ease-in-out;
+        }
+
+        @keyframes tagFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            80% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+
+        /* Subtitle */
+        .subtitle {
+            font-size: 16px;
+            color: #5A5A5A;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        /* Trust text */
+        .trust-text {
+            font-size: 13px;
+            color: #8A8A8A;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        /* Button */
+        .btn {
+            padding: 14px 24px;
+            background-color: #2D7A5F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin: 12px 0;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #246B52;
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #2D7A5F;
+            border: 2px solid #2D7A5F;
+        }
+
+        .btn-secondary:hover {
+            background-color: #E8F5EE;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .btn-group-full {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        /* Age buttons */
+        .age-option {
+            padding: 16px;
+            background-color: #ffffff;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .age-option:hover {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .age-option.selected {
+            background-color: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        /* Word grid */
+        .word-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .word-tile {
+            padding: 16px;
+            background-color: #ffffff;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .word-tile:hover:not(.disabled) {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .word-tile.selected {
+            background-color: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        .word-tile.correct {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .word-tile.incorrect {
+            background-color: #C0392B;
+            color: white;
+            border-color: #C0392B;
+        }
+
+        .word-tile.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Sequence grid */
+        .sequence-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin: 24px 0;
+            aspect-ratio: 1;
+        }
+
+        .sequence-cell {
+            background-color: #ffffff;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sequence-cell:hover:not(.disabled) {
+            border-color: #2D7A5F;
+        }
+
+        .sequence-cell.active {
+            background-color: #2D7A5F;
+            border-color: #2D7A5F;
+        }
+
+        .sequence-cell.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Pattern grid */
+        .pattern-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .pattern-card {
+            padding: 24px;
+            background-color: #ffffff;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .pattern-card:hover {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .pattern-card.selected {
+            background-color: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        .pattern-preview {
+            height: 100px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        /* Loader */
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 40px 0;
+        }
+
+        .loader-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            opacity: 0.3;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .loader-step.active {
+            opacity: 1;
+        }
+
+        .loader-checkmark {
+            width: 24px;
+            height: 24px;
+            background-color: #2D7A5F;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Results screen */
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .score-ring {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .score-ring.green {
+            background: conic-gradient(#2D7A5F 0deg 252deg, #E8E2D9 252deg 360deg);
+        }
+
+        .score-ring.gold {
+            background: conic-gradient(#D4A017 0deg 162deg, #E8E2D9 162deg 360deg);
+        }
+
+        .score-ring.red {
+            background: conic-gradient(#C0392B 0deg 108deg, #E8E2D9 108deg 360deg);
+        }
+
+        .score-inner {
+            width: 148px;
+            height: 148px;
+            background-color: #FAF7F2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2C2C2C;
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #8A8A8A;
+            text-transform: uppercase;
+        }
+
+        /* Breakdown bars */
+        .breakdown {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .breakdown-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .breakdown-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .breakdown-bar {
+            height: 8px;
+            background-color: #E8E2D9;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .breakdown-fill {
+            height: 100%;
+            background-color: #2D7A5F;
+            border-radius: 4px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        /* Callout box */
+        .callout {
+            padding: 16px;
+            background-color: #E8F5EE;
+            border-left: 4px solid #2D7A5F;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .callout strong {
+            color: #2D7A5F;
+        }
+
+        /* Card */
+        .card {
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #E8E2D9;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+        }
+
+        /* Table */
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid #E8E2D9;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #E8E2D9;
+            font-size: 14px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #2D7A5F;
+            font-weight: bold;
+        }
+
+        .cross {
+            color: #C0392B;
+        }
+
+        /* Testimonial */
+        .testimonial {
+            padding: 20px;
+            background-color: #ffffff;
+            border-left: 4px solid #D4A017;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #5A5A5A;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            margin-top: 12px;
+            font-style: normal;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        /* Pricing cards */
+        .pricing-section { max-width: 500px; margin: 0 auto; }
+        .countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .countdown-banner svg { width: 20px; height: 20px; }
+        .plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+        .plan-card-v3 { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
+        .plan-card-v3:hover { border-color: rgba(74,227,181,0.3); }
+        .plan-card-v3.featured { border-color: var(--accent); background: rgba(74,227,181,0.06); }
+        .plan-card-v3 .radio-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .plan-card-v3.featured .radio-dot { border-color: var(--accent); }
+        .plan-card-v3.featured .radio-dot::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+        .plan-card-v3 .plan-info { flex: 1; }
+        .plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
+        .plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .plan-card-v3 .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
+        .plan-card-v3 .plan-prices .sale { font-size: 15px; color: var(--text); font-weight: 600; }
+        .plan-card-v3 .price-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; }
+        .plan-card-v3.featured .price-tag { background: rgba(74,227,181,0.1); border-color: rgba(74,227,181,0.3); }
+        .plan-card-v3 .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+        .plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
+        .plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
+        .plan-card-v3 .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
+        .plan-card-v3 .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
+        .popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+        .plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
+        .terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 13px; color: var(--text-dim); }
+        .terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+        .terms-check a { color: var(--accent); text-decoration: underline; }
+        .legal-text { font-size: 11px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.5; }
+        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+        .payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
+        .safe-checkout { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+        .safe-checkout strong { color: var(--text); }
+
+        /* Embedded Checkout Overlay */
+        .checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
+        .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+        .checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+        .checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+        .checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
+        .checkout-back { padding: 16px 24px 0; }
+        .checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+        .checkout-back a:hover { color: var(--text); }
+        .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
+        .checkout-payment { flex: 1; min-width: 280px; }
+        .checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
+        .checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
+        .checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+        .checkout-summary .summary-row.discount { color: #ff6b6b; }
+        .checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
+        #payment-element { min-height: 200px; }
+        #payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+        #payment-submit:hover { opacity: 0.9; }
+        #payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        #payment-message { margin-top: 12px; font-size: 13px; color: #ff6b6b; text-align: center; min-height: 20px; }
+        .checkout-footer { padding: 0 24px 20px; }
+        .checkout-footer .safe-checkout { margin-top: 8px; }
+        @media (max-width: 540px) { .checkout-body { flex-direction: column; } .checkout-summary { flex: 1; } }
+
+        /* Ticker */
+        .ticker {
+            background-color: #ffffff;
+            border: 1px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #5A5A5A;
+            text-align: center;
+        }
+
+        .ticker-stat {
+            color: #2D7A5F;
+            font-weight: 600;
+        }
+
+        /* Email input */
+        .email-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            margin: 16px 0;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .email-input.error {
+            border-color: #C0392B;
+        }
+
+        .error-message {
+            color: #C0392B;
+            font-size: 13px;
+            margin: -12px 0 12px 0;
+        }
+
+        /* Guarantee */
+        .guarantee {
+            padding: 16px;
+            background-color: #E8F5EE;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #2D7A5F;
+            margin: 20px 0;
+        }
+
+        /* Layout utilities */
+        .flex-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-32 {
+            margin-top: 32px;
+        }
+
+        .mb-32 {
+            margin-bottom: 32px;
+        }
+
+        /* Word display */
+        .word-display {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2D7A5F;
+            text-align: center;
+            padding: 32px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .pattern-option {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .round-indicator {
+            font-size: 14px;
+            color: #8A8A8A;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .stat-highlight {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2D7A5F;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="container">
+        <!-- SCREEN 1: OPENER -->
+        <div class="screen active" id="screen1">
+            <div class="logo">Recall Better</div>
+            <h1>When the people around you start to notice</h1>
+
+            <div class="word-tags" id="wordTags"></div>
+
+            <p class="subtitle">You do not need them to tell you. You already know. But you can do something about it.</p>
+
+            <button class="btn" onclick="goToScreen(2)">Take the free memory test</button>
+
+            <p class="trust-text">2 minutes. Private results. No account needed.</p>
+        </div>
+
+        <!-- SCREEN 2: AGE -->
+        <div class="screen" id="screen2">
+            <h2>What is your age range</h2>
+            <div class="btn-group-full">
+                <div class="age-option" onclick="selectAge(this, '45-54')">45 to 54</div>
+                <div class="age-option" onclick="selectAge(this, '55-64')">55 to 64</div>
+                <div class="age-option" onclick="selectAge(this, '65-74')">65 to 74</div>
+                <div class="age-option" onclick="selectAge(this, '75+')">75+</div>
+            </div>
+            <button class="btn" id="ageBtn" onclick="goToScreen(3)" disabled>Continue</button>
+        </div>
+
+        <!-- SCREEN 3: TEST 1 - WORD RECALL -->
+        <div class="screen" id="screen3">
+            <h2>Test 1: Word Recall</h2>
+            <p>Study these words carefully. You will see them again shortly.</p>
+
+            <div class="word-display" id="wordDisplay">Ready to begin</div>
+
+            <p id="wordProgress" class="text-center" style="color: #8A8A8A; margin-bottom: 20px;"></p>
+
+            <button class="btn" id="startWordBtn" onclick="startWordRecall()">Begin Test</button>
+            <button class="btn" id="nextWordBtn" onclick="nextWord()" style="display: none;">Next Word</button>
+
+            <div id="wordGridContainer" style="display: none;">
+                <p>Select the words you remember</p>
+                <div class="word-grid" id="wordGrid"></div>
+                <button class="btn" onclick="submitWordRecall()">Submit Answers</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: TEST 2 - SEQUENCE MEMORY -->
+        <div class="screen" id="screen4">
+            <h2>Test 2: Sequence Memory</h2>
+            <p>Watch the pattern. Then repeat it by tapping in order.</p>
+
+            <div class="round-indicator" id="roundIndicator"></div>
+
+            <div class="sequence-grid" id="sequenceGrid"></div>
+
+            <button class="btn" id="playSequenceBtn" onclick="playSequence()">Play Pattern</button>
+            <button class="btn" id="nextSequenceBtn" onclick="nextSequenceRound()" style="display: none;">Next Round</button>
+            <button class="btn" id="submitSequenceBtn" onclick="submitSequence()" style="display: none;">View Results</button>
+        </div>
+
+        <!-- SCREEN 5: TEST 3 - PATTERN RECOGNITION -->
+        <div class="screen" id="screen5">
+            <h2>Test 3: Pattern Recognition</h2>
+            <p id="patternQuestion"></p>
+
+            <div class="pattern-options" id="patternOptions"></div>
+
+            <button class="btn" id="nextPatternBtn" onclick="nextPattern()" style="display: none;">Next Question</button>
+            <button class="btn" id="submitPatternBtn" onclick="submitPattern()" style="display: none;">View Results</button>
+        </div>
+
+        <!-- SCREEN 6: ANALYSING LOADER -->
+        <div class="screen" id="screen6">
+            <h2 class="text-center">Analysing your results</h2>
+
+            <div class="loader">
+                <div class="loader-step" id="step1">
+                    <div class="loader-checkmark">✓</div>
+                    <span>Processing word recall accuracy</span>
+                </div>
+                <div class="loader-step" id="step2">
+                    <div class="loader-checkmark">✓</div>
+                    <span>Evaluating sequence memory</span>
+                </div>
+                <div class="loader-step" id="step3">
+                    <div class="loader-checkmark">✓</div>
+                    <span>Scoring pattern recognition</span>
+                </div>
+                <div class="loader-step" id="step4">
+                    <div class="loader-checkmark">✓</div>
+                    <span>Calculating overall score</span>
+                </div>
+                <div class="loader-step" id="step5">
+                    <div class="loader-checkmark">✓</div>
+                    <span>Generating personalised insights</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 7: RESULTS -->
+        <div class="screen" id="screen7">
+            <h2 class="text-center">Your Results</h2>
+
+            <div class="results-container">
+                <div>
+                    <div class="score-ring" id="scoreRing">
+                        <div class="score-inner">
+                            <div class="score-number" id="scoreNumber">0</div>
+                            <div class="score-label">out of 100</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%;">
+                    <h3>Your Breakdown</h3>
+                    <div class="breakdown">
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">
+                                <span>Word Recall</span>
+                                <span id="wordScore">0/40</span>
+                            </div>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="wordBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">
+                                <span>Sequence Memory</span>
+                                <span id="sequenceScore">0/35</span>
+                            </div>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="sequenceBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">
+                                <span>Pattern Recognition</span>
+                                <span id="patternScore">0/25</span>
+                            </div>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="patternBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="callout" id="verdictBox">
+                    <strong id="verdictTitle">Room for Improvement</strong>
+                    <p id="verdictText">Your results suggest areas where focused practice could help strengthen your memory function.</p>
+                </div>
+            </div>
+
+            <button class="btn" onclick="goToScreen(8)">Discover the Solution</button>
+        </div>
+
+        <!-- SCREEN 8: SOLUTION -->
+        <div class="screen" id="screen8">
+            <h2>The Solution</h2>
+
+            <div style="text-align: center; margin: 24px 0;">
+                <p style="font-size: 14px; color: #8A8A8A;">Recall Better users improve by</p>
+                <div class="stat-highlight">+28 points</div>
+                <p style="font-size: 14px; color: #8A8A8A;">on average in 4 weeks</p>
+            </div>
+
+            <h3>Crosswords vs Recall Better</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Feature</th>
+                        <th style="width: 30%; text-align: center;">Crosswords</th>
+                        <th style="width: 30%; text-align: center;">Recall Better</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Targets exact weakness</td>
+                        <td class="text-center cross">✗</td>
+                        <td class="text-center check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Tracks progress</td>
+                        <td class="text-center cross">✗</td>
+                        <td class="text-center check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Neuroscience backed</td>
+                        <td class="text-center cross">✗</td>
+                        <td class="text-center check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Brain zone focus</td>
+                        <td class="text-center cross">✗</td>
+                        <td class="text-center check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Works in 10 minutes</td>
+                        <td class="text-center cross">✗</td>
+                        <td class="text-center check">✓</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="testimonial">
+                "I started seeing changes within the first week. My memory has always been a struggle, but the way Recall Better targets what I need has been remarkable."
+                <div class="testimonial-author">Robert, 71</div>
+            </div>
+
+            <button class="btn" onclick="goToScreen(9)">See Your Personalised Plan</button>
+        </div>
+
+        <!-- SCREEN 9: PLAN -->
+        <div class="screen" id="screen9">
+            <h2>Your Personalised Plan</h2>
+
+            <div class="card">
+                <h3 id="planTitle">Daily Routine</h3>
+                <p id="planDescription"></p>
+                <p style="font-size: 13px; color: #8A8A8A; margin-top: 12px;">10 minutes per day recommended</p>
+            </div>
+
+            <div style="margin: 24px 0;">
+                <h3>4 Week Timeline</h3>
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span>Week 1</span>
+                        <span>Baseline</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-fill" style="width: 25%"></div>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span>Week 2</span>
+                        <span>+8 points</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-fill" style="width: 50%"></div>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span>Week 3</span>
+                        <span>+18 points</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span>Week 4</span>
+                        <span>+28 points</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                "I was sceptical at first, but the structured approach genuinely works. I feel more confident in my day to day."
+                <div class="testimonial-author">Eleanor, 69</div>
+            </div>
+
+            <button class="btn" onclick="goToScreen(10)">Continue</button>
+        </div>
+
+        <!-- SCREEN 10: EMAIL -->
+        <div class="screen" id="screen10">
+            <h2>Where should we send your results</h2>
+            <p>Receive your personalised memory plan by email.</p>
+
+            <input type="email" class="email-input" id="emailInput" placeholder="your.email@example.com" onkeypress="handleEmailKeypress(event)">
+            <div class="error-message" id="emailError" style="display: none;"></div>
+
+            <button class="btn" onclick="submitEmail()">Send Results</button>
+
+            <p style="font-size: 13px; color: #8A8A8A; text-align: center; margin-top: 20px;">We respect your privacy. No spam.</p>
+        </div>
+
+        <!-- SCREEN 11: BILLING -->
+        <div class="screen" id="screen11">
+      <div class="pricing-section">
+        <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Choose your plan</h2>
+
+        <div class="countdown-banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>This offer ends in <strong id="countdownTimer">10:00</strong></span>
+        </div>
+
+        <div class="plan-cards-v3">
+          <div class="plan-card-v3" onclick="selectPlan(this, 'weekly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">7-Day Plan</div>
+              <div class="plan-prices"><span class="original">$13.86</span> <span class="sale">$6.93</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.99</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+
+          <div class="popular-banner">&#128077; MOST POPULAR: 50% OFF</div>
+          <div class="plan-card-v3 featured has-banner" onclick="selectPlan(this, 'monthly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">1-Month Plan</div>
+              <div class="plan-prices"><span class="original">$39.98</span> <span class="sale">$19.99</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.66</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+
+          <div class="plan-card-v3" onclick="selectPlan(this, 'quarterly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">3-Month Plan</div>
+              <div class="plan-prices"><span class="original">$79.98</span> <span class="sale">$39.99</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.44</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="cta-btn cta-primary" onclick="goPro()" id="getMyPlanBtn">GET MY PLAN</button>
+
+        <div class="terms-check">
+          <input type="checkbox" id="termsAgree" checked>
+          <label for="termsAgree">I agree to the <a href="/terms">T&Cs</a> and <a href="/privacy">Privacy Policy</a></label>
+        </div>
+
+        <div class="legal-text">
+          By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method the regular price of $39.98 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
+        </div>
+
+        <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+        <div class="payment-logos">
+          <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+        </div>
+      </div>
+
+            <div class="guarantee">
+                30 day money back guarantee. Cancel anytime.
+            </div>
+
+            <div class="testimonial">
+                "Worth every penny. I wish I had found Recall Better years ago."
+                <div class="testimonial-author">Jean, 64</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let state = {
+            currentScreen: 1,
+            selectedAge: null,
+            wordRecallAnswers: [],
+            wordRecallScore: 0,
+            sequenceScore: 0,
+            sequenceRound: 0,
+            patternScore: 0,
+            patternAnswers: [],
+            email: '',
+            weakestArea: 'word'
+        };
+
+        // Test data
+        const wordSet = ['Sunset', 'Garden', 'Violin', 'Harbor', 'Candle', 'Marble', 'Thunder', 'Sparrow'];
+        const wordDecoys = ['Window', 'Bridge', 'Feather', 'Glacier', 'Anchor', 'Pepper', 'Blanket', 'Crystal'];
+        const allWords = [...wordSet, ...wordDecoys].sort(() => Math.random() - 0.5);
+
+        const tagWords = ['Repeating stories', 'Missing appointments', 'Forgetting plans', 'Losing your train of thought', 'Going blank mid sentence'];
+
+        let currentWordIndex = 0;
+        let sequencePattern = [];
+        let sequenceUserInput = [];
+        let currentPatternQ = 0;
+        let displayedWords = [];
+
+        // Initialize word tags animation
+        function initWordTags() {
+            const tagsContainer = document.getElementById('wordTags');
+            tagsContainer.innerHTML = '';
+
+            tagWords.forEach((word, index) => {
+                const tag = document.createElement('div');
+                tag.className = 'word-tag';
+                tag.textContent = word;
+                tag.style.animationDelay = (index * 3) + 's';
+                tagsContainer.appendChild(tag);
+            });
+        }
+
+        // Screen navigation
+        function goToScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + screenNum).classList.add('active');
+            state.currentScreen = screenNum;
+            updateProgressBar();
+            window.scrollTo(0, 0);
+        }
+
+        function updateProgressBar() {
+            const progress = (state.currentScreen / 11) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Age selection
+        function selectAge(element, age) {
+            document.querySelectorAll('.age-option').forEach(e => e.classList.remove('selected'));
+            element.classList.add('selected');
+            state.selectedAge = age;
+            document.getElementById('ageBtn').disabled = false;
+        }
+
+        // Word Recall Test
+        function startWordRecall() {
+            displayedWords = [];
+            currentWordIndex = 0;
+            state.wordRecallAnswers = [];
+            document.getElementById('startWordBtn').style.display = 'none';
+            document.getElementById('nextWordBtn').style.display = 'block';
+            document.getElementById('wordDisplay').style.display = 'flex';
+            showNextWord();
+        }
+
+        function showNextWord() {
+            if (currentWordIndex >= wordSet.length) {
+                showWordGrid();
+                return;
+            }
+
+            const word = wordSet[currentWordIndex];
+            displayedWords.push(word);
+            document.getElementById('wordDisplay').textContent = word;
+            document.getElementById('wordProgress').textContent = `Word ${currentWordIndex + 1} of ${wordSet.length}`;
+            currentWordIndex++;
+        }
+
+        function nextWord() {
+            showNextWord();
+        }
+
+        function showWordGrid() {
+            document.getElementById('nextWordBtn').style.display = 'none';
+            document.getElementById('wordDisplay').style.display = 'none';
+            document.getElementById('wordProgress').textContent = 'Select the words you remember from the list above';
+            document.getElementById('wordGridContainer').style.display = 'block';
+
+            const grid = document.getElementById('wordGrid');
+            grid.innerHTML = '';
+
+            allWords.forEach(word => {
+                const tile = document.createElement('div');
+                tile.className = 'word-tile';
+                tile.textContent = word;
+                tile.onclick = () => {
+                    tile.classList.toggle('selected');
+                    if (tile.classList.contains('selected')) {
+                        state.wordRecallAnswers.push(word);
+                    } else {
+                        state.wordRecallAnswers = state.wordRecallAnswers.filter(w => w !== word);
+                    }
+                };
+                grid.appendChild(tile);
+            });
+        }
+
+        function submitWordRecall() {
+            let correct = 0;
+            displayedWords.forEach(word => {
+                if (state.wordRecallAnswers.includes(word)) correct++;
+            });
+            state.wordRecallScore = Math.round((correct / 8) * 40);
+            goToScreen(4);
+        }
+
+        // Sequence Memory Test
+        function initSequenceGrid() {
+            const grid = document.getElementById('sequenceGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'sequence-cell';
+                cell.textContent = i + 1;
+                cell.onclick = () => selectSequenceCell(cell, i);
+                grid.appendChild(cell);
+            }
+        }
+
+        function playSequence() {
+            const cellCount = 3 + state.sequenceRound;
+            sequencePattern = [];
+            sequenceUserInput = [];
+
+            for (let i = 0; i < cellCount; i++) {
+                sequencePattern.push(Math.floor(Math.random() * 9));
+            }
+
+            document.getElementById('roundIndicator').textContent = `Round ${state.sequenceRound + 1} of 4 - Watch carefully`;
+            document.getElementById('playSequenceBtn').disabled = true;
+
+            let delay = 0;
+            sequencePattern.forEach((cellIndex, idx) => {
+                setTimeout(() => {
+                    const cells = document.querySelectorAll('.sequence-cell');
+                    cells[cellIndex].classList.add('active');
+                    setTimeout(() => {
+                        cells[cellIndex].classList.remove('active');
+                    }, 500);
+                }, (idx + 1) * 800 + delay);
+            });
+
+            setTimeout(() => {
+                document.getElementById('roundIndicator').textContent = `Now your turn. Repeat the pattern`;
+                document.getElementById('playSequenceBtn').disabled = false;
+            }, (sequencePattern.length + 1) * 800 + 300);
+        }
+
+        function selectSequenceCell(element, index) {
+            sequenceUserInput.push(index);
+            element.classList.add('active');
+            setTimeout(() => element.classList.remove('active'), 200);
+
+            if (sequenceUserInput[sequenceUserInput.length - 1] !== sequencePattern[sequenceUserInput.length - 1]) {
+                state.sequenceScore += Math.max(0, 8 - (state.sequenceRound * 2));
+                nextSequenceRound();
+                return;
+            }
+
+            if (sequenceUserInput.length === sequencePattern.length) {
+                state.sequenceScore += 8;
+                nextSequenceRound();
+            }
+        }
+
+        function nextSequenceRound() {
+            state.sequenceRound++;
+
+            if (state.sequenceRound >= 4) {
+                state.sequenceScore = Math.round((state.sequenceScore / 32) * 35);
+                document.getElementById('playSequenceBtn').style.display = 'none';
+                document.getElementById('nextSequenceBtn').style.display = 'none';
+                document.getElementById('submitSequenceBtn').style.display = 'block';
+            } else {
+                sequenceUserInput = [];
+                document.getElementById('playSequenceBtn').disabled = false;
+            }
+        }
+
+        function submitSequence() {
+            goToScreen(5);
+        }
+
+        // Pattern Recognition Test
+        const patterns = [
+            { question: 'Which pattern comes next?', a: 'diagonal-stripes', b: 'dots' },
+            { question: 'Which is different?', a: 'circles', b: 'squares' },
+            { question: 'Complete the sequence', a: 'triangle', b: 'hexagon' },
+            { question: 'Which matches?', a: 'waves', b: 'solid' }
+        ];
+
+        function showPatternQuestion() {
+            if (currentPatternQ >= patterns.length) {
+                finishPatterns();
+                return;
+            }
+
+            const pattern = patterns[currentPatternQ];
+            document.getElementById('patternQuestion').textContent = pattern.question + ` (${currentPatternQ + 1} of ${patterns.length})`;
+
+            const options = document.getElementById('patternOptions');
+            options.innerHTML = '';
+
+            [pattern.a, pattern.b].forEach(option => {
+                const card = document.createElement('div');
+                card.className = 'pattern-card';
+
+                const preview = document.createElement('div');
+                preview.className = 'pattern-preview';
+                preview.style.backgroundColor = getPatternColor(option);
+                if (option.includes('stripe')) preview.style.backgroundImage = 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(45,122,95,0.2) 10px, rgba(45,122,95,0.2) 20px)';
+                else if (option.includes('dot')) preview.style.backgroundImage = 'radial-gradient(circle, rgba(45,122,95,0.3) 3px, transparent 3px)';
+                else if (option.includes('wave')) preview.style.backgroundImage = 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'50\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0,25 Q25,5 50,25 T100,25\' stroke=\'rgba(45,122,95,0.5)\' fill=\'none\' stroke-width=\'2\'/%3E%3C/svg%3E")';
+
+                card.appendChild(preview);
+
+                const label = document.createElement('div');
+                label.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+                card.appendChild(label);
+
+                card.onclick = () => selectPatternOption(card, option);
+                options.appendChild(card);
+            });
+
+            document.getElementById('nextPatternBtn').style.display = 'none';
+            document.getElementById('submitPatternBtn').style.display = 'none';
+        }
+
+        function getPatternColor(pattern) {
+            if (pattern.includes('circle')) return '#E8F5EE';
+            if (pattern.includes('square')) return '#E8F5EE';
+            if (pattern.includes('triangle')) return '#E8F5EE';
+            if (pattern.includes('hexagon')) return '#E8F5EE';
+            if (pattern.includes('wave')) return '#E8F5EE';
+            return '#E8F5EE';
+        }
+
+        function selectPatternOption(card, option) {
+            document.querySelectorAll('.pattern-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            state.patternAnswers[currentPatternQ] = option;
+
+            if (currentPatternQ === patterns.length - 1) {
+                document.getElementById('submitPatternBtn').style.display = 'block';
+            } else {
+                document.getElementById('nextPatternBtn').style.display = 'block';
+            }
+        }
+
+        function nextPattern() {
+            currentPatternQ++;
+            showPatternQuestion();
+        }
+
+        function submitPattern() {
+            state.patternScore = Math.round((state.patternAnswers.length / 4) * 25);
+            goToScreen(6);
+        }
+
+        // Loader animation
+        function runLoader() {
+            const steps = document.querySelectorAll('.loader-step');
+            let currentStep = 0;
+
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    steps[currentStep].classList.add('active');
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => calculateResults(), 500);
+                }
+            }, 1000);
+        }
+
+        // Results calculation
+        function calculateResults() {
+            const wordPercent = (state.wordRecallScore / 40) * 100;
+            const sequencePercent = (state.sequenceScore / 35) * 100;
+            const patternPercent = (state.patternScore / 25) * 100;
+
+            const totalScore = state.wordRecallScore + state.sequenceScore + state.patternScore;
+
+            // Determine weakest area
+            const scores = {
+                word: wordPercent,
+                sequence: sequencePercent,
+                pattern: patternPercent
+            };
+            state.weakestArea = Object.keys(scores).reduce((a, b) => scores[a] < scores[b] ? a : b);
+
+            // Update UI
+            document.getElementById('scoreNumber').textContent = totalScore;
+            document.getElementById('wordScore').textContent = `${state.wordRecallScore}/40`;
+            document.getElementById('sequenceScore').textContent = `${state.sequenceScore}/35`;
+            document.getElementById('patternScore').textContent = `${state.patternScore}/25`;
+
+            document.getElementById('wordBar').style.width = wordPercent + '%';
+            document.getElementById('sequenceBar').style.width = sequencePercent + '%';
+            document.getElementById('patternBar').style.width = patternPercent + '%';
+
+            // Color code the ring
+            const ring = document.getElementById('scoreRing');
+            ring.classList.remove('green', 'gold', 'red');
+
+            if (totalScore >= 70) {
+                ring.classList.add('green');
+                document.getElementById('verdictTitle').textContent = 'Excellent Performance';
+                document.getElementById('verdictText').textContent = 'Your memory function is strong. Continue your regular brain training to maintain peak performance.';
+            } else if (totalScore >= 45) {
+                ring.classList.add('gold');
+                document.getElementById('verdictTitle').textContent = 'Room for Growth';
+                document.getElementById('verdictText').textContent = 'Your results show potential for improvement. Targeted practice in your weak areas could help significantly.';
+            } else {
+                ring.classList.add('red');
+                document.getElementById('verdictTitle').textContent = 'Significant Opportunity';
+                document.getElementById('verdictText').textContent = 'Your results indicate memory challenges. Recall Better is specifically designed to address these areas.';
+            }
+
+            goToScreen(7);
+        }
+
+        // Plan personalisation
+        function initPlan() {
+            const plans = {
+                word: {
+                    title: 'Word Recognition Training',
+                    description: 'Focus on vocabulary recall and word association exercises. These build your semantic memory and help you store and retrieve words more effectively.'
+                },
+                sequence: {
+                    title: 'Sequence Memorisation',
+                    description: 'Strengthen your working memory and sequencing abilities. These exercises train your brain to hold and organize information in order.'
+                },
+                pattern: {
+                    title: 'Pattern Detection',
+                    description: 'Develop visual and logical pattern recognition. This enhances your cognitive flexibility and analytical thinking.'
+                }
+            };
+
+            const plan = plans[state.weakestArea];
+            document.getElementById('planTitle').textContent = plan.title;
+            document.getElementById('planDescription').textContent = plan.description;
+        }
+
+        // Email handling
+        function handleEmailKeypress(e) {
+            if (e.key === 'Enter') submitEmail();
+        }
+
+        function submitEmail() {
+            const email = document.getElementById('emailInput').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            const errorEl = document.getElementById('emailError');
+
+            if (!email) {
+                errorEl.textContent = 'Please enter your email';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (!emailRegex.test(email)) {
+                errorEl.textContent = 'Please enter a valid email address';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+            state.email = email;
+            goToScreen(11);
+        }
+
+        var selectedPlan = 'monthly';
+
+        function selectPlan(el, plan) {
+          selectedPlan = plan;
+          document.querySelectorAll('.plan-card-v3').forEach(c => c.classList.remove('featured'));
+          el.classList.add('featured');
+          document.querySelectorAll('.plan-card-v3 .radio-dot').forEach(d => { d.style.borderColor = 'rgba(255,255,255,0.2)'; d.innerHTML = ''; });
+          el.querySelector('.radio-dot').style.borderColor = 'var(--accent)';
+          el.querySelector('.radio-dot').innerHTML = '<div style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></div>';
+          document.querySelectorAll('.plan-card-v3 .price-tag').forEach(t => { t.style.background = 'rgba(255,255,255,0.06)'; t.style.borderColor = 'rgba(255,255,255,0.1)'; });
+          document.querySelectorAll('.plan-card-v3 .price-tag .tag-amount').forEach(a => a.style.color = 'var(--text-bright)');
+          el.querySelector('.price-tag').style.background = 'rgba(74,227,181,0.1)';
+          el.querySelector('.price-tag').style.borderColor = 'rgba(74,227,181,0.3)';
+          el.querySelector('.price-tag .tag-amount').style.color = 'var(--accent)';
+          const legalEl = document.querySelector('.legal-text');
+          if (legalEl) {
+            const planNames = { weekly: '7-day', monthly: '1-month', quarterly: '3-month' };
+            const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+            const renewPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+            const intervals = { weekly: '1 week', monthly: '1 month', quarterly: '3 months' };
+            legalEl.textContent = `By clicking "GET MY PLAN", I agree to pay ${planPrices[plan]} for my plan and that if I do not cancel before the end of the ${planNames[plan]} plan, Recall Better will automatically charge my payment method the regular price of ${renewPrices[plan]} every ${intervals[plan]} thereafter until I cancel by contacting us at help@recallbetter.com.`;
+          }
+        }
+
+        // Stripe checkout
+        let stripeInstance = null, elements = null, paymentElement = null;
+
+        function goPro() {
+            const plan = selectedPlan || 'monthly';
+            const email = state.email || document.getElementById('emailInput')?.value?.trim() || '';
+            if (!email || !email.includes('@')) { alert('Please enter your email first.'); return; }
+
+            const btn = document.getElementById('getMyPlanBtn');
+            btn.textContent = 'Loading...'; btn.disabled = true;
+
+            const planLabels = { weekly: '7-day plan', monthly: '1-month plan', quarterly: '3-month plan' };
+            const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+            const origPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+            const discounts = { weekly: '-$6.93', monthly: '-$19.99', quarterly: '-$39.99' };
+            document.getElementById('summaryPlanName').textContent = planLabels[plan];
+            document.getElementById('summaryOriginal').textContent = origPrices[plan];
+            document.getElementById('summaryDiscount').textContent = discounts[plan];
+            document.getElementById('summaryTotal').textContent = planPrices[plan];
+
+            fetch('/api/stripe?action=embedded-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan, email, pricing: 'prices2' })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) throw new Error(data.error);
+                stripeInstance = Stripe(data.publishableKey);
+                elements = stripeInstance.elements({
+                    clientSecret: data.clientSecret,
+                    appearance: {
+                        theme: 'night',
+                        variables: { colorPrimary: '#4AE3B5', colorBackground: '#131B2E', colorText: '#E8ECF4', colorDanger: '#FF6B6B', fontFamily: 'DM Sans, sans-serif', borderRadius: '10px' }
+                    }
+                });
+                paymentElement = elements.create('payment', { layout: 'tabs', defaultValues: { billingDetails: { email } } });
+                paymentElement.mount('#payment-element');
+                document.getElementById('checkoutOverlay').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                const srcEl = document.getElementById('countdownTimer');
+                if (srcEl) { const sync = () => { const d = document.getElementById('checkoutCountdown'); if (d) d.textContent = srcEl.textContent; }; sync(); setInterval(sync, 1000); }
+                btn.textContent = 'GET MY PLAN'; btn.disabled = false;
+            })
+            .catch(err => { alert(err.message || 'Something went wrong.'); btn.textContent = 'GET MY PLAN'; btn.disabled = false; });
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        async function submitPayment() {
+            const btn = document.getElementById('payment-submit');
+            const msgEl = document.getElementById('payment-message');
+            btn.disabled = true; btn.textContent = 'Processing...'; msgEl.textContent = '';
+            const { error } = await stripeInstance.confirmPayment({ elements, confirmParams: { return_url: 'https://recallbetter.com/app?checkout=success' } });
+            if (error) { msgEl.textContent = error.message; btn.disabled = false; btn.textContent = 'Submit Secure Payment'; }
+        }
+
+        (function(){var t=600;var el=document.getElementById('countdownTimer');if(!el)return;setInterval(function(){t--;if(t<0)t=0;var m=Math.floor(t/60),s=t%60;el.textContent=m+':'+(s<10?'0':'')+s;},1000);})();
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            initWordTags();
+            initSequenceGrid();
+            showPatternQuestion();
+            updateProgressBar();
+        });
+
+        // Specific screen transitions
+        const originalGoToScreen = goToScreen;
+        goToScreen = function(screenNum) {
+            if (screenNum === 4) {
+                initSequenceGrid();
+            }
+            if (screenNum === 5) {
+                showPatternQuestion();
+            }
+            if (screenNum === 6) {
+                runLoader();
+            }
+            if (screenNum === 9) {
+                initPlan();
+            }
+            originalGoToScreen(screenNum);
+        };
+    </script>
+<!-- Embedded Checkout Overlay -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <span>The offer expires in:</span>
+      <span class="countdown-text" id="checkoutCountdown">10:00</span>
+    </div>
+    <div class="checkout-back">
+      <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-payment">
+        <h3>Select a payment method</h3>
+        <div id="payment-element"></div>
+        <button id="payment-submit" type="button" onclick="submitPayment()">Submit Secure Payment</button>
+        <div id="payment-message"></div>
+      </div>
+      <div class="checkout-summary" id="checkoutSummary">
+        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
+        <div class="summary-row discount"><span>Discount (-50%)</span><span id="summaryDiscount">-$19.99</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$19.99</span></div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recall Better - Brain Training Programme</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #FAF7F2;
+            --card-bg: #FFFFFF;
+            --accent: #2D7A5F;
+            --accent-light: #E8F5EE;
+            --accent-hover: #246B52;
+            --text-primary: #2C2C2C;
+            --text-mid: #5A5A5A;
+            --text-dim: #8A8A8A;
+            --danger: #C0392B;
+            --gold: #D4A017;
+            --blue: #2E86AB;
+            --border: #E8E2D9;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: var(--accent);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screen {
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            padding: 40px 0;
+        }
+
+        .screen.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-mid);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        .logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 32px;
+            font-weight: 600;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .stat-card {
+            background-color: var(--accent-light);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-mid);
+            font-weight: 500;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: 100%;
+            max-width: 100%;
+            margin-top: 24px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            margin-right: 8px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-light);
+        }
+
+        .trust-text {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .age-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .option-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border);
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            color: var(--text-primary);
+            text-align: left;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent);
+            background-color: var(--accent-light);
+        }
+
+        .word-display {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: center;
+            padding: 40px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-4x4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .grid-3x3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .grid-cell:hover {
+            border-color: var(--accent);
+            background-color: var(--accent-light);
+        }
+
+        .grid-cell.selected {
+            background-color: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .grid-cell.active-sequence {
+            animation: pulse 0.6s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { background-color: var(--card-bg); }
+            50% { background-color: var(--accent-light); }
+        }
+
+        .sequence-counter {
+            text-align: center;
+            color: var(--text-mid);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .pattern-pair {
+            display: flex;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .pattern-box {
+            flex: 1;
+            aspect-ratio: 1;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .pattern-box:hover {
+            border-color: var(--accent);
+            background-color: var(--accent-light);
+        }
+
+        .pattern-box.selected {
+            border-color: var(--accent);
+            background-color: var(--accent);
+        }
+
+        .loader-step {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+            color: var(--text-mid);
+        }
+
+        .loader-checkmark {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .loader-step.pending .loader-checkmark {
+            background-color: var(--border);
+            color: var(--text-dim);
+        }
+
+        .results-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 24px auto;
+            position: relative;
+            background: conic-gradient(var(--accent) 0deg, var(--accent) var(--score-angle, 0deg), var(--accent-light) var(--score-angle, 0deg), var(--accent-light) 360deg);
+        }
+
+        .results-score {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            z-index: 1;
+        }
+
+        .results-label {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 4px;
+            z-index: 1;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .breakdown-label {
+            font-size: 14px;
+            color: var(--text-mid);
+        }
+
+        .breakdown-bar {
+            flex: 1;
+            height: 6px;
+            background-color: var(--accent-light);
+            border-radius: 3px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+
+        .breakdown-fill {
+            height: 100%;
+            background-color: var(--accent);
+        }
+
+        .breakdown-score {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 35px;
+            text-align: right;
+        }
+
+        .verdict-box {
+            background-color: var(--accent-light);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 24px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .verdict-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .verdict-text {
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .comparison-table {
+            margin: 24px 0;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+        .table-header {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        .table-cell {
+            font-size: 13px;
+            color: var(--text-mid);
+        }
+
+        .table-cell.checkmark {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .testimonial {
+            background-color: var(--accent-light);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 24px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-mid);
+            font-size: 13px;
+        }
+
+        .timeline {
+            margin: 24px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .timeline-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-mid);
+        }
+
+        .routine-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .routine-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .routine-text {
+            font-size: 14px;
+            color: var(--text-mid);
+            line-height: 1.7;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 24px 0;
+            transition: border-color 0.2s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: var(--accent-light);
+        }
+
+        .email-error {
+            color: var(--danger);
+            font-size: 13px;
+            margin-top: -20px;
+            margin-bottom: 16px;
+        }
+
+        .pricing-section { max-width: 500px; margin: 0 auto; }
+        .countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .countdown-banner svg { width: 20px; height: 20px; }
+        .plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+        .plan-card-v3 { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
+        .plan-card-v3:hover { border-color: rgba(74,227,181,0.3); }
+        .plan-card-v3.featured { border-color: var(--accent); background: rgba(74,227,181,0.06); }
+        .plan-card-v3 .radio-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .plan-card-v3.featured .radio-dot { border-color: var(--accent); }
+        .plan-card-v3.featured .radio-dot::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+        .plan-card-v3 .plan-info { flex: 1; }
+        .plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
+        .plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .plan-card-v3 .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
+        .plan-card-v3 .plan-prices .sale { font-size: 15px; color: var(--text); font-weight: 600; }
+        .plan-card-v3 .price-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; }
+        .plan-card-v3.featured .price-tag { background: rgba(74,227,181,0.1); border-color: rgba(74,227,181,0.3); }
+        .plan-card-v3 .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+        .plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
+        .plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
+        .plan-card-v3 .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
+        .plan-card-v3 .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
+        .popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+        .plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
+        .terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 13px; color: var(--text-dim); }
+        .terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+        .terms-check a { color: var(--accent); text-decoration: underline; }
+        .legal-text { font-size: 11px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.5; }
+        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+        .payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
+        .safe-checkout { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+        .safe-checkout strong { color: var(--text); }
+
+        /* Embedded Checkout Overlay */
+        .checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
+        .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+        .checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+        .checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+        .checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
+        .checkout-back { padding: 16px 24px 0; }
+        .checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+        .checkout-back a:hover { color: var(--text); }
+        .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
+        .checkout-payment { flex: 1; min-width: 280px; }
+        .checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
+        .checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
+        .checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+        .checkout-summary .summary-row.discount { color: #ff6b6b; }
+        .checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
+        #payment-element { min-height: 200px; }
+        #payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+        #payment-submit:hover { opacity: 0.9; }
+        #payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        #payment-message { margin-top: 12px; font-size: 13px; color: #ff6b6b; text-align: center; min-height: 20px; }
+        .checkout-footer { padding: 0 24px 20px; }
+        .checkout-footer .safe-checkout { margin-top: 8px; }
+        @media (max-width: 540px) { .checkout-body { flex-direction: column; } .checkout-summary { flex: 1; } }
+
+        .ticker {
+            background-color: var(--accent-light);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 24px 0;
+            font-size: 13px;
+            color: var(--text-mid);
+            text-align: center;
+            animation: scroll 10s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .payment-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+        }
+
+        .badge.visa {
+            color: #1A1F71;
+            border-color: #1A1F71;
+        }
+
+        .badge.mastercard {
+            color: #EB001B;
+            border-color: #EB001B;
+        }
+
+        .badge.paypal {
+            color: #003087;
+            border-color: #003087;
+        }
+
+        .badge.applepay {
+            color: #000000;
+            border-color: #000000;
+        }
+
+        .guarantee {
+            background-color: var(--accent-light);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-size: 13px;
+            color: var(--text-mid);
+            text-align: center;
+        }
+
+        .guarantee strong {
+            color: var(--accent);
+        }
+
+        .bottom-spacing {
+            height: 40px;
+        }
+
+        @media (min-width: 521px) {
+            body {
+                font-size: 17px;
+            }
+            h1 {
+                font-size: 36px;
+            }
+            h2 {
+                font-size: 32px;
+            }
+            .container {
+                padding: 0 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- SCREEN 1: OPENER -->
+    <div class="screen active" id="screen1">
+        <div class="container">
+            <div class="logo">Recall Better</div>
+            <h1>Your body gets a daily workout. What about your brain</h1>
+            <p>Most people exercise their body but never think about exercising their mind. Research shows 5 minutes of targeted daily training makes a measurable difference.</p>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">targeted games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5 min</div>
+                    <div class="stat-label">per day</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">82%</div>
+                    <div class="stat-label">improve in 14 days</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="nextScreen()">Test my memory</button>
+            <div class="trust-text">Free 2 minute assessment. No account needed.</div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: AGE SELECTION -->
+    <div class="screen" id="screen2">
+        <div class="container">
+            <h2>What's your age range</h2>
+
+            <div class="age-options">
+                <button class="option-btn" onclick="selectAge('45-54')">45 to 54 years</button>
+                <button class="option-btn" onclick="selectAge('55-64')">55 to 64 years</button>
+                <button class="option-btn" onclick="selectAge('65-74')">65 to 74 years</button>
+                <button class="option-btn" onclick="selectAge('75+')">75 years or older</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: TEST 1 - WORD RECALL -->
+    <div class="screen" id="screen3">
+        <div class="container">
+            <h2>Word Memory Test</h2>
+            <p>Memorise these words. You'll need to recall them in a moment.</p>
+
+            <div id="wordDisplay" class="word-display"></div>
+            <p id="wordCounter" style="text-align: center; color: var(--text-dim); font-size: 14px;"></p>
+
+            <button class="btn" id="wordTestBtn" onclick="startWordTest()">Start Test</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: TEST 2 - SEQUENCE MEMORY -->
+    <div class="screen" id="screen4">
+        <div class="container">
+            <h2>Sequence Memory Test</h2>
+            <p>Watch the pattern. Then repeat it by tapping the cells in the same order.</p>
+
+            <div class="sequence-counter">
+                Round <span id="roundNumber">1</span> of 4
+            </div>
+
+            <div class="grid-3x3" id="sequenceGrid"></div>
+
+            <button class="btn" id="sequenceBtn" onclick="startSequenceRound()">Start Round</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: TEST 3 - PATTERN RECOGNITION -->
+    <div class="screen" id="screen5">
+        <div class="container">
+            <h2>Pattern Recognition Test</h2>
+            <p>Look at each pattern pair. Which one follows the sequence</p>
+
+            <div id="patternContainer"></div>
+
+            <button class="btn" id="patternBtn" onclick="nextPatternQuestion()">Next</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: ANALYSING LOADER -->
+    <div class="screen" id="screen6">
+        <div class="container">
+            <h2>Analysing your results</h2>
+
+            <div class="loader-step" id="step1">
+                <div class="loader-checkmark"></div>
+                <span>Calculating word memory score</span>
+            </div>
+            <div class="loader-step pending" id="step2">
+                <div class="loader-checkmark"></div>
+                <span>Processing sequence performance</span>
+            </div>
+            <div class="loader-step pending" id="step3">
+                <div class="loader-checkmark"></div>
+                <span>Evaluating pattern recognition</span>
+            </div>
+            <div class="loader-step pending" id="step4">
+                <div class="loader-checkmark"></div>
+                <span>Generating your cognitive profile</span>
+            </div>
+            <div class="loader-step pending" id="step5">
+                <div class="loader-checkmark"></div>
+                <span>Preparing personalised recommendations</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 7: RESULTS -->
+    <div class="screen" id="screen7">
+        <div class="container">
+            <h2>Your Brain Score</h2>
+
+            <div class="results-circle" id="resultsCircle">
+                <div class="results-score" id="totalScore">0</div>
+                <div class="results-label">out of 100</div>
+            </div>
+
+            <div class="breakdown-row">
+                <div class="breakdown-label">Word Memory</div>
+                <div class="breakdown-bar">
+                    <div class="breakdown-fill" id="wordBar" style="width: 0%"></div>
+                </div>
+                <div class="breakdown-score" id="wordScore">0</div>
+            </div>
+
+            <div class="breakdown-row">
+                <div class="breakdown-label">Sequence</div>
+                <div class="breakdown-bar">
+                    <div class="breakdown-fill" id="sequenceBar" style="width: 0%"></div>
+                </div>
+                <div class="breakdown-score" id="sequenceScore">0</div>
+            </div>
+
+            <div class="breakdown-row">
+                <div class="breakdown-label">Pattern Recognition</div>
+                <div class="breakdown-bar">
+                    <div class="breakdown-fill" id="patternBar" style="width: 0%"></div>
+                </div>
+                <div class="breakdown-score" id="patternScore">0</div>
+            </div>
+
+            <div class="verdict-box">
+                <div class="verdict-label" id="verdictLabel">Average</div>
+                <div class="verdict-text" id="verdictText">Your cognitive performance is in line with your age group.</div>
+            </div>
+
+            <button class="btn" onclick="nextScreen()">See how to improve</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 8: SOLUTION -->
+    <div class="screen" id="screen8">
+        <div class="container">
+            <h2>Boost your score</h2>
+
+            <div style="background-color: var(--gold); color: white; padding: 20px; border-radius: 8px; margin: 24px 0; text-align: center;">
+                <div style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">+28 points</div>
+                <div style="font-size: 13px;">Average improvement in 4 weeks</div>
+            </div>
+
+            <p style="font-weight: 600; margin: 24px 0 12px 0;">Why Recall Better beats crosswords</p>
+
+            <div class="comparison-table">
+                <div class="table-row">
+                    <div class="table-header"></div>
+                    <div class="table-header">Crosswords</div>
+                    <div class="table-header">Recall Better</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell"><strong>Targets recall</strong></div>
+                    <div class="table-cell"></div>
+                    <div class="table-cell checkmark">✓</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell"><strong>Personalised</strong></div>
+                    <div class="table-cell"></div>
+                    <div class="table-cell checkmark">✓</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell"><strong>5 min per day</strong></div>
+                    <div class="table-cell"></div>
+                    <div class="table-cell checkmark">✓</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell"><strong>Tracks progress</strong></div>
+                    <div class="table-cell"></div>
+                    <div class="table-cell checkmark">✓</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell"><strong>Research backed</strong></div>
+                    <div class="table-cell"></div>
+                    <div class="table-cell checkmark">✓</div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-text">I saw changes in just two weeks. I'm remembering things better, feeling sharper at work, and even my family noticed.</div>
+                <div class="testimonial-author">Robert, 71</div>
+            </div>
+
+            <button class="btn" onclick="nextScreen()">Create my plan</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 9: PLAN -->
+    <div class="screen" id="screen9">
+        <div class="container">
+            <h2>Your 4 week plan</h2>
+
+            <div class="routine-card">
+                <div class="routine-title">Daily routine</div>
+                <div class="routine-text">5 minutes each morning before breakfast. Games adapt to your level and focus on your weaker areas. No complicated setup, no account hassles.</div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-label">Week 1: Foundation</div>
+                        <div class="timeline-desc">Build the habit. Simple games. Baseline tracking begins.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-label">Week 2: Building</div>
+                        <div class="timeline-desc">Difficulty increases. First measurable improvements appear.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-label">Week 3: Strengthening</div>
+                        <div class="timeline-desc">Sustained focus on weak areas. Noticeable progress.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <div class="timeline-label">Week 4: Mastery</div>
+                        <div class="timeline-desc">Consolidate gains. Ready for next level.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-text">The structure is brilliant. I know exactly what I'm doing each morning and can see my progress. It's motivating.</div>
+                <div class="testimonial-author">Eleanor, 69</div>
+            </div>
+
+            <button class="btn" onclick="nextScreen()">Next step</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 10: EMAIL -->
+    <div class="screen" id="screen10">
+        <div class="container">
+            <h2>Where should we send your results</h2>
+
+            <input type="email" id="emailInput" class="email-input" placeholder="your@email.com">
+            <div class="email-error" id="emailError"></div>
+
+            <button class="btn" onclick="validateAndSubmitEmail()">Continue</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 11: BILLING -->
+    <div class="screen" id="screen11">
+        <div class="container">
+      <div class="pricing-section">
+        <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Choose your plan</h2>
+
+        <div class="countdown-banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>This offer ends in <strong id="countdownTimer">10:00</strong></span>
+        </div>
+
+        <div class="plan-cards-v3">
+          <div class="plan-card-v3" onclick="selectPlan(this, 'weekly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">7-Day Plan</div>
+              <div class="plan-prices"><span class="original">$13.86</span> <span class="sale">$6.93</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.99</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+
+          <div class="popular-banner">&#128077; MOST POPULAR: 50% OFF</div>
+          <div class="plan-card-v3 featured has-banner" onclick="selectPlan(this, 'monthly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">1-Month Plan</div>
+              <div class="plan-prices"><span class="original">$39.98</span> <span class="sale">$19.99</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.66</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+
+          <div class="plan-card-v3" onclick="selectPlan(this, 'quarterly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">3-Month Plan</div>
+              <div class="plan-prices"><span class="original">$79.98</span> <span class="sale">$39.99</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.44</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="cta-btn cta-primary" onclick="goPro()" id="getMyPlanBtn">GET MY PLAN</button>
+
+        <div class="terms-check">
+          <input type="checkbox" id="termsAgree" checked>
+          <label for="termsAgree">I agree to the <a href="/terms">T&Cs</a> and <a href="/privacy">Privacy Policy</a></label>
+        </div>
+
+        <div class="legal-text">
+          By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method the regular price of $39.98 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
+        </div>
+
+        <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+        <div class="payment-logos">
+          <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+        </div>
+      </div>
+        </div>
+    </div>
+
+    <div class="bottom-spacing"></div>
+
+    <script>
+        let currentScreen = 1;
+        let testData = {
+            age: null,
+            wordScore: 0,
+            sequenceScore: 0,
+            patternScore: 0,
+            email: null,
+            selectedPlan: null
+        };
+
+        const words = ['Sunset', 'Garden', 'Violin', 'Harbor', 'Candle', 'Marble', 'Thunder', 'Sparrow'];
+        const decoys = ['Window', 'Bridge', 'Feather', 'Glacier', 'Anchor', 'Pepper', 'Blanket', 'Crystal'];
+        let wordTestActive = false;
+        let sequenceActive = [];
+        let sequenceUserInput = [];
+        let sequenceRound = 1;
+        let patternQuestionIndex = 0;
+        let patternAnswers = [];
+
+        const patternQuestions = [
+            {
+                question: 'Which pattern comes next in the sequence',
+                optionA: 'Square with dot',
+                optionB: 'Circle with line'
+            },
+            {
+                question: 'Which pattern is different',
+                optionA: 'Three triangles',
+                optionB: 'Two triangles'
+            },
+            {
+                question: 'Which completes the pattern',
+                optionA: 'Pentagon shaded',
+                optionB: 'Pentagon outline'
+            },
+            {
+                question: 'What is the next shape',
+                optionA: 'Hexagon',
+                optionB: 'Octagon'
+            }
+        ];
+
+        function updateProgress() {
+            const progress = (currentScreen / 11) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen' + screenNum).classList.add('active');
+            currentScreen = screenNum;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+
+        function nextScreen() {
+            if (currentScreen < 11) {
+                showScreen(currentScreen + 1);
+            }
+        }
+
+        function selectAge(age) {
+            testData.age = age;
+            showScreen(3);
+        }
+
+        function startWordTest() {
+            if (wordTestActive) return;
+            wordTestActive = true;
+
+            document.getElementById('wordTestBtn').textContent = 'Memorising...';
+            document.getElementById('wordTestBtn').disabled = true;
+
+            let wordIndex = 0;
+            function showNextWord() {
+                if (wordIndex < words.length) {
+                    document.getElementById('wordDisplay').textContent = words[wordIndex];
+                    document.getElementById('wordCounter').textContent = (wordIndex + 1) + ' of ' + words.length;
+                    wordIndex++;
+                    setTimeout(showNextWord, 2000);
+                } else {
+                    document.getElementById('wordDisplay').textContent = '';
+                    document.getElementById('wordCounter').textContent = 'Now select the words you remember';
+                    displayWordRecall();
+                }
+            }
+            showNextWord();
+        }
+
+        function displayWordRecall() {
+            const allWords = [...words, ...decoys].sort(() => Math.random() - 0.5);
+            let html = '<div class="grid-4x4" style="margin: 24px 0;" id="wordGrid">';
+
+            allWords.forEach((word, index) => {
+                html += '<div class="grid-cell" onclick="toggleWord(' + index + ', \'' + word + '\')">' + word + '</div>';
+            });
+
+            html += '</div><button class="btn" onclick="submitWordRecall()">Submit</button>';
+            document.getElementById('wordDisplay').parentElement.innerHTML = document.getElementById('wordDisplay').parentElement.innerHTML.replace(document.getElementById('wordDisplay').outerHTML, '') + '<div id="wordRecallContainer">' + html + '</div>';
+        }
+
+        function toggleWord(index, word) {
+            const cell = document.querySelectorAll('#wordGrid .grid-cell')[index];
+            cell.classList.toggle('selected');
+        }
+
+        function submitWordRecall() {
+            const selected = Array.from(document.querySelectorAll('#wordGrid .grid-cell.selected')).map(cell => cell.textContent);
+            let score = 0;
+            selected.forEach(word => {
+                if (words.includes(word)) score++;
+            });
+            testData.wordScore = Math.round((score / 8) * 40);
+            showScreen(4);
+        }
+
+        function initSequenceGrid() {
+            const grid = document.getElementById('sequenceGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.textContent = i + 1;
+                cell.onclick = () => selectSequenceCell(i);
+                grid.appendChild(cell);
+            }
+        }
+
+        function startSequenceRound() {
+            initSequenceGrid();
+            sequenceActive = [];
+            sequenceUserInput = [];
+            const sequenceLengths = [3, 4, 5, 6];
+
+            for (let i = 0; i < sequenceLengths[sequenceRound - 1]; i++) {
+                sequenceActive.push(Math.floor(Math.random() * 9));
+            }
+
+            document.getElementById('sequenceBtn').textContent = 'Waiting...';
+            document.getElementById('sequenceBtn').disabled = true;
+            playSequence();
+        }
+
+        function playSequence() {
+            let delay = 500;
+            sequenceActive.forEach((cellIndex, idx) => {
+                setTimeout(() => {
+                    const cells = document.querySelectorAll('#sequenceGrid .grid-cell');
+                    cells[cellIndex].classList.add('active-sequence');
+                    setTimeout(() => {
+                        cells[cellIndex].classList.remove('active-sequence');
+                    }, 400);
+                }, delay + idx * 800);
+            });
+
+            setTimeout(() => {
+                document.getElementById('sequenceBtn').textContent = 'Your turn';
+                document.getElementById('sequenceBtn').disabled = false;
+                sequenceUserInput = [];
+            }, delay + sequenceActive.length * 800);
+        }
+
+        function selectSequenceCell(index) {
+            if (document.getElementById('sequenceBtn').disabled || sequenceUserInput.length >= sequenceActive.length) return;
+
+            sequenceUserInput.push(index);
+
+            if (sequenceUserInput[sequenceUserInput.length - 1] !== sequenceActive[sequenceUserInput.length - 1]) {
+                document.getElementById('sequenceBtn').textContent = 'Wrong. Try again';
+                sequenceUserInput = [];
+                return;
+            }
+
+            if (sequenceUserInput.length === sequenceActive.length) {
+                testData.sequenceScore += Math.round((1 / 4) * 35);
+                if (sequenceRound < 4) {
+                    sequenceRound++;
+                    document.getElementById('roundNumber').textContent = sequenceRound;
+                    document.getElementById('sequenceBtn').textContent = 'Next round';
+                    setTimeout(() => startSequenceRound(), 500);
+                } else {
+                    showScreen(5);
+                }
+            }
+        }
+
+        function nextPatternQuestion() {
+            if (patternQuestionIndex < patternQuestions.length - 1) {
+                patternQuestionIndex++;
+                displayPatternQuestion();
+            } else {
+                let score = patternAnswers.filter(a => a).length;
+                testData.patternScore = Math.round((score / 4) * 25);
+                showScreen(6);
+            }
+        }
+
+        function displayPatternQuestion() {
+            const q = patternQuestions[patternQuestionIndex];
+            let html = '<h3 style="font-size: 18px; margin: 24px 0 24px 0;">' + q.question + '</h3>';
+            html += '<div class="pattern-pair">';
+            html += '<div class="pattern-box" onclick="selectPatternOption(0)" style="background: linear-gradient(45deg, var(--accent) 25%, transparent 25%, transparent 75%, var(--accent) 75%, var(--accent)), linear-gradient(45deg, var(--accent) 25%, transparent 25%, transparent 75%, var(--accent) 75%, var(--accent)); background-size: 20px 20px; background-position: 0 0, 10px 10px;">' + q.optionA + '</div>';
+            html += '<div class="pattern-box" onclick="selectPatternOption(1)" style="background-color: var(--accent-light);">' + q.optionB + '</div>';
+            html += '</div>';
+            document.getElementById('patternContainer').innerHTML = html;
+        }
+
+        function selectPatternOption(option) {
+            patternAnswers[patternQuestionIndex] = (option === 0);
+            nextPatternQuestion();
+        }
+
+        function runLoaderSequence() {
+            const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
+            steps.forEach((step, idx) => {
+                setTimeout(() => {
+                    document.getElementById(step).classList.remove('pending');
+                }, idx * 1000);
+            });
+
+            setTimeout(() => {
+                calculateAndShowResults();
+            }, 5500);
+        }
+
+        function calculateAndShowResults() {
+            const total = testData.wordScore + testData.sequenceScore + testData.patternScore;
+            testData.totalScore = total;
+
+            document.getElementById('totalScore').textContent = Math.round(total);
+
+            const wordPercent = (testData.wordScore / 40) * 100;
+            const sequencePercent = (testData.sequenceScore / 35) * 100;
+            const patternPercent = (testData.patternScore / 25) * 100;
+
+            document.getElementById('wordScore').textContent = Math.round(testData.wordScore);
+            document.getElementById('sequenceScore').textContent = Math.round(testData.sequenceScore);
+            document.getElementById('patternScore').textContent = Math.round(testData.patternScore);
+
+            document.getElementById('wordBar').style.width = wordPercent + '%';
+            document.getElementById('sequenceBar').style.width = sequencePercent + '%';
+            document.getElementById('patternBar').style.width = patternPercent + '%';
+
+            const angle = (total / 100) * 360;
+            document.getElementById('resultsCircle').style.setProperty('--score-angle', angle + 'deg');
+
+            let verdict = '';
+            let verdictLabel = '';
+
+            if (total < 30) {
+                verdict = 'You show signs of cognitive decline typical of your age group. Daily brain training is highly recommended.';
+                verdictLabel = 'Below Average';
+            } else if (total < 60) {
+                verdict = 'Your cognitive performance is in line with your age group. Room for meaningful improvement.';
+                verdictLabel = 'Average';
+            } else if (total < 80) {
+                verdict = 'You are performing above average for your age. Continued training will help you stay sharp.';
+                verdictLabel = 'Above Average';
+            } else {
+                verdict = 'You show exceptional cognitive ability. Ongoing practice keeps your mind at peak performance.';
+                verdictLabel = 'Excellent';
+            }
+
+            document.getElementById('verdictLabel').textContent = verdictLabel;
+            document.getElementById('verdictText').textContent = verdict;
+
+            showScreen(7);
+        }
+
+        function validateAndSubmitEmail() {
+            const email = document.getElementById('emailInput').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                return;
+            }
+
+            testData.email = email;
+            document.getElementById('emailError').textContent = '';
+            showScreen(11);
+        }
+
+        var selectedPlan = 'monthly';
+
+        function selectPlan(el, plan) {
+          selectedPlan = plan;
+          document.querySelectorAll('.plan-card-v3').forEach(c => c.classList.remove('featured'));
+          el.classList.add('featured');
+          document.querySelectorAll('.plan-card-v3 .radio-dot').forEach(d => { d.style.borderColor = 'rgba(255,255,255,0.2)'; d.innerHTML = ''; });
+          el.querySelector('.radio-dot').style.borderColor = 'var(--accent)';
+          el.querySelector('.radio-dot').innerHTML = '<div style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></div>';
+          document.querySelectorAll('.plan-card-v3 .price-tag').forEach(t => { t.style.background = 'rgba(255,255,255,0.06)'; t.style.borderColor = 'rgba(255,255,255,0.1)'; });
+          document.querySelectorAll('.plan-card-v3 .price-tag .tag-amount').forEach(a => a.style.color = 'var(--text-bright)');
+          el.querySelector('.price-tag').style.background = 'rgba(74,227,181,0.1)';
+          el.querySelector('.price-tag').style.borderColor = 'rgba(74,227,181,0.3)';
+          el.querySelector('.price-tag .tag-amount').style.color = 'var(--accent)';
+          const legalEl = document.querySelector('.legal-text');
+          if (legalEl) {
+            const planNames = { weekly: '7-day', monthly: '1-month', quarterly: '3-month' };
+            const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+            const renewPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+            const intervals = { weekly: '1 week', monthly: '1 month', quarterly: '3 months' };
+            legalEl.textContent = `By clicking "GET MY PLAN", I agree to pay ${planPrices[plan]} for my plan and that if I do not cancel before the end of the ${planNames[plan]} plan, Recall Better will automatically charge my payment method the regular price of ${renewPrices[plan]} every ${intervals[plan]} thereafter until I cancel by contacting us at help@recallbetter.com.`;
+          }
+        }
+
+        let stripeInstance = null, elements = null, paymentElement = null;
+
+        function goPro() {
+          const plan = selectedPlan || 'monthly';
+          const email = testData.email;
+          if (!email) { alert('Please enter your email first.'); return; }
+
+          const btn = document.getElementById('getMyPlanBtn');
+          btn.textContent = 'Loading...'; btn.disabled = true;
+
+          const planLabels = { weekly: '7-day plan', monthly: '1-month plan', quarterly: '3-month plan' };
+          const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+          const origPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+          const discounts = { weekly: '-$6.93', monthly: '-$19.99', quarterly: '-$39.99' };
+          document.getElementById('summaryPlanName').textContent = planLabels[plan];
+          document.getElementById('summaryOriginal').textContent = origPrices[plan];
+          document.getElementById('summaryDiscount').textContent = discounts[plan];
+          document.getElementById('summaryTotal').textContent = planPrices[plan];
+
+          fetch('/api/stripe?action=embedded-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan, email, pricing: 'prices2' })
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.error) throw new Error(data.error);
+            stripeInstance = Stripe(data.publishableKey);
+            elements = stripeInstance.elements({
+              clientSecret: data.clientSecret,
+              appearance: {
+                theme: 'night',
+                variables: { colorPrimary: '#4AE3B5', colorBackground: '#131B2E', colorText: '#E8ECF4', colorDanger: '#FF6B6B', fontFamily: 'DM Sans, sans-serif', borderRadius: '10px' }
+              }
+            });
+            paymentElement = elements.create('payment', { layout: 'tabs', defaultValues: { billingDetails: { email } } });
+            paymentElement.mount('#payment-element');
+            document.getElementById('checkoutOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            const srcEl = document.getElementById('countdownTimer');
+            if (srcEl) { const sync = () => { const d = document.getElementById('checkoutCountdown'); if (d) d.textContent = srcEl.textContent; }; sync(); setInterval(sync, 1000); }
+            btn.textContent = 'GET MY PLAN'; btn.disabled = false;
+          })
+          .catch(err => { alert(err.message || 'Something went wrong.'); btn.textContent = 'GET MY PLAN'; btn.disabled = false; });
+        }
+
+        function closeCheckout() {
+          document.getElementById('checkoutOverlay').classList.remove('active');
+          document.body.style.overflow = '';
+        }
+
+        async function submitPayment() {
+          const btn = document.getElementById('payment-submit');
+          const msgEl = document.getElementById('payment-message');
+          btn.disabled = true; btn.textContent = 'Processing...'; msgEl.textContent = '';
+          const { error } = await stripeInstance.confirmPayment({ elements, confirmParams: { return_url: 'https://recallbetter.com/app?checkout=success' } });
+          if (error) { msgEl.textContent = error.message; btn.disabled = false; btn.textContent = 'Submit Secure Payment'; }
+        }
+
+        (function(){var t=600;var el=document.getElementById('countdownTimer');if(!el)return;setInterval(function(){t--;if(t<0)t=0;var m=Math.floor(t/60),s=t%60;el.textContent=m+':'+(s<10?'0':'')+s;},1000);})();
+
+        displayPatternQuestion();
+        document.getElementById('screen6').addEventListener('transitionend', () => {
+            if (currentScreen === 6) {
+                runLoaderSequence();
+            }
+        });
+
+        window.addEventListener('orientationchange', () => {
+            window.scrollTo(0, 0);
+        });
+    </script>
+<!-- Embedded Checkout Overlay -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <span>The offer expires in:</span>
+      <span class="countdown-text" id="checkoutCountdown">10:00</span>
+    </div>
+    <div class="checkout-back">
+      <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-payment">
+        <h3>Select a payment method</h3>
+        <div id="payment-element"></div>
+        <button id="payment-submit" type="button" onclick="submitPayment()">Submit Secure Payment</button>
+        <div id="payment-message"></div>
+      </div>
+      <div class="checkout-summary" id="checkoutSummary">
+        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
+        <div class="summary-row discount"><span>Discount (-50%)</span><span id="summaryDiscount">-$19.99</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$19.99</span></div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

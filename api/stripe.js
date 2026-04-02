@@ -26,14 +26,22 @@ const PUBLIC_PRICE_MAP = {
   yearly:    'price_1THN9xAWM5kTbKjpMoMkkNM4',
 };
 
+const PRICES2_MAP = {
+  weekly:    'price_1THfyIAWM5kTbKjpTRMQs07H',   // $6.93/week
+  monthly:   'price_1THfyJAWM5kTbKjpqqF9jX1I',   // $19.99/month
+  quarterly: 'price_1THfyKAWM5kTbKjpL3YoASM5',   // $39.99/3 months
+  yearly:    'price_1THfyKAWM5kTbKjpL3YoASM5',
+};
+
 async function createPublicCheckout(req, res) {
-  const { plan, email } = req.body || {};
+  const { plan, email, pricing } = req.body || {};
 
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email is required' });
   }
 
-  const priceId = PUBLIC_PRICE_MAP[plan];
+  const priceMap = pricing === 'prices2' ? PRICES2_MAP : PUBLIC_PRICE_MAP;
+  const priceId = priceMap[plan];
   if (!priceId) {
     return res.status(400).json({ error: 'Invalid plan. Use: weekly, monthly, or quarterly' });
   }
@@ -54,6 +62,54 @@ async function createPublicCheckout(req, res) {
   });
 
   return res.status(200).json({ url: session.url });
+}
+
+// POST /api/stripe?action=embedded-checkout (no auth - native payment form)
+async function createEmbeddedCheckout(req, res) {
+  const { plan, email, pricing } = req.body || {};
+
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ error: 'Valid email is required' });
+  }
+
+  const priceMap = pricing === 'prices2' ? PRICES2_MAP : PUBLIC_PRICE_MAP;
+  const priceId = priceMap[plan];
+  if (!priceId) {
+    return res.status(400).json({ error: 'Invalid plan. Use: weekly, monthly, or quarterly' });
+  }
+
+  const stripe = getStripe();
+  const cleanEmail = email.toLowerCase().trim();
+
+  // Find or create customer
+  const existing = await stripe.customers.list({ email: cleanEmail, limit: 1 });
+  let customer;
+  if (existing.data.length > 0) {
+    customer = existing.data[0];
+  } else {
+    customer = await stripe.customers.create({
+      email: cleanEmail,
+      metadata: { app: 'recall-better', source: 'quiz-embedded' },
+    });
+  }
+
+  // Create subscription with incomplete payment
+  const subscription = await stripe.subscriptions.create({
+    customer: customer.id,
+    items: [{ price: priceId }],
+    payment_behavior: 'default_incomplete',
+    payment_settings: { save_default_payment_method: 'on_subscription' },
+    metadata: { app: 'recall-better', plan, source: 'quiz-embedded' },
+    expand: ['latest_invoice.payment_intent'],
+  });
+
+  const paymentIntent = subscription.latest_invoice.payment_intent;
+
+  return res.status(200).json({
+    subscriptionId: subscription.id,
+    clientSecret: paymentIntent.client_secret,
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
 }
 
 // POST /api/stripe?action=checkout (authenticated - for app)
@@ -182,6 +238,7 @@ module.exports = async (req, res) => {
 
   try {
     if (req.method === 'POST' && action === 'public-checkout') return await createPublicCheckout(req, res);
+    if (req.method === 'POST' && action === 'embedded-checkout') return await createEmbeddedCheckout(req, res);
     if (req.method === 'POST' && action === 'checkout') return await createCheckoutSession(req, res);
     if (req.method === 'POST' && action === 'portal') return await createPortalSession(req, res);
     if (req.method === 'GET' && action === 'session') return await getSession(req, res);

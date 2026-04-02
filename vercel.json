@@ -21,7 +21,20 @@
     { "source": "/tip-of-tongue", "destination": "/tip-of-tongue.html" },
     { "source": "/name-recall", "destination": "/name-recall.html" },
     { "source": "/brain-workout", "destination": "/brain-workout.html" },
-    { "source": "/family-noticed", "destination": "/family-noticed.html" }
+    { "source": "/family-noticed", "destination": "/family-noticed.html" },
+    { "source": "/quiz-prices2", "destination": "/quiz-prices2.html" },
+    { "source": "/quiz2-prices2", "destination": "/quiz2-prices2.html" },
+    { "source": "/quiz3-prices2", "destination": "/quiz3-prices2.html" },
+    { "source": "/lp-prices2", "destination": "/lp-prices2.html" },
+    { "source": "/tip-of-tongue-prices2", "destination": "/tip-of-tongue-prices2.html" },
+    { "source": "/name-recall-prices2", "destination": "/name-recall-prices2.html" },
+    { "source": "/brain-workout-prices2", "destination": "/brain-workout-prices2.html" },
+    { "source": "/family-noticed-prices2", "destination": "/family-noticed-prices2.html" },
+    { "source": "/angle1-prices2", "destination": "/angle1-prices2.html" },
+    { "source": "/angle2-prices2", "destination": "/angle2-prices2.html" },
+    { "source": "/angle3-prices2", "destination": "/angle3-prices2.html" },
+    { "source": "/angle4-prices2", "destination": "/angle4-prices2.html" },
+    { "source": "/angle5-prices2", "destination": "/angle5-prices2.html" }
   ],
   "headers": [
     {

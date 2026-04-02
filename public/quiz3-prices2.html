@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stay Sharp for the People Who Need You | Recall Better</title>
+<meta name="description" content="The 2-minute memory check that's helped 53,000+ adults protect their sharpest years. Free personalised brain training plan inside.">
+<script src="https://js.stripe.com/v3/"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #111318;
+  --bg2: #181B23;
+  --bg-card: #1E2230;
+  --bg-card-hover: #262B3A;
+  --accent: #D4A54A;
+  --accent-soft: rgba(212,165,74,0.12);
+  --accent-glow: rgba(212,165,74,0.25);
+  --green: #4AE3B5;
+  --green-soft: rgba(74,227,181,0.12);
+  --red: #E85D5D;
+  --red-soft: rgba(232,93,93,0.12);
+  --text: #C8CCD8;
+  --text-dim: #6E7489;
+  --text-bright: #F0F2F8;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', -apple-system, sans-serif;
+  --max-w: 520px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.app{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 20px}
+
+/* Progress */
+.progress-wrap{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(17,19,24,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:12px 20px 10px;display:flex;flex-direction:column;align-items:center}
+.progress-top{width:100%;max-width:var(--max-w);display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.logo{font-family:var(--font-display);font-size:20px;color:var(--accent);font-weight:600}
+.step-count{font-size:12px;color:var(--text-dim);font-weight:600;letter-spacing:0.5px}
+.progress-track{width:100%;max-width:var(--max-w);height:3px;background:rgba(255,255,255,0.06);border-radius:2px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#E8C36A);border-radius:2px;transition:width 0.6s cubic-bezier(0.22,1,0.36,1)}
+
+/* Screens */
+.screen-container{width:100%;max-width:var(--max-w);flex:1;display:flex;flex-direction:column;justify-content:center;padding:72px 0 40px;}
+.screen{display:none;animation:fadeUp 0.55s ease forwards}
+.screen.active{display:flex;flex-direction:column}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.screen.exiting{display:flex!important;flex-direction:column;animation:fadeOut 0.3s ease forwards}
+@keyframes fadeOut{from{opacity:1}to{opacity:0;transform:translateY(-14px)}}
+
+/* Typography */
+h1.hero{font-family:var(--font-display);font-size:clamp(28px,6.5vw,38px);color:var(--text-bright);line-height:1.25;margin-bottom:16px;letter-spacing:-0.3px}
+h1.hero em{color:var(--accent);font-style:italic}
+.sub{font-size:17px;color:var(--text);line-height:1.7;margin-bottom:28px}
+.sub strong{color:var(--text-bright);font-weight:600}
+.sub .gold{color:var(--accent);font-weight:600}
+.label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;margin-bottom:14px;color:var(--accent)}
+
+/* CTA */
+.cta{width:100%;padding:18px 32px;border:none;border-radius:var(--radius-sm);font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.2px}
+.cta-gold{background:linear-gradient(135deg,var(--accent),#E8C36A);color:#1A1A1A;box-shadow:0 4px 24px rgba(212,165,74,0.3)}
+.cta-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,165,74,0.4)}
+.cta-gold:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+.cta-ghost{background:transparent;color:var(--accent);border:1.5px solid rgba(212,165,74,0.3)}
+.cta-ghost:hover{background:var(--accent-soft);border-color:var(--accent)}
+.sub-cta{text-align:center;font-size:12px;color:var(--text-dim);margin-top:12px;line-height:1.5}
+
+/* Cards */
+.card{background:var(--bg-card);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:16px}
+
+/* Option buttons */
+.opt-stack{display:flex;flex-direction:column;gap:10px}
+.opt{width:100%;padding:18px 20px;border-radius:var(--radius-sm);border:1.5px solid rgba(255,255,255,0.06);background:var(--bg-card);color:var(--text);font-family:var(--font-body);font-size:16px;font-weight:500;cursor:pointer;transition:all 0.2s;text-align:left;display:flex;align-items:center;gap:14px;line-height:1.4}
+.opt:hover{border-color:var(--accent);background:var(--accent-soft)}
+.opt.selected{border-color:var(--accent);background:var(--accent-soft);color:var(--text-bright)}
+.opt-icon{font-size:22px;flex-shrink:0;width:32px;text-align:center}
+
+/* Story block */
+.story{position:relative;padding:24px;padding-left:28px;margin:20px 0;border-left:3px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),transparent);border-radius:0 var(--radius) var(--radius) 0}
+.story p{font-family:var(--font-display);font-size:18px;font-style:italic;color:var(--text-bright);line-height:1.7;margin-bottom:12px}
+.story .attr{font-family:var(--font-body);font-size:13px;color:var(--text-dim);font-style:normal;display:flex;align-items:center;gap:8px}
+.story .attr .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+/* Score ring */
+.ring-wrap{display:flex;flex-direction:column;align-items:center;margin:24px auto;position:relative}
+.ring-svg{width:200px;height:200px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:10}
+.ring-fill{fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;stroke-dasharray:502;stroke-dashoffset:502;transition:stroke-dashoffset 2s cubic-bezier(0.22,1,0.36,1),stroke 0.5s}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-num{font-family:var(--font-display);font-size:52px;color:var(--text-bright);line-height:1}
+.ring-label{font-size:13px;color:var(--text-dim);margin-top:2px}
+
+/* Breakdown bars */
+.breakdown{display:flex;flex-direction:column;gap:16px;margin:16px 0}
+.bd-item .bd-head{display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px}
+.bd-item .bd-name{font-weight:600;color:var(--text-bright)}
+.bd-item .bd-val{font-weight:700}
+.bd-item .bd-track{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.bd-item .bd-bar{height:100%;border-radius:4px;transition:width 1.5s cubic-bezier(0.22,1,0.36,1)}
+
+/* Future pacing cards */
+.future-cards{display:flex;flex-direction:column;gap:14px;margin:16px 0}
+.future-card{background:var(--bg-card);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:20px;display:flex;gap:16px;align-items:flex-start;box-shadow:var(--shadow)}
+.future-card.bad{border-left:3px solid var(--red)}
+.future-card.good{border-left:3px solid var(--green)}
+.fc-icon{font-size:28px;flex-shrink:0}
+.fc-body h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.future-card.bad .fc-body h4{color:var(--red)}
+.future-card.good .fc-body h4{color:var(--green)}
+.fc-body p{font-size:14px;color:var(--text-dim);line-height:1.5}
+
+/* Testimonial grid */
+.tgrid{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.tcard{background:var(--bg-card);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.tcard .stars{color:var(--accent);font-size:13px;letter-spacing:2px;margin-bottom:8px}
+.tcard blockquote{font-size:15px;color:var(--text-bright);line-height:1.6;margin-bottom:10px;font-style:italic;font-family:var(--font-display)}
+.tcard .who{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.tcard .who .avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.tcard .verified{color:var(--green);font-weight:600}
+
+/* Plan cards v3 */
+.pricing-section { max-width: 500px; margin: 0 auto; }
+.countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.countdown-banner svg { width: 20px; height: 20px; }
+.plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+.plan-card-v3 { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
+.plan-card-v3:hover { border-color: rgba(74,227,181,0.3); }
+.plan-card-v3.featured { border-color: var(--accent); background: rgba(74,227,181,0.06); }
+.plan-card-v3 .radio-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.plan-card-v3.featured .radio-dot { border-color: var(--accent); }
+.plan-card-v3.featured .radio-dot::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.plan-card-v3 .plan-info { flex: 1; }
+.plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
+.plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.plan-card-v3 .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
+.plan-card-v3 .plan-prices .sale { font-size: 15px; color: var(--text); font-weight: 600; }
+.plan-card-v3 .price-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; }
+.plan-card-v3.featured .price-tag { background: rgba(74,227,181,0.1); border-color: rgba(74,227,181,0.3); }
+.plan-card-v3 .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
+.plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
+.plan-card-v3 .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
+.popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+.plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
+.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 13px; color: var(--text-dim); }
+.terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+.terms-check a { color: var(--accent); text-decoration: underline; }
+.legal-text { font-size: 11px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.5; }
+.payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
+.safe-checkout { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.safe-checkout strong { color: var(--text); }
+
+/* Embedded Checkout Overlay */
+.checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
+.checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+.checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+.checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
+.checkout-back { padding: 16px 24px 0; }
+.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+.checkout-back a:hover { color: var(--text); }
+.checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
+.checkout-payment { flex: 1; min-width: 280px; }
+.checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
+.checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+.checkout-summary .summary-row.discount { color: #ff6b6b; }
+.checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
+#payment-element { min-height: 200px; }
+#payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+#payment-submit:hover { opacity: 0.9; }
+#payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+#payment-message { margin-top: 12px; font-size: 13px; color: #ff6b6b; text-align: center; min-height: 20px; }
+.checkout-footer { padding: 0 24px 20px; }
+.checkout-footer .safe-checkout { margin-top: 8px; }
+@media (max-width: 540px) {
+  .checkout-body { flex-direction: column; }
+  .checkout-summary { flex: 1; }
+}
+
+/* Urgency */
+.urgency{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;background:var(--red-soft);border:1px solid rgba(232,93,93,0.2);border-radius:var(--radius-sm);margin:14px 0 20px;font-size:14px;color:var(--red);font-weight:600}
+
+/* Guarantee */
+.guarantee{display:flex;gap:14px;padding:18px;background:var(--green-soft);border:1px solid rgba(74,227,181,0.15);border-radius:var(--radius-sm);margin:16px 0;align-items:flex-start}
+.guarantee-icon{font-size:24px;flex-shrink:0}
+.guarantee-text{font-size:13px;color:var(--text);line-height:1.6}
+.guarantee-text strong{color:var(--text-bright)}
+
+/* Email */
+.email-input{width:100%;padding:16px 18px;background:var(--bg-card);border:1.5px solid rgba(255,255,255,0.08);border-radius:var(--radius-sm);color:var(--text-bright);font-family:var(--font-body);font-size:16px;outline:none;transition:border-color 0.2s}
+.email-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,165,74,0.12)}
+.email-input::placeholder{color:var(--text-dim)}
+
+/* Ticker */
+.ticker-wrap{overflow:hidden;margin:20px -20px;padding:14px 0;background:rgba(212,165,74,0.04);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)}
+.ticker{display:flex;gap:48px;animation:tickScroll 35s linear infinite;white-space:nowrap}
+@keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{font-size:13px;color:var(--text-dim);display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ticker-item strong{color:var(--text-bright)}
+
+/* Floating notification */
+.notif{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--bg-card);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:14px 20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);z-index:200;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);max-width:360px;width:calc(100% - 40px);display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text)}
+.notif.visible{transform:translateX(-50%) translateY(0)}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* Live counter */
+.live-count{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);margin-top:14px;justify-content:center}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+
+/* Responsive */
+@media(max-width:400px){
+  .opt{padding:14px 16px;font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <div class="logo">Recall Better</div>
+      <div class="step-count" id="stepCount"></div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div class="screen-container">
+
+    <!-- STEP 0: EMOTIONAL HOOK -->
+    <div class="screen active" data-step="0">
+      <h1 class="hero">You're not afraid of forgetting your keys.<br><em>You're afraid of forgetting their names.</em></h1>
+      <p class="sub">The grandchild who runs to you at the door. The friend you've known for forty years. The word that used to come so easily. <strong>That's what keeps you up at night</strong> — not the little things, but the thought of losing the big ones.</p>
+
+      <div class="story">
+        <p>"I sat at Christmas dinner and couldn't remember my son-in-law's brother's name. I'd known him for 15 years. That was the moment I thought: I have to do something."</p>
+        <div class="attr"><div class="dot"></div> Margaret, 68 — now a Recall Better member for 8 months</div>
+      </div>
+
+      <p class="sub" style="margin-bottom:20px;">This short check-in takes 2 minutes. At the end, you'll know <span class="gold">exactly where you stand</span> — and what to do about it.</p>
+
+      <button class="cta cta-gold" onclick="goNext()">Take the 2-Minute Check-In</button>
+      <div class="sub-cta">🔒 100% private · No account needed · Instant results</div>
+      <div class="live-count"><div class="live-dot"></div><span id="liveCount">247</span> people are taking this right now</div>
+    </div>
+
+    <!-- STEP 1: THE MOMENT -->
+    <div class="screen" data-step="1">
+      <div class="label">Question 1 of 6</div>
+      <h1 class="hero">Have you had a moment recently that <em>scared you?</em></h1>
+      <p class="sub">A moment where you thought: "This isn't normal." Not a silly slip — a moment that <strong>sat with you afterwards.</strong></p>
+      <div class="opt-stack">
+        <button class="opt" onclick="pick(this,'moment','yes')"><span class="opt-icon">😔</span> Yes — and I haven't been able to shake it</button>
+        <button class="opt" onclick="pick(this,'moment','few')"><span class="opt-icon">😟</span> A few times — it's becoming a pattern</button>
+        <button class="opt" onclick="pick(this,'moment','not_yet')"><span class="opt-icon">🤔</span> Not yet — but I can feel things slipping</button>
+        <button class="opt" onclick="pick(this,'moment','no')"><span class="opt-icon">💪</span> No — I just want to stay ahead of it</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: WHO MATTERS -->
+    <div class="screen" data-step="2">
+      <div class="label">Question 2 of 6</div>
+      <h1 class="hero">Who are you staying sharp <em>for?</em></h1>
+      <p class="sub">This isn't about vanity. There are people in your life who <strong>need you present, sharp, and fully there.</strong> Who are they?</p>
+      <div class="opt-stack">
+        <button class="opt" onclick="pick(this,'who','grandchildren')"><span class="opt-icon">👶</span> My grandchildren — I want to remember every moment</button>
+        <button class="opt" onclick="pick(this,'who','partner')"><span class="opt-icon">💑</span> My partner — I don't want them to worry</button>
+        <button class="opt" onclick="pick(this,'who','myself')"><span class="opt-icon">🙋</span> Myself — I refuse to lose my independence</button>
+        <button class="opt" onclick="pick(this,'who','everyone')"><span class="opt-icon">👨‍👩‍👧‍👦</span> Everyone — I want to be the person they can rely on</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: DAILY IMPACT -->
+    <div class="screen" data-step="3">
+      <div class="label">Question 3 of 6</div>
+      <h1 class="hero">How is this affecting your <em>daily life?</em></h1>
+      <p class="sub">Be honest with yourself. This is between you and your screen.</p>
+      <div class="opt-stack">
+        <button class="opt" onclick="pick(this,'impact','avoid')"><span class="opt-icon">🚪</span> I avoid situations where I might forget something</button>
+        <button class="opt" onclick="pick(this,'impact','compensate')"><span class="opt-icon">📝</span> I write everything down — I can't trust my memory</button>
+        <button class="opt" onclick="pick(this,'impact','anxiety')"><span class="opt-icon">😰</span> I get anxious before social situations</button>
+        <button class="opt" onclick="pick(this,'impact','hide')"><span class="opt-icon">🤫</span> I cover it up — laugh it off when I forget</button>
+        <button class="opt" onclick="pick(this,'impact','minor')"><span class="opt-icon">👍</span> It's minor — more annoying than distressing</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: WHAT'S CHANGED -->
+    <div class="screen" data-step="4">
+      <div class="label">Question 4 of 6</div>
+      <h1 class="hero">What's changed in the <em>last year?</em></h1>
+      <p class="sub">Select everything that feels true. <strong>Most people tick at least 3.</strong></p>
+      <div class="opt-stack" id="changesStack">
+        <button class="opt multi" onclick="toggleMulti(this,'names')"><span class="opt-icon">👤</span> Names take longer to come back</button>
+        <button class="opt multi" onclick="toggleMulti(this,'words')"><span class="opt-icon">💬</span> I lose words mid-sentence more often</button>
+        <button class="opt multi" onclick="toggleMulti(this,'rooms')"><span class="opt-icon">🚶</span> I walk into rooms and forget why</button>
+        <button class="opt multi" onclick="toggleMulti(this,'focus')"><span class="opt-icon">🧠</span> Harder to focus or follow conversations</button>
+        <button class="opt multi" onclick="toggleMulti(this,'repeat')"><span class="opt-icon">🔁</span> I repeat stories without realising</button>
+        <button class="opt multi" onclick="toggleMulti(this,'items')"><span class="opt-icon">🔑</span> I misplace things more than I used to</button>
+      </div>
+      <button class="cta cta-gold" onclick="submitChanges()" style="margin-top:20px;" id="changesBtn" disabled>Continue</button>
+      <div class="sub-cta" id="changesCount">Select all that apply</div>
+    </div>
+
+    <!-- STEP 5: TRIED BEFORE -->
+    <div class="screen" data-step="5">
+      <div class="label">Question 5 of 6</div>
+      <h1 class="hero">Have you tried anything to <em>fight back?</em></h1>
+      <p class="sub">Most people try <em>something</em>. But most approaches only train one type of thinking. <strong>Memory needs more than crosswords.</strong></p>
+      <div class="opt-stack">
+        <button class="opt" onclick="pick(this,'tried','puzzles')"><span class="opt-icon">📰</span> Crosswords, Sudoku, or word puzzles</button>
+        <button class="opt" onclick="pick(this,'tried','supplements')"><span class="opt-icon">💊</span> Supplements or vitamins</button>
+        <button class="opt" onclick="pick(this,'tried','reading')"><span class="opt-icon">📚</span> Reading more or staying mentally active</button>
+        <button class="opt" onclick="pick(this,'tried','nothing')"><span class="opt-icon">🤷</span> Nothing — I didn't know what actually works</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: COMMITMENT -->
+    <div class="screen" data-step="6">
+      <div class="label">Final Question</div>
+      <h1 class="hero">If there was something that took <em>5 minutes a day</em> — and was proven to help — would you do it?</h1>
+      <p class="sub">Not a gimmick. Not a supplement. <strong>A scientifically-backed daily programme</strong> designed specifically for your brain's weak spots.</p>
+      <div class="opt-stack">
+        <button class="opt" onclick="pick(this,'commit','absolutely')"><span class="opt-icon">✅</span> Absolutely — 5 minutes is nothing</button>
+        <button class="opt" onclick="pick(this,'commit','probably')"><span class="opt-icon">👍</span> Probably — if I could see it was working</button>
+        <button class="opt" onclick="pick(this,'commit','depends')"><span class="opt-icon">🤔</span> Depends on the cost and what's involved</button>
+      </div>
+    </div>
+
+    <!-- STEP 7: ANALYSIS -->
+    <div class="screen" data-step="7">
+      <div style="text-align:center;padding-top:24px;">
+        <h1 class="hero" style="text-align:center;">Building your personal<br><em>memory profile...</em></h1>
+        <p class="sub" style="text-align:center;">Comparing your answers against 53,000+ adults in your age group.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;margin:20px 0;" id="buildSteps">
+        <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Analysing symptom patterns</div>
+            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Comparing your responses to age-group data</div>
+          </div>
+        </div>
+        <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Mapping cognitive weak points</div>
+            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Identifying which skills need the most support</div>
+          </div>
+        </div>
+        <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Calculating recovery potential</div>
+            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Based on your timeline and severity</div>
+          </div>
+        </div>
+        <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Generating your personalised plan</div>
+            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Tailored exercises for your specific needs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8: RESULTS -->
+    <div class="screen" data-step="8">
+      <div class="label">Your Results</div>
+      <h1 class="hero">Your Memory Profile</h1>
+
+      <div class="card" style="text-align:center;">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 180 180">
+            <circle class="ring-bg" cx="90" cy="90" r="80"/>
+            <circle class="ring-fill" id="ringFill" cx="90" cy="90" r="80"/>
+          </svg>
+          <div class="ring-center">
+            <div class="ring-num" id="ringNum">--</div>
+            <div class="ring-label">out of 100</div>
+          </div>
+        </div>
+        <div id="ringVerdict" style="font-size:16px;font-weight:600;margin-top:8px;"></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:14px;">Cognitive Breakdown</div>
+        <div class="breakdown" id="breakdownBars"></div>
+      </div>
+
+      <!-- FUTURE PACING -->
+      <div style="margin:24px 0 8px;">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:14px;text-align:center;">Two paths forward</div>
+      </div>
+      <div class="future-cards">
+        <div class="future-card bad">
+          <div class="fc-icon">📉</div>
+          <div class="fc-body">
+            <h4>If nothing changes</h4>
+            <p id="futBad">Without training, these areas typically decline 5–8% per year. In 2–3 years, everyday tasks become noticeably harder.</p>
+          </div>
+        </div>
+        <div class="future-card good">
+          <div class="fc-icon">📈</div>
+          <div class="fc-body">
+            <h4>With targeted training</h4>
+            <p id="futGood">82% of adults who trained just 5 min/day saw measurable improvement in 14 days. Your weak areas are highly treatable.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="cta cta-gold" onclick="goNext()">Show me the plan built for me</button>
+    </div>
+
+    <!-- STEP 9: PLAN REVEAL + SOCIAL PROOF -->
+    <div class="screen" data-step="9">
+      <div class="label">Your Plan</div>
+      <h1 class="hero">5 minutes a day to<br><em>protect what matters most</em></h1>
+      <p class="sub" id="planIntro"></p>
+
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="padding:14px 20px;background:var(--accent-soft);border-bottom:1px solid rgba(255,255,255,0.04);">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);">Your Daily 5 Minutes</div>
+        </div>
+        <div style="padding:18px 20px;display:flex;flex-direction:column;gap:14px;" id="dailyPlan"></div>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px;">People who match your profile see an average</p>
+        <div style="font-family:var(--font-display);font-size:48px;color:var(--accent);" id="avgImprovement">+28</div>
+        <p style="font-size:14px;font-weight:600;color:var(--text-bright);">point improvement in 30 days</p>
+      </div>
+
+      <div class="tgrid">
+        <div class="tcard">
+          <div class="stars">★★★★★</div>
+          <blockquote>"My grandchildren visit every Sunday. Last week my grandson said: 'Nana, you remembered all our names for the whole game!' He was joking, but it meant the world."</blockquote>
+          <div class="who"><div class="avatar">P</div><div><strong>Patricia, 67</strong> · <span class="verified">Verified · 6 weeks in</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I was ready to see a specialist. My wife found this instead. After a month, I cancelled the appointment. The improvement was that clear."</blockquote>
+          <div class="who"><div class="avatar">D</div><div><strong>David, 71</strong> · <span class="verified">Verified · Improved 31 points</span></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Five minutes while the kettle boils. That's all it takes. My daughter says I seem 'more present' — that's worth more than any supplement."</blockquote>
+          <div class="who"><div class="avatar">J</div><div><strong>Jean, 64</strong> · <span class="verified">Verified · Daily user for 4 months</span></div></div>
+        </div>
+      </div>
+
+      <button class="cta cta-gold" onclick="goNext()">Start My Plan Now</button>
+      <div class="sub-cta">Cancel anytime. 30-day money back guarantee.</div>
+    </div>
+
+    <!-- STEP 10: EMAIL -->
+    <div class="screen" data-step="10">
+      <h1 class="hero">Where should we send your <em>Memory Profile?</em></h1>
+      <p class="sub">Your full results — score, weak areas, personalised plan — sent straight to your inbox. <strong>Keep it. Share it with your family. Refer back to it.</strong></p>
+
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <p style="font-size:14px;line-height:1.6;color:var(--text);">📌 <strong style="color:var(--text-bright);">Why save this?</strong> Your profile is built from your specific answers. If you leave now, we can't recreate it — you'd need to retake the assessment. Save it so you have it when you're ready.</p>
+      </div>
+
+      <div style="margin:20px 0 12px;">
+        <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <button class="cta cta-gold" onclick="submitEmail()">Send My Free Profile</button>
+      <div class="sub-cta">🔒 100% private. No spam. Unsubscribe in one click.</div>
+
+      <div class="story" style="margin-top:24px;">
+        <p>"I almost closed the tab. Thank God I didn't. Reading my full profile was the push I needed to finally take this seriously."</p>
+        <div class="attr"><div class="dot"></div> Robert, 73 — now 31 points higher</div>
+      </div>
+    </div>
+
+    <!-- STEP 11: PRICING -->
+    <div class="screen" data-step="11">
+      <h1 class="hero" style="text-align:center;"><em>Protect your sharpest years</em><br>for less than a coffee a week</h1>
+
+      <div class="ticker-wrap">
+        <div class="ticker">
+          <div class="ticker-item">✨ <strong>Patricia, 67</strong> — "my grandkids noticed"</div>
+          <div class="ticker-item">✨ <strong>David, 71</strong> — cancelled his specialist appointment</div>
+          <div class="ticker-item">✨ <strong>Jean, 64</strong> — "more present than I've felt in years"</div>
+          <div class="ticker-item">✨ <strong>Margaret, 68</strong> — improved 34 points in 5 weeks</div>
+          <div class="ticker-item">✨ <strong>Robert, 73</strong> — "best thing I've done for my health"</div>
+          <div class="ticker-item">✨ <strong>Susan, 72</strong> — "I trust my memory again"</div>
+          <div class="ticker-item">✨ <strong>Patricia, 67</strong> — "my grandkids noticed"</div>
+          <div class="ticker-item">✨ <strong>David, 71</strong> — cancelled his specialist appointment</div>
+          <div class="ticker-item">✨ <strong>Jean, 64</strong> — "more present than I've felt in years"</div>
+          <div class="ticker-item">✨ <strong>Margaret, 68</strong> — improved 34 points in 5 weeks</div>
+          <div class="ticker-item">✨ <strong>Robert, 73</strong> — "best thing I've done for my health"</div>
+          <div class="ticker-item">✨ <strong>Susan, 72</strong> — "I trust my memory again"</div>
+        </div>
+      </div>
+
+      <div class="pricing-section">
+        <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Choose your plan</h2>
+
+        <div class="countdown-banner" id="countdownBar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>This offer ends in <strong id="cdTimer">10:00</strong></span>
+        </div>
+
+        <div class="plan-cards-v3">
+          <div class="plan-card-v3" onclick="selectPlan(this, 'weekly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">7-Day Plan</div>
+              <div class="plan-prices"><span class="original">$13.86</span> <span class="sale">$6.93</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.99</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+
+          <div class="popular-banner">&#128077; MOST POPULAR: 50% OFF</div>
+          <div class="plan-card-v3 featured has-banner" onclick="selectPlan(this, 'monthly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">1-Month Plan</div>
+              <div class="plan-prices"><span class="original">$39.98</span> <span class="sale">$19.99</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.66</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+
+          <div class="plan-card-v3" onclick="selectPlan(this, 'quarterly')">
+            <div class="radio-dot"></div>
+            <div class="plan-info">
+              <div class="plan-name">3-Month Plan</div>
+              <div class="plan-prices"><span class="original">$79.98</span> <span class="sale">$39.99</span></div>
+            </div>
+            <div class="price-tag">
+              <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.44</span>
+              <span class="tag-per">per day</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="cta cta-gold" onclick="goPro()" id="getMyPlanBtn">GET MY PLAN</button>
+
+        <div class="terms-check">
+          <input type="checkbox" id="termsAgree" checked>
+          <label for="termsAgree">I agree to the <a href="/terms">T&Cs</a> and <a href="/privacy">Privacy Policy</a></label>
+        </div>
+
+        <div class="legal-text">
+          By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method the regular price of $39.98 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
+        </div>
+
+        <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+        <div class="payment-logos">
+          <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+        </div>
+      </div>
+
+      <div class="guarantee">
+        <span class="guarantee-icon">🛡️</span>
+        <div class="guarantee-text"><strong>Our promise to you.</strong> Try Recall Better with complete confidence. Cancel anytime. And if your score doesn't improve in 30 days, we'll refund every penny. No questions asked.</div>
+      </div>
+
+      <div class="story">
+        <p>"I spent more on a bottle of wine last week than this costs for a month. And this actually makes me feel sharper the next morning."</p>
+        <div class="attr"><div class="dot"></div> Susan, 72 — 12-week plan member</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notif" id="notif"><div class="notif-dot"></div><span id="notifText"></span></div>
+
+<script>
+const STEPS = 11;
+const S = {
+  step: 0,
+  moment: '',
+  who: '',
+  impact: '',
+  changes: [],
+  tried: '',
+  commit: '',
+  email: '',
+  plan: 'monthly',
+  score: 0
+};
+
+/* ========== NAV ========== */
+function goNext() {
+  const cur = document.querySelector('.screen.active');
+  if (!cur) return;
+  cur.classList.remove('active');
+  cur.classList.add('exiting');
+  S.step++;
+  updateProgress();
+  setTimeout(() => {
+    cur.classList.remove('exiting');
+    cur.style.display = 'none';
+    const nxt = document.querySelector(`.screen[data-step="${S.step}"]`);
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    if (nxt) {
+      nxt.classList.add('active');
+      nxt.style.display = '';
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      onEnter(S.step);
+    }
+  }, 280);
+}
+
+function updateProgress() {
+  document.getElementById('progressFill').style.width = Math.round((S.step / STEPS) * 100) + '%';
+  document.getElementById('stepCount').textContent = S.step >= 1 && S.step <= 6 ? `${S.step} of 6` : '';
+}
+
+function onEnter(step) {
+  if (step === 7) runBuild();
+  if (step === 8) showResults();
+  if (step === 9) showPlan();
+  if (step === 11) startCountdown();
+}
+
+/* ========== SINGLE SELECT ========== */
+function pick(btn, key, val) {
+  S[key] = val;
+  btn.closest('.opt-stack').querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(goNext, 380);
+}
+
+/* ========== MULTI SELECT (step 4) ========== */
+function toggleMulti(btn, val) {
+  btn.classList.toggle('selected');
+  const idx = S.changes.indexOf(val);
+  if (idx > -1) S.changes.splice(idx, 1); else S.changes.push(val);
+  const n = S.changes.length;
+  document.getElementById('changesBtn').disabled = n === 0;
+  document.getElementById('changesCount').textContent = n === 0 ? 'Select all that apply' : `${n} selected — most people pick 3+`;
+}
+function submitChanges() {
+  if (S.changes.length > 0) goNext();
+}
+
+/* ========== ANALYSIS ========== */
+function runBuild() {
+  const steps = document.querySelectorAll('#buildSteps .build-step');
+  steps.forEach((el, i) => {
+    setTimeout(() => {
+      el.style.opacity = '1';
+      const icon = el.querySelector('.bs-icon');
+      icon.textContent = '✓';
+      icon.style.background = 'var(--accent-soft)';
+      icon.style.color = 'var(--accent)';
+    }, 700 + i * 850);
+  });
+  setTimeout(goNext, 700 + steps.length * 850 + 500);
+}
+
+/* ========== RESULTS ========== */
+function showResults() {
+  // Score calculation
+  const momentW = { yes: 20, few: 15, not_yet: 8, no: 2 }[S.moment] || 10;
+  const impactW = { avoid: 18, anxiety: 16, hide: 14, compensate: 12, minor: 5 }[S.impact] || 10;
+  const changesW = S.changes.length * 6;
+  const raw = 85 - momentW - impactW - changesW + (Math.random() * 6 - 3);
+  const score = Math.max(24, Math.min(78, Math.round(raw)));
+  S.score = score;
+
+  // Animate ring
+  const circumference = 2 * Math.PI * 80; // ~502
+  const offset = circumference - (score / 100) * circumference;
+  setTimeout(() => {
+    const ring = document.getElementById('ringFill');
+    ring.style.strokeDashoffset = offset;
+    ring.style.stroke = score > 60 ? 'var(--accent)' : score > 42 ? '#D4880F' : 'var(--red)';
+    document.getElementById('ringNum').textContent = score;
+    const verdict = document.getElementById('ringVerdict');
+    if (score > 60) { verdict.textContent = 'Mild concern — very treatable'; verdict.style.color = 'var(--accent)'; }
+    else if (score > 42) { verdict.textContent = 'Moderate concern — act within 2 weeks'; verdict.style.color = '#D4880F'; }
+    else { verdict.textContent = 'Significant concern — start today'; verdict.style.color = 'var(--red)'; }
+  }, 400);
+
+  // Breakdown bars
+  const areas = [
+    { name: 'Name & Face Recall', val: S.changes.includes('names') ? 30 + Math.random() * 15 : 65 + Math.random() * 15 },
+    { name: 'Word Retrieval', val: S.changes.includes('words') ? 28 + Math.random() * 18 : 60 + Math.random() * 15 },
+    { name: 'Focus & Attention', val: S.changes.includes('focus') ? 32 + Math.random() * 15 : 62 + Math.random() * 15 },
+    { name: 'Spatial Memory', val: S.changes.includes('items') || S.changes.includes('rooms') ? 30 + Math.random() * 16 : 58 + Math.random() * 18 },
+    { name: 'Conversational Memory', val: S.changes.includes('repeat') ? 25 + Math.random() * 18 : 60 + Math.random() * 18 }
+  ];
+  areas.forEach(a => a.val = Math.round(a.val));
+  areas.sort((a, b) => a.val - b.val);
+
+  const barsHtml = areas.map(a => {
+    const color = a.val > 60 ? 'var(--green)' : a.val > 40 ? '#D4880F' : 'var(--red)';
+    return `<div class="bd-item">
+      <div class="bd-head"><span class="bd-name">${a.name}</span><span class="bd-val" style="color:${color}">${a.val}%</span></div>
+      <div class="bd-track"><div class="bd-bar" style="width:0%;background:${color};" data-target="${a.val}"></div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('breakdownBars').innerHTML = barsHtml;
+
+  // Animate bars after a delay
+  setTimeout(() => {
+    document.querySelectorAll('.bd-bar').forEach(bar => {
+      bar.style.width = bar.dataset.target + '%';
+    });
+  }, 600);
+
+  // Future pacing personalization
+  const worst = areas[0];
+  const whoText = {
+    grandchildren: "your grandchildren's names, their stories, the small moments that matter most",
+    partner: "conversations with your partner, shared memories, the details that hold a relationship together",
+    myself: "the confidence and independence you've built over a lifetime",
+    everyone: "the names, faces, and moments that connect you to the people you love"
+  }[S.who] || "the memories and moments that matter most to you";
+
+  document.getElementById('futBad').innerHTML = `Your weakest area — <strong>${worst.name}</strong> — is at ${worst.val}%. Without intervention, this typically drops 5–8% per year. That means struggling to recall ${whoText}.`;
+  document.getElementById('futGood').innerHTML = `With just 5 minutes of targeted training per day, 82% of adults improved their weakest area by 25+ points within 30 days. <strong>Your ${worst.name} score could go from ${worst.val}% to ${Math.min(85, worst.val + 28)}%.</strong>`;
+}
+
+/* ========== PLAN ========== */
+function showPlan() {
+  const whoPhrase = {
+    grandchildren: "the people who call you Grandma or Grandpa",
+    partner: "the person who shares your life",
+    myself: "the independent life you've worked so hard to build",
+    everyone: "every person who depends on you"
+  }[S.who] || "the people who matter most";
+
+  document.getElementById('planIntro').innerHTML = `Built specifically for your weak areas. Designed to fit into your morning routine — <strong>5 minutes while the kettle boils.</strong> Because ${whoPhrase} deserve you at your sharpest.`;
+
+  const exercises = [];
+  if (S.changes.includes('names')) exercises.push({ name: 'Name-Face Match', time: '2 min', why: 'Name & Face Recall' });
+  if (S.changes.includes('words')) exercises.push({ name: 'Word Retrieval Sprint', time: '2 min', why: 'Word Retrieval' });
+  if (S.changes.includes('focus')) exercises.push({ name: 'Focus Grid', time: '2 min', why: 'Focus & Attention' });
+  if (S.changes.includes('rooms') || S.changes.includes('items')) exercises.push({ name: 'Spatial Sequence', time: '1 min', why: 'Spatial Memory' });
+  if (S.changes.includes('repeat')) exercises.push({ name: 'Story Recall', time: '2 min', why: 'Conversational Memory' });
+  if (exercises.length < 3) {
+    exercises.push({ name: 'Pattern Memory', time: '2 min', why: 'Core Recall' });
+    exercises.push({ name: 'Speed Match', time: '1 min', why: 'Processing Speed' });
+  }
+  const planExercises = exercises.slice(0, 3);
+
+  document.getElementById('dailyPlan').innerHTML = planExercises.map((ex, i) => `
+    <div style="display:flex;gap:14px;align-items:flex-start;">
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i + 1}</div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--text-bright);">${ex.name} — ${ex.time}</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:2px;">Targets: ${ex.why}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const imp = S.score < 42 ? '+30–40' : S.score < 58 ? '+22–32' : '+15–25';
+  document.getElementById('avgImprovement').textContent = imp;
+}
+
+/* ========== EMAIL ========== */
+function submitEmail() {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    document.getElementById('emailInput').style.borderColor = 'var(--red)';
+    document.getElementById('emailInput').focus();
+    return;
+  }
+  S.email = email;
+  fetch('/api/waitlist', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, source: 'quiz3', score: S.score })
+  }).catch(() => {});
+  goNext();
+}
+
+/* ========== PRICING ========== */
+let _cdI = null;
+function startCountdown() {
+  if (_cdI) clearInterval(_cdI);
+  let secs = 600;
+  const el = document.getElementById('cdTimer');
+  function tick() {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    if (secs <= 0) { clearInterval(_cdI); el.textContent = '00:00'; return; }
+    secs--;
+  }
+  tick();
+  _cdI = setInterval(tick, 1000);
+}
+
+function selectPlan(el, plan) {
+  S.plan = plan;
+  document.querySelectorAll('.plan-card-v3').forEach(c => c.classList.remove('featured'));
+  el.classList.add('featured');
+  document.querySelectorAll('.plan-card-v3 .radio-dot').forEach(d => { d.style.borderColor = 'rgba(255,255,255,0.2)'; d.innerHTML = ''; });
+  el.querySelector('.radio-dot').style.borderColor = 'var(--accent)';
+  el.querySelector('.radio-dot').innerHTML = '<div style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></div>';
+  document.querySelectorAll('.plan-card-v3 .price-tag').forEach(t => { t.style.background = 'rgba(255,255,255,0.06)'; t.style.borderColor = 'rgba(255,255,255,0.1)'; });
+  document.querySelectorAll('.plan-card-v3 .price-tag .tag-amount').forEach(a => a.style.color = 'var(--text-bright)');
+  el.querySelector('.price-tag').style.background = 'rgba(74,227,181,0.1)';
+  el.querySelector('.price-tag').style.borderColor = 'rgba(74,227,181,0.3)';
+  el.querySelector('.price-tag .tag-amount').style.color = 'var(--accent)';
+  const legalEl = document.querySelector('.legal-text');
+  if (legalEl) {
+    const planNames = { weekly: '7-day', monthly: '1-month', quarterly: '3-month' };
+    const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+    const renewPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+    const intervals = { weekly: '1 week', monthly: '1 month', quarterly: '3 months' };
+    legalEl.textContent = `By clicking "GET MY PLAN", I agree to pay ${planPrices[plan]} for my plan and that if I do not cancel before the end of the ${planNames[plan]} plan, Recall Better will automatically charge my payment method the regular price of ${renewPrices[plan]} every ${intervals[plan]} thereafter until I cancel by contacting us at help@recallbetter.com.`;
+  }
+}
+
+// Embedded checkout state
+let stripeInstance = null, elements = null, paymentElement = null;
+
+function goPro() {
+  const plan = S.plan || 'monthly';
+  const email = S.email;
+  if (!email) { alert('Please enter your email first.'); return; }
+
+  const btn = document.getElementById('getMyPlanBtn');
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+
+  const planLabels = { weekly: '7-day plan', monthly: '1-month plan', quarterly: '3-month plan' };
+  const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+  const origPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+  const discounts = { weekly: '-$6.93', monthly: '-$19.99', quarterly: '-$39.99' };
+  document.getElementById('summaryPlanName').textContent = planLabels[plan];
+  document.getElementById('summaryOriginal').textContent = origPrices[plan];
+  document.getElementById('summaryDiscount').textContent = discounts[plan];
+  document.getElementById('summaryTotal').textContent = planPrices[plan];
+
+  fetch('/api/stripe?action=embedded-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan, email, pricing: 'prices2' })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.error) throw new Error(data.error);
+    stripeInstance = Stripe(data.publishableKey);
+    elements = stripeInstance.elements({
+      clientSecret: data.clientSecret,
+      appearance: {
+        theme: 'night',
+        variables: { colorPrimary: '#4AE3B5', colorBackground: '#131B2E', colorText: '#E8ECF4', colorDanger: '#FF6B6B', fontFamily: 'DM Sans, sans-serif', borderRadius: '10px' }
+      }
+    });
+    paymentElement = elements.create('payment', { layout: 'tabs', defaultValues: { billingDetails: { email } } });
+    paymentElement.mount('#payment-element');
+    document.getElementById('checkoutOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    const srcEl = document.getElementById('countdownTimer');
+    if (srcEl) { const sync = () => { const d = document.getElementById('checkoutCountdown'); if (d && srcEl) d.textContent = srcEl.textContent; }; sync(); setInterval(sync, 1000); }
+    btn.textContent = 'GET MY PLAN'; btn.disabled = false;
+  })
+  .catch(err => { alert(err.message || 'Something went wrong.'); btn.textContent = 'GET MY PLAN'; btn.disabled = false; });
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+async function submitPayment() {
+  const btn = document.getElementById('payment-submit');
+  const msgEl = document.getElementById('payment-message');
+  btn.disabled = true; btn.textContent = 'Processing...'; msgEl.textContent = '';
+  const { error } = await stripeInstance.confirmPayment({ elements, confirmParams: { return_url: 'https://recallbetter.com/app?checkout=success' } });
+  if (error) { msgEl.textContent = error.message; btn.disabled = false; btn.textContent = 'Submit Secure Payment'; }
+}
+
+/* ========== SOCIAL PROOF NOTIFICATIONS ========== */
+const notifMessages = [
+  'Patricia from Bristol just saved her Memory Profile',
+  'David, 71, started his personalised plan 2 minutes ago',
+  'Margaret improved from 38 to 72 in 5 weeks',
+  'Jean just finished her daily training — Day 32',
+  'Robert told us: "My family noticed within a week"',
+  'Susan from Yorkshire just started her plan',
+  'A new member in your area started 4 minutes ago'
+];
+let _ni = 0;
+function showNotif() {
+  if (S.step < 1 || S.step > 10) return;
+  const el = document.getElementById('notif');
+  document.getElementById('notifText').textContent = notifMessages[_ni % notifMessages.length];
+  el.classList.add('visible');
+  _ni++;
+  setTimeout(() => el.classList.remove('visible'), 4500);
+}
+setTimeout(showNotif, 15000);
+setInterval(() => { if (Math.random() > 0.3) showNotif(); }, 25000);
+
+/* ========== LIVE COUNTER ========== */
+const liveEl = document.getElementById('liveCount');
+setInterval(() => {
+  const delta = Math.floor(Math.random() * 5) - 2;
+  const cur = parseInt(liveEl.textContent) + delta;
+  liveEl.textContent = Math.max(180, Math.min(340, cur));
+}, 4000);
+
+updateProgress();
+</script>
+
+<!-- Embedded Checkout Overlay -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <span>The offer expires in:</span>
+      <span class="countdown-text" id="checkoutCountdown">10:00</span>
+    </div>
+    <div class="checkout-back">
+      <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-payment">
+        <h3>Select a payment method</h3>
+        <div id="payment-element"></div>
+        <button id="payment-submit" type="button" onclick="submitPayment()">Submit Secure Payment</button>
+        <div id="payment-message"></div>
+      </div>
+      <div class="checkout-summary" id="checkoutSummary">
+        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
+        <div class="summary-row discount"><span>Discount (-50%)</span><span id="summaryDiscount">-$19.99</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$19.99</span></div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

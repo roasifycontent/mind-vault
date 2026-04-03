@@ -1586,6 +1586,9 @@
 
             verdictElement.textContent = verdictText;
             verdictElement.className = 'verdict ' + verdictClass;
+
+            // Update solution screen content based on weakest area
+            updateSolutionScreen();
         }
 
         // EMAIL SUBMISSION
@@ -1626,27 +1629,24 @@
         });
 
         // Update solution headline based on weakest area
-        document.addEventListener('DOMContentLoaded', () => {
-            const observer = new MutationObserver(() => {
-                if (state.weakestArea) {
-                    document.getElementById('solutionHeadline').textContent =
-                        `The good news: your ${state.weakestArea} is highly trainable`;
+        function updateSolutionScreen() {
+            if (state.weakestArea) {
+                document.getElementById('solutionHeadline').textContent =
+                    `The good news: your ${state.weakestArea} is highly trainable`;
 
-                    // Update game matches based on weakest area
-                    let games = ['Word pairs game', 'Sequence recall', 'Pattern puzzles'];
-                    if (state.weakestArea === 'Sequence Memory') {
-                        games = ['Sequence recall', 'Memory chains', 'Pattern sequencing'];
-                    } else if (state.weakestArea === 'Pattern Recognition') {
-                        games = ['Pattern puzzles', 'Visual logic', 'Shape reasoning'];
-                    }
-
-                    document.getElementById('gameMatch1').textContent = games[0];
-                    document.getElementById('gameMatch2').textContent = games[1];
-                    document.getElementById('gameMatch3').textContent = games[2];
+                // Update game matches based on weakest area
+                let games = ['Word pairs game', 'Sequence recall', 'Pattern puzzles'];
+                if (state.weakestArea === 'Sequence Memory') {
+                    games = ['Sequence recall', 'Memory chains', 'Pattern sequencing'];
+                } else if (state.weakestArea === 'Pattern Recognition') {
+                    games = ['Pattern puzzles', 'Visual logic', 'Shape reasoning'];
                 }
-            });
-            observer.observe(document.body, { subtree: true, childList: true });
-        });
+
+                document.getElementById('gameMatch1').textContent = games[0];
+                document.getElementById('gameMatch2').textContent = games[1];
+                document.getElementById('gameMatch3').textContent = games[2];
+            }
+        }
     </script>
 </body>
 </html>

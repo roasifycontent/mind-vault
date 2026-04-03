@@ -103,12 +103,16 @@ async function createEmbeddedCheckout(req, res) {
     expand: ['latest_invoice.payment_intent'],
   });
 
-  const paymentIntent = subscription.latest_invoice.payment_intent;
+  const paymentIntent = subscription.latest_invoice?.payment_intent;
+
+  if (!paymentIntent || !paymentIntent.client_secret) {
+    return res.status(500).json({ error: 'Could not create payment. Please try again.' });
+  }
 
   return res.status(200).json({
     subscriptionId: subscription.id,
     clientSecret: paymentIntent.client_secret,
-    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj',
   });
 }
 

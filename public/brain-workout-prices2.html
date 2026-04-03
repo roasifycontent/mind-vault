@@ -1370,7 +1370,7 @@
             .then(r => r.json())
             .then(data => {
                 if (data.error) throw new Error(data.error);
-                stripeInstance = Stripe(data.publishableKey);
+                stripeInstance = Stripe('pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj');
                 elements = stripeInstance.elements({
                     clientSecret: data.clientSecret,
                     appearance: {

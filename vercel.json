@@ -34,7 +34,8 @@
     { "source": "/angle2-prices2", "destination": "/angle2-prices2.html" },
     { "source": "/angle3-prices2", "destination": "/angle3-prices2.html" },
     { "source": "/angle4-prices2", "destination": "/angle4-prices2.html" },
-    { "source": "/angle5-prices2", "destination": "/angle5-prices2.html" }
+    { "source": "/angle5-prices2", "destination": "/angle5-prices2.html" },
+    { "source": "/start", "destination": "/start.html" }
   ],
   "headers": [
     {

@@ -1524,6 +1524,7 @@
           .then(r => r.json())
           .then(async data => {
             if (data.error) throw new Error(data.error);
+    if (data.alreadyActive) { window.location.href = '/app?checkout=success'; return; }
             stripeInstance = Stripe('pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj');
             const checkout = await stripeInstance.initEmbeddedCheckout({ clientSecret: data.clientSecret });
             checkout.mount('#payment-element');

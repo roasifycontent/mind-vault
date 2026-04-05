@@ -65,7 +65,7 @@ async function createPublicCheckout(req, res) {
 }
 
 // POST /api/stripe?action=embedded-checkout (no auth - native payment form)
-// Uses Stripe Checkout Session with ui_mode:'embedded' for reliable client_secret
+// Creates a Subscription with incomplete payment, returns PaymentIntent client_secret
 async function createEmbeddedCheckout(req, res) {
   const { plan, email, pricing } = req.body || {};
 
@@ -82,21 +82,57 @@ async function createEmbeddedCheckout(req, res) {
   const stripe = getStripe();
   const cleanEmail = email.toLowerCase().trim();
 
-  const session = await stripe.checkout.sessions.create({
-    ui_mode: 'embedded',
-    mode: 'subscription',
-    customer_email: cleanEmail,
-    line_items: [{ price: priceId, quantity: 1 }],
+  // Find or create customer
+  const existing = await stripe.customers.list({ email: cleanEmail, limit: 1 });
+  let customer;
+  if (existing.data.length > 0) {
+    customer = existing.data[0];
+  } else {
+    customer = await stripe.customers.create({
+      email: cleanEmail,
+      metadata: { app: 'recall-better', source: 'quiz-embedded' },
+    });
+  }
+
+  // Create subscription with incomplete payment — returns a PaymentIntent
+  const subscription = await stripe.subscriptions.create({
+    customer: customer.id,
+    items: [{ price: priceId }],
+    payment_behavior: 'default_incomplete',
+    payment_settings: { save_default_payment_method: 'on_subscription' },
     metadata: { app: 'recall-better', plan, source: 'quiz-embedded' },
-    allow_promotion_codes: true,
-    subscription_data: {
-      metadata: { app: 'recall-better', plan },
-    },
-    return_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
+    expand: ['latest_invoice.payment_intent'],
   });
 
+  // If already active (existing saved payment method auto-charged), signal success
+  if (subscription.status === 'active') {
+    return res.status(200).json({ alreadyActive: true, subscriptionId: subscription.id });
+  }
+
+  let paymentIntent = subscription.latest_invoice?.payment_intent;
+
+  // Newer Stripe API versions may return payment_intent as a string ID —
+  // retrieve it explicitly from the invoice as fallback
+  if (!paymentIntent || typeof paymentIntent === 'string' || !paymentIntent.client_secret) {
+    const invoiceId = typeof subscription.latest_invoice === 'string'
+      ? subscription.latest_invoice
+      : subscription.latest_invoice?.id;
+
+    if (invoiceId) {
+      const invoice = await stripe.invoices.retrieve(invoiceId, {
+        expand: ['payment_intent'],
+      });
+      paymentIntent = invoice.payment_intent;
+    }
+  }
+
+  if (!paymentIntent || typeof paymentIntent === 'string' || !paymentIntent.client_secret) {
+    return res.status(500).json({ error: 'Could not create payment intent. Please try again.' });
+  }
+
   return res.status(200).json({
-    clientSecret: session.client_secret,
+    subscriptionId: subscription.id,
+    clientSecret: paymentIntent.client_secret,
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj',
   });
 }

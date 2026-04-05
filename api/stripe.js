@@ -65,6 +65,7 @@ async function createPublicCheckout(req, res) {
 }
 
 // POST /api/stripe?action=embedded-checkout (no auth - native payment form)
+// Uses Stripe Checkout Session with ui_mode:'embedded' for reliable client_secret
 async function createEmbeddedCheckout(req, res) {
   const { plan, email, pricing } = req.body || {};
 
@@ -81,66 +82,21 @@ async function createEmbeddedCheckout(req, res) {
   const stripe = getStripe();
   const cleanEmail = email.toLowerCase().trim();
 
-  // Find or create customer
-  const existing = await stripe.customers.list({ email: cleanEmail, limit: 1 });
-  let customer;
-  if (existing.data.length > 0) {
-    customer = existing.data[0];
-  } else {
-    customer = await stripe.customers.create({
-      email: cleanEmail,
-      metadata: { app: 'recall-better', source: 'quiz-embedded' },
-    });
-  }
-
-  // Create subscription with incomplete payment
-  const subscription = await stripe.subscriptions.create({
-    customer: customer.id,
-    items: [{ price: priceId }],
-    payment_behavior: 'default_incomplete',
-    payment_settings: { save_default_payment_method: 'on_subscription' },
+  const session = await stripe.checkout.sessions.create({
+    ui_mode: 'embedded',
+    mode: 'subscription',
+    customer_email: cleanEmail,
+    line_items: [{ price: priceId, quantity: 1 }],
     metadata: { app: 'recall-better', plan, source: 'quiz-embedded' },
-    expand: ['latest_invoice.payment_intent'],
+    allow_promotion_codes: true,
+    subscription_data: {
+      metadata: { app: 'recall-better', plan },
+    },
+    return_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
   });
 
-  // If already active (existing saved payment method auto-charged), signal success
-  if (subscription.status === 'active') {
-    return res.status(200).json({ alreadyActive: true, subscriptionId: subscription.id });
-  }
-
-  let paymentIntent = subscription.latest_invoice?.payment_intent;
-
-  // Newer Stripe API versions (v16+) sometimes return payment_intent as a string ID
-  // or don't expand it inline â retrieve it explicitly from the invoice as fallback
-  if (!paymentIntent || typeof paymentIntent === 'string' || !paymentIntent.client_secret) {
-    const invoiceId = typeof subscription.latest_invoice === 'string'
-      ? subscription.latest_invoice
-      : subscription.latest_invoice?.id;
-
-    if (invoiceId) {
-      const invoice = await stripe.invoices.retrieve(invoiceId, {
-        expand: ['payment_intent'],
-      });
-      paymentIntent = invoice.payment_intent;
-    }
-  }
-
-  if (!paymentIntent || typeof paymentIntent === 'string' || !paymentIntent.client_secret) {
-    console.error('[embedded-checkout] No client_secret:', JSON.stringify({
-      sub_id: subscription.id,
-      sub_status: subscription.status,
-      invoice: typeof subscription.latest_invoice === 'object'
-        ? { id: subscription.latest_invoice?.id, status: subscription.latest_invoice?.status, amount: subscription.latest_invoice?.amount_due }
-        : subscription.latest_invoice,
-      pi_type: typeof paymentIntent,
-      pi_id: typeof paymentIntent === 'object' ? paymentIntent?.id : paymentIntent,
-    }));
-    return res.status(500).json({ error: 'Could not create payment. Please try again.' });
-  }
-
   return res.status(200).json({
-    subscriptionId: subscription.id,
-    clientSecret: paymentIntent.client_secret,
+    clientSecret: session.client_secret,
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj',
   });
 }

@@ -998,18 +998,11 @@ function goPro() {
     body: JSON.stringify({ plan, email, pricing: 'prices2' })
   })
   .then(r => r.json())
-  .then(data => {
+  .then(async data => {
     if (data.error) throw new Error(data.error);
     stripeInstance = Stripe('pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj');
-    elements = stripeInstance.elements({
-      clientSecret: data.clientSecret,
-      appearance: {
-        theme: 'night',
-        variables: { colorPrimary: '#4AE3B5', colorBackground: '#131B2E', colorText: '#E8ECF4', colorDanger: '#FF6B6B', fontFamily: 'DM Sans, sans-serif', borderRadius: '10px' }
-      }
-    });
-    paymentElement = elements.create('payment', { layout: 'tabs', defaultValues: { billingDetails: { email } } });
-    paymentElement.mount('#payment-element');
+            const checkout = await stripeInstance.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+            checkout.mount('#payment-element');
     document.getElementById('checkoutOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
     const srcEl = document.getElementById('countdownTimer');
@@ -1024,13 +1017,6 @@ function closeCheckout() {
   document.body.style.overflow = '';
 }
 
-async function submitPayment() {
-  const btn = document.getElementById('payment-submit');
-  const msgEl = document.getElementById('payment-message');
-  btn.disabled = true; btn.textContent = 'Processing...'; msgEl.textContent = '';
-  const { error } = await stripeInstance.confirmPayment({ elements, confirmParams: { return_url: 'https://recallbetter.com/app?checkout=success' } });
-  if (error) { msgEl.textContent = error.message; btn.disabled = false; btn.textContent = 'Submit Secure Payment'; }
-}
 
 // ========== SOCIAL PROOF NOTIFICATIONS ==========
 const notifs = [
@@ -1071,9 +1057,7 @@ updateProgress();
       <div class="checkout-payment">
         <h3>Select a payment method</h3>
         <div id="payment-element"></div>
-        <button id="payment-submit" type="button" onclick="submitPayment()">Submit Secure Payment</button>
-        <div id="payment-message"></div>
-      </div>
+                      </div>
       <div class="checkout-summary" id="checkoutSummary">
         <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
         <div class="summary-row discount"><span>Discount (-50%)</span><span id="summaryDiscount">-$19.99</span></div>

@@ -38,7 +38,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var
 .progress-wrap{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(17,19,24,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:12px 20px 10px;display:flex;flex-direction:column;align-items:center}
 .progress-top{width:100%;max-width:var(--max-w);display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .logo{font-family:var(--font-display);font-size:20px;color:var(--accent);font-weight:600}
-.step-count{font-size:12px;color:var(--text-dim);font-weight:600;letter-spacing:0.5px}
+.step-count{font-size:14px;color:var(--text-dim);font-weight:600;letter-spacing:0.5px}
 .progress-track{width:100%;max-width:var(--max-w);height:3px;background:rgba(255,255,255,0.06);border-radius:2px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#E8C36A);border-radius:2px;transition:width 0.6s cubic-bezier(0.22,1,0.36,1)}
 
@@ -56,7 +56,7 @@ h1.hero em{color:var(--accent);font-style:italic}
 .sub{font-size:17px;color:var(--text);line-height:1.7;margin-bottom:28px}
 .sub strong{color:var(--text-bright);font-weight:600}
 .sub .gold{color:var(--accent);font-weight:600}
-.label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;margin-bottom:14px;color:var(--accent)}
+.label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;margin-bottom:14px;color:var(--accent)}
 
 /* CTA */
 .cta{width:100%;padding:18px 32px;border:none;border-radius:var(--radius-sm);font-family:var(--font-body);font-size:17px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.2px}
@@ -65,14 +65,14 @@ h1.hero em{color:var(--accent);font-style:italic}
 .cta-gold:disabled{opacity:0.4;cursor:not-allowed;transform:none}
 .cta-ghost{background:transparent;color:var(--accent);border:1.5px solid rgba(212,165,74,0.3)}
 .cta-ghost:hover{background:var(--accent-soft);border-color:var(--accent)}
-.sub-cta{text-align:center;font-size:12px;color:var(--text-dim);margin-top:12px;line-height:1.5}
+.sub-cta{text-align:center;font-size:14px;color:var(--text-dim);margin-top:12px;line-height:1.65}
 
 /* Cards */
 .card{background:var(--bg-card);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:16px}
 
 /* Option buttons */
 .opt-stack{display:flex;flex-direction:column;gap:10px}
-.opt{width:100%;padding:18px 20px;border-radius:var(--radius-sm);border:1.5px solid rgba(255,255,255,0.06);background:var(--bg-card);color:var(--text);font-family:var(--font-body);font-size:16px;font-weight:500;cursor:pointer;transition:all 0.2s;text-align:left;display:flex;align-items:center;gap:14px;line-height:1.4}
+.opt{width:100%;padding:18px 20px;border-radius:var(--radius-sm);border:1.5px solid rgba(255,255,255,0.06);background:var(--bg-card);color:var(--text);font-family:var(--font-body);font-size:16px;font-weight:500;cursor:pointer;transition:all 0.2s;text-align:left;display:flex;align-items:center;gap:14px;line-height:1.6}
 .opt:hover{border-color:var(--accent);background:var(--accent-soft)}
 .opt.selected{border-color:var(--accent);background:var(--accent-soft);color:var(--text-bright)}
 .opt-icon{font-size:22px;flex-shrink:0;width:32px;text-align:center}
@@ -80,7 +80,7 @@ h1.hero em{color:var(--accent);font-style:italic}
 /* Story block */
 .story{position:relative;padding:24px;padding-left:28px;margin:20px 0;border-left:3px solid var(--accent);background:linear-gradient(135deg,var(--accent-soft),transparent);border-radius:0 var(--radius) var(--radius) 0}
 .story p{font-family:var(--font-display);font-size:18px;font-style:italic;color:var(--text-bright);line-height:1.7;margin-bottom:12px}
-.story .attr{font-family:var(--font-body);font-size:13px;color:var(--text-dim);font-style:normal;display:flex;align-items:center;gap:8px}
+.story .attr{font-family:var(--font-body);font-size:15px;color:var(--text-dim);font-style:normal;display:flex;align-items:center;gap:8px}
 .story .attr .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
 
 /* Score ring */
@@ -90,11 +90,11 @@ h1.hero em{color:var(--accent);font-style:italic}
 .ring-fill{fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;stroke-dasharray:502;stroke-dashoffset:502;transition:stroke-dashoffset 2s cubic-bezier(0.22,1,0.36,1),stroke 0.5s}
 .ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
 .ring-num{font-family:var(--font-display);font-size:52px;color:var(--text-bright);line-height:1}
-.ring-label{font-size:13px;color:var(--text-dim);margin-top:2px}
+.ring-label{font-size:15px;color:var(--text-dim);margin-top:2px}
 
 /* Breakdown bars */
 .breakdown{display:flex;flex-direction:column;gap:16px;margin:16px 0}
-.bd-item .bd-head{display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px}
+.bd-item .bd-head{display:flex;justify-content:space-between;margin-bottom:6px;font-size:16px}
 .bd-item .bd-name{font-weight:600;color:var(--text-bright)}
 .bd-item .bd-val{font-weight:700}
 .bd-item .bd-track{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
@@ -106,18 +106,18 @@ h1.hero em{color:var(--accent);font-style:italic}
 .future-card.bad{border-left:3px solid var(--red)}
 .future-card.good{border-left:3px solid var(--green)}
 .fc-icon{font-size:28px;flex-shrink:0}
-.fc-body h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.fc-body h4{font-size:17px;font-weight:700;margin-bottom:4px}
 .future-card.bad .fc-body h4{color:var(--red)}
 .future-card.good .fc-body h4{color:var(--green)}
-.fc-body p{font-size:14px;color:var(--text-dim);line-height:1.5}
+.fc-body p{font-size:16px;color:var(--text-dim);line-height:1.65}
 
 /* Testimonial grid */
 .tgrid{display:flex;flex-direction:column;gap:12px;margin:16px 0}
 .tcard{background:var(--bg-card);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-.tcard .stars{color:var(--accent);font-size:13px;letter-spacing:2px;margin-bottom:8px}
-.tcard blockquote{font-size:15px;color:var(--text-bright);line-height:1.6;margin-bottom:10px;font-style:italic;font-family:var(--font-display)}
-.tcard .who{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:8px}
-.tcard .who .avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.tcard .stars{color:var(--accent);font-size:15px;letter-spacing:2px;margin-bottom:8px}
+.tcard blockquote{font-size:17px;color:var(--text-bright);line-height:1.6;margin-bottom:10px;font-style:italic;font-family:var(--font-display)}
+.tcard .who{font-size:14px;color:var(--text-dim);display:flex;align-items:center;gap:8px}
+.tcard .who .avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
 .tcard .verified{color:var(--green);font-weight:600}
 
 /* Plan cards */
@@ -125,21 +125,21 @@ h1.hero em{color:var(--accent);font-style:italic}
 .plan-card{background:var(--bg-card);border:2px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:20px;cursor:pointer;transition:all 0.2s;position:relative;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
 .plan-card:hover{border-color:var(--accent)}
 .plan-card.featured{border-color:var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--bg-card))}
-.plan-card .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),#E8C36A);color:#1A1A1A;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
+.plan-card .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),#E8C36A);color:#1A1A1A;font-size:13px;font-weight:700;padding:4px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
 .plan-card .pc-left h4{font-size:16px;font-weight:700;color:var(--text-bright)}
-.plan-card .pc-left .pc-detail{font-size:13px;color:var(--accent);margin-top:2px;font-weight:600}
+.plan-card .pc-left .pc-detail{font-size:15px;color:var(--accent);margin-top:2px;font-weight:600}
 .plan-card .pc-right{text-align:right}
 .plan-card .pc-right .pc-price{font-family:var(--font-display);font-size:34px;color:var(--text-bright);line-height:1}
-.plan-card .pc-right .pc-per{font-size:12px;color:var(--text-dim);margin-top:2px}
+.plan-card .pc-right .pc-per{font-size:14px;color:var(--text-dim);margin-top:2px}
 .plan-card.featured .pc-right .pc-price{color:var(--accent)}
 
 /* Urgency */
-.urgency{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;background:var(--red-soft);border:1px solid rgba(232,93,93,0.2);border-radius:var(--radius-sm);margin:14px 0 20px;font-size:14px;color:var(--red);font-weight:600}
+.urgency{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;background:var(--red-soft);border:1px solid rgba(232,93,93,0.2);border-radius:var(--radius-sm);margin:14px 0 20px;font-size:16px;color:var(--red);font-weight:600}
 
 /* Guarantee */
 .guarantee{display:flex;gap:14px;padding:18px;background:var(--green-soft);border:1px solid rgba(74,227,181,0.15);border-radius:var(--radius-sm);margin:16px 0;align-items:flex-start}
 .guarantee-icon{font-size:24px;flex-shrink:0}
-.guarantee-text{font-size:13px;color:var(--text);line-height:1.6}
+.guarantee-text{font-size:15px;color:var(--text);line-height:1.6}
 .guarantee-text strong{color:var(--text-bright)}
 
 /* Email */
@@ -151,36 +151,36 @@ h1.hero em{color:var(--accent);font-style:italic}
 .ticker-wrap{overflow:hidden;margin:20px -20px;padding:14px 0;background:rgba(212,165,74,0.04);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04)}
 .ticker{display:flex;gap:48px;animation:tickScroll 35s linear infinite;white-space:nowrap}
 @keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ticker-item{font-size:13px;color:var(--text-dim);display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ticker-item{font-size:15px;color:var(--text-dim);display:flex;align-items:center;gap:6px;flex-shrink:0}
 .ticker-item strong{color:var(--text-bright)}
 
 /* Floating notification */
-.notif{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--bg-card);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:14px 20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);z-index:200;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);max-width:360px;width:calc(100% - 40px);display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text)}
+.notif{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--bg-card);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:14px 20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);z-index:200;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);max-width:360px;width:calc(100% - 40px);display:flex;align-items:center;gap:12px;font-size:15px;color:var(--text)}
 .notif.visible{transform:translateX(-50%) translateY(0)}
 .notif-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
 /* Live counter */
-.live-count{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);margin-top:14px;justify-content:center}
+.live-count{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--text-dim);margin-top:14px;justify-content:center}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 
 /* Responsive */
 @media(max-width:400px){
-  .opt{padding:14px 16px;font-size:15px}
+  .opt{padding:14px 16px;font-size:17px}
 }
 .checkout-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; }
 .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
 .checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 17px; }
 .checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
 .checkout-back { padding: 16px 24px 0; }
-.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 16px; cursor: pointer; }
 .checkout-back a:hover { color: var(--text); }
 .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
 .checkout-payment { flex: 1; min-width: 280px; }
 .checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
 .checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
-.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 16px; color: var(--text); padding: 6px 0; }
 .checkout-summary .summary-row.discount { color: #ff6b6b; }
 .checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
 #payment-element { min-height: 200px; }
@@ -310,31 +310,31 @@ h1.hero em{color:var(--accent);font-style:italic}
       </div>
       <div style="display:flex;flex-direction:column;gap:16px;margin:20px 0;" id="buildSteps">
         <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
-          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⏳</div>
           <div style="flex:1;">
-            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Analysing symptom patterns</div>
-            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Comparing your responses to age-group data</div>
+            <div style="font-size:16px;font-weight:600;color:var(--text-bright);">Analysing symptom patterns</div>
+            <div style="font-size:14px;color:var(--text-dim);margin-top:2px;">Comparing your responses to age-group data</div>
           </div>
         </div>
         <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
-          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⏳</div>
           <div style="flex:1;">
-            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Mapping cognitive weak points</div>
-            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Identifying which skills need the most support</div>
+            <div style="font-size:16px;font-weight:600;color:var(--text-bright);">Mapping cognitive weak points</div>
+            <div style="font-size:14px;color:var(--text-dim);margin-top:2px;">Identifying which skills need the most support</div>
           </div>
         </div>
         <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
-          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⏳</div>
           <div style="flex:1;">
-            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Calculating recovery potential</div>
-            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Based on your timeline and severity</div>
+            <div style="font-size:16px;font-weight:600;color:var(--text-bright);">Calculating recovery potential</div>
+            <div style="font-size:14px;color:var(--text-dim);margin-top:2px;">Based on your timeline and severity</div>
           </div>
         </div>
         <div class="build-step" style="display:flex;gap:14px;align-items:center;opacity:0.25;transition:all 0.6s;">
-          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
+          <div class="bs-icon" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⏳</div>
           <div style="flex:1;">
-            <div style="font-size:14px;font-weight:600;color:var(--text-bright);">Generating your personalised plan</div>
-            <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Tailored exercises for your specific needs</div>
+            <div style="font-size:16px;font-weight:600;color:var(--text-bright);">Generating your personalised plan</div>
+            <div style="font-size:14px;color:var(--text-dim);margin-top:2px;">Tailored exercises for your specific needs</div>
           </div>
         </div>
       </div>
@@ -360,13 +360,13 @@ h1.hero em{color:var(--accent);font-style:italic}
       </div>
 
       <div class="card">
-        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:14px;">Cognitive Breakdown</div>
+        <div style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:14px;">Cognitive Breakdown</div>
         <div class="breakdown" id="breakdownBars"></div>
       </div>
 
       <!-- FUTURE PACING -->
       <div style="margin:24px 0 8px;">
-        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:14px;text-align:center;">Two paths forward</div>
+        <div style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:14px;text-align:center;">Two paths forward</div>
       </div>
       <div class="future-cards">
         <div class="future-card bad">
@@ -396,15 +396,15 @@ h1.hero em{color:var(--accent);font-style:italic}
 
       <div class="card" style="padding:0;overflow:hidden;">
         <div style="padding:14px 20px;background:var(--accent-soft);border-bottom:1px solid rgba(255,255,255,0.04);">
-          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);">Your Daily 5 Minutes</div>
+          <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);">Your Daily 5 Minutes</div>
         </div>
         <div style="padding:18px 20px;display:flex;flex-direction:column;gap:14px;" id="dailyPlan"></div>
       </div>
 
       <div class="card" style="text-align:center;">
-        <p style="font-size:14px;color:var(--text-dim);margin-bottom:8px;">People who match your profile see an average</p>
+        <p style="font-size:16px;color:var(--text-dim);margin-bottom:8px;">People who match your profile see an average</p>
         <div style="font-family:var(--font-display);font-size:48px;color:var(--accent);" id="avgImprovement">+28</div>
-        <p style="font-size:14px;font-weight:600;color:var(--text-bright);">point improvement in 30 days</p>
+        <p style="font-size:16px;font-weight:600;color:var(--text-bright);">point improvement in 30 days</p>
       </div>
 
       <div class="tgrid">
@@ -435,7 +435,7 @@ h1.hero em{color:var(--accent);font-style:italic}
       <p class="sub">Your full results — score, weak areas, personalised plan — sent straight to your inbox. <strong>Keep it. Share it with your family. Refer back to it.</strong></p>
 
       <div class="card" style="border-left:3px solid var(--accent);">
-        <p style="font-size:14px;line-height:1.6;color:var(--text);">📌 <strong style="color:var(--text-bright);">Why save this?</strong> Your profile is built from your specific answers. If you leave now, we can't recreate it — you'd need to retake the assessment. Save it so you have it when you're ready.</p>
+        <p style="font-size:16px;line-height:1.6;color:var(--text);">📌 <strong style="color:var(--text-bright);">Why save this?</strong> Your profile is built from your specific answers. If you leave now, we can't recreate it — you'd need to retake the assessment. Save it so you have it when you're ready.</p>
       </div>
 
       <div style="margin:20px 0 12px;">
@@ -455,8 +455,8 @@ h1.hero em{color:var(--accent);font-style:italic}
       <h1 class="hero" style="text-align:center;"><em>Protect your sharpest years</em><br>for less than a coffee a week</h1>
 
       <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-        <div style="font-size:14px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--text,#E8ECF4);line-height:1.5;">
+        <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
           <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
           <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
           <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
@@ -523,7 +523,7 @@ h1.hero em{color:var(--accent);font-style:italic}
 
       <button class="cta cta-gold" onclick="goPro()">Get Started Now</button>
 
-      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0;font-size:12px;color:var(--text-dim);">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0;font-size:14px;color:var(--text-dim);">
         <span style="background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:4px;font-weight:600;">VISA</span>
         <span style="background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:4px;font-weight:600;">MC</span>
         <span style="background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:4px;font-weight:600;">PayPal</span>
@@ -724,10 +724,10 @@ function showPlan() {
 
   document.getElementById('dailyPlan').innerHTML = planExercises.map((ex, i) => `
     <div style="display:flex;gap:14px;align-items:flex-start;">
-      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i + 1}</div>
+      <div style="width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i + 1}</div>
       <div>
-        <div style="font-size:15px;font-weight:600;color:var(--text-bright);">${ex.name} — ${ex.time}</div>
-        <div style="font-size:13px;color:var(--text-dim);margin-top:2px;">Targets: ${ex.why}</div>
+        <div style="font-size:17px;font-weight:600;color:var(--text-bright);">${ex.name} — ${ex.time}</div>
+        <div style="font-size:15px;color:var(--text-dim);margin-top:2px;">Targets: ${ex.why}</div>
       </div>
     </div>
   `).join('');

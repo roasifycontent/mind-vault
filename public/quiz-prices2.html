@@ -41,8 +41,8 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 /* Nav */
 .top-nav { width: 100%; max-width: var(--max-w); display: flex; align-items: center; justify-content: space-between; padding: 24px 0 16px; }
 .logo { font-family: var(--font-display); font-size: 20px; color: var(--accent); letter-spacing: 0.5px; }
-.step-label { font-size: 13px; color: var(--text-dim); font-weight: 500; }
-.live-count { font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
+.step-label { font-size: 15px; color: var(--text-dim); font-weight: 500; }
+.live-count { font-size: 14px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
 .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: livePulse 2s ease-in-out infinite; }
 @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
@@ -77,7 +77,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
 .stat-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 16px 12px; text-align: center; }
 .stat-card .stat-num { font-family: var(--font-display); font-size: 28px; color: var(--accent); }
-.stat-card .stat-label { font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.3; }
+.stat-card .stat-label { font-size: 14px; color: var(--text-dim); margin-top: 4px; line-height: 1.3; }
 
 /* Info card */
 .info-card { background: linear-gradient(135deg, rgba(74,227,181,0.08), rgba(155,125,255,0.06)); border: 1px solid rgba(74,227,181,0.15); border-radius: var(--radius); padding: 28px 24px; margin: 20px 0 28px; }
@@ -102,15 +102,15 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 
 /* Analysis */
 .analysis-steps { display: flex; flex-direction: column; gap: 16px; margin: 28px 0; }
-.analysis-step { display: flex; align-items: center; gap: 14px; font-size: 15px; color: var(--text-dim); opacity: 0; transform: translateX(-10px); transition: all 0.4s ease; }
+.analysis-step { display: flex; align-items: center; gap: 14px; font-size: 17px; color: var(--text-dim); opacity: 0; transform: translateX(-10px); transition: all 0.4s ease; }
 .analysis-step.visible { opacity: 1; transform: translateX(0); color: var(--text); }
-.analysis-step .check { width: 28px; height: 28px; border-radius: 50%; background: rgba(74,227,181,0.12); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.analysis-step .check { width: 28px; height: 28px; border-radius: 50%; background: rgba(74,227,181,0.12); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
 .analysis-step.visible .check { background: var(--accent); color: var(--bg); }
 
 /* Score bars */
 .score-bars { display: flex; flex-direction: column; gap: 18px; margin: 24px 0; }
 .score-bar-row { display: flex; flex-direction: column; gap: 6px; }
-.score-bar-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; }
+.score-bar-header { display: flex; justify-content: space-between; font-size: 16px; font-weight: 600; }
 .score-bar-header span:last-child { color: var(--accent); }
 .score-bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
 .score-bar-fill { height: 100%; border-radius: 5px; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); width: 0; }
@@ -127,8 +127,8 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .timeline-item:nth-child(2)::before { background: var(--blue); box-shadow: 0 0 0 3px rgba(91,155,255,0.2); }
 .timeline-item:nth-child(3)::before { background: var(--purple); box-shadow: 0 0 0 3px rgba(155,125,255,0.2); }
 .timeline-item:nth-child(4)::before { background: var(--gold); box-shadow: 0 0 0 3px rgba(245,200,66,0.2); }
-.timeline-item h4 { font-size: 15px; font-weight: 700; color: var(--text-bright); margin-bottom: 3px; }
-.timeline-item p { font-size: 13px; color: var(--text-dim); line-height: 1.4; }
+.timeline-item h4 { font-size: 17px; font-weight: 700; color: var(--text-bright); margin-bottom: 3px; }
+.timeline-item p { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
 
 /* Email */
 .email-input-group { position: relative; margin: 24px 0 16px; }
@@ -138,7 +138,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 
 /* Pricing */
 .pricing-section { max-width: 500px; margin: 0 auto; }
-.countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 17px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .countdown-banner svg { width: 20px; height: 20px; }
 .plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
 .plan-card-v3 { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
@@ -150,47 +150,47 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .plan-card-v3 .plan-info { flex: 1; }
 .plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
 .plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.plan-card-v3 .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
-.plan-card-v3 .plan-prices .sale { font-size: 15px; color: var(--text); font-weight: 600; }
+.plan-card-v3 .plan-prices .original { font-size: 16px; color: var(--text-dim); text-decoration: line-through; }
+.plan-card-v3 .plan-prices .sale { font-size: 17px; color: var(--text); font-weight: 600; }
 .plan-card-v3 .price-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; position: relative; }
 .plan-card-v3.featured .price-tag { background: rgba(74,227,181,0.1); border-color: rgba(74,227,181,0.3); }
-.plan-card-v3 .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-dollar { font-size: 15px; color: var(--text-dim); vertical-align: super; }
 .plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
 .plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
-.plan-card-v3 .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
-.plan-card-v3 .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
-.popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+.plan-card-v3 .price-tag .tag-cents { font-size: 17px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-per { font-size: 13px; color: var(--text-dim); display: block; margin-top: 2px; }
+.popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
 .plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
-.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 13px; color: var(--text-dim); }
+.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 15px; color: var(--text-dim); }
 .terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
 .terms-check a { color: var(--accent); text-decoration: underline; }
-.legal-text { font-size: 11px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.5; }
+.legal-text { font-size: 13px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.65; }
 .payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
-.payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
-.safe-checkout { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 13px; font-weight: 700; color: var(--text-dim); }
+.safe-checkout { text-align: center; font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
 .safe-checkout strong { color: var(--text); }
 
 /* Embedded Checkout Overlay */
 .checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
 .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
 .checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 17px; }
 .checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
 .checkout-back { padding: 16px 24px 0; }
-.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 16px; cursor: pointer; }
 .checkout-back a:hover { color: var(--text); }
 .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
 .checkout-payment { flex: 1; min-width: 280px; }
 .checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
 .checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
-.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 16px; color: var(--text); padding: 6px 0; }
 .checkout-summary .summary-row.discount { color: #ff6b6b; }
 .checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
 #payment-element { min-height: 200px; }
 #payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
 #payment-submit:hover { opacity: 0.9; }
 #payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-#payment-message { margin-top: 12px; font-size: 13px; color: #ff6b6b; text-align: center; min-height: 20px; }
+#payment-message { margin-top: 12px; font-size: 15px; color: #ff6b6b; text-align: center; min-height: 20px; }
 .checkout-footer { padding: 0 24px 20px; }
 .checkout-footer .safe-checkout { margin-top: 8px; }
 @media (max-width: 540px) {
@@ -199,47 +199,47 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 }
 
 /* Social proof */
-.social-strip { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0; font-size: 13px; color: var(--text-dim); }
+.social-strip { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0; font-size: 15px; color: var(--text-dim); }
 .social-strip .stars { color: var(--gold); letter-spacing: 2px; }
 .social-strip strong { color: var(--text); }
 
 /* Testimonial */
 .testimonial { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 16px 18px; margin: 12px 0; }
-.testimonial p { font-size: 14px; font-style: italic; color: var(--text); line-height: 1.6; }
-.testimonial .t-author { font-size: 12px; color: var(--text-dim); margin-top: 8px; font-style: normal; }
+.testimonial p { font-size: 16px; font-style: italic; color: var(--text); line-height: 1.6; }
+.testimonial .t-author { font-size: 14px; color: var(--text-dim); margin-top: 8px; font-style: normal; }
 
 /* Guarantee */
 .guarantee { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: rgba(74,227,181,0.05); border: 1px solid rgba(74,227,181,0.1); border-radius: var(--radius-sm); margin: 12px 0; }
 .guarantee-icon { font-size: 24px; flex-shrink: 0; }
-.guarantee-text { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+.guarantee-text { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
 .guarantee-text strong { color: var(--text); }
 
 /* Transform card */
 .transform-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 24px 16px; display: flex; align-items: center; justify-content: center; gap: 12px; margin: 20px 0 24px; }
 .transform-side { flex: 1; text-align: center; }
 .transform-side .t-emoji { font-size: 52px; display: block; margin-bottom: 8px; }
-.transform-side .t-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; display: inline-block; margin-bottom: 8px; }
+.transform-side .t-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; display: inline-block; margin-bottom: 8px; }
 .transform-side.before .t-label { background: rgba(255,107,107,0.15); color: var(--danger); }
 .transform-side.after .t-label { background: rgba(74,227,181,0.15); color: var(--accent); }
-.transform-side .t-title { font-size: 14px; font-weight: 700; color: var(--text-bright); line-height: 1.3; }
-.transform-side .t-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.transform-side .t-title { font-size: 16px; font-weight: 700; color: var(--text-bright); line-height: 1.3; }
+.transform-side .t-sub { font-size: 14px; color: var(--text-dim); margin-top: 2px; }
 .transform-arrow { font-size: 24px; color: var(--accent); flex-shrink: 0; }
 
 /* Countdown */
-.countdown-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.15); border-radius: var(--radius-sm); margin: 12px 0 20px; font-size: 14px; color: var(--danger); animation: countdownPulse 3s ease-in-out infinite; }
+.countdown-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.15); border-radius: var(--radius-sm); margin: 12px 0 20px; font-size: 16px; color: var(--danger); animation: countdownPulse 3s ease-in-out infinite; }
 @keyframes countdownPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
 
 /* Routine card */
 .routine-card { background: var(--bg-card); border: 1.5px solid rgba(74,227,181,0.2); border-radius: var(--radius); padding: 0; margin: 20px 0 24px; overflow: hidden; }
 .routine-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: rgba(74,227,181,0.06); border-bottom: 1px solid rgba(74,227,181,0.1); }
-.routine-badge { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); }
+.routine-badge { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); }
 .routine-time { font-family: var(--font-display); font-size: 18px; color: var(--text-bright); }
 .routine-steps { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
 .routine-step { display: flex; align-items: flex-start; gap: 12px; }
-.routine-step-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(74,227,181,0.12); color: var(--accent); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-.routine-step-text { font-size: 14px; line-height: 1.5; color: var(--text); }
+.routine-step-num { width: 26px; height: 26px; border-radius: 50%; background: rgba(74,227,181,0.12); color: var(--accent); font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.routine-step-text { font-size: 16px; line-height: 1.65; color: var(--text); }
 .routine-step-text strong { color: var(--text-bright); }
-.routine-step-text span { color: var(--text-dim); font-size: 13px; }
+.routine-step-text span { color: var(--text-dim); font-size: 15px; }
 
 /* =================== NEW INTERACTIVE ELEMENTS =================== */
 
@@ -251,7 +251,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 }
 .brain-age-needle { position: absolute; bottom: 0; left: 50%; width: 3px; height: 90px; background: var(--text-bright); transform-origin: bottom center; transform: rotate(-90deg); transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1); border-radius: 2px; }
 .brain-age-value { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-size: 42px; color: var(--gold); }
-.brain-age-label { text-align: center; font-size: 14px; color: var(--text-dim); margin-top: 16px; }
+.brain-age-label { text-align: center; font-size: 16px; color: var(--text-dim); margin-top: 16px; }
 
 /* Slider */
 .slider-container { margin: 24px 0; }
@@ -259,7 +259,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .slider-fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--accent), var(--danger)); border-radius: 4px; transition: width 0.15s ease; }
 .slider-thumb { position: absolute; top: 50%; width: 28px; height: 28px; background: var(--text-bright); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 12px rgba(0,0,0,0.3); cursor: grab; transition: box-shadow 0.2s; }
 .slider-thumb:active { cursor: grabbing; box-shadow: 0 4px 20px rgba(74,227,181,0.4); }
-.slider-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-dim); }
+.slider-labels { display: flex; justify-content: space-between; font-size: 15px; color: var(--text-dim); }
 .slider-value { text-align: center; font-family: var(--font-display); font-size: 32px; color: var(--accent); margin-bottom: 8px; }
 
 /* Reaction test */
@@ -269,7 +269,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .reaction-zone.go { background: var(--accent); border-color: var(--accent); }
 .reaction-zone.go * { color: var(--bg) !important; }
 .reaction-zone.too-early { background: rgba(255,107,107,0.15); border-color: var(--danger); }
-.reaction-text { font-family: var(--font-display); font-size: 24px; color: var(--text-bright); text-align: center; line-height: 1.4; }
+.reaction-text { font-family: var(--font-display); font-size: 24px; color: var(--text-bright); text-align: center; line-height: 1.6; }
 
 /* Word recall input */
 .word-recall-display { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0; }
@@ -280,20 +280,20 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .word-input:focus { border-color: var(--accent); }
 .word-submit-btn { padding: 16px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 16px; cursor: pointer; }
 .word-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; min-height: 44px; }
-.word-tag { padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+.word-tag { padding: 8px 14px; border-radius: 20px; font-size: 16px; font-weight: 600; }
 .word-tag.correct { background: rgba(74,227,181,0.15); color: var(--accent); border: 1px solid rgba(74,227,181,0.3); }
 .word-tag.wrong { background: rgba(255,107,107,0.1); color: var(--danger); border: 1px solid rgba(255,107,107,0.2); text-decoration: line-through; }
 .word-tag.missed { background: rgba(255,255,255,0.05); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.08); }
 
 /* Urgency banner */
-.urgency-banner { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(255,107,107,0.08)); border: 1px solid rgba(245,200,66,0.2); border-radius: var(--radius-sm); margin: 16px 0; font-size: 14px; color: var(--gold); }
+.urgency-banner { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(255,107,107,0.08)); border: 1px solid rgba(245,200,66,0.2); border-radius: var(--radius-sm); margin: 16px 0; font-size: 16px; color: var(--gold); }
 
 /* Floating social proof toast */
-.social-toast { position: fixed; bottom: 24px; left: 24px; background: var(--bg-card); border: 1px solid rgba(74,227,181,0.15); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text); z-index: 200; transform: translateY(120%); opacity: 0; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); max-width: 320px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.social-toast { position: fixed; bottom: 24px; left: 24px; background: var(--bg-card); border: 1px solid rgba(74,227,181,0.15); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text); z-index: 200; transform: translateY(120%); opacity: 0; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); max-width: 320px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
 .social-toast.visible { transform: translateY(0); opacity: 1; }
 .social-toast .toast-icon { font-size: 20px; flex-shrink: 0; }
-.social-toast .toast-text { line-height: 1.4; }
-.social-toast .toast-time { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.social-toast .toast-text { line-height: 1.6; }
+.social-toast .toast-time { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
 
 /* Number sequence test */
 .num-sequence { display: flex; justify-content: center; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
@@ -306,7 +306,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .num-input-box.wrong { border-color: var(--danger); background: rgba(255,107,107,0.1); }
 
 /* Trust row */
-.trust-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; font-size: 12px; color: var(--text-dim); text-align: center; line-height: 1.4; }
+.trust-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; font-size: 14px; color: var(--text-dim); text-align: center; line-height: 1.6; }
 
 /* Micro-interaction: check mark pop */
 @keyframes checkPop { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
@@ -316,9 +316,9 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
 .concern-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--bg-card); border: 1.5px solid rgba(255,255,255,0.07); border-radius: var(--radius-sm); margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
 .concern-item:hover { border-color: rgba(74,227,181,0.2); background: var(--bg-card-hover); }
 .concern-item.checked { border-color: var(--accent); background: var(--accent-glow); }
-.concern-check { width: 24px; height: 24px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; font-size: 14px; color: transparent; }
+.concern-check { width: 24px; height: 24px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; font-size: 16px; color: transparent; }
 .concern-item.checked .concern-check { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-.concern-label { font-size: 15px; color: var(--text); }
+.concern-label { font-size: 17px; color: var(--text); }
 
 /* Responsive */
 @media (max-width: 400px) {
@@ -341,16 +341,16 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     <!-- STEP 0: EMOTIONAL HOOK OPENER -->
     <div class="screen active" data-step="0">
       <div style="text-align:center; padding-top: 12px;">
-        <div style="font-size:13px; color:var(--danger); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px;">Free 90-Second Assessment</div>
+        <div style="font-size:15px; color:var(--danger); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px;">Free 90-Second Assessment</div>
         <h1 class="screen-title" style="text-align:center; font-size:clamp(28px,6vw,38px);">What if your memory <em style="color:var(--danger)">isn't</em> what it used to be?</h1>
         <p class="screen-subtitle" style="text-align:center; max-width:400px; margin: 16px auto 28px;">You've noticed it. The word that won't come. The name you should know. That nagging feeling something's <strong style="color:var(--danger)">slipping away</strong>.</p>
         <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:28px;">
-          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:14px; color:var(--text-dim);">Forgetting names</span>
-          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:14px; color:var(--text-dim);">Losing your train of thought</span>
-          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:14px; color:var(--text-dim);">Walking into rooms blank</span>
-          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:14px; color:var(--text-dim);">Misplacing things</span>
+          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:16px; color:var(--text-dim);">Forgetting names</span>
+          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:16px; color:var(--text-dim);">Losing your train of thought</span>
+          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:16px; color:var(--text-dim);">Walking into rooms blank</span>
+          <span style="padding:8px 16px; background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; font-size:16px; color:var(--text-dim);">Misplacing things</span>
         </div>
-        <p style="font-size:15px; color:var(--text); margin-bottom:32px; line-height:1.6;">Take this quick brain age test to find out where you really stand — <strong style="color:var(--accent)">before it gets worse</strong>.</p>
+        <p style="font-size:17px; color:var(--text); margin-bottom:32px; line-height:1.6;">Take this quick brain age test to find out where you really stand — <strong style="color:var(--accent)">before it gets worse</strong>.</p>
         <button class="cta-btn cta-primary" onclick="goNext()" style="max-width:360px; margin:0 auto; display:block;">Discover My Brain Age — Free</button>
         <div class="trust-row" style="margin-top:16px;">
           <span>🔒 90 seconds · No signup needed · <strong style="color:var(--text)">14,283</strong> tests taken this week</span>
@@ -361,8 +361,8 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     <!-- STEP 1: SOCIAL PROOF + AUTHORITY -->
     <div class="screen" data-step="1">
       <div style="text-align:center; margin-bottom:24px;">
-        <div style="font-size:12px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:8px;">As Seen In Research From</div>
-        <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; opacity:0.4; font-size:14px; font-weight:700; color:var(--text); margin-bottom:20px;">
+        <div style="font-size:14px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:8px;">As Seen In Research From</div>
+        <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; opacity:0.4; font-size:16px; font-weight:700; color:var(--text); margin-bottom:20px;">
           <span>Harvard Health</span>
           <span>Mayo Clinic</span>
           <span>NIH</span>
@@ -438,7 +438,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
       <div class="info-card" id="validationCard">
         <p><span class="info-stat">3 in 4</span> adults over 50 experience exactly what you described.</p>
         <p style="margin-top:16px;">The good news? <strong style="color:var(--accent)">Your brain can still form new neural pathways at any age.</strong> Targeted exercises have been shown to improve memory recall in as little as 14 days.</p>
-        <p style="margin-top:16px; font-size:14px; color:var(--text-dim);">The only question is: <em>will you train it, or let it keep declining?</em></p>
+        <p style="margin-top:16px; font-size:16px; color:var(--text-dim);">The only question is: <em>will you train it, or let it keep declining?</em></p>
       </div>
       <div class="urgency-banner">
         <span>⚡</span>
@@ -450,7 +450,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     <!-- STEP 5: INTERACTIVE TEST 1 — Number Sequence Memory -->
     <div class="screen" data-step="5">
       <div style="text-align:center;">
-        <div style="font-size:12px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:12px;">Test 1 of 3</div>
+        <div style="font-size:14px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:12px;">Test 1 of 3</div>
         <h1 class="screen-title" style="text-align:center;">Number Memory</h1>
         <p class="screen-subtitle" style="text-align:center;">Memorize these numbers. You'll have <strong>6 seconds</strong> — then they disappear.</p>
         <div class="num-sequence" id="numDisplay"></div>
@@ -459,7 +459,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         </div>
         <div id="numPhase2" style="display:none; margin-top:20px;">
           <div class="memory-timer" id="numTimer">6</div>
-          <p style="color:var(--text-dim); font-size:14px;">Memorize them!</p>
+          <p style="color:var(--text-dim); font-size:16px;">Memorize them!</p>
         </div>
         <div id="numPhase3" style="display:none;">
           <p style="color:var(--text); font-size:16px; margin-bottom:16px; font-weight:600;">Type the numbers in order:</p>
@@ -472,7 +472,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     <!-- STEP 6: INTERACTIVE TEST 2 — Reaction Speed -->
     <div class="screen" data-step="6">
       <div style="text-align:center;">
-        <div style="font-size:12px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:12px;">Test 2 of 3</div>
+        <div style="font-size:14px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:12px;">Test 2 of 3</div>
         <h1 class="screen-title" style="text-align:center;">Reaction Speed</h1>
         <p class="screen-subtitle" style="text-align:center;">When the box turns <strong style="color:var(--accent)">green</strong>, tap it as fast as you can. This measures your mental processing speed.</p>
         <div class="reaction-zone waiting" id="reactionZone" onclick="handleReaction()">
@@ -480,7 +480,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         </div>
         <div id="reactionResult" style="display:none; margin-top:16px;">
           <div style="font-family:var(--font-display); font-size:48px; color:var(--accent); text-align:center;" id="reactionMs">--</div>
-          <div style="font-size:14px; color:var(--text-dim); text-align:center; margin-bottom:20px;" id="reactionLabel">milliseconds</div>
+          <div style="font-size:16px; color:var(--text-dim); text-align:center; margin-bottom:20px;" id="reactionLabel">milliseconds</div>
           <button class="cta-btn cta-primary" onclick="goNext()" style="max-width:300px; margin:0 auto; display:block;">Continue to final test</button>
         </div>
       </div>
@@ -489,7 +489,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
     <!-- STEP 7: INTERACTIVE TEST 3 — Word Recall -->
     <div class="screen" data-step="7">
       <div style="text-align:center;">
-        <div style="font-size:12px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:12px;">Test 3 of 3</div>
+        <div style="font-size:14px; letter-spacing:1.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:12px;">Test 3 of 3</div>
         <h1 class="screen-title" style="text-align:center;">Word Recall</h1>
         <p class="screen-subtitle" style="text-align:center;">You'll see <strong>8 words</strong> for 10 seconds. Then type as many as you can remember.</p>
         <div id="wordPhase1">
@@ -498,7 +498,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         <div id="wordPhase2" style="display:none;">
           <div class="word-recall-display" id="wordDisplay"></div>
           <div class="memory-timer" id="wordTimer">10</div>
-          <p style="color:var(--text-dim); font-size:14px;">Read them carefully!</p>
+          <p style="color:var(--text-dim); font-size:16px;">Read them carefully!</p>
         </div>
         <div id="wordPhase3" style="display:none;">
           <p style="color:var(--text); font-size:16px; margin-bottom:12px; font-weight:600;">Type each word you remember and press Enter:</p>
@@ -507,7 +507,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
             <input type="text" class="word-input" id="wordInput" placeholder="Type a word..." autocomplete="off" autocapitalize="none">
             <button class="word-submit-btn" onclick="submitWord()">+</button>
           </div>
-          <p style="font-size:13px; color:var(--text-dim); margin:8px 0;" id="wordCount">0 of 8 recalled</p>
+          <p style="font-size:15px; color:var(--text-dim); margin:8px 0;" id="wordCount">0 of 8 recalled</p>
           <button class="cta-btn cta-primary" onclick="finishWordTest()" style="max-width:300px; margin:16px auto 0; display:block;">I'm done — show my results</button>
         </div>
       </div>
@@ -596,7 +596,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         <div class="timeline-item"><h4>Week 4 — Transformation</h4><p>Compare your brain age to Day 1. See exactly how far you've come.</p></div>
       </div>
       <div style="background:linear-gradient(135deg,rgba(74,227,181,0.1),rgba(155,125,255,0.08)); border:1px solid rgba(74,227,181,0.15); border-radius:var(--radius); padding:24px; text-align:center; margin:20px 0;">
-        <p style="font-size:14px; color:var(--text-dim);">Users with your brain age profile who follow their plan see an average</p>
+        <p style="font-size:16px; color:var(--text-dim);">Users with your brain age profile who follow their plan see an average</p>
         <p style="margin-top:8px;"><span style="font-family:var(--font-display); font-size:52px; color:var(--accent); display:block;">8–14 year</span></p>
         <p style="font-size:16px; font-weight:600;">brain age improvement in 30 days</p>
       </div>
@@ -657,8 +657,8 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Choose your plan</h2>
 
         <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-          <div style="font-size:14px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--text,#E8ECF4);line-height:1.5;">
+          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
@@ -738,13 +738,13 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
       </div>
 
       <div style="text-align:center; margin-top:16px; padding:16px; background:var(--bg-card); border-radius:var(--radius-sm); border:1px solid rgba(255,255,255,0.06);">
-        <div style="font-size:13px; color:var(--text-dim); margin-bottom:8px;">Join <strong style="color:var(--text);">12,400+</strong> people already improving their memory</div>
+        <div style="font-size:15px; color:var(--text-dim); margin-bottom:8px;">Join <strong style="color:var(--text);">12,400+</strong> people already improving their memory</div>
         <div style="display:flex; justify-content:center; gap:-4px;">
-          <div style="width:32px; height:32px; border-radius:50%; background:var(--accent); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:14px;">P</div>
-          <div style="width:32px; height:32px; border-radius:50%; background:var(--purple); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:14px; margin-left:-8px;">M</div>
-          <div style="width:32px; height:32px; border-radius:50%; background:var(--blue); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:14px; margin-left:-8px;">R</div>
-          <div style="width:32px; height:32px; border-radius:50%; background:var(--gold); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:14px; margin-left:-8px;">D</div>
-          <div style="width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:12px; margin-left:-8px; color:var(--text-dim);">+</div>
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--accent); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:16px;">P</div>
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--purple); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:16px; margin-left:-8px;">M</div>
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--blue); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:16px; margin-left:-8px;">R</div>
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--gold); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:16px; margin-left:-8px;">D</div>
+          <div style="width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:14px; margin-left:-8px; color:var(--text-dim);">+</div>
         </div>
       </div>
     </div>
@@ -932,7 +932,7 @@ function handleReaction() {
 
     if (reactionAttempts < 3) {
       zone.className = 'reaction-zone waiting';
-      text.innerHTML = `<span style="color:var(--accent); font-size:32px">${ms}ms</span><br><span style="font-size:14px; color:var(--text-dim)">Attempt ${reactionAttempts}/3 — Tap to go again</span>`;
+      text.innerHTML = `<span style="color:var(--accent); font-size:32px">${ms}ms</span><br><span style="font-size:16px; color:var(--text-dim)">Attempt ${reactionAttempts}/3 — Tap to go again</span>`;
       reactionState = 'idle';
     } else {
       zone.style.display = 'none';
@@ -1080,7 +1080,7 @@ function showBrainAge() {
     document.getElementById('brainInsight').innerHTML = `
       <p style="font-size:17px; font-weight:600; color:var(--text-bright); margin-bottom:12px;">Your brain age is <span style="color:${diff > 5 ? 'var(--danger)' : 'var(--gold)'}">${state.brainAge}</span> — ${diff > 0 ? `${diff} years older than it should be.` : 'performing well!'}</p>
       <p>Your weakest area is <strong style="color:var(--gold)">${labels[weakest[0]]}</strong> at just ${weakest[1]}%. ${diff > 0 ? 'But this is also the area with the most room for rapid improvement.' : 'A targeted plan can help you maintain and even improve from here.'}</p>
-      <p style="margin-top:12px; font-size:14px; color:var(--text-dim);">${diff > 3 ? 'The good news: most users with your profile reduce their brain age by 8–14 years within 30 days of training.' : 'With consistent training, you can stay sharp well into your 80s and beyond.'}</p>
+      <p style="margin-top:12px; font-size:16px; color:var(--text-dim);">${diff > 3 ? 'The good news: most users with your profile reduce their brain age by 8–14 years within 30 days of training.' : 'With consistent training, you can stay sharp well into your 80s and beyond.'}</p>
     `;
   }, 800);
 }

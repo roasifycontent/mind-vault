@@ -45,7 +45,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 /* Nav */
 .top-nav { width: 100%; max-width: var(--max-w); display: flex; align-items: center; justify-content: space-between; padding: 20px 0 12px; }
 .logo { font-family: var(--font-display); font-size: 22px; color: var(--accent); font-weight: 700; }
-.nav-badge { font-size: 11px; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; }
+.nav-badge { font-size: 13px; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; }
 
 /* Screens */
 .screen-container { width: 100%; max-width: var(--max-w); flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 0 40px;}
@@ -60,7 +60,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .screen-subtitle { font-size: 16px; color: var(--text-dim); line-height: 1.7; margin-bottom: 28px; }
 .screen-subtitle strong { color: var(--accent); font-weight: 600; }
 .screen-subtitle em { color: var(--text-bright); font-style: normal; font-weight: 600; }
-.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.section-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
 .label-medical { color: var(--blue); }
 .label-warning { color: var(--warning); }
 .label-green { color: var(--accent); }
@@ -83,22 +83,22 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .warning-card { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 14px; display: flex; gap: 16px; align-items: flex-start; }
 .warning-num { width: 36px; height: 36px; border-radius: 50%; background: var(--warning-light); color: var(--warning); font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .warning-card h4 { font-size: 16px; font-weight: 700; color: var(--text-bright); margin-bottom: 4px; }
-.warning-card p { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
+.warning-card p { font-size: 16px; color: var(--text-dim); line-height: 1.65; }
 
 /* Severity slider */
 .severity-group { margin-bottom: 28px; }
-.severity-label { font-size: 15px; font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
-.severity-desc { font-size: 13px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.5; }
+.severity-label { font-size: 17px; font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
+.severity-desc { font-size: 15px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.65; }
 .severity-track { position: relative; height: 8px; background: #E8E4DD; border-radius: 4px; margin: 0 4px; cursor: pointer; }
 .severity-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; transition: width 0.15s, background 0.3s; }
 .severity-thumb { position: absolute; top: 50%; width: 30px; height: 30px; background: #fff; border: 3px solid var(--accent); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,0.12); cursor: grab; transition: border-color 0.3s; }
 .severity-thumb:active { cursor: grabbing; }
-.severity-anchors { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-dim); }
-.severity-value { text-align: right; font-size: 13px; font-weight: 600; margin-top: 4px; transition: color 0.3s; }
+.severity-anchors { display: flex; justify-content: space-between; margin-top: 8px; font-size: 14px; color: var(--text-dim); }
+.severity-value { text-align: right; font-size: 15px; font-weight: 600; margin-top: 4px; transition: color 0.3s; }
 
 /* Frequency selector */
 .freq-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.freq-btn { padding: 10px 16px; border-radius: 24px; border: 1.5px solid rgba(0,0,0,0.1); background: var(--bg-card); color: var(--text); font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.freq-btn { padding: 10px 16px; border-radius: 24px; border: 1.5px solid rgba(0,0,0,0.1); background: var(--bg-card); color: var(--text); font-family: var(--font-body); font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
 .freq-btn:hover { border-color: var(--accent); background: var(--accent-light); }
 .freq-btn.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
 
@@ -106,7 +106,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .risk-meter { position: relative; margin: 28px auto; width: 100%; max-width: 360px; }
 .risk-bar-bg { height: 16px; border-radius: 8px; background: linear-gradient(90deg, var(--accent), #7AB648, #D4C40F, #D4880F, var(--danger)); overflow: visible; position: relative; }
 .risk-indicator { position: absolute; top: -8px; width: 4px; height: 32px; background: var(--text-bright); border-radius: 2px; transition: left 1.5s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.risk-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; font-weight: 600; }
+.risk-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; font-weight: 600; }
 .risk-labels span:first-child { color: var(--accent); }
 .risk-labels span:last-child { color: var(--danger); }
 .risk-score { text-align: center; margin-top: 20px; }
@@ -115,16 +115,16 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 
 /* Stat pills */
 .stat-pills { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
-.stat-pill { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: 24px; padding: 8px 16px; font-size: 13px; color: var(--text-dim); box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; }
+.stat-pill { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: 24px; padding: 8px 16px; font-size: 15px; color: var(--text-dim); box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; }
 .stat-pill strong { color: var(--text-bright); }
 
 /* Testimonial */
 .testimonial-card { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin: 16px 0; }
-.testimonial-card .stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 10px; }
+.testimonial-card .stars { color: var(--gold); font-size: 16px; letter-spacing: 2px; margin-bottom: 10px; }
 .testimonial-card blockquote { font-family: var(--font-display); font-size: 16px; font-style: italic; color: var(--text-bright); line-height: 1.6; margin-bottom: 12px; }
-.testimonial-card .author { font-size: 13px; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
-.testimonial-card .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
-.testimonial-card .verified { color: var(--accent); font-size: 12px; font-weight: 600; }
+.testimonial-card .author { font-size: 15px; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
+.testimonial-card .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.testimonial-card .verified { color: var(--accent); font-size: 14px; font-weight: 600; }
 
 /* Checklist results */
 .result-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
@@ -133,8 +133,8 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .result-icon.good { background: var(--accent-light); color: var(--accent); }
 .result-icon.warn { background: var(--warning-light); color: var(--warning); }
 .result-icon.bad { background: var(--danger-light); color: var(--danger); }
-.result-text h4 { font-size: 14px; font-weight: 700; color: var(--text-bright); margin-bottom: 2px; }
-.result-text p { font-size: 13px; color: var(--text-dim); line-height: 1.4; }
+.result-text h4 { font-size: 16px; font-weight: 700; color: var(--text-bright); margin-bottom: 2px; }
+.result-text p { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
 
 /* Email */
 .email-input { width: 100%; padding: 16px 18px; background: var(--bg-card); border: 1.5px solid rgba(0,0,0,0.1); border-radius: var(--radius-sm); color: var(--text-bright); font-family: var(--font-body); font-size: 16px; outline: none; transition: border-color 0.2s; }
@@ -143,7 +143,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 
 /* Pricing v3 */
 .pricing-section { max-width: 500px; margin: 0 auto; }
-.countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 17px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .countdown-banner svg { width: 20px; height: 20px; }
 .plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
 .plan-card-v3 { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
@@ -155,47 +155,47 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .plan-card-v3 .plan-info { flex: 1; }
 .plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
 .plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.plan-card-v3 .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
-.plan-card-v3 .plan-prices .sale { font-size: 15px; color: var(--text); font-weight: 600; }
+.plan-card-v3 .plan-prices .original { font-size: 16px; color: var(--text-dim); text-decoration: line-through; }
+.plan-card-v3 .plan-prices .sale { font-size: 17px; color: var(--text); font-weight: 600; }
 .plan-card-v3 .price-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; }
 .plan-card-v3.featured .price-tag { background: rgba(74,227,181,0.1); border-color: rgba(74,227,181,0.3); }
-.plan-card-v3 .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-dollar { font-size: 15px; color: var(--text-dim); vertical-align: super; }
 .plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
 .plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
-.plan-card-v3 .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
-.plan-card-v3 .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
-.popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+.plan-card-v3 .price-tag .tag-cents { font-size: 17px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-per { font-size: 13px; color: var(--text-dim); display: block; margin-top: 2px; }
+.popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
 .plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
-.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 13px; color: var(--text-dim); }
+.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 15px; color: var(--text-dim); }
 .terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
 .terms-check a { color: var(--accent); text-decoration: underline; }
-.legal-text { font-size: 11px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.5; }
+.legal-text { font-size: 13px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.65; }
 .payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
-.payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
-.safe-checkout { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 13px; font-weight: 700; color: var(--text-dim); }
+.safe-checkout { text-align: center; font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
 .safe-checkout strong { color: var(--text); }
 
 /* Embedded Checkout Overlay */
 .checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
 .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
 .checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 17px; }
 .checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
 .checkout-back { padding: 16px 24px 0; }
-.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 16px; cursor: pointer; }
 .checkout-back a:hover { color: var(--text); }
 .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
 .checkout-payment { flex: 1; min-width: 280px; }
 .checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
 .checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
-.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 16px; color: var(--text); padding: 6px 0; }
 .checkout-summary .summary-row.discount { color: #ff6b6b; }
 .checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
 #payment-element { min-height: 200px; }
 #payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
 #payment-submit:hover { opacity: 0.9; }
 #payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-#payment-message { margin-top: 12px; font-size: 13px; color: #ff6b6b; text-align: center; min-height: 20px; }
+#payment-message { margin-top: 12px; font-size: 15px; color: #ff6b6b; text-align: center; min-height: 20px; }
 .checkout-footer { padding: 0 24px 20px; }
 .checkout-footer .safe-checkout { margin-top: 8px; }
 @media (max-width: 540px) {
@@ -206,27 +206,27 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 /* Doctor quote */
 .doctor-card { background: var(--blue-light); border: 1px solid rgba(46,107,158,0.15); border-radius: var(--radius); padding: 20px; margin: 16px 0; display: flex; gap: 14px; align-items: flex-start; }
 .doctor-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.doctor-text { font-size: 15px; color: var(--text); line-height: 1.6; font-style: italic; }
-.doctor-name { font-size: 12px; color: var(--blue); font-weight: 700; margin-top: 8px; font-style: normal; }
+.doctor-text { font-size: 17px; color: var(--text); line-height: 1.6; font-style: italic; }
+.doctor-name { font-size: 14px; color: var(--blue); font-weight: 700; margin-top: 8px; font-style: normal; }
 
 /* Guarantee */
 .guarantee { display: flex; gap: 12px; padding: 16px; background: var(--accent-light); border: 1px solid rgba(45,122,95,0.15); border-radius: var(--radius-sm); margin: 16px 0; align-items: flex-start; }
 .guarantee-icon { font-size: 22px; flex-shrink: 0; }
-.guarantee-text { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+.guarantee-text { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
 .guarantee-text strong { color: var(--text-bright); }
 
 /* Countdown */
-.countdown-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: var(--danger-light); border: 1px solid rgba(192,57,43,0.15); border-radius: var(--radius-sm); margin: 12px 0 20px; font-size: 14px; color: var(--danger); font-weight: 600; }
+.countdown-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: var(--danger-light); border: 1px solid rgba(192,57,43,0.15); border-radius: var(--radius-sm); margin: 12px 0 20px; font-size: 16px; color: var(--danger); font-weight: 600; }
 
 /* Payment */
-.payment-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0; font-size: 12px; color: var(--text-dim); }
+.payment-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0; font-size: 14px; color: var(--text-dim); }
 .payment-row span { background: rgba(0,0,0,0.04); padding: 4px 8px; border-radius: 4px; font-weight: 600; }
 
 /* Comparison table */
 .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-.compare-table th { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 10px 8px; text-align: left; border-bottom: 2px solid rgba(0,0,0,0.06); }
+.compare-table th { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 10px 8px; text-align: left; border-bottom: 2px solid rgba(0,0,0,0.06); }
 .compare-table th:last-child { text-align: center; color: var(--accent); }
-.compare-table td { padding: 12px 8px; font-size: 14px; color: var(--text); border-bottom: 1px solid rgba(0,0,0,0.04); }
+.compare-table td { padding: 12px 8px; font-size: 16px; color: var(--text); border-bottom: 1px solid rgba(0,0,0,0.04); }
 .compare-table td:last-child { text-align: center; font-weight: 600; }
 .compare-table .check-yes { color: var(--accent); font-size: 18px; }
 .compare-table .check-no { color: #ccc; font-size: 18px; }
@@ -235,21 +235,21 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .ticker-wrap { overflow: hidden; margin: 16px -20px; padding: 12px 0; background: rgba(45,122,95,0.04); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); }
 .ticker { display: flex; gap: 40px; animation: tickerScroll 30s linear infinite; white-space: nowrap; }
 @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.ticker-item { font-size: 13px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.ticker-item { font-size: 15px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .ticker-item strong { color: var(--text); }
 
 /* Floating notification */
-.notif { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--bg-card); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius); padding: 14px 20px; box-shadow: var(--shadow-lg); z-index: 200; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); max-width: 360px; width: calc(100% - 40px); display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text); }
+.notif { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--bg-card); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius); padding: 14px 20px; box-shadow: var(--shadow-lg); z-index: 200; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); max-width: 360px; width: calc(100% - 40px); display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text); }
 .notif.visible { transform: translateX(-50%) translateY(0); }
 .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
 /* Trust bar */
-.trust-bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: var(--text-dim); margin-top: 16px; text-align: center; line-height: 1.4; }
+.trust-bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px; color: var(--text-dim); margin-top: 16px; text-align: center; line-height: 1.6; }
 
 /* Responsive */
 @media (max-width: 400px) {
   .freq-options { gap: 6px; }
-  .freq-btn { padding: 8px 12px; font-size: 13px; }
+  .freq-btn { padding: 8px 12px; font-size: 15px; }
   .stat-pills { gap: 6px; }
 }
 </style>
@@ -374,13 +374,13 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <h1 class="screen-title">When did you first notice these changes?</h1>
       <p class="screen-subtitle">Memory changes often creep in gradually. Understanding the timeline helps us assess <strong>how much can be recovered</strong>.</p>
       <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectOnset(this, 'recent')">📅 In the last few months</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectOnset(this, '1year')">📆 About a year ago</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectOnset(this, '2-3years')">🗓️ 2–3 years — it's gotten gradually worse</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectOnset(this, 'long')">🕰️ Longer than I'd like to admit</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, 'recent')">📅 In the last few months</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, '1year')">📆 About a year ago</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, '2-3years')">🗓️ 2–3 years — it's gotten gradually worse</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, 'long')">🕰️ Longer than I'd like to admit</button>
       </div>
       <div class="card-highlight card" style="margin-top:20px;">
-        <p style="font-size:14px; line-height:1.6;">💡 <strong>Good to know:</strong> The NIH ACTIVE study found that cognitive training produced benefits even when started <strong>10 years</strong> after initial decline. It's never too late — but earlier is always better.</p>
+        <p style="font-size:16px; line-height:1.6;">💡 <strong>Good to know:</strong> The NIH ACTIVE study found that cognitive training produced benefits even when started <strong>10 years</strong> after initial decline. It's never too late — but earlier is always better.</p>
       </div>
     </div>
 
@@ -390,11 +390,11 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <h1 class="screen-title">What worries you most about your memory?</h1>
       <p class="screen-subtitle">This is the part most people find hard to say out loud. <strong>You're safe here.</strong></p>
       <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectWorry(this, 'embarrass')">😔 Being embarrassed in front of others</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectWorry(this, 'family')">👨‍👩‍👧 My family noticing before I do</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectWorry(this, 'worse')">📉 That it will keep getting worse</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectWorry(this, 'independence')">🏠 Losing my independence one day</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectWorry(this, 'nothing')">🤷 I'm not too worried — just want to stay sharp</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'embarrass')">😔 Being embarrassed in front of others</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'family')">👨‍👩‍👧 My family noticing before I do</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'worse')">📉 That it will keep getting worse</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'independence')">🏠 Losing my independence one day</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'nothing')">🤷 I'm not too worried — just want to stay sharp</button>
       </div>
     </div>
 
@@ -404,10 +404,10 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <h1 class="screen-title">Have you tried anything to improve your memory?</h1>
       <p class="screen-subtitle">Most people do <em>something</em> — crosswords, supplements, puzzles. But most of it <strong>doesn't target the right skills</strong>.</p>
       <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectPrior(this, 'puzzles')">📰 Crosswords, Sudoku, word games</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectPrior(this, 'supplements')">💊 Supplements or vitamins</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectPrior(this, 'apps')">📱 Brain training apps</button>
-        <button class="freq-btn" style="width:100%; padding:16px; font-size:15px; text-align:left;" onclick="selectPrior(this, 'nothing')">🤷 Nothing specific — I didn't know where to start</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'puzzles')">📰 Crosswords, Sudoku, word games</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'supplements')">💊 Supplements or vitamins</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'apps')">📱 Brain training apps</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'nothing')">🤷 Nothing specific — I didn't know where to start</button>
       </div>
     </div>
 
@@ -421,24 +421,24 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       </div>
       <div style="display:flex; flex-direction:column; gap:14px; margin:20px 0;" id="analysisSteps">
         <div class="analysis-item" id="ai1" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;" class="ai-check">⏳</div>
-          <span style="font-size:14px;">Evaluating symptom severity</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Evaluating symptom severity</span>
         </div>
         <div class="analysis-item" id="ai2" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;" class="ai-check">⏳</div>
-          <span style="font-size:14px;">Comparing to age-group baselines</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Comparing to age-group baselines</span>
         </div>
         <div class="analysis-item" id="ai3" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;" class="ai-check">⏳</div>
-          <span style="font-size:14px;">Identifying at-risk cognitive areas</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Identifying at-risk cognitive areas</span>
         </div>
         <div class="analysis-item" id="ai4" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;" class="ai-check">⏳</div>
-          <span style="font-size:14px;">Calculating your memory health score</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Calculating your memory health score</span>
         </div>
         <div class="analysis-item" id="ai5" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;" class="ai-check">⏳</div>
-          <span style="font-size:14px;">Preparing your personalised action plan</span>
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Preparing your personalised action plan</span>
         </div>
       </div>
     </div>
@@ -484,16 +484,16 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 
       <div class="card" style="padding:0; overflow:hidden;">
         <div style="padding:16px 20px; background:var(--accent-light); border-bottom:1px solid rgba(45,122,95,0.1);">
-          <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--accent);">What the research says</div>
+          <div style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--accent);">What the research says</div>
         </div>
         <div style="padding:20px;">
           <div style="display:flex; gap:16px; margin-bottom:16px; align-items:center;">
             <div style="font-family:var(--font-display); font-size:42px; color:var(--accent); line-height:1;">82%</div>
-            <div style="font-size:14px; color:var(--text); line-height:1.5;">of adults who used targeted cognitive exercises showed measurable improvement within 14 days (NIH ACTIVE Study, 10-year follow-up)</div>
+            <div style="font-size:16px; color:var(--text); line-height:1.65;">of adults who used targeted cognitive exercises showed measurable improvement within 14 days (NIH ACTIVE Study, 10-year follow-up)</div>
           </div>
           <div style="display:flex; gap:16px; align-items:center;">
             <div style="font-family:var(--font-display); font-size:42px; color:var(--accent); line-height:1;">5</div>
-            <div style="font-size:14px; color:var(--text); line-height:1.5;">minutes per day is all it takes. More than puzzles, less than you'd expect.</div>
+            <div style="font-size:16px; color:var(--text); line-height:1.65;">minutes per day is all it takes. More than puzzles, less than you'd expect.</div>
           </div>
         </div>
       </div>
@@ -531,16 +531,16 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 
       <div class="card" style="padding:0; overflow:hidden;">
         <div style="padding:14px 20px; background:var(--accent-light); border-bottom:1px solid rgba(45,122,95,0.1); display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--accent);">Daily Routine</span>
+          <span style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--accent);">Daily Routine</span>
           <span style="font-family:var(--font-display); font-size:18px; color:var(--text-bright);">5 min/day</span>
         </div>
         <div style="padding:16px 20px; display:flex; flex-direction:column; gap:12px;" id="planRoutine"></div>
       </div>
 
       <div class="card" style="text-align:center;">
-        <p style="font-size:14px; color:var(--text-dim); margin-bottom:8px;">Users with your score who follow their plan see an average</p>
+        <p style="font-size:16px; color:var(--text-dim); margin-bottom:8px;">Users with your score who follow their plan see an average</p>
         <div style="font-family:var(--font-display); font-size:48px; color:var(--accent);" id="planImprovement">+28 points</div>
-        <p style="font-size:14px; font-weight:600;">improvement in memory health score within 30 days</p>
+        <p style="font-size:16px; font-weight:600;">improvement in memory health score within 30 days</p>
       </div>
 
       <div class="testimonial-card">
@@ -562,7 +562,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
       <p class="screen-subtitle">We'll send your full report — including your <strong>risk score</strong>, <strong>weak areas</strong>, and <strong>personalised plan</strong> — straight to your inbox.</p>
 
       <div class="card-warning card">
-        <p style="font-size:14px; line-height:1.5;"><strong>⏰ Your results are time-sensitive.</strong> Without action, the cognitive areas flagged in your report will continue to weaken. Save your report now so you can reference it when you're ready to start.</p>
+        <p style="font-size:16px; line-height:1.65;"><strong>⏰ Your results are time-sensitive.</strong> Without action, the cognitive areas flagged in your report will continue to weaken. Save your report now so you can reference it when you're ready to start.</p>
       </div>
 
       <div style="margin:20px 0 12px;">
@@ -606,8 +606,8 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
         <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Choose your plan</h2>
 
         <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-          <div style="font-size:14px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--text,#E8ECF4);line-height:1.5;">
+          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
@@ -876,7 +876,7 @@ function showResults() {
 
   // Warning card
   const worst = areas[0];
-  document.getElementById('resultWarning').innerHTML = `<p style="font-size:14px; line-height:1.6;"><strong>⚠️ Priority area: ${worst.name}</strong><br>This is where you're experiencing the most difficulty. Without intervention, this area typically declines 5–8% per year. With targeted training, most people see improvement within 2 weeks.</p>`;
+  document.getElementById('resultWarning').innerHTML = `<p style="font-size:16px; line-height:1.6;"><strong>⚠️ Priority area: ${worst.name}</strong><br>This is where you're experiencing the most difficulty. Without intervention, this area typically declines 5–8% per year. With targeted training, most people see improvement within 2 weeks.</p>`;
 
   // Doctor advice
   const worryText = {
@@ -905,16 +905,16 @@ function showPlan() {
 
   document.getElementById('planRoutine').innerHTML = `
     <div style="display:flex; gap:12px; align-items:flex-start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
-      <div style="font-size:14px; line-height:1.5;"><strong>${primary.games[0]}</strong> — 2 min<br><span style="color:var(--text-dim); font-size:13px;">Primary: ${primary.name}</span></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+      <div style="font-size:16px; line-height:1.65;"><strong>${primary.games[0]}</strong> — 2 min<br><span style="color:var(--text-dim); font-size:15px;">Primary: ${primary.name}</span></div>
     </div>
     <div style="display:flex; gap:12px; align-items:flex-start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
-      <div style="font-size:14px; line-height:1.5;"><strong>${secondary.games[0]}</strong> — 2 min<br><span style="color:var(--text-dim); font-size:13px;">Secondary: ${secondary.name}</span></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+      <div style="font-size:16px; line-height:1.65;"><strong>${secondary.games[0]}</strong> — 2 min<br><span style="color:var(--text-dim); font-size:15px;">Secondary: ${secondary.name}</span></div>
     </div>
     <div style="display:flex; gap:12px; align-items:flex-start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
-      <div style="font-size:14px; line-height:1.5;"><strong>${primary.games[1]}</strong> — 1 min<br><span style="color:var(--text-dim); font-size:13px;">Reinforcement round</span></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+      <div style="font-size:16px; line-height:1.65;"><strong>${primary.games[1]}</strong> — 1 min<br><span style="color:var(--text-dim); font-size:15px;">Reinforcement round</span></div>
     </div>
   `;
 

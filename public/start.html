@@ -43,7 +43,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .back-btn.hidden { visibility: hidden; }
 .logo { font-family: var(--font-display); font-size: 18px; color: var(--text); display: flex; align-items: center; gap: 6px; }
 .logo .brain-icon { font-size: 20px; }
-.step-label { font-size: 13px; color: var(--text-dim); font-weight: 500; min-width: 36px; text-align: right; }
+.step-label { font-size: 15px; color: var(--text-dim); font-weight: 500; min-width: 36px; text-align: right; }
 
 /* Screen container */
 .screen-container { width: 100%; max-width: var(--max-w); flex: 1; display: flex; flex-direction: column; padding-bottom: 40px; position: relative; overflow: hidden; }
@@ -59,10 +59,10 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 @keyframes slideInLeft { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
 
 /* Typography */
-.screen-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 12px; text-align: center; }
+.screen-tag { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 12px; text-align: center; }
 .screen-title { font-family: var(--font-display); font-size: clamp(24px, 5.5vw, 28px); color: var(--text-bright); line-height: 1.25; margin-bottom: 10px; text-align: center; }
 .screen-title strong { color: var(--accent); }
-.screen-subtitle { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 28px; text-align: center; }
+.screen-subtitle { font-size: 16px; color: var(--text-dim); line-height: 1.6; margin-bottom: 28px; text-align: center; }
 
 /* Options */
 .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
@@ -88,17 +88,17 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 /* Testimonial card */
 .testimonial-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 28px; }
 .testimonial-card .quote-headline { font-family: var(--font-display); font-size: 20px; color: var(--text-bright); margin-bottom: 12px; line-height: 1.3; }
-.testimonial-card .quote-text { font-size: 14px; color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
+.testimonial-card .quote-text { font-size: 16px; color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
 .testimonial-card .quote-author { display: flex; align-items: center; gap: 12px; }
 .testimonial-card .author-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; flex-shrink: 0; }
 .testimonial-card .author-info { flex: 1; }
-.testimonial-card .author-name { font-size: 14px; font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px; }
-.testimonial-card .author-name .verified { color: var(--accent); font-size: 14px; }
-.testimonial-card .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; }
+.testimonial-card .author-name { font-size: 16px; font-weight: 600; color: var(--text-bright); display: flex; align-items: center; gap: 6px; }
+.testimonial-card .author-name .verified { color: var(--accent); font-size: 16px; }
+.testimonial-card .stars { color: var(--accent); font-size: 16px; letter-spacing: 2px; }
 
 /* Info / stat card */
 .info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 28px; }
-.info-card p { font-size: 15px; line-height: 1.7; color: var(--text); }
+.info-card p { font-size: 17px; line-height: 1.7; color: var(--text); }
 .info-card .info-stat { font-family: var(--font-display); font-size: 36px; color: var(--accent); display: block; margin-bottom: 8px; text-align: center; }
 
 /* Analysis animation */
@@ -111,7 +111,7 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 /* Result profile card */
 .result-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; margin-bottom: 28px; text-align: center; }
 .result-card .result-badge { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-light); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
-.result-card .result-type { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 4px; }
+.result-card .result-type { font-size: 15px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 4px; }
 .result-card .result-value { font-family: var(--font-display); font-size: 22px; color: var(--text-bright); margin-bottom: 12px; }
 .result-card .result-divider { width: 40px; height: 2px; background: var(--border); margin: 0 auto 12px; }
 
@@ -120,8 +120,8 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .email-input { width: 100%; padding: 18px 20px; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text-bright); font-family: var(--font-body); font-size: 16px; outline: none; transition: border-color 0.2s; }
 .email-input:focus { border-color: var(--accent); }
 .email-input::placeholder { color: #9CA3AF; }
-.email-helper { font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 20px; }
-.privacy-note { font-size: 12px; color: var(--text-dim); text-align: center; margin-top: 12px; }
+.email-helper { font-size: 15px; color: var(--text-dim); text-align: center; margin-bottom: 20px; }
+.privacy-note { font-size: 14px; color: var(--text-dim); text-align: center; margin-top: 12px; }
 
 /* Transform card */
 .transform-card { display: flex; align-items: stretch; gap: 0; margin-bottom: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
@@ -129,14 +129,14 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .transform-side.before { background: #FEF2F2; }
 .transform-side.after { background: var(--accent-light); }
 .transform-side .t-emoji { font-size: 32px; }
-.transform-side .t-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
-.transform-side .t-desc { font-size: 14px; color: var(--text); font-weight: 500; line-height: 1.4; }
-.transform-side .t-highlight { font-size: 13px; color: var(--accent); font-weight: 600; }
+.transform-side .t-label { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+.transform-side .t-desc { font-size: 16px; color: var(--text); font-weight: 500; line-height: 1.6; }
+.transform-side .t-highlight { font-size: 15px; color: var(--accent); font-weight: 600; }
 .transform-arrow { display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text-dim); padding: 0 4px; background: var(--bg-card); }
 
 /* ==================== PRICING (Light Theme) ==================== */
 .pricing-section { max-width: 500px; margin: 0 auto; width: 100%; }
-.countdown-banner { background: #FFF3CD; color: #856404; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.countdown-banner { background: #FFF3CD; color: #856404; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 17px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .countdown-banner svg { width: 20px; height: 20px; }
 .plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
 .plan-card-v3 { background: #FFFFFF; border: 2px solid var(--border); border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
@@ -148,58 +148,58 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
 .plan-card-v3 .plan-info { flex: 1; }
 .plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
 .plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.plan-card-v3 .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
-.plan-card-v3 .plan-prices .sale { font-size: 15px; color: var(--text); font-weight: 600; }
+.plan-card-v3 .plan-prices .original { font-size: 16px; color: var(--text-dim); text-decoration: line-through; }
+.plan-card-v3 .plan-prices .sale { font-size: 17px; color: var(--text); font-weight: 600; }
 .plan-card-v3 .price-tag { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; }
 .plan-card-v3.featured .price-tag { background: var(--accent-light); border-color: var(--accent-border); }
-.plan-card-v3 .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-dollar { font-size: 15px; color: var(--text-dim); vertical-align: super; }
 .plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
 .plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
-.plan-card-v3 .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
-.plan-card-v3 .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
-.popular-banner { background: var(--accent); color: #FFFFFF; text-align: center; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+.plan-card-v3 .price-tag .tag-cents { font-size: 17px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-per { font-size: 13px; color: var(--text-dim); display: block; margin-top: 2px; }
+.popular-banner { background: var(--accent); color: #FFFFFF; text-align: center; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
 .plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
-.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 13px; color: var(--text-dim); }
+.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 15px; color: var(--text-dim); }
 .terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
 .terms-check a { color: var(--accent); text-decoration: underline; }
-.legal-text { font-size: 11px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.5; }
+.legal-text { font-size: 13px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.65; }
 .payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
-.payment-logos span { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
-.safe-checkout { text-align: center; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+.payment-logos span { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 13px; font-weight: 700; color: var(--text-dim); }
+.safe-checkout { text-align: center; font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
 .safe-checkout strong { color: var(--text); }
 
 /* Guarantee */
 .guarantee { display: flex; align-items: flex-start; gap: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin: 24px 0; }
 .guarantee-icon { font-size: 28px; flex-shrink: 0; }
-.guarantee-text { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+.guarantee-text { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
 .guarantee-text strong { color: var(--text); }
 
 /* Pricing testimonial */
 .pricing-testimonial { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 16px; }
-.pricing-testimonial p { font-size: 14px; color: var(--text); line-height: 1.6; font-style: italic; margin-bottom: 8px; }
-.pricing-testimonial .t-author { font-size: 13px; color: var(--text-dim); font-style: normal; }
+.pricing-testimonial p { font-size: 16px; color: var(--text); line-height: 1.6; font-style: italic; margin-bottom: 8px; }
+.pricing-testimonial .t-author { font-size: 15px; color: var(--text-dim); font-style: normal; }
 
 /* ==================== CHECKOUT OVERLAY (Dark Theme) ==================== */
 .checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
 .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
 .checkout-container { background: #131B2E; border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-.checkout-header { background: var(--accent); color: #FFFFFF; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+.checkout-header { background: var(--accent); color: #FFFFFF; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 17px; }
 .checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
 .checkout-back { padding: 16px 24px 0; }
-.checkout-back a { color: #8B95A8; text-decoration: none; font-size: 14px; cursor: pointer; }
+.checkout-back a { color: #8B95A8; text-decoration: none; font-size: 16px; cursor: pointer; }
 .checkout-back a:hover { color: #E8ECF4; }
 .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
 .checkout-payment { flex: 1; min-width: 280px; }
 .checkout-payment h3 { font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 16px; }
 .checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
-.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: #E8ECF4; padding: 6px 0; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 16px; color: #E8ECF4; padding: 6px 0; }
 .checkout-summary .summary-row.discount { color: #ff6b6b; }
 .checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: #FFFFFF; }
 #payment-element { min-height: 200px; }
 #payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: #FFFFFF; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: var(--font-body); }
 #payment-submit:hover { opacity: 0.9; }
 #payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-#payment-message { margin-top: 12px; font-size: 13px; color: #ff6b6b; text-align: center; min-height: 20px; }
+#payment-message { margin-top: 12px; font-size: 15px; color: #ff6b6b; text-align: center; min-height: 20px; }
 .checkout-footer { padding: 0 24px 20px; }
 .checkout-footer .safe-checkout { color: #8B95A8; margin-top: 8px; }
 .checkout-footer .safe-checkout strong { color: #E8ECF4; }
@@ -568,8 +568,8 @@ html, body { min-height: 100%; background: var(--bg); color: var(--text); font-f
         <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Choose your plan</h2>
 
         <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-          <div style="font-size:14px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--text,#E8ECF4);line-height:1.5;">
+          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>

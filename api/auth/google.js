@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const { sql } = require('../../lib/db');
-const { signToken } = require('../../lib/auth');
+const { signToken, signSessionToken, setSessionCookie } = require('../../lib/auth');
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -55,6 +55,7 @@ module.exports = async (req, res) => {
     if (existing) {
       // Existing user — sign in
       const token = signToken(existing.id, existing.is_pro);
+      setSessionCookie(res, signSessionToken({ userId: existing.id, email: existing.email, isPro: existing.is_pro }));
       return res.json({
         token,
         user: { id: existing.id, email: existing.email, is_pro: existing.is_pro },
@@ -79,6 +80,7 @@ module.exports = async (req, res) => {
     `;
 
     const token = signToken(user.id, false);
+    setSessionCookie(res, signSessionToken({ userId: user.id, email: user.email, isPro: false }));
     return res.status(201).json({
       token,
       user: { id: user.id, email: user.email, is_pro: false },

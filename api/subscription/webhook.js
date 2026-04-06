@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 const { sql } = require('../../lib/db');
 
 // Disable Vercel's automatic body parsing so we get the raw body for Stripe signature verification
@@ -60,14 +62,46 @@ module.exports = async (req, res) => {
             WHERE id = ${parseInt(userId)}
           `;
         } else if (email) {
-          await sql`
+          const cleanEmail = email.toLowerCase();
+          // Try to update existing user first
+          const updated = await sql`
             UPDATE users
             SET is_pro = true,
                 stripe_customer_id = ${customerId},
                 stripe_subscription_id = ${subscriptionId},
                 subscription_status = 'active'
-            WHERE email = ${email.toLowerCase()}
+            WHERE email = ${cleanEmail}
+            RETURNING id
           `;
+          // If no user exists, create one (quiz funnel — user has no account yet)
+          if (!updated || updated.length === 0) {
+            try {
+              const randomPass = crypto.randomBytes(32).toString('hex');
+              const hash = await bcrypt.hash(randomPass, 12);
+              const [newUser] = await sql`
+                INSERT INTO users (email, password_hash, is_pro, stripe_customer_id, stripe_subscription_id, subscription_status)
+                VALUES (${cleanEmail}, ${hash}, true, ${customerId}, ${subscriptionId}, 'active')
+                RETURNING id
+              `;
+              // Create stats row
+              await sql`
+                INSERT INTO user_stats (user_id) VALUES (${newUser.id})
+                ON CONFLICT (user_id) DO NOTHING
+              `;
+            } catch (insertErr) {
+              // Unique constraint — user was created between our check and insert
+              if (insertErr.code === '23505') {
+                await sql`
+                  UPDATE users
+                  SET is_pro = true, stripe_customer_id = ${customerId},
+                      stripe_subscription_id = ${subscriptionId}, subscription_status = 'active'
+                  WHERE email = ${cleanEmail}
+                `;
+              } else {
+                throw insertErr;
+              }
+            }
+          }
         }
         break;
       }

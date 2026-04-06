@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { sql } = require('../../lib/db');
-const { signToken } = require('../../lib/auth');
+const { signToken, signSessionToken, setSessionCookie } = require('../../lib/auth');
 const { checkRateLimit, getIp } = require('../../lib/rate-limit');
 
 const CORS = {
@@ -49,6 +49,7 @@ module.exports = async (req, res) => {
     `;
 
     const token = signToken(user.id, false);
+    setSessionCookie(res, signSessionToken({ userId: user.id, email: user.email, isPro: false }));
     return res.status(201).json({ token, user: { id: user.id, email: user.email, is_pro: false } });
 
   } catch (err) {

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sign In — Recall Better</title>
+<meta name="description" content="Sign in to your Recall Better account to access your daily memory training.">
+<meta name="theme-color" content="#090b11">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root {
+  --bg: #090b11;
+  --card: #10141f99;
+  --card-solid: #151a28;
+  --border: #ffffff18;
+  --border2: #ffffff30;
+  --gold: #c9a84c;
+  --gold2: #e8c96a;
+  --gold-dim: #c9a84c28;
+  --gold-glow: #c9a84c55;
+  --text: #ede9df;
+  --text-dim: #8a8578;
+  --text-mid: #b8b0a0;
+  --green: #4caf8a;
+  --red: #d96060;
+  --radius: 18px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; min-height: 100vh; min-height: 100dvh;
+  background: var(--bg); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 70% 50% at 0% 0%, #c9a84c08, transparent 60%),
+              radial-gradient(ellipse 60% 40% at 100% 100%, #5b8ef008, transparent 60%);
+  pointer-events: none;
+}
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 20px;
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 8vw, 56px);
+  font-weight: 300; letter-spacing: -0.02em;
+  color: var(--text); text-align: center; margin-bottom: 6px;
+}
+.logo em { color: var(--gold); font-style: italic; }
+.tagline {
+  font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-mid); text-align: center; margin-bottom: 36px;
+}
+.login-card {
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 36px 32px;
+  width: 100%; max-width: 400px;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 28px 90px #00000099;
+  position: relative; overflow: hidden;
+}
+.login-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent); opacity: 0.3;
+}
+.login-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 400; text-align: center; margin-bottom: 8px;
+}
+.login-card .sub {
+  font-size: 14px; color: var(--text-mid); text-align: center;
+  margin-bottom: 28px; line-height: 1.5;
+}
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block; font-size: 13px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-mid); margin-bottom: 8px;
+}
+.form-input {
+  width: 100%; padding: 14px 16px;
+  border: 1px solid var(--border2); border-radius: 12px;
+  background: var(--card-solid); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 16px;
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--gold); }
+.form-input::placeholder { color: var(--text-dim); }
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 16px; border: none; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none;
+}
+.btn:active { transform: scale(0.96); opacity: 0.88; }
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #090b11; box-shadow: 0 8px 26px var(--gold-glow);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 14px 38px #c9a84c66; }
+.btn-gold:disabled {
+  opacity: 0.5; cursor: not-allowed;
+  transform: none !important; box-shadow: 0 8px 26px var(--gold-glow) !important;
+}
+.divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 24px 0; font-size: 13px; color: var(--text-dim);
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+}
+.google-wrap {
+  display: flex; justify-content: center; margin-bottom: 8px;
+}
+.msg {
+  text-align: center; margin-top: 16px; font-size: 14px;
+  line-height: 1.5; min-height: 24px;
+}
+.msg.success { color: var(--green); }
+.msg.error { color: var(--red); }
+.footer-links {
+  margin-top: 24px; text-align: center; font-size: 13px; color: var(--text-dim);
+}
+.footer-links a {
+  color: var(--text-mid); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold2); }
+.spinner {
+  display: inline-block; width: 18px; height: 18px;
+  border: 2px solid #090b1144; border-top-color: #090b11;
+  border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.login-card { animation: fadeUp 0.42s ease both; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="logo">Recall <em>Better</em></div>
+  <p class="tagline">Daily Memory Training</p>
+
+  <div class="login-card">
+    <h2>Sign in</h2>
+    <p class="sub">Enter your email to receive a sign-in link — no password needed.</p>
+
+    <form id="magicForm" onsubmit="sendMagicLink(event)">
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-input" type="email" id="email" name="email"
+               placeholder="you@example.com" required autocomplete="email" autofocus>
+      </div>
+      <button class="btn btn-gold" type="submit" id="submitBtn">
+        <span id="btnText">Send Sign-In Link</span>
+      </button>
+    </form>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="divider">or</div>
+
+    <div class="google-wrap">
+      <div id="googleBtnContainer"></div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="/">Home</a> &nbsp;·&nbsp; <a href="/privacy">Privacy</a> &nbsp;·&nbsp; <a href="/terms">Terms</a>
+  </div>
+</div>
+
+<script>
+// Check for error params from redirects
+const params = new URLSearchParams(window.location.search);
+const errorMap = {
+  'expired': 'Your sign-in link has expired. Please request a new one.',
+  'invalid-token': 'Invalid sign-in link. Please request a new one.',
+  'missing-token': 'Missing sign-in link. Please request a new one.',
+  'no-account': 'No account found for that email. Please subscribe first.',
+  'missing-session': 'Missing payment session. Please try again.',
+  'payment-incomplete': 'Payment was not completed. Please try again.',
+  'server-error': 'Something went wrong. Please try again.',
+};
+const errParam = params.get('error');
+if (errParam && errorMap[errParam]) {
+  document.getElementById('msg').textContent = errorMap[errParam];
+  document.getElementById('msg').className = 'msg error';
+}
+
+// If user already has session, redirect to app
+fetch('/api/auth/check', { credentials: 'include' })
+  .then(r => r.json())
+  .then(data => {
+    if (data.authenticated) window.location.href = '/app';
+  })
+  .catch(() => {});
+
+// Magic link form
+let sending = false;
+function sendMagicLink(e) {
+  e.preventDefault();
+  if (sending) return;
+
+  const email = document.getElementById('email').value.trim();
+  if (!email) return;
+
+  sending = true;
+  const btn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner"></span>';
+  document.getElementById('msg').textContent = '';
+  document.getElementById('msg').className = 'msg';
+
+  fetch('/api/auth/magic-link', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.sent) {
+      document.getElementById('msg').textContent = 'Check your email — we sent you a sign-in link.';
+      document.getElementById('msg').className = 'msg success';
+      btnText.textContent = 'Link Sent ✓';
+      // Allow resend after 30s
+      setTimeout(() => {
+        sending = false;
+        btn.disabled = false;
+        btnText.textContent = 'Resend Link';
+      }, 30000);
+    } else {
+      throw new Error(data.error || 'Failed to send');
+    }
+  })
+  .catch(err => {
+    document.getElementById('msg').textContent = err.message || 'Something went wrong. Please try again.';
+    document.getElementById('msg').className = 'msg error';
+    sending = false;
+    btn.disabled = false;
+    btnText.textContent = 'Send Sign-In Link';
+  });
+}
+
+// Google Sign-In (secondary option)
+function initGoogleSignIn() {
+  if (typeof google === 'undefined' || !google.accounts) {
+    // Retry if script hasn't loaded yet
+    setTimeout(initGoogleSignIn, 500);
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id: '582362046844-4nh0qdp49qqkf1bdrfafdb3ct5j1a0t3.apps.googleusercontent.com',
+    callback: handleGoogleCredential,
+    ux_mode: 'popup',
+  });
+  google.accounts.id.renderButton(document.getElementById('googleBtnContainer'), {
+    theme: 'filled_black',
+    size: 'large',
+    width: 320,
+    text: 'signin_with',
+    shape: 'pill',
+  });
+}
+
+function handleGoogleCredential(response) {
+  const msg = document.getElementById('msg');
+  msg.textContent = 'Signing in with Google...';
+  msg.className = 'msg';
+
+  fetch('/api/auth/google', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ credential: response.credential }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.token) {
+      // Store Bearer token for backward compatibility with existing API endpoints
+      localStorage.setItem('mv_token', data.token);
+      if (data.user) localStorage.setItem('mv_user', JSON.stringify(data.user));
+      window.location.href = '/app';
+    } else {
+      msg.textContent = data.error || 'Google sign-in failed';
+      msg.className = 'msg error';
+    }
+  })
+  .catch(err => {
+    msg.textContent = 'Google sign-in failed. Please try again.';
+    msg.className = 'msg error';
+  });
+}
+
+// Init
+initGoogleSignIn();
+</script>
+</body>
+</html>

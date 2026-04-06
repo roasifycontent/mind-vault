@@ -57,7 +57,7 @@ async function createPublicCheckout(req, res) {
     subscription_data: {
       metadata: { app: 'recall-better', plan },
     },
-    success_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
+    success_url: 'https://recallbetter.com/api/auth/checkout-success?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://recallbetter.com/quiz',
   });
 
@@ -91,7 +91,7 @@ async function createEmbeddedCheckout(req, res) {
     subscription_data: {
       metadata: { app: 'recall-better', plan },
     },
-    return_url: 'https://recallbetter.com/app?checkout=success&session_id={CHECKOUT_SESSION_ID}',
+    return_url: 'https://recallbetter.com/api/auth/checkout-success?session_id={CHECKOUT_SESSION_ID}',
   });
 
   return res.status(200).json({

@@ -478,7 +478,8 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
 .login-input::placeholder{color:var(--text-dim);}
 .login-btn{width:100%;padding:16px;border:none;border-radius:100px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#090b11;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;touch-action:manipulation;margin-top:4px;}
 .login-btn:active{transform:scale(.97);opacity:.9;}
-@media(hover:hover){.login-btn:hover{transform:translateY(-2px);box-shadow:0 14px 38px #c9a84c66;}}
+.login-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;}
+@media(hover:hover){.login-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 38px #c9a84c66;}}
 .login-forgot{text-align:center;margin-top:12px;}
 .login-forgot a{font-size:12px;color:var(--text-dim);text-decoration:none;transition:color .18s;}
 .login-forgot a:hover{color:var(--gold2);}
@@ -516,12 +517,20 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
     <p class="login-tagline">Daily memory training for a sharper mind</p>
 
     <div class="login-tabs">
-      <button class="login-tab active" id="lt-login" onclick="switchLoginTab('login')">Sign In</button>
+      <button class="login-tab active" id="lt-magic" onclick="switchLoginTab('magic')">Email Link</button>
+      <button class="login-tab" id="lt-login" onclick="switchLoginTab('login')">Password</button>
       <button class="login-tab" id="lt-register" onclick="switchLoginTab('register')">Create Account</button>
     </div>
 
-    <!-- Sign In form -->
-    <div class="login-form" id="lf-login">
+    <!-- Magic Link form (primary) -->
+    <div class="login-form" id="lf-magic">
+      <p style="font-size:14px;color:var(--text-mid);text-align:center;margin-bottom:16px;line-height:1.5;">Enter your email and we'll send you a sign-in link — no password needed.</p>
+      <input class="login-input" id="ml-email" type="email" placeholder="Email address" autocomplete="email">
+      <button class="login-btn" id="ml-btn" onclick="sendAppMagicLink()">Send Sign-In Link</button>
+    </div>
+
+    <!-- Password Sign In form -->
+    <div class="login-form" id="lf-login" style="display:none">
       <input class="login-input" id="li-email" type="email" placeholder="Email address" autocomplete="email">
       <input class="login-input" id="li-pass" type="password" placeholder="Password" autocomplete="current-password">
       <button class="login-btn" onclick="authLogin()">Sign In</button>
@@ -1834,10 +1843,30 @@ let AUTH = {
 
 function authHeader(){ return AUTH.token ? {'Authorization':'Bearer '+AUTH.token,'Content-Type':'application/json'} : {'Content-Type':'application/json'}; }
 
+/* Check session via httpOnly cookie (primary) or Bearer token (legacy) */
+async function checkSession(){
+  try {
+    const r = await fetch(API+'/api/auth/check', { credentials:'include' });
+    if(!r.ok) return false;
+    const data = await r.json();
+    if(data.authenticated && data.user){
+      AUTH.user = data.user;
+      localStorage.setItem('mv_user', JSON.stringify(data.user));
+      updateStartBtn();
+      return true;
+    }
+    return false;
+  } catch(e){ return false; }
+}
+
 async function fetchMe(){
+  // Try cookie-based check first
+  const cookieOk = await checkSession();
+  if(cookieOk) return;
+  // Fall back to Bearer token
   if(!AUTH.token) return;
   try {
-    const r = await fetch(API+'/api/auth/me',{ headers:authHeader() });
+    const r = await fetch(API+'/api/auth/me',{ headers:authHeader(), credentials:'include' });
     if(!r.ok) return;
     const me = await r.json();
     AUTH.user = me;
@@ -1848,10 +1877,10 @@ async function fetchMe(){
 
 /* Sync stats to server (non-blocking) */
 async function syncToServer(){
-  if(!AUTH.token) return;
+  if(!AUTH.token && !AUTH.user) return;
   try {
     await fetch(API+'/api/stats', {
-      method:'POST', headers:authHeader(),
+      method:'POST', headers:authHeader(), credentials:'include',
       body: JSON.stringify({ scores: G.allScores, games_played: G.gamesPlayed, streak: G.streak, last_played: new Date().toISOString().split('T')[0] })
     });
   } catch(e){ /* offline — localStorage already saved */ }
@@ -1859,9 +1888,9 @@ async function syncToServer(){
 
 /* Load stats from server on login */
 async function loadFromServer(){
-  if(!AUTH.token) return false;
+  if(!AUTH.token && !AUTH.user) return false;
   try {
-    const r = await fetch(API+'/api/stats', { headers: authHeader() });
+    const r = await fetch(API+'/api/stats', { headers: authHeader(), credentials:'include' });
     if(!r.ok) return false;
     const data = await r.json();
     // Merge: keep whichever has more games
@@ -2019,7 +2048,7 @@ async function startStripeCheckout(){
         body:JSON.stringify({
           price_id:priceId,
           plan:_selectedPlan,
-          success_url:window.location.origin+'/app?checkout=success',
+          success_url:window.location.origin+'/api/auth/checkout-success',
           cancel_url:window.location.origin+'/app?checkout=cancelled'
         })
       });
@@ -2051,18 +2080,18 @@ async function startStripeCheckout(){
 
 /* ─── MANAGE SUBSCRIPTION ─── */
 async function openManageSubscription(){
-  if(!AUTH.token) return;
+  if(!AUTH.token && !AUTH.user) return;
   try{
-    const r=await fetch(API+'/api/stripe?action=portal',{method:'POST',headers:authHeader(),body:JSON.stringify({})});
+    const r=await fetch(API+'/api/stripe?action=portal',{method:'POST',headers:authHeader(),credentials:'include',body:JSON.stringify({})});
     const d=await r.json();
     if(r.ok&&d.url) window.location.href=d.url;
     else alert(d.error||'Could not open subscription management.');
   }catch(e){ alert('Network error — try again.'); }
 }
 async function showSubscriptionInfo(){
-  if(!AUTH.token) return;
+  if(!AUTH.token && !AUTH.user) return;
   try{
-    const r=await fetch(API+'/api/stripe?action=status',{headers:authHeader()});
+    const r=await fetch(API+'/api/stripe?action=status',{headers:authHeader(),credentials:'include'});
     const d=await r.json();
     if(!r.ok) return;
     let msg=`Recall Better Pro — ${d.plan==='annual'?'Annual':'Monthly'} plan`;
@@ -2073,6 +2102,13 @@ async function showSubscriptionInfo(){
   }catch(e){}
 }
 
+function doLogout(){
+  AUTH.token=null; AUTH.user=null;
+  localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user');
+  // Clear httpOnly cookie via server
+  fetch(API+'/api/auth/logout',{method:'POST',credentials:'include'}).catch(()=>{});
+  updateUserBtn(); updateStartBtn(); showLoginScreen();
+}
 function showLogoutPrompt(){
   const email = AUTH.user?.email || '';
   const isPro = AUTH.user?.is_pro;
@@ -2082,19 +2118,62 @@ function showLogoutPrompt(){
   if(isPro){
     const choice=prompt(msg,'2');
     if(choice==='1') showSubscriptionInfo();
-    else if(choice==='2'){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); showLoginScreen(); }
+    else if(choice==='2') doLogout();
   } else {
-    if(confirm(msg)){ AUTH.token=null; AUTH.user=null; localStorage.removeItem('mv_token'); localStorage.removeItem('mv_user'); updateUserBtn(); updateStartBtn(); showLoginScreen(); }
+    if(confirm(msg)) doLogout();
   }
 }
 
 function switchTab(t){ switchLoginTab(t); }
 function switchLoginTab(t){
+  $('lf-magic').style.display    = t==='magic'    ? '' : 'none';
   $('lf-login').style.display    = t==='login'    ? '' : 'none';
   $('lf-register').style.display = t==='register' ? '' : 'none';
+  $('lt-magic').classList.toggle('active', t==='magic');
   $('lt-login').classList.toggle('active', t==='login');
   $('lt-register').classList.toggle('active', t==='register');
   $('auth-err').textContent='';
+}
+
+/* ─── MAGIC LINK (in-app) ─── */
+let _mlSending = false;
+async function sendAppMagicLink(){
+  if(_mlSending) return;
+  const email = $('ml-email').value.trim();
+  if(!email || !email.includes('@')){ setAuthErr('Please enter a valid email address.'); return; }
+  _mlSending = true;
+  const btn = $('ml-btn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  setAuthErr('');
+  try {
+    const r = await fetch(API+'/api/auth/magic-link',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ email })
+    });
+    const d = await r.json();
+    if(d.sent){
+      setAuthErr('');
+      btn.textContent = 'Link Sent ✓';
+      // Show success message
+      $('auth-err').textContent = 'Check your email — we sent you a sign-in link.';
+      $('auth-err').style.color = 'var(--green)';
+      setTimeout(()=>{
+        _mlSending = false;
+        btn.disabled = false;
+        btn.textContent = 'Resend Link';
+        $('auth-err').style.color = '';
+      }, 30000);
+    } else {
+      throw new Error(d.error || 'Failed to send');
+    }
+  } catch(e){
+    setAuthErr(e.message || 'Something went wrong. Please try again.');
+    _mlSending = false;
+    btn.disabled = false;
+    btn.textContent = 'Send Sign-In Link';
+  }
 }
 
 function showLoginScreen(){
@@ -2210,17 +2289,36 @@ async function authRegister(){
 
 /* Init on load — gate behind login */
 updateUserBtn();
-if(AUTH.token){
-  // Validate token is still good
-  fetchMe().then(()=>{
-    if(AUTH.user){ hideLoginScreen(); }
-    else { showLoginScreen(); }
-  }).catch(()=>{ showLoginScreen(); });
-  loadFromServer();
-  hideLoginScreen();
-} else {
-  showLoginScreen();
+
+// Check for ?welcome=1 (post-checkout redirect)
+if(new URLSearchParams(window.location.search).get('welcome')==='1'){
+  // Clean URL
+  history.replaceState(null,'','/app');
 }
+
+// Try cookie-based session first, then Bearer token
+checkSession().then(ok => {
+  if(ok){
+    hideLoginScreen(); updateUserBtn(); loadFromServer();
+  } else if(AUTH.token){
+    // Fall back to legacy Bearer token
+    fetchMe().then(()=>{
+      if(AUTH.user){ hideLoginScreen(); }
+      else { showLoginScreen(); }
+    }).catch(()=>{ showLoginScreen(); });
+    loadFromServer();
+    hideLoginScreen();
+  } else {
+    showLoginScreen();
+  }
+}).catch(()=>{
+  // Offline — check localStorage
+  if(AUTH.token && AUTH.user){
+    hideLoginScreen();
+  } else {
+    showLoginScreen();
+  }
+});
 
 // Reset streak if user skipped a day
 (function checkStreakReset(){

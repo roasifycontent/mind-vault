@@ -1058,7 +1058,7 @@
         </div>
 
         <div class="legal-text">
-          By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method the regular price of $39.98 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
+          By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method $19.99 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
         </div>
 
         <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
@@ -1148,9 +1148,9 @@
           if (legalEl) {
             const planNames = { weekly: '7-day', monthly: '1-month', quarterly: '3-month' };
             const planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
-            const renewPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+            const renewPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
             const intervals = { weekly: '1 week', monthly: '1 month', quarterly: '3 months' };
-            legalEl.textContent = `By clicking "GET MY PLAN", I agree to pay ${planPrices[plan]} for my plan and that if I do not cancel before the end of the ${planNames[plan]} plan, Recall Better will automatically charge my payment method the regular price of ${renewPrices[plan]} every ${intervals[plan]} thereafter until I cancel by contacting us at help@recallbetter.com.`;
+            legalEl.textContent = `By clicking "GET MY PLAN", I agree to pay ${planPrices[plan]} for my plan and that if I do not cancel before the end of the ${planNames[plan]} plan, Recall Better will automatically charge my payment method ${renewPrices[plan]} every ${intervals[plan]} thereafter until I cancel by contacting us at help@recallbetter.com.`;
           }
         }
 

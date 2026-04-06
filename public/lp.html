@@ -341,6 +341,28 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
   border-radius: 3px;
   transition: width 0.3s ease;
 }
+.checkout-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; }
+.checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+.checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+.checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
+.checkout-back { padding: 16px 24px 0; }
+.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 14px; cursor: pointer; }
+.checkout-back a:hover { color: var(--text); }
+.checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
+.checkout-payment { flex: 1; min-width: 280px; }
+.checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
+.checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text); padding: 6px 0; }
+.checkout-summary .summary-row.discount { color: #ff6b6b; }
+.checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
+#payment-element { min-height: 200px; }
+.checkout-footer { padding: 0 24px 20px; }
+.checkout-footer .safe-checkout { margin-top: 8px; }
+@media (max-width: 540px) {
+  .checkout-body { flex-direction: column; }
+  .checkout-summary { flex: 1; }
+}
 </style>
 </head>
 <body>
@@ -973,20 +995,49 @@ function selectPlan(plan) {
   event.currentTarget.classList.add('featured');
 }
 
+let stripeInstance = null;
+
 function goPro() {
+  const plan = state.selectedPlan || 'monthly';
+  const email = state.email;
+  if (!email) { alert('Please enter your email first.'); return; }
+
   const btn = document.querySelector('.cta-btn.cta-primary');
-  if (btn) { btn.textContent = 'Starting…'; btn.disabled = true; }
-  fetch('/api/stripe?action=public-checkout', {
+  if (btn) { btn.textContent = 'Loading...'; btn.disabled = true; }
+
+  const planLabels = { weekly: '7-day plan', monthly: '1-month plan', quarterly: '3-month plan' };
+  const planPrices = { weekly: '$4.99', monthly: '$9.99', quarterly: '$19.99' };
+  document.getElementById('summaryPlanName').textContent = planLabels[plan];
+  document.getElementById('summaryTotal').textContent = planPrices[plan];
+  var origEl = document.getElementById('summaryOriginal');
+  if (origEl) origEl.textContent = planPrices[plan];
+
+  fetch('/api/stripe?action=embedded-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ plan: state.selectedPlan, email: state.email })
+    body: JSON.stringify({ plan, email })
   })
   .then(r => r.json())
-  .then(d => {
-    if (d.url) { window.location.href = d.url; }
-    else { alert('Something went wrong. Please try again.'); if (btn) { btn.textContent = 'Continue →'; btn.disabled = false; } }
+  .then(async data => {
+    if (data.error) throw new Error(data.error);
+    stripeInstance = Stripe(data.publishableKey || 'pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj');
+    const checkout = await stripeInstance.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+    checkout.mount('#payment-element');
+    document.getElementById('checkoutOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    const srcEl = document.getElementById('countdownTimer');
+    if (srcEl) { const sync = () => { const d = document.getElementById('checkoutCountdown'); if (d && srcEl) d.textContent = srcEl.textContent; }; sync(); setInterval(sync, 1000); }
+    if (btn) { btn.textContent = 'Continue →'; btn.disabled = false; }
   })
-  .catch(() => { alert('Something went wrong. Please try again.'); if (btn) { btn.textContent = 'Continue →'; btn.disabled = false; } });
+  .catch(err => {
+    alert(err.message || 'Something went wrong. Please try again.');
+    if (btn) { btn.textContent = 'Continue →'; btn.disabled = false; }
+  });
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('active');
+  document.body.style.overflow = '';
 }
 updateProgress();
 
@@ -1010,5 +1061,33 @@ updateProgress();
   }, 120);
 })();
 </script>
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <span>The offer expires in:</span>
+      <span class="countdown-text" id="checkoutCountdown">10:00</span>
+    </div>
+    <div class="checkout-back">
+      <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-payment">
+        <h3>Select a payment method</h3>
+        <div id="payment-element"></div>
+      </div>
+      <div class="checkout-summary" id="checkoutSummary">
+        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$9.99</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$9.99</span></div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>

@@ -559,6 +559,37 @@ footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:12px;pad
   </div>
 </div>
 
+<!-- PWA Install Modal (full-screen, shown after login) -->
+<div id="pwaModal" class="login-screen hidden" style="z-index:250;">
+  <div class="login-inner" style="max-width:420px;">
+    <div class="login-logo" style="font-size:clamp(32px,7vw,44px);margin-bottom:4px;">Recall <em>Better</em></div>
+    <p class="login-tagline" style="margin-bottom:28px;">One last step</p>
+
+    <div style="background:var(--card-solid);border:1px solid var(--border2);border-radius:var(--radius);padding:28px 24px;text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;margin-bottom:14px;">📲</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:10px;color:var(--text);">Add to your Home Screen</h2>
+      <p style="font-size:15px;color:var(--text-mid);line-height:1.6;margin-bottom:20px;">Recall Better works best as an app. Add it to your home screen for the full experience — instant access, daily reminders, and offline training.</p>
+
+      <!-- Android / Chrome install button -->
+      <div id="pwa-android-install">
+        <button onclick="doPwaInstall()" class="login-btn" style="margin-bottom:0;">Add to Home Screen</button>
+      </div>
+
+      <!-- iOS instructions -->
+      <div id="pwa-ios-instructions" style="display:none;">
+        <div style="background:var(--num-bg);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:left;font-size:14px;color:var(--text-mid);line-height:1.7;">
+          <div style="margin-bottom:8px;color:var(--text);font-weight:500;">How to install:</div>
+          <div>1. Tap the <strong style="color:var(--text);">Share</strong> button <span style="font-size:18px;">↑</span> at the bottom of Safari</div>
+          <div>2. Scroll down and tap <strong style="color:var(--text);">"Add to Home Screen"</strong></div>
+          <div>3. Tap <strong style="color:var(--text);">"Add"</strong> in the top right</div>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="skipPwaInstall()" style="background:none;border:none;color:var(--text-dim);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:12px;width:100%;text-align:center;letter-spacing:.02em;">I'll do this later</button>
+  </div>
+</div>
+
 <!-- Pro Upgrade Modal -->
 <div class="auth-overlay" id="pro-overlay" style="display:none">
   <div class="auth-card" style="text-align:center;max-width:400px;padding:24px 18px 28px;">
@@ -2187,6 +2218,8 @@ function hideLoginScreen(){
   $('loginScreen').classList.add('hidden');
   document.getElementById('app').style.display='';
   document.getElementById('user-btn').style.display='';
+  // Show PWA install modal if not already installed and not dismissed
+  maybeShowPwaModal();
 }
 
 /* ─── GOOGLE SIGN-IN ─── */
@@ -2749,9 +2782,13 @@ if(localStorage.getItem('mv_comfort')==='true'){document.documentElement.setAttr
 
 /* ─── PWA INSTALL PROMPT ─── */
 let _installPrompt = null;
+const _isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+const _isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   _installPrompt = e;
+  // Also show the small home-screen button as backup
   const btn = document.getElementById('pwa-install-btn');
   if (btn) btn.style.display = 'block';
 });
@@ -2759,25 +2796,74 @@ window.addEventListener('appinstalled', () => {
   _installPrompt = null;
   const btn = document.getElementById('pwa-install-btn');
   if (btn) btn.style.display = 'none';
+  // Close the modal if it's open
+  const modal = $('pwaModal');
+  if (modal) modal.classList.add('hidden');
+  localStorage.setItem('mv_pwa_installed', '1');
 });
+
 function installPWA() {
   if (!_installPrompt) return;
   _installPrompt.prompt();
   _installPrompt.userChoice.then(() => { _installPrompt = null; });
 }
 
-/* ─── iOS PWA INSTALL BANNER ─── */
-(function iosPwaBanner(){
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-  const dismissed = localStorage.getItem('mv_ios_banner_dismissed');
-  if(!isIOS || isStandalone || dismissed) return;
-  const banner = document.createElement('div');
-  banner.id='ios-install-banner';
-  banner.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--card-solid);border-top:1px solid var(--border2);padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text);backdrop-filter:blur(12px);';
-  banner.innerHTML='<span style="flex:1;line-height:1.4;">Install Recall Better: tap <strong>Share</strong> ↑ then <strong>"Add to Home Screen"</strong></span><button onclick="this.parentElement.remove();localStorage.setItem(\'mv_ios_banner_dismissed\',\'1\')" style="background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;padding:4px;">×</button>';
-  document.body.appendChild(banner);
-})();
+function maybeShowPwaModal(){
+  // Don't show if already running as PWA
+  if(_isStandalone) return;
+  // Don't show if user already installed
+  if(localStorage.getItem('mv_pwa_installed')) return;
+  // Don't show if user dismissed today
+  const dismissed = localStorage.getItem('mv_pwa_dismissed');
+  if(dismissed){
+    const dismissedDate = new Date(parseInt(dismissed));
+    const hoursSince = (Date.now() - dismissedDate.getTime()) / (1000*60*60);
+    if(hoursSince < 24) return; // Only nag once per 24h
+  }
+
+  const modal = $('pwaModal');
+  if(!modal) return;
+
+  // Show iOS instructions or Android install button
+  if(_isIOS){
+    const iosEl = $('pwa-ios-instructions');
+    const androidEl = $('pwa-android-install');
+    if(iosEl) iosEl.style.display = 'block';
+    if(androidEl) androidEl.style.display = 'none';
+  }
+
+  // Small delay so login screen animates out first
+  setTimeout(()=>{
+    modal.classList.remove('hidden');
+  }, 600);
+}
+
+function doPwaInstall(){
+  if(_installPrompt){
+    _installPrompt.prompt();
+    _installPrompt.userChoice.then(result => {
+      _installPrompt = null;
+      if(result.outcome === 'accepted'){
+        localStorage.setItem('mv_pwa_installed', '1');
+        $('pwaModal').classList.add('hidden');
+      }
+    });
+  } else {
+    // Browser doesn't support install prompt — show manual instructions
+    if(_isIOS){
+      $('pwa-ios-instructions').style.display = 'block';
+      $('pwa-android-install').style.display = 'none';
+    } else {
+      // Chrome on desktop or unsupported — skip
+      skipPwaInstall();
+    }
+  }
+}
+
+function skipPwaInstall(){
+  localStorage.setItem('mv_pwa_dismissed', String(Date.now()));
+  $('pwaModal').classList.add('hidden');
+}
 </script>
 </body>
 </html>

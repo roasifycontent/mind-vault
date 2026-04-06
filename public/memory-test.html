@@ -404,6 +404,56 @@
             min-height: 60px;
         }
 
+        .pattern-question {
+            margin-bottom: 32px;
+        }
+
+        .pattern-title {
+            font-weight: 600;
+            font-size: 13px;
+            color: #8A8A8A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .pattern-prompt {
+            font-family: 'Instrument Serif', serif;
+            font-size: 22px;
+            color: #2C2C2C;
+            text-align: center;
+            padding: 16px;
+            background: #FFFFFF;
+            border: 1px solid #E8E2D9;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .pattern-option {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            padding: 20px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            color: #2C2C2C;
+        }
+
+        .pattern-option:hover {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .pattern-option.selected {
+            background-color: #2D7A5F;
+            border-color: #2D7A5F;
+            color: white;
+        }
+
         .loader-step {
             display: flex;
             align-items: center;
@@ -1415,63 +1465,61 @@
         }
 
         // PATTERN RECOGNITION TEST
+        const PATTERN_QUESTIONS = [
+            { sequence: '2 → 4 → 6 → 8 → ?', options: ['10', '9'], correctIndex: 0 },
+            { sequence: 'A → C → E → G → ?', options: ['I', 'H'], correctIndex: 0 },
+            { sequence: '3 → 6 → 9 → 12 → ?', options: ['15', '14'], correctIndex: 0 },
+            { sequence: '1 → 1 → 2 → 3 → 5 → ?', options: ['8', '7'], correctIndex: 0 }
+        ];
+
         function initPatternRecognition() {
-            const patterns = [
-                {
-                    question: 'Circle sizes increasing: small, medium, large...',
-                    pattern: 'circles-growing',
-                    options: ['Extra large', 'Small again']
-                },
-                {
-                    question: 'Numbers: 2, 4, 6, 8...',
-                    pattern: 'numbers-even',
-                    options: ['10', '11']
-                },
-                {
-                    question: 'Shapes rotating: square, diamond, square...',
-                    pattern: 'shapes-rotate',
-                    options: ['Diamond', 'Triangle']
-                },
-                {
-                    question: 'Colors alternating: red, blue, red...',
-                    pattern: 'colors-alt',
-                    options: ['Blue', 'Green']
-                }
-            ];
+            state.patternAnswers = [null, null, null, null];
 
             let html = '';
-            patterns.forEach((p, idx) => {
+            PATTERN_QUESTIONS.forEach((q, idx) => {
                 html += `
-                    <div style="margin-bottom: 32px;">
-                        <p style="color: #5A5A5A; margin-bottom: 16px; font-size: 15px;">${p.question}</p>
+                    <div class="pattern-question">
+                        <div class="pattern-title">Question ${idx + 1} of 4</div>
+                        <div class="pattern-prompt">${q.sequence}</div>
                         <div class="pattern-options">
-                            <div class="pattern-card" onclick="selectPatternAnswer(${idx}, 0, this)">
-                                <div class="pattern-visual">${p.options[0]}</div>
-                            </div>
-                            <div class="pattern-card" onclick="selectPatternAnswer(${idx}, 1, this)">
-                                <div class="pattern-visual">${p.options[1]}</div>
-                            </div>
+                            <div class="pattern-option" onclick="selectPattern(${idx}, 0, this)">${q.options[0]}</div>
+                            <div class="pattern-option" onclick="selectPattern(${idx}, 1, this)">${q.options[1]}</div>
                         </div>
                     </div>
                 `;
             });
 
             document.getElementById('patternContainer').innerHTML = html;
+
+            const submitBtn = document.querySelector('#patternControls .button');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.pointerEvents = 'none';
+            }
             document.getElementById('patternControls').style.display = 'block';
         }
 
-        function selectPatternAnswer(questionIdx, optionIdx, element) {
-            const siblings = element.parentElement.querySelectorAll('.pattern-card');
+        function selectPattern(questionIdx, optionIdx, element) {
+            const siblings = element.parentElement.querySelectorAll('.pattern-option');
             siblings.forEach(sibling => sibling.classList.remove('selected'));
             element.classList.add('selected');
             state.patternAnswers[questionIdx] = optionIdx;
+
+            // Enable submit button once all 4 are answered
+            const allAnswered = state.patternAnswers.every(a => a !== null);
+            const submitBtn = document.querySelector('#patternControls .button');
+            if (submitBtn && allAnswered) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.pointerEvents = 'auto';
+            }
         }
 
         function submitPatternTest() {
-            const correctAnswers = [0, 0, 0, 0]; // First option is always correct for this demo
             let correct = 0;
-            state.patternAnswers.forEach((answer, idx) => {
-                if (answer === correctAnswers[idx]) correct++;
+            PATTERN_QUESTIONS.forEach((q, idx) => {
+                if (state.patternAnswers[idx] === q.correctIndex) correct++;
             });
             state.scores.pattern = (correct / 4) * 100;
             nextScreen();
@@ -1506,12 +1554,17 @@
 
         // RESULTS DISPLAY
         function displayResults() {
+          try {
+            // Default scores to 0 if undefined or NaN
+            state.scores.wordRecall = isNaN(state.scores.wordRecall) ? 0 : (state.scores.wordRecall || 0);
+            state.scores.sequence = isNaN(state.scores.sequence) ? 0 : (state.scores.sequence || 0);
+            state.scores.pattern = isNaN(state.scores.pattern) ? 0 : (state.scores.pattern || 0);
+
             // Calculate overall score
-            const overallScore = Math.round(
-                (state.scores.wordRecall * 0.4) +
+            const rawScore = (state.scores.wordRecall * 0.4) +
                 (state.scores.sequence * 0.35) +
-                (state.scores.pattern * 0.25)
-            );
+                (state.scores.pattern * 0.25);
+            const overallScore = isNaN(rawScore) ? 0 : Math.round(rawScore);
 
             // Determine weakest area
             const scores = {
@@ -1523,18 +1576,27 @@
                 scores[a] < scores[b] ? a : b
             );
 
-            // Update score ring color
+            // Update score ring color and dynamic conic-gradient
             const scoreRing = document.getElementById('scoreRing');
-            scoreRing.className = 'score-ring';
-            if (overallScore >= 70) {
-                scoreRing.classList.add('green');
-            } else if (overallScore >= 45) {
-                scoreRing.classList.add('gold');
-            } else {
-                scoreRing.classList.add('red');
+            if (scoreRing) {
+                scoreRing.className = 'score-ring';
+                const percentage = isNaN(overallScore) ? 0 : overallScore;
+                const gradientAngle = isNaN(percentage) ? 0 : (percentage / 100) * 360;
+                let ringColor = '#C0392B';
+                if (overallScore >= 70) {
+                    ringColor = '#2D7A5F';
+                    scoreRing.classList.add('green');
+                } else if (overallScore >= 45) {
+                    ringColor = '#D4A017';
+                    scoreRing.classList.add('gold');
+                } else {
+                    scoreRing.classList.add('red');
+                }
+                scoreRing.style.background = `conic-gradient(${ringColor} 0deg ${gradientAngle}deg, #E8E2D9 ${gradientAngle}deg 360deg)`;
             }
 
-            document.getElementById('scoreValue').textContent = overallScore;
+            const scoreValueEl = document.getElementById('scoreValue');
+            if (scoreValueEl) scoreValueEl.textContent = overallScore;
 
             // Skill breakdown
             const breakdownHTML = `
@@ -1560,35 +1622,44 @@
                     <div class="skill-percentage">${Math.round(state.scores.pattern)}%</div>
                 </div>
             `;
-            document.getElementById('skillBreakdown').innerHTML = breakdownHTML;
+            const skillBreakdownEl = document.getElementById('skillBreakdown');
+            if (skillBreakdownEl) skillBreakdownEl.innerHTML = breakdownHTML;
 
             // Weakest area callout
-            const weakestHTML = `
-                <strong>Weakest area:</strong> ${state.weakestArea} (${Math.round(scores[state.weakestArea])}%)
-            `;
-            document.getElementById('weakestArea').innerHTML = weakestHTML;
+            const weakestAreaEl = document.getElementById('weakestArea');
+            if (weakestAreaEl) {
+                const weakestHTML = `
+                    <strong>Weakest area:</strong> ${state.weakestArea} (${Math.round(scores[state.weakestArea])}%)
+                `;
+                weakestAreaEl.innerHTML = weakestHTML;
+            }
 
             // Verdict
             const verdictElement = document.getElementById('verdict');
-            let verdictText = '';
-            let verdictClass = '';
+            if (verdictElement) {
+                let verdictText = '';
+                let verdictClass = '';
 
-            if (overallScore >= 70) {
-                verdictText = 'Your memory is performing well for your age. With targeted training, you could push it even further.';
-                verdictClass = '';
-            } else if (overallScore >= 45) {
-                verdictText = `Your results suggest early cognitive softening in ${state.weakestArea}. This is common and highly trainable.`;
-                verdictClass = 'warning';
-            } else {
-                verdictText = `Your results indicate your ${state.weakestArea} needs attention. The good news: this is one of the most responsive areas to training.`;
-                verdictClass = 'warning';
+                if (overallScore >= 70) {
+                    verdictText = 'Your memory is performing well for your age. With targeted training, you could push it even further.';
+                    verdictClass = '';
+                } else if (overallScore >= 45) {
+                    verdictText = `Your results suggest early cognitive softening in ${state.weakestArea}. This is common and highly trainable.`;
+                    verdictClass = 'warning';
+                } else {
+                    verdictText = `Your results indicate your ${state.weakestArea} needs attention. The good news: this is one of the most responsive areas to training.`;
+                    verdictClass = 'warning';
+                }
+
+                verdictElement.textContent = verdictText;
+                verdictElement.className = 'verdict ' + verdictClass;
             }
-
-            verdictElement.textContent = verdictText;
-            verdictElement.className = 'verdict ' + verdictClass;
 
             // Update solution screen content based on weakest area
             updateSolutionScreen();
+          } catch (e) {
+            console.error('displayResults error:', e);
+          }
         }
 
         // EMAIL SUBMISSION

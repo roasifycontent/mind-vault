@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '750954910212510');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Memory Health Check — 5 Warning Signs You Shouldn't Ignore | Recall Better</title>
@@ -719,6 +737,7 @@ const state = {
 
 // ========== NAVIGATION ==========
 function goNext() {
+  if(S.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
   const cur = document.querySelector('.screen.active');
   if (!cur) return;
   cur.classList.remove('active');
@@ -924,6 +943,7 @@ function showPlan() {
 
 // ========== EMAIL ==========
 function submitEmail() {
+  if(typeof fbq!=="undefined")fbq("track","Lead");
   const email = document.getElementById('emailInput').value.trim();
   if (!email || !email.includes('@') || !email.includes('.')) {
     document.getElementById('emailInput').style.borderColor = 'var(--danger)';
@@ -985,6 +1005,7 @@ function selectPlan(el, plan) {
 let stripeInstance = null, elements = null, paymentElement = null;
 
 function goPro() {
+  if(typeof fbq!=="undefined")fbq("track","InitiateCheckout");
   const plan = state.selectedPlan || 'monthly';
   const email = state.email;
   if (!email) { alert('Please enter your email first.'); return; }

@@ -94,7 +94,7 @@ async function createEmbeddedCheckout(req, res) {
     });
   }
 
-  // Create subscription with incomplete payment — returns a PaymentIntent
+  // Create subscription with incomplete payment
   const subscription = await stripe.subscriptions.create({
     customer: customer.id,
     items: [{ price: priceId }],
@@ -104,29 +104,50 @@ async function createEmbeddedCheckout(req, res) {
     expand: ['latest_invoice.payment_intent'],
   });
 
+  console.log('[embedded-checkout] sub created:', subscription.id, 'status:', subscription.status);
+
   // If already active (existing saved payment method auto-charged), signal success
   if (subscription.status === 'active') {
     return res.status(200).json({ alreadyActive: true, subscriptionId: subscription.id });
   }
 
+  // Try to get payment_intent from expanded subscription first
   let paymentIntent = subscription.latest_invoice?.payment_intent;
+  console.log('[embedded-checkout] inline pi type:', typeof paymentIntent, 'val:', paymentIntent?.id || paymentIntent);
 
-  // Newer Stripe API versions may return payment_intent as a string ID —
-  // retrieve it explicitly from the invoice as fallback
+  // Fallback: retrieve invoice + payment_intent explicitly
   if (!paymentIntent || typeof paymentIntent === 'string' || !paymentIntent.client_secret) {
     const invoiceId = typeof subscription.latest_invoice === 'string'
       ? subscription.latest_invoice
       : subscription.latest_invoice?.id;
+    console.log('[embedded-checkout] fallback invoiceId:', invoiceId);
 
     if (invoiceId) {
       const invoice = await stripe.invoices.retrieve(invoiceId, {
         expand: ['payment_intent'],
       });
       paymentIntent = invoice.payment_intent;
+      console.log('[embedded-checkout] fallback pi type:', typeof paymentIntent, 'id:', paymentIntent?.id || paymentIntent);
     }
   }
 
+  // Final fallback: get payment_intent ID from invoice and retrieve directly
   if (!paymentIntent || typeof paymentIntent === 'string' || !paymentIntent.client_secret) {
+    const piId = typeof paymentIntent === 'string' ? paymentIntent
+      : subscription.latest_invoice?.payment_intent;
+    const piIdStr = typeof piId === 'string' ? piId : piId?.id;
+    console.log('[embedded-checkout] direct pi fetch:', piIdStr);
+
+    if (piIdStr && piIdStr.startsWith('pi_')) {
+      paymentIntent = await stripe.paymentIntents.retrieve(piIdStr);
+      console.log('[embedded-checkout] direct pi result:', paymentIntent?.id, 'secret?', !!paymentIntent?.client_secret);
+    }
+  }
+
+  if (!paymentIntent || !paymentIntent.client_secret) {
+    console.error('[embedded-checkout] FAILED - no client_secret. sub:', subscription.id,
+      'invoice:', typeof subscription.latest_invoice === 'object' ? subscription.latest_invoice?.id : subscription.latest_invoice,
+      'pi:', typeof paymentIntent, paymentIntent?.id || paymentIntent);
     return res.status(500).json({ error: 'Could not create payment intent. Please try again.' });
   }
 

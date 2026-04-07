@@ -1539,6 +1539,8 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 
             errorEl.style.display = 'none';
             state.email = email;
+
+  fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'family-noticed'})}).catch(()=>{});
             goToScreen(11);
         }
 

@@ -987,6 +987,8 @@ function submitEmail() {
     return;
   }
   state.email = email;
+
+  fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'lp'})}).catch(()=>{});
   console.log('Lead:', { email, answers: state.answers, scores: state.scores, memoryScore: state.memoryScore });
   goNext();
 

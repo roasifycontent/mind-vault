@@ -1717,6 +1717,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
   if(typeof fbq!=="undefined")fbq("track","Lead");
             const email = document.getElementById('emailInput').value;
             if (email.includes('@') && email.includes('.')) {
+                fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'memory-test'})}).catch(()=>{});
                 nextScreen();
             } else {
                 alert('Please enter a valid email address');

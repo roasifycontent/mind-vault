@@ -1632,6 +1632,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             }
 
             state.email = document.getElementById('emailInput').value.trim();
+            fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:state.email,source:'tip-of-tongue'})}).catch(()=>{});
             nextScreen();
         }
 

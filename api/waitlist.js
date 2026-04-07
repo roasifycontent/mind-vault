@@ -6,12 +6,23 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+function sendToLoops(email, source) {
+  fetch('https://app.loops.so/api/v1/contacts/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
+    },
+    body: JSON.stringify({ email, subscribed: true, funnel_source: source }),
+  }).catch(err => console.error('Loops error:', err.message));
+}
+
 module.exports = async (req, res) => {
   Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email } = req.body || {};
+  const { email, source } = req.body || {};
 
   if (!email || typeof email !== 'string') {
     return res.status(400).json({ error: 'Email is required' });
@@ -28,11 +39,17 @@ module.exports = async (req, res) => {
     await sql`
       INSERT INTO waitlist (email) VALUES (${trimmed})
     `;
+
+    // Non-blocking: sync to Loops for email nurture
+    sendToLoops(trimmed, source || 'unknown');
+
     return res.json({ ok: true });
 
   } catch (err) {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
+      // Still sync to Loops in case they weren't added there before
+      sendToLoops(trimmed, source || 'unknown');
       return res.status(409).json({ error: 'Already registered' });
     }
     console.error('Waitlist error:', err);

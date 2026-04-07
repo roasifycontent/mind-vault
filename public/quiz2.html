@@ -697,7 +697,7 @@ const state = {
 
 // ========== NAVIGATION ==========
 function goNext() {
-  if(S.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
+  if(state.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
   const cur = document.querySelector('.screen.active');
   if (!cur) return;
   cur.classList.remove('active');

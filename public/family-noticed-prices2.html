@@ -627,7 +627,39 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         #payment-message { margin-top: 12px; font-size: 15px; color: #ff6b6b; text-align: center; min-height: 20px; }
         .checkout-footer { padding: 0 24px 20px; }
         .checkout-footer .safe-checkout { margin-top: 8px; }
-        @media (max-width: 540px) { .checkout-body { flex-direction: column; } .checkout-summary { flex: 1; } }
+        @media (max-width: 540px) {
+          .checkout-body { flex-direction: column; }
+          .checkout-summary { flex: 1; }
+          .container { padding: 16px; }
+          h1 { font-size: 26px; margin-bottom: 20px; }
+          h2 { font-size: 23px; margin-bottom: 16px; }
+          h3 { font-size: 18px; }
+          .pricing-card { padding: 20px; }
+          .pricing-amount { font-size: 28px; }
+          .word-display { font-size: 28px; padding: 24px; min-height: 100px; }
+          .score-ring { width: 140px; height: 140px; }
+          .score-inner { width: 128px; height: 128px; }
+          .score-number { font-size: 40px; }
+          .sequence-grid { aspect-ratio: auto; gap: 10px; }
+          .sequence-cell { min-height: 70px; font-size: 18px; }
+          .pattern-card { padding: 16px; }
+          .pattern-preview { height: 80px; }
+          .comparison-table th, .comparison-table td { padding: 10px 8px; font-size: 14px; }
+          .btn { padding: 14px 20px; }
+          .btn-group { gap: 10px; }
+        }
+        @media (max-width: 380px) {
+          .container { padding: 14px; }
+          h1 { font-size: 23px; }
+          h2 { font-size: 21px; }
+          .pricing-amount { font-size: 26px; }
+          .pricing-card { padding: 16px; }
+          .btn-group { grid-template-columns: 1fr; }
+          .pattern-options { grid-template-columns: 1fr; gap: 12px; }
+          .word-grid { gap: 8px; }
+          .word-tile { padding: 12px; font-size: 15px; }
+          .sequence-cell { min-height: 60px; }
+        }
 
         /* Ticker */
         .ticker {

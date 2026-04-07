@@ -772,7 +772,7 @@ const state = {
 const allEmoji = ['🍎','⭐','🔔','🌙','🎵','🌺','🎲','🏀','🌈','🦋','🍕','🎸','🚀','🌍','🎯','🔑','🍀','🎭','🐬','🌻','🎪','🧲','🎻','🦜'];
 
 function goNext() {
-  if(S.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
+  if(state.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
   const current = document.querySelector('.screen.active');
   if (!current) return;
   current.classList.remove('active');

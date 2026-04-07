@@ -766,7 +766,7 @@ function transitionTo(nextStep, direction) {
 }
 
 function goNext() {
-  if(S.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
+  if(state.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
   if (state.step >= TOTAL_STEPS) return;
   transitionTo(state.step + 1, 'forward');
 }

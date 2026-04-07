@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recallbetter-v24';
+const CACHE_NAME = 'recallbetter-v25';
 const STATIC_ASSETS = [
   '/app',
   '/app.html',
@@ -26,27 +26,36 @@ self.addEventListener('activate', event => {
 });
 
 // Fetch strategy:
-// - API calls: network-first, fail silently (app handles offline gracefully)
-// - Static assets: cache-first with network fallback
+// - API calls: skip (let app handle)
+// - App assets: cache-first with network update (offline support)
+// - Landing pages: network-first (always get latest deploy)
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Skip non-GET and API calls (let app handle those)
+  // Skip non-GET and API calls
   if (event.request.method !== 'GET') return;
   if (url.pathname.startsWith('/api/')) return;
 
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      const network = fetch(event.request)
-        .then(response => {
-          if (response.ok) {
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, response.clone()));
-          }
-          return response;
-        })
-        .catch(() => null);
+  // Only cache-first for app-related paths
+  const isAppAsset = url.pathname === '/app' || url.pathname === '/app.html'
+    || url.pathname === '/manifest.json' || url.pathname.startsWith('/icons/')
+    || url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
 
-      return cached || network;
-    })
-  );
+  if (isAppAsset) {
+    // Cache-first for app (offline PWA support)
+    event.respondWith(
+      caches.match(event.request).then(cached => {
+        const network = fetch(event.request)
+          .then(response => {
+            if (response.ok) {
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, response.clone()));
+            }
+            return response;
+          })
+          .catch(() => null);
+        return cached || network;
+      })
+    );
+  }
+  // Landing pages and everything else: network-first (no stale cache)
 });

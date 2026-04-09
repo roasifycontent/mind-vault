@@ -13,29 +13,9 @@ function cleanUtm(v) {
   return s || null;
 }
 
-async function sendToLoops(email, source, utm) {
-  if (!process.env.LOOPS_API_KEY) {
-    console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
-    return { ok: false, reason: 'missing_api_key' };
-  }
-
-  console.log(`[Loops] Syncing ${email} (source: ${source})`);
-
+async function postLoops(payload) {
   try {
-    const payload = {
-      email,
-      subscribed: true,
-      funnel_source: source,
-    };
-    if (utm) {
-      if (utm.utm_source)   payload.utm_source   = utm.utm_source;
-      if (utm.utm_medium)   payload.utm_medium   = utm.utm_medium;
-      if (utm.utm_campaign) payload.utm_campaign = utm.utm_campaign;
-      if (utm.utm_content)  payload.utm_content  = utm.utm_content;
-      if (utm.utm_term)     payload.utm_term     = utm.utm_term;
-    }
-
-    const res = await fetch('https://api.loops.so/api/v1/contacts/create', {
+    const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,21 +23,49 @@ async function sendToLoops(email, source, utm) {
       },
       body: JSON.stringify(payload),
     });
-
     const bodyText = await res.text().catch(() => '');
-
-    if (res.ok) {
-      console.log(`[Loops] OK ${res.status} ${email}`);
-      return { ok: true, status: res.status, body: bodyText.slice(0, 500) };
-    } else {
-      console.error(`[Loops] FAIL ${res.status} ${email} — ${bodyText}`);
-      return { ok: false, reason: 'api_error', status: res.status, body: bodyText.slice(0, 500) };
-    }
+    return { status: res.status, ok: res.ok, body: bodyText.slice(0, 500) };
   } catch (err) {
-    const msg = err && err.message ? err.message : String(err);
-    console.error(`[Loops] NETWORK ERROR ${email} — ${msg}`);
-    return { ok: false, reason: 'network_error', error: msg };
+    return { ok: false, reason: 'network_error', error: err && err.message ? err.message : String(err) };
   }
+}
+
+async function sendToLoops(email, source, utm, mode = 'full') {
+  if (!process.env.LOOPS_API_KEY) {
+    console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
+    return { ok: false, reason: 'missing_api_key' };
+  }
+
+  console.log(`[Loops] Syncing ${email} (source: ${source}, mode: ${mode})`);
+
+  // Build payload according to mode:
+  //   - minimal: only email + subscribed (no custom properties)
+  //   - bare: only email
+  //   - full: email + subscribed + funnel_source + UTM custom properties
+  let payload;
+  if (mode === 'bare') {
+    payload = { email };
+  } else if (mode === 'minimal') {
+    payload = { email, subscribed: true };
+  } else {
+    payload = { email, subscribed: true, funnel_source: source };
+    if (utm) {
+      if (utm.utm_source)   payload.utm_source   = utm.utm_source;
+      if (utm.utm_medium)   payload.utm_medium   = utm.utm_medium;
+      if (utm.utm_campaign) payload.utm_campaign = utm.utm_campaign;
+      if (utm.utm_content)  payload.utm_content  = utm.utm_content;
+      if (utm.utm_term)     payload.utm_term     = utm.utm_term;
+    }
+  }
+
+  const r = await postLoops(payload);
+
+  if (r.ok) {
+    console.log(`[Loops] OK ${r.status} ${email}`);
+    return { ok: true, status: r.status, mode, body: r.body };
+  }
+  console.error(`[Loops] FAIL ${r.status || '?'} ${email} — ${r.body || r.error}`);
+  return { ok: false, reason: r.reason || 'api_error', status: r.status, mode, body: r.body, error: r.error };
 }
 
 module.exports = async (req, res) => {
@@ -89,6 +97,8 @@ module.exports = async (req, res) => {
 
   // Opt-in diagnostic mode: ?debug=1 echoes Loops result and env flag.
   const debug = req.query && (req.query.debug === '1' || req.query.debug === 'true');
+  // Opt-in payload probe: ?probe=minimal|bare|full — controls Loops payload shape.
+  const probeMode = (req.query && req.query.probe) || 'full';
 
   try {
     await sql`
@@ -98,7 +108,7 @@ module.exports = async (req, res) => {
 
     // Await the Loops sync so Vercel doesn't freeze the function before it completes.
     // sendToLoops never throws — all errors are caught internally and logged.
-    const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj);
+    const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode);
 
     if (debug) {
       return res.json({
@@ -117,7 +127,7 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj);
+      const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode);
       if (debug) {
         return res.status(409).json({
           error: 'Already registered',

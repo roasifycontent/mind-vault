@@ -15,7 +15,7 @@ if (!DATABASE_URL || !LOOPS_API_KEY) {
 const sql = neon(DATABASE_URL);
 
 async function sendToLoops(email) {
-  const res = await fetch('https://api.loops.so/api/v1/contacts/create', {
+  const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

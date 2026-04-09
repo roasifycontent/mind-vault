@@ -17,6 +17,29 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 /></noscript>
+<script>/* __RB_UTM_HELPER__ */
+(function(){
+  try {
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var params = new URLSearchParams(window.location.search);
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; } catch(e) { stored = {}; }
+    var merged = Object.assign({}, stored);
+    keys.forEach(function(k){
+      var v = params.get(k);
+      if (v) merged[k] = String(v).slice(0, 255);
+    });
+    try { sessionStorage.setItem('rb_utm', JSON.stringify(merged)); } catch(e) {}
+    window.getRBUTMs = function(){
+      try { return JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; }
+      catch(e) { return {}; }
+    };
+  } catch(e) {
+    window.getRBUTMs = function(){ return {}; };
+  }
+})();
+</script>
+
 <!-- End Meta Pixel Code -->
 
 <meta charset="UTF-8">
@@ -956,7 +979,7 @@ function submitEmail() {
   fetch('/api/waitlist', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, source: 'quiz2', riskScore: state.riskScore })
+    body: JSON.stringify({ email, source: 'quiz2', riskScore: state.riskScore , ...(window.getRBUTMs ? window.getRBUTMs() : {})})
   }).catch(() => {});
 
   goNext();

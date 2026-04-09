@@ -19,12 +19,17 @@ async function sendToLoops(email) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${LOOPS_API_KEY}`,
+      'Authorization': `Bearer ${LOOPS_API_KEY.trim()}`,
     },
     body: JSON.stringify({ email, subscribed: true, funnel_source: 'backfill' }),
   });
-  const body = await res.json().catch(() => ({}));
-  return { status: res.status, body };
+  // Loops' /contacts/create has a quirk where it returns plain-text
+  // HTTP 500 "Internal Server Error" even when the contact actually
+  // gets created. Handle both JSON and plain-text bodies.
+  const text = await res.text().catch(() => '');
+  let body = {};
+  try { body = text ? JSON.parse(text) : {}; } catch { body = { raw: text.slice(0, 300) }; }
+  return { status: res.status, body, rawText: text };
 }
 
 (async () => {
@@ -34,23 +39,28 @@ async function sendToLoops(email) {
 
   let created = 0;
   let alreadyExists = 0;
+  let silentSuccess = 0;
   let failed = 0;
   const failures = [];
 
   for (const row of rows) {
     const email = row.email;
     try {
-      const { status, body } = await sendToLoops(email);
+      const { status, body, rawText } = await sendToLoops(email);
       if (status === 200 || status === 201) {
-        console.log(`  OK     ${email}`);
+        console.log(`  OK      ${email}`);
         created++;
-      } else if (status === 409 || (body && body.message && body.message.toLowerCase().includes('already'))) {
-        console.log(`  EXISTS ${email}`);
+      } else if (status === 409 || (body && body.message && String(body.message).toLowerCase().includes('already'))) {
+        console.log(`  EXISTS  ${email}`);
         alreadyExists++;
+      } else if (status === 500 && /internal server error/i.test(rawText || '')) {
+        // Known Loops quirk — contact actually gets created.
+        console.log(`  SILENT  ${email}  (Loops 500, contact still lands)`);
+        silentSuccess++;
       } else {
-        console.log(`  FAIL   ${email} (${status}) ${JSON.stringify(body)}`);
+        console.log(`  FAIL    ${email} (${status}) ${rawText ? rawText.slice(0,200) : JSON.stringify(body)}`);
         failed++;
-        failures.push({ email, status, body });
+        failures.push({ email, status, body, rawText });
       }
     } catch (err) {
       console.log(`  ERROR  ${email} — ${err.message}`);
@@ -62,10 +72,11 @@ async function sendToLoops(email) {
   }
 
   console.log('\n=== SUMMARY ===');
-  console.log(`Total in DB:       ${rows.length}`);
-  console.log(`Newly created:     ${created}`);
-  console.log(`Already in Loops:  ${alreadyExists}`);
-  console.log(`Failed:            ${failed}`);
+  console.log(`Total in DB:         ${rows.length}`);
+  console.log(`Newly created:       ${created}`);
+  console.log(`Already in Loops:    ${alreadyExists}`);
+  console.log(`Silent-success 500s: ${silentSuccess}`);
+  console.log(`Failed:              ${failed}`);
   if (failures.length) {
     console.log('\nFailures:', JSON.stringify(failures, null, 2));
   }

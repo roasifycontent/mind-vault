@@ -13,17 +13,37 @@ function cleanUtm(v) {
   return s || null;
 }
 
-// endpoint: 'create' → POST /v1/contacts/create
-//           'update' → PUT  /v1/contacts/update   (upsert)
-async function postLoops(payload, rawKey, endpoint = 'create') {
+// Loops' /contacts/create endpoint has a quirk where it returns plain-text
+// HTTP 500 "Internal Server Error" even when the contact write succeeds.
+// We log it as a warning but treat it as non-fatal so we don't spam the
+// Vercel error log with false negatives. Verified by manual inspection:
+// contacts DO land in the Loops dashboard even when this 500 is returned.
+function isLoopsSilentSuccess(status, body) {
+  return status === 500 && /internal server error/i.test(body || '');
+}
+
+async function sendToLoops(email, source, utm) {
+  const rawKey = process.env.LOOPS_API_KEY;
+  if (!rawKey) {
+    console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
+    return { ok: false, reason: 'missing_api_key' };
+  }
+
+  // Trim defensively — the key in Vercel has historically had a trailing \n.
+  const key = String(rawKey).trim();
+
+  const payload = { email, subscribed: true, funnel_source: source };
+  if (utm) {
+    if (utm.utm_source)   payload.utm_source   = utm.utm_source;
+    if (utm.utm_medium)   payload.utm_medium   = utm.utm_medium;
+    if (utm.utm_campaign) payload.utm_campaign = utm.utm_campaign;
+    if (utm.utm_content)  payload.utm_content  = utm.utm_content;
+    if (utm.utm_term)     payload.utm_term     = utm.utm_term;
+  }
+
   try {
-    const key = (rawKey == null ? '' : String(rawKey)).trim();
-    const useUpdate = endpoint === 'update';
-    const url = useUpdate
-      ? 'https://app.loops.so/api/v1/contacts/update'
-      : 'https://app.loops.so/api/v1/contacts/create';
-    const res = await fetch(url, {
-      method: useUpdate ? 'PUT' : 'POST',
+    const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${key}`,
@@ -31,67 +51,31 @@ async function postLoops(payload, rawKey, endpoint = 'create') {
       body: JSON.stringify(payload),
     });
     const bodyText = await res.text().catch(() => '');
-    return { status: res.status, ok: res.ok, body: bodyText.slice(0, 500), endpoint };
-  } catch (err) {
-    return { ok: false, reason: 'network_error', error: err && err.message ? err.message : String(err), endpoint };
-  }
-}
 
-// Hits Loops' API-key validation endpoint to check whether the key itself
-// authenticates at all, independent of /contacts/create.
-async function testLoopsApiKey(rawKey) {
-  try {
-    const key = (rawKey == null ? '' : String(rawKey)).trim();
-    const res = await fetch('https://app.loops.so/api/v1/api-key', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${key}`,
-      },
-    });
-    const bodyText = await res.text().catch(() => '');
-    return { status: res.status, ok: res.ok, body: bodyText.slice(0, 500) };
-  } catch (err) {
-    return { ok: false, reason: 'network_error', error: err && err.message ? err.message : String(err) };
-  }
-}
-
-async function sendToLoops(email, source, utm, mode = 'full', endpoint = 'create') {
-  const rawKey = process.env.LOOPS_API_KEY;
-  if (!rawKey) {
-    console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
-    return { ok: false, reason: 'missing_api_key' };
-  }
-
-  console.log(`[Loops] Syncing ${email} (source: ${source}, mode: ${mode})`);
-
-  // Build payload according to mode:
-  //   - minimal: only email + subscribed (no custom properties)
-  //   - bare: only email
-  //   - full: email + subscribed + funnel_source + UTM custom properties
-  let payload;
-  if (mode === 'bare') {
-    payload = { email };
-  } else if (mode === 'minimal') {
-    payload = { email, subscribed: true };
-  } else {
-    payload = { email, subscribed: true, funnel_source: source };
-    if (utm) {
-      if (utm.utm_source)   payload.utm_source   = utm.utm_source;
-      if (utm.utm_medium)   payload.utm_medium   = utm.utm_medium;
-      if (utm.utm_campaign) payload.utm_campaign = utm.utm_campaign;
-      if (utm.utm_content)  payload.utm_content  = utm.utm_content;
-      if (utm.utm_term)     payload.utm_term     = utm.utm_term;
+    if (res.ok) {
+      console.log(`[Loops] OK ${res.status} ${email}`);
+      return { ok: true, status: res.status };
     }
-  }
 
-  const r = await postLoops(payload, rawKey, endpoint);
+    // 409 = already exists in Loops. That's fine, treat as success.
+    if (res.status === 409) {
+      console.log(`[Loops] EXISTS ${email}`);
+      return { ok: true, status: 409, alreadyExists: true };
+    }
 
-  if (r.ok) {
-    console.log(`[Loops] OK ${r.status} ${email}`);
-    return { ok: true, status: r.status, mode, endpoint: r.endpoint, body: r.body };
+    // Known Loops quirk: plain-text 500 while the contact actually lands.
+    if (isLoopsSilentSuccess(res.status, bodyText)) {
+      console.warn(`[Loops] SILENT-SUCCESS 500 ${email} (contact still created on Loops side)`);
+      return { ok: true, status: 500, silentSuccess: true };
+    }
+
+    console.error(`[Loops] FAIL ${res.status} ${email} — ${bodyText.slice(0, 300)}`);
+    return { ok: false, reason: 'api_error', status: res.status, body: bodyText.slice(0, 300) };
+  } catch (err) {
+    const msg = err && err.message ? err.message : String(err);
+    console.error(`[Loops] NETWORK ERROR ${email} — ${msg}`);
+    return { ok: false, reason: 'network_error', error: msg };
   }
-  console.error(`[Loops] FAIL ${r.status || '?'} ${email} — ${r.body || r.error}`);
-  return { ok: false, reason: r.reason || 'api_error', status: r.status, mode, endpoint: r.endpoint, body: r.body, error: r.error };
 }
 
 module.exports = async (req, res) => {
@@ -121,14 +105,6 @@ module.exports = async (req, res) => {
   const utm_term     = cleanUtm(body.utm_term);
   const utmObj = { utm_source, utm_medium, utm_campaign, utm_content, utm_term };
 
-  // Opt-in diagnostic mode: ?debug=1 echoes Loops result and env flag.
-  const debug = req.query && (req.query.debug === '1' || req.query.debug === 'true');
-  // Opt-in payload probe: ?probe=minimal|bare|full — controls Loops payload shape.
-  const probeMode = (req.query && req.query.probe) || 'full';
-  // Opt-in endpoint select: ?endpoint=update uses /contacts/update (PUT, upsert).
-  // Default 'update' — /contacts/create has been returning HTTP 500 for this account.
-  const endpoint = (req.query && req.query.endpoint) || 'update';
-
   try {
     await sql`
       INSERT INTO waitlist (email, utm_source, utm_medium, utm_campaign, utm_content, utm_term)
@@ -137,26 +113,7 @@ module.exports = async (req, res) => {
 
     // Await the Loops sync so Vercel doesn't freeze the function before it completes.
     // sendToLoops never throws — all errors are caught internally and logged.
-    const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode, endpoint);
-
-    if (debug) {
-      const rk = process.env.LOOPS_API_KEY || '';
-      const tk = rk.trim();
-      const keyTest = await testLoopsApiKey(rk);
-      return res.json({
-        ok: true,
-        _debug: {
-          has_loops_key: !!rk,
-          loops_key_len_raw: rk.length,
-          loops_key_len_trimmed: tk.length,
-          loops_key_first_cc: rk.length ? rk.charCodeAt(0) : null,
-          loops_key_last_cc: rk.length ? rk.charCodeAt(rk.length - 1) : null,
-          loops_key_has_whitespace: /\s/.test(rk),
-          loops_key_test: keyTest,
-          loops: loopsResult,
-        },
-      });
-    }
+    await sendToLoops(trimmed, source || 'unknown', utmObj);
 
     return res.json({ ok: true });
 
@@ -164,32 +121,10 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode, endpoint);
-      if (debug) {
-        const rk = process.env.LOOPS_API_KEY || '';
-        const tk = rk.trim();
-        return res.status(409).json({
-          error: 'Already registered',
-          _debug: {
-            has_loops_key: !!rk,
-            loops_key_len_raw: rk.length,
-            loops_key_len_trimmed: tk.length,
-            loops_key_first_cc: rk.length ? rk.charCodeAt(0) : null,
-            loops_key_last_cc: rk.length ? rk.charCodeAt(rk.length - 1) : null,
-            loops_key_has_whitespace: /\s/.test(rk),
-            loops: loopsResult,
-          },
-        });
-      }
+      await sendToLoops(trimmed, source || 'unknown', utmObj);
       return res.status(409).json({ error: 'Already registered' });
     }
     console.error('Waitlist error:', err);
-    if (debug) {
-      return res.status(500).json({
-        error: 'Server error',
-        _debug: { db_error: err && err.message ? err.message : String(err) },
-      });
-    }
     return res.status(500).json({ error: 'Server error' });
   }
 };

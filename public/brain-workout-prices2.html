@@ -1354,6 +1354,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 
             testData.email = email;
             document.getElementById('emailError').textContent = '';
+            if(typeof fbq!=="undefined")fbq("track","Lead");
             fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'brain-workout', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
             showScreen(11);
         }

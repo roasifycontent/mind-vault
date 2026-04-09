@@ -35,7 +35,7 @@ async function sendToLoops(email, source, utm) {
       if (utm.utm_term)     payload.utm_term     = utm.utm_term;
     }
 
-    const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
+    const res = await fetch('https://api.loops.so/api/v1/contacts/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

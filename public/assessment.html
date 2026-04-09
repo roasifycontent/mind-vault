@@ -601,23 +601,23 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
           <div class="radio-dot"></div>
           <div class="plan-info">
             <div class="plan-name">7-Day Plan</div>
-            <div class="plan-prices"><span class="original">$13.86</span> <span class="sale">$6.93</span></div>
+            <div class="plan-prices"><span class="sale">$4.99</span></div>
           </div>
           <div class="price-tag">
-            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.99</span>
+            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.71</span>
             <span class="tag-per">per day</span>
           </div>
         </div>
 
-        <div class="popular-banner">&#128077; MOST POPULAR: 50% OFF</div>
+        <div class="popular-banner">&#128077; MOST POPULAR</div>
         <div class="plan-card selected has-banner" data-plan="monthly" onclick="selectPlan('monthly')">
           <div class="radio-dot"></div>
           <div class="plan-info">
-            <div class="plan-name">1-Month Plan</div>
-            <div class="plan-prices"><span class="original">$39.98</span> <span class="sale">$19.99</span></div>
+            <div class="plan-name">4-Week Plan</div>
+            <div class="plan-prices"><span class="sale">$9.99</span></div>
           </div>
           <div class="price-tag">
-            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.66</span>
+            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.36</span>
             <span class="tag-per">per day</span>
           </div>
         </div>
@@ -625,11 +625,11 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         <div class="plan-card" data-plan="quarterly" onclick="selectPlan('quarterly')">
           <div class="radio-dot"></div>
           <div class="plan-info">
-            <div class="plan-name">3-Month Plan</div>
-            <div class="plan-prices"><span class="original">$79.98</span> <span class="sale">$39.99</span></div>
+            <div class="plan-name">12-Week Plan &mdash; Best Value</div>
+            <div class="plan-prices"><span class="sale">$19.99</span></div>
           </div>
           <div class="price-tag">
-            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.44</span>
+            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.24</span>
             <span class="tag-per">per day</span>
           </div>
         </div>
@@ -643,7 +643,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
       </div>
 
       <div class="legal-text" id="legalText">
-        By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method $19.99 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
+        By clicking "GET MY PLAN", I agree to pay $9.99 for my plan and that if I do not cancel before the end of the 4-week plan, Recall Better will automatically charge my payment method $9.99 every 4 weeks thereafter until I cancel by contacting us at help@recallbetter.com.
       </div>
 
       <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
@@ -699,9 +699,8 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
           <div id="payment-element"></div>
         </div>
         <div class="checkout-summary">
-          <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
-          <div class="summary-row discount"><span>Discount (-50%)</span><span id="summaryDiscount">-$19.99</span></div>
-          <div class="summary-row total"><span>Total</span><span id="summaryTotal">$19.99</span></div>
+          <div class="summary-row"><span id="summaryPlanName">4-week plan</span><span id="summaryOriginal">$9.99</span></div>
+          <div class="summary-row total"><span>Total</span><span id="summaryTotal">$9.99</span></div>
         </div>
       </div>
       <div class="checkout-footer">
@@ -749,8 +748,8 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
       document.querySelectorAll('.plan-card').forEach(function (c) {
         c.classList.toggle('selected', c.getAttribute('data-plan') === plan);
       });
-      var planNames = { weekly: '7-day', monthly: '1-month', quarterly: '3-month' };
-      var planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+      var planNames = { weekly: '7-day', monthly: '4-week', quarterly: '12-week' };
+      var planPrices = { weekly: '$4.99', monthly: '$9.99', quarterly: '$19.99' };
       var legalEl = document.getElementById('legalText');
       if (legalEl) {
         legalEl.innerHTML = 'By clicking "GET MY PLAN", I agree to pay ' + planPrices[plan] + ' for my plan and that if I do not cancel before the end of the ' + planNames[plan] + ' plan, Recall Better will automatically charge my payment method ' + planPrices[plan] + ' every ' + planNames[plan] + ' thereafter until I cancel by contacting us at help@recallbetter.com.';
@@ -816,19 +815,16 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
       btn.textContent = 'Loading...';
       btn.disabled = true;
 
-      var planLabels = { weekly: '7-day plan', monthly: '1-month plan', quarterly: '3-month plan' };
-      var planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
-      var origPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
-      var discounts = { weekly: '-$6.93', monthly: '-$19.99', quarterly: '-$39.99' };
+      var planLabels = { weekly: '7-day plan', monthly: '4-week plan', quarterly: '12-week plan' };
+      var planPrices = { weekly: '$4.99', monthly: '$9.99', quarterly: '$19.99' };
       document.getElementById('summaryPlanName').textContent = planLabels[plan];
-      document.getElementById('summaryOriginal').textContent = origPrices[plan];
-      document.getElementById('summaryDiscount').textContent = discounts[plan];
+      document.getElementById('summaryOriginal').textContent = planPrices[plan];
       document.getElementById('summaryTotal').textContent = planPrices[plan];
 
       fetch('/api/stripe?action=embedded-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: plan, email: email, pricing: 'prices2' })
+        body: JSON.stringify({ plan: plan, email: email })
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Exclusive Offer — Recall Better</title>
+<script src="https://js.stripe.com/v3/"></script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '750954910212510');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
+/></noscript>
+<script>/* __RB_UTM_HELPER__ */
+(function(){
+  try {
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var params = new URLSearchParams(window.location.search);
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; } catch(e) { stored = {}; }
+    var merged = Object.assign({}, stored);
+    keys.forEach(function(k){
+      var v = params.get(k);
+      if (v) merged[k] = String(v).slice(0, 255);
+    });
+    try { sessionStorage.setItem('rb_utm', JSON.stringify(merged)); } catch(e) {}
+    window.getRBUTMs = function(){
+      try { return JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; }
+      catch(e) { return {}; }
+    };
+  } catch(e) {
+    window.getRBUTMs = function(){ return {}; };
+  }
+})();
+</script>
+<!-- End Meta Pixel Code -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --cream-dark: #F0EBE3;
+    --sage: #2D7A5F;
+    --sage-light: #3D9B78;
+    --sage-dark: #1E5440;
+    --charcoal: #1C1C1C;
+    --warm-grey: #6B6560;
+    --white: #FFFFFF;
+    --red: #C0392B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--sage); letter-spacing: 0.02em; }
+
+  .offer-banner {
+    background: #1E5440;
+    color: white;
+    text-align: center;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .offer-banner span { opacity: 0.75; margin: 0 8px; }
+
+  .hero {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 0;
+    text-align: center;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(45,122,95,0.1);
+    color: var(--sage);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1.15;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+  }
+  .hero h1 em { font-style: italic; color: var(--sage); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--warm-grey);
+    line-height: 1.65;
+    max-width: 480px;
+    margin: 0 auto 48px;
+  }
+
+  .pricing-card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    overflow: hidden;
+    animation: fadeUp 0.6s 0.15s ease both;
+  }
+
+  .pricing-card-top {
+    background: var(--sage-dark);
+    padding: 28px 36px 24px;
+    text-align: center;
+    position: relative;
+  }
+
+  .exclusive-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+  .price-old { font-family: 'DM Serif Display', serif; font-size: 28px; color: rgba(255,255,255,0.45); text-decoration: line-through; text-decoration-color: rgba(255,255,255,0.6); }
+  .price-new { font-family: 'DM Serif Display', serif; font-size: 52px; color: var(--white); line-height: 1; letter-spacing: -0.02em; }
+  .price-period { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+  .price-per-day { display: inline-block; background: rgba(255,255,255,0.15); color: white; font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 100px; }
+
+  .savings-badge {
+    position: absolute;
+    top: -1px;
+    right: 24px;
+    background: #E67E22;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px 8px;
+    border-radius: 0 0 8px 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .pricing-card-body { padding: 32px 36px; }
+
+  .timer-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFF5EC;
+    border: 1px solid #E67E22;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 28px;
+  }
+  .timer-dot { width: 8px; height: 8px; border-radius: 50%; background: #E67E22; flex-shrink: 0; animation: pulse 1.5s ease infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .timer-text { font-size: 13px; color: #7D4000; font-weight: 500; }
+  .timer-count { margin-left: auto; font-size: 15px; font-weight: 700; color: #7D4000; font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+
+  .features { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .feature-item { display: flex; align-items: flex-start; gap: 12px; }
+  .feature-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(45,122,95,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .feature-check svg { width: 12px; height: 12px; stroke: var(--sage); stroke-width: 2.5; fill: none; }
+  .feature-text { font-size: 15px; color: var(--charcoal); line-height: 1.4; }
+  .feature-text strong { font-weight: 600; }
+
+  .cta-btn {
+    width: 100%;
+    background: var(--sage-dark);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 20px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 24px rgba(30,84,64,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-decoration: none;
+    margin-bottom: 14px;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(30,84,64,0.45); }
+  .cta-btn .arrow { font-size: 20px; font-weight: 300; }
+
+  .cta-sub { text-align: center; font-size: 12px; color: var(--warm-grey); line-height: 1.6; }
+
+  .guarantee-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cream-dark);
+  }
+  .guarantee-text { font-size: 12px; color: var(--warm-grey); font-weight: 500; }
+
+  .section { max-width: 680px; margin: 0 auto; padding: 0 24px 64px; animation: fadeUp 0.6s 0.3s ease both; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--charcoal); text-align: center; margin-bottom: 32px; }
+
+  .testimonials { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+  .testimonial { background: var(--white); border-radius: 12px; padding: 24px; border-left: 3px solid var(--sage); }
+  .testimonial-text { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 17px; color: var(--charcoal); line-height: 1.5; margin-bottom: 12px; }
+  .testimonial-score { display: flex; align-items: center; gap: 12px; }
+  .score-change { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+  .score-before { background: rgba(192,57,43,0.1); color: var(--red); padding: 3px 10px; border-radius: 100px; }
+  .score-after { background: rgba(45,122,95,0.1); color: var(--sage); padding: 3px 10px; border-radius: 100px; }
+  .score-arrow { color: var(--warm-grey); font-size: 14px; }
+  .testimonial-author { font-size: 13px; color: var(--warm-grey); margin-left: auto; }
+
+  /* urgency block */
+  .urgency-block {
+    background: #FFF5EC;
+    border: 1px solid rgba(230,126,34,0.3);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 48px;
+    text-align: center;
+  }
+  .urgency-block h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--charcoal); margin-bottom: 10px; }
+  .urgency-block p { font-size: 14px; color: var(--warm-grey); line-height: 1.65; }
+
+  .bottom-cta { background: var(--charcoal); padding: 56px 24px; text-align: center; }
+  .bottom-cta h2 { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 5vw, 36px); color: var(--white); margin-bottom: 12px; line-height: 1.25; }
+  .bottom-cta p { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 32px; line-height: 1.6; }
+  .bottom-cta .cta-btn { max-width: 400px; margin: 0 auto 14px; background: var(--sage); box-shadow: 0 6px 24px rgba(45,122,95,0.4); }
+  .bottom-cta .cta-sub { color: rgba(255,255,255,0.38); }
+  .payment-logos { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 20px; opacity: 0.45; font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.06em; text-transform: uppercase; }
+  .pay-badge { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+  /* EMAIL INPUT */
+  .email-input-wrap { margin-bottom: 16px; }
+  .email-input-wrap input { width: 100%; padding: 14px 16px; border: 1.5px solid rgba(0,0,0,0.12); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--charcoal); background: var(--cream); outline: none; transition: border-color 0.15s; }
+  .email-input-wrap input:focus { border-color: var(--sage-dark); }
+  .email-error { font-size: 12px; color: var(--red); margin-top: 6px; min-height: 14px; }
+
+  /* EMBEDDED CHECKOUT OVERLAY */
+  .checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9999; overflow-y: auto; padding: 20px; }
+  .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+  .checkout-container { background: var(--white); border-radius: 16px; max-width: 560px; width: 100%; margin: 20px auto; overflow: hidden; }
+  .checkout-header { background: var(--sage-dark); color: #fff; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; }
+  .checkout-back { padding: 14px 24px 0; }
+  .checkout-back button { background: none; border: none; color: var(--warm-grey); font-size: 14px; cursor: pointer; font-family: inherit; padding: 0; }
+  .checkout-back button:hover { color: var(--charcoal); }
+  .checkout-body { padding: 18px 24px 24px; }
+  .checkout-summary { background: var(--cream); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; font-size: 14px; }
+  .summary-row { display: flex; justify-content: space-between; padding: 4px 0; color: var(--charcoal); }
+  .summary-row.discount { color: var(--red); }
+  .summary-row.total { border-top: 1px solid var(--cream-dark); padding-top: 10px; margin-top: 6px; font-weight: 700; }
+  #payment-element { min-height: 300px; }
+</style>
+</head>
+<body>
+
+<div class="header"><div class="logo">Recall Better</div></div>
+
+<div class="offer-banner">
+  This offer was made for you <span>·</span> Stronger than our usual discount <span>·</span> Expires in 24 hours
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Special Offer — 30% Off</div>
+  <h1>We want to make this<br><em>even easier</em> for you</h1>
+  <p class="hero-sub">You've been thinking about starting. We're removing the last reason not to — with our biggest standard discount on your first month.</p>
+</div>
+
+<div style="max-width:680px;margin:0 auto;padding:0 24px 48px;animation:fadeUp 0.6s 0.1s ease both;">
+<div class="pricing-card">
+  <div class="pricing-card-top">
+    <div class="savings-badge">SAVE 30%</div>
+    <div class="exclusive-tag">First Month Only</div>
+    <div class="price-row">
+      <div class="price-old">$9.99</div>
+      <div class="price-new">$6.99</div>
+    </div>
+    <div class="price-period">your first month · then $9.99/month · cancel anytime</div>
+    <div class="price-per-day">Just $0.28 per day</div>
+  </div>
+
+  <div class="pricing-card-body">
+    <div class="timer-section">
+      <div class="timer-dot"></div>
+      <div class="timer-text">This offer expires in</div>
+      <div class="timer-count" id="timer">23:59:47</div>
+    </div>
+
+    <div class="features">
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div class="feature-text"><strong>7 brain training games</strong> — each targets a different cognitive skill</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div class="feature-text"><strong>Personalised 5-minute daily routine</strong> — built around your weak spots</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div class="feature-text"><strong>Weekly score tracking</strong> — watch your number improve week by week</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div class="feature-text"><strong>Works on any device</strong> — nothing to download, start in seconds</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        <div class="feature-text"><strong>30% discount applied automatically</strong> — no code needed</div>
+      </div>
+    </div>
+
+    <div class="email-input-wrap" id="emailInputWrap">
+      <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email">
+      <div class="email-error" id="emailError"></div>
+    </div>
+
+    <button type="button" class="cta-btn" onclick="goPro()">
+      Claim My 30% Off Now <span class="arrow">→</span>
+    </button>
+    <div class="cta-sub">Discount applied automatically · Cancel anytime · No risk</div>
+    <div class="guarantee-row">
+      <div>🛡️</div>
+      <div class="guarantee-text">30-day money-back guarantee — no questions asked</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="section">
+  <div class="urgency-block">
+    <h3>Why are we offering 30% off?</h3>
+    <p>Because you already took the test. You already know something is worth paying attention to. We'd rather you start at a lower price than not start at all — your memory improves faster when you begin sooner.</p>
+  </div>
+
+  <div class="section-title">What members say after 30 days</div>
+  <div class="testimonials">
+    <div class="testimonial">
+      <div class="testimonial-text">"My wife says I'm back to my old self. I didn't realise how much I'd changed until I started improving."</div>
+      <div class="testimonial-score">
+        <div class="score-change"><span class="score-before">41</span><span class="score-arrow">→</span><span class="score-after">73</span></div>
+        <div class="testimonial-author">Robert, 71 · 3 weeks</div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-text">"I trust my memory again. Names, conversations, where I put things — all sharper. Worth every penny."</div>
+      <div class="testimonial-score">
+        <div class="score-change"><span class="score-before">52</span><span class="score-arrow">→</span><span class="score-after">79</span></div>
+        <div class="testimonial-author">Eleanor, 69 · 4 weeks</div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-text">"My daughter noticed the difference before I did. That was the moment I knew it was really working."</div>
+      <div class="testimonial-score">
+        <div class="score-change"><span class="score-before">48</span><span class="score-arrow">→</span><span class="score-after">71</span></div>
+        <div class="testimonial-author">Patricia, 67 · 4 weeks</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-cta">
+  <h2>$0.28 a day.<br>Your memory back.</h2>
+  <p>30% off your first month. Cancel anytime.<br>Full 30-day money-back guarantee.</p>
+  <button type="button" class="cta-btn" onclick="goPro()">
+    Start My Plan — 30% Off <span class="arrow">→</span>
+  </button>
+  <div class="cta-sub">Cancel anytime · 30-day guarantee · Discount applied automatically</div>
+  <div class="payment-logos">
+    <span class="pay-badge">Visa</span><span class="pay-badge">Mastercard</span><span class="pay-badge">PayPal</span><span class="pay-badge">Apple Pay</span><span>Secured by Stripe</span>
+  </div>
+</div>
+
+<!-- EMBEDDED CHECKOUT OVERLAY -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <span>Secure checkout — 30% off</span>
+      <span id="checkoutCountdown">23:59:47</span>
+    </div>
+    <div class="checkout-back">
+      <button type="button" onclick="closeCheckout()">&lsaquo; Back</button>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-summary">
+        <div class="summary-row"><span>First month</span><span>$9.99</span></div>
+        <div class="summary-row discount"><span>Discount (30% off)</span><span>−$3.00</span></div>
+        <div class="summary-row total"><span>Total today</span><span>$6.99</span></div>
+      </div>
+      <div id="payment-element"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var COUPON = 'RECALL30';
+  var PLAN = 'monthly';
+
+  var DURATION = 24 * 60 * 60;
+  function getExpiry() {
+    var stored = localStorage.getItem('rb_offer30_expiry');
+    if (stored) return parseInt(stored);
+    var expiry = Date.now() + DURATION * 1000;
+    localStorage.setItem('rb_offer30_expiry', expiry);
+    return expiry;
+  }
+  function updateTimer() {
+    var remaining = Math.max(0, Math.floor((getExpiry() - Date.now()) / 1000));
+    var text;
+    if (remaining === 0) { text = 'Expired'; }
+    else {
+      var h = Math.floor(remaining / 3600).toString().padStart(2, '0');
+      var m = Math.floor((remaining % 3600) / 60).toString().padStart(2, '0');
+      var s = (remaining % 60).toString().padStart(2, '0');
+      text = h + ':' + m + ':' + s;
+    }
+    var el = document.getElementById('timer');
+    if (el) el.textContent = text;
+    var coEl = document.getElementById('checkoutCountdown');
+    if (coEl) coEl.textContent = text;
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  var userEmail = '';
+  function captureEmail() {
+    var input = document.getElementById('emailInput');
+    var err = document.getElementById('emailError');
+    if (err) err.textContent = '';
+    if (!input) return '';
+    var val = (input.value || '').trim().toLowerCase();
+    if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      if (err) err.textContent = 'Please enter a valid email address.';
+      input.focus();
+      return '';
+    }
+    userEmail = val;
+    try { localStorage.setItem('rb_email', val); } catch (e) {}
+    fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: val, source: 'offer-30', ...(window.getRBUTMs ? window.getRBUTMs() : {}) })
+    }).catch(function () {});
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+    return val;
+  }
+
+  (function () {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var q = (params.get('email') || '').trim().toLowerCase();
+      var stored = '';
+      try { stored = (localStorage.getItem('rb_email') || '').trim().toLowerCase(); } catch (e) {}
+      var e = q || stored;
+      if (e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+        var input = document.getElementById('emailInput');
+        if (input) input.value = e;
+      }
+    } catch (err) {}
+  })();
+
+  var stripeInstance = null;
+  var embeddedCheckout = null;
+
+  function goPro() {
+    if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
+    var email = captureEmail();
+    if (!email) return;
+    var buttons = document.querySelectorAll('.cta-btn');
+    buttons.forEach(function (b) { b.disabled = true; });
+
+    fetch('/api/stripe?action=embedded-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plan: PLAN,
+        email: email,
+        coupon: COUPON,
+        ...(window.getRBUTMs ? window.getRBUTMs() : {})
+      })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.error) throw new Error(data.error);
+        stripeInstance = Stripe(data.publishableKey || 'pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj');
+        return stripeInstance.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+      })
+      .then(function (checkout) {
+        if (!checkout) return;
+        embeddedCheckout = checkout;
+        checkout.mount('#payment-element');
+        document.getElementById('checkoutOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        buttons.forEach(function (b) { b.disabled = false; });
+      })
+      .catch(function (err) {
+        alert(err.message || 'Something went wrong. Please try again.');
+        buttons.forEach(function (b) { b.disabled = false; });
+      });
+  }
+
+  function closeCheckout() {
+    document.getElementById('checkoutOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    if (embeddedCheckout) {
+      try { embeddedCheckout.destroy(); } catch (e) {}
+      embeddedCheckout = null;
+    }
+  }
+
+  if (typeof fbq !== 'undefined') fbq('track', 'ViewContent');
+</script>
+</body>
+</html>

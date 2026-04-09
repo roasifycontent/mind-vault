@@ -66,8 +66,10 @@ async function createPublicCheckout(req, res) {
 
 // POST /api/stripe?action=embedded-checkout (no auth - inline payment form)
 // Uses Stripe Checkout Session with ui_mode:'embedded' for inline checkout
+const ALLOWED_COUPONS = ['RECALL20', 'RECALL30', 'RECALL40', 'RECALL50'];
+
 async function createEmbeddedCheckout(req, res) {
-  const { plan, email, pricing } = req.body || {};
+  const { plan, email, pricing, coupon } = req.body || {};
 
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email is required' });
@@ -82,7 +84,7 @@ async function createEmbeddedCheckout(req, res) {
   const stripe = getStripe();
   const cleanEmail = email.toLowerCase().trim();
 
-  const session = await stripe.checkout.sessions.create({
+  const sessionParams = {
     ui_mode: 'embedded',
     mode: 'subscription',
     customer_email: cleanEmail,
@@ -92,7 +94,17 @@ async function createEmbeddedCheckout(req, res) {
       metadata: { app: 'recall-better', plan },
     },
     return_url: 'https://recallbetter.com/api/auth/checkout-success?session_id={CHECKOUT_SESSION_ID}',
-  });
+  };
+
+  // Only apply coupon if it's in the whitelist — silently ignore others.
+  if (coupon && ALLOWED_COUPONS.includes(String(coupon).toUpperCase())) {
+    const couponId = String(coupon).toUpperCase();
+    sessionParams.discounts = [{ coupon: couponId }];
+    sessionParams.metadata.coupon = couponId;
+    sessionParams.subscription_data.metadata.coupon = couponId;
+  }
+
+  const session = await stripe.checkout.sessions.create(sessionParams);
 
   return res.status(200).json({
     clientSecret: session.client_secret,

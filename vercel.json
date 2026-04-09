@@ -48,7 +48,11 @@
     { "source": "/angle5-prices2", "destination": "/angle5-prices2.html" },
     { "source": "/start", "destination": "/start.html" },
     { "source": "/login", "destination": "/login.html" },
-    { "source": "/assessment", "destination": "/assessment.html" }
+    { "source": "/assessment", "destination": "/assessment.html" },
+    { "source": "/offer-20", "destination": "/offer-20.html" },
+    { "source": "/offer-30", "destination": "/offer-30.html" },
+    { "source": "/offer-40", "destination": "/offer-40.html" },
+    { "source": "/offer-50", "destination": "/offer-50.html" }
   ],
   "headers": [
     {

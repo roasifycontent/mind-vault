@@ -13,11 +13,17 @@ function cleanUtm(v) {
   return s || null;
 }
 
-async function postLoops(payload, rawKey) {
+// endpoint: 'create' → POST /v1/contacts/create
+//           'update' → PUT  /v1/contacts/update   (upsert)
+async function postLoops(payload, rawKey, endpoint = 'create') {
   try {
     const key = (rawKey == null ? '' : String(rawKey)).trim();
-    const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
-      method: 'POST',
+    const useUpdate = endpoint === 'update';
+    const url = useUpdate
+      ? 'https://app.loops.so/api/v1/contacts/update'
+      : 'https://app.loops.so/api/v1/contacts/create';
+    const res = await fetch(url, {
+      method: useUpdate ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${key}`,
@@ -25,9 +31,9 @@ async function postLoops(payload, rawKey) {
       body: JSON.stringify(payload),
     });
     const bodyText = await res.text().catch(() => '');
-    return { status: res.status, ok: res.ok, body: bodyText.slice(0, 500) };
+    return { status: res.status, ok: res.ok, body: bodyText.slice(0, 500), endpoint };
   } catch (err) {
-    return { ok: false, reason: 'network_error', error: err && err.message ? err.message : String(err) };
+    return { ok: false, reason: 'network_error', error: err && err.message ? err.message : String(err), endpoint };
   }
 }
 
@@ -49,7 +55,7 @@ async function testLoopsApiKey(rawKey) {
   }
 }
 
-async function sendToLoops(email, source, utm, mode = 'full') {
+async function sendToLoops(email, source, utm, mode = 'full', endpoint = 'create') {
   const rawKey = process.env.LOOPS_API_KEY;
   if (!rawKey) {
     console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
@@ -78,14 +84,14 @@ async function sendToLoops(email, source, utm, mode = 'full') {
     }
   }
 
-  const r = await postLoops(payload, rawKey);
+  const r = await postLoops(payload, rawKey, endpoint);
 
   if (r.ok) {
     console.log(`[Loops] OK ${r.status} ${email}`);
-    return { ok: true, status: r.status, mode, body: r.body };
+    return { ok: true, status: r.status, mode, endpoint: r.endpoint, body: r.body };
   }
   console.error(`[Loops] FAIL ${r.status || '?'} ${email} — ${r.body || r.error}`);
-  return { ok: false, reason: r.reason || 'api_error', status: r.status, mode, body: r.body, error: r.error };
+  return { ok: false, reason: r.reason || 'api_error', status: r.status, mode, endpoint: r.endpoint, body: r.body, error: r.error };
 }
 
 module.exports = async (req, res) => {
@@ -119,6 +125,9 @@ module.exports = async (req, res) => {
   const debug = req.query && (req.query.debug === '1' || req.query.debug === 'true');
   // Opt-in payload probe: ?probe=minimal|bare|full — controls Loops payload shape.
   const probeMode = (req.query && req.query.probe) || 'full';
+  // Opt-in endpoint select: ?endpoint=update uses /contacts/update (PUT, upsert).
+  // Default 'update' — /contacts/create has been returning HTTP 500 for this account.
+  const endpoint = (req.query && req.query.endpoint) || 'update';
 
   try {
     await sql`
@@ -128,7 +137,7 @@ module.exports = async (req, res) => {
 
     // Await the Loops sync so Vercel doesn't freeze the function before it completes.
     // sendToLoops never throws — all errors are caught internally and logged.
-    const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode);
+    const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode, endpoint);
 
     if (debug) {
       const rk = process.env.LOOPS_API_KEY || '';
@@ -155,7 +164,7 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode);
+      const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode, endpoint);
       if (debug) {
         const rk = process.env.LOOPS_API_KEY || '';
         const tk = rk.trim();

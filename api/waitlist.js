@@ -31,6 +31,24 @@ async function postLoops(payload, rawKey) {
   }
 }
 
+// Hits Loops' API-key validation endpoint to check whether the key itself
+// authenticates at all, independent of /contacts/create.
+async function testLoopsApiKey(rawKey) {
+  try {
+    const key = (rawKey == null ? '' : String(rawKey)).trim();
+    const res = await fetch('https://app.loops.so/api/v1/api-key', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${key}`,
+      },
+    });
+    const bodyText = await res.text().catch(() => '');
+    return { status: res.status, ok: res.ok, body: bodyText.slice(0, 500) };
+  } catch (err) {
+    return { ok: false, reason: 'network_error', error: err && err.message ? err.message : String(err) };
+  }
+}
+
 async function sendToLoops(email, source, utm, mode = 'full') {
   const rawKey = process.env.LOOPS_API_KEY;
   if (!rawKey) {
@@ -115,6 +133,7 @@ module.exports = async (req, res) => {
     if (debug) {
       const rk = process.env.LOOPS_API_KEY || '';
       const tk = rk.trim();
+      const keyTest = await testLoopsApiKey(rk);
       return res.json({
         ok: true,
         _debug: {
@@ -124,6 +143,7 @@ module.exports = async (req, res) => {
           loops_key_first_cc: rk.length ? rk.charCodeAt(0) : null,
           loops_key_last_cc: rk.length ? rk.charCodeAt(rk.length - 1) : null,
           loops_key_has_whitespace: /\s/.test(rk),
+          loops_key_test: keyTest,
           loops: loopsResult,
         },
       });

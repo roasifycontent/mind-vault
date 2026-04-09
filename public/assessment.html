@@ -800,7 +800,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: val, source: 'assessment' , ...(window.getRBUTMs ? window.getRBUTMs() : {})})
       }).catch(function () {});
-      if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+      if (typeof fbq !== 'undefined') fbq('track', 'Lead', {value: 0.00, currency: 'USD'});
       return val;
     }
 

@@ -1002,7 +1002,7 @@ function showPlan() {
 }
 
 function submitEmail() {
-  if(typeof fbq!=="undefined")fbq("track","Lead");
+  if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
   const email = document.getElementById('emailInput').value.trim();
   if (!email || !email.includes('@') || !email.includes('.')) {
     document.getElementById('emailInput').style.borderColor = 'var(--danger)';

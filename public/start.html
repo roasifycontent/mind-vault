@@ -816,7 +816,7 @@ function answer(key, value) {
 
 // Email submission
 function submitEmail() {
-  if(typeof fbq!=="undefined")fbq("track","Lead");
+  if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
   const input = document.getElementById('emailInput');
   const email = input.value.trim();
   if (!email || !email.includes('@') || !email.includes('.')) {

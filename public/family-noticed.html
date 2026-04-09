@@ -1536,7 +1536,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         }
 
         function submitEmail() {
-  if(typeof fbq!=="undefined")fbq("track","Lead");
+  if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
             const email = document.getElementById('emailInput').value.trim();
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

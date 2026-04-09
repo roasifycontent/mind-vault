@@ -16,7 +16,7 @@ function cleanUtm(v) {
 async function sendToLoops(email, source, utm) {
   if (!process.env.LOOPS_API_KEY) {
     console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
-    return;
+    return { ok: false, reason: 'missing_api_key' };
   }
 
   console.log(`[Loops] Syncing ${email} (source: ${source})`);
@@ -48,11 +48,15 @@ async function sendToLoops(email, source, utm) {
 
     if (res.ok) {
       console.log(`[Loops] OK ${res.status} ${email}`);
+      return { ok: true, status: res.status, body: bodyText.slice(0, 500) };
     } else {
       console.error(`[Loops] FAIL ${res.status} ${email} — ${bodyText}`);
+      return { ok: false, reason: 'api_error', status: res.status, body: bodyText.slice(0, 500) };
     }
   } catch (err) {
-    console.error(`[Loops] NETWORK ERROR ${email} — ${err && err.message ? err.message : err}`);
+    const msg = err && err.message ? err.message : String(err);
+    console.error(`[Loops] NETWORK ERROR ${email} — ${msg}`);
+    return { ok: false, reason: 'network_error', error: msg };
   }
 }
 
@@ -83,6 +87,9 @@ module.exports = async (req, res) => {
   const utm_term     = cleanUtm(body.utm_term);
   const utmObj = { utm_source, utm_medium, utm_campaign, utm_content, utm_term };
 
+  // Opt-in diagnostic mode: ?debug=1 echoes Loops result and env flag.
+  const debug = req.query && (req.query.debug === '1' || req.query.debug === 'true');
+
   try {
     await sql`
       INSERT INTO waitlist (email, utm_source, utm_medium, utm_campaign, utm_content, utm_term)
@@ -91,7 +98,18 @@ module.exports = async (req, res) => {
 
     // Await the Loops sync so Vercel doesn't freeze the function before it completes.
     // sendToLoops never throws — all errors are caught internally and logged.
-    await sendToLoops(trimmed, source || 'unknown', utmObj);
+    const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj);
+
+    if (debug) {
+      return res.json({
+        ok: true,
+        _debug: {
+          has_loops_key: !!process.env.LOOPS_API_KEY,
+          loops_key_len: process.env.LOOPS_API_KEY ? process.env.LOOPS_API_KEY.length : 0,
+          loops: loopsResult,
+        },
+      });
+    }
 
     return res.json({ ok: true });
 
@@ -99,10 +117,26 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      await sendToLoops(trimmed, source || 'unknown', utmObj);
+      const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj);
+      if (debug) {
+        return res.status(409).json({
+          error: 'Already registered',
+          _debug: {
+            has_loops_key: !!process.env.LOOPS_API_KEY,
+            loops_key_len: process.env.LOOPS_API_KEY ? process.env.LOOPS_API_KEY.length : 0,
+            loops: loopsResult,
+          },
+        });
+      }
       return res.status(409).json({ error: 'Already registered' });
     }
     console.error('Waitlist error:', err);
+    if (debug) {
+      return res.status(500).json({
+        error: 'Server error',
+        _debug: { db_error: err && err.message ? err.message : String(err) },
+      });
+    }
     return res.status(500).json({ error: 'Server error' });
   }
 };

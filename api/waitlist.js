@@ -13,13 +13,14 @@ function cleanUtm(v) {
   return s || null;
 }
 
-async function postLoops(payload) {
+async function postLoops(payload, rawKey) {
   try {
+    const key = (rawKey == null ? '' : String(rawKey)).trim();
     const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
+        'Authorization': `Bearer ${key}`,
       },
       body: JSON.stringify(payload),
     });
@@ -31,7 +32,8 @@ async function postLoops(payload) {
 }
 
 async function sendToLoops(email, source, utm, mode = 'full') {
-  if (!process.env.LOOPS_API_KEY) {
+  const rawKey = process.env.LOOPS_API_KEY;
+  if (!rawKey) {
     console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
     return { ok: false, reason: 'missing_api_key' };
   }
@@ -58,7 +60,7 @@ async function sendToLoops(email, source, utm, mode = 'full') {
     }
   }
 
-  const r = await postLoops(payload);
+  const r = await postLoops(payload, rawKey);
 
   if (r.ok) {
     console.log(`[Loops] OK ${r.status} ${email}`);
@@ -111,11 +113,17 @@ module.exports = async (req, res) => {
     const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode);
 
     if (debug) {
+      const rk = process.env.LOOPS_API_KEY || '';
+      const tk = rk.trim();
       return res.json({
         ok: true,
         _debug: {
-          has_loops_key: !!process.env.LOOPS_API_KEY,
-          loops_key_len: process.env.LOOPS_API_KEY ? process.env.LOOPS_API_KEY.length : 0,
+          has_loops_key: !!rk,
+          loops_key_len_raw: rk.length,
+          loops_key_len_trimmed: tk.length,
+          loops_key_first_cc: rk.length ? rk.charCodeAt(0) : null,
+          loops_key_last_cc: rk.length ? rk.charCodeAt(rk.length - 1) : null,
+          loops_key_has_whitespace: /\s/.test(rk),
           loops: loopsResult,
         },
       });
@@ -129,11 +137,17 @@ module.exports = async (req, res) => {
       // Still sync to Loops in case they weren't added there before
       const loopsResult = await sendToLoops(trimmed, source || 'unknown', utmObj, probeMode);
       if (debug) {
+        const rk = process.env.LOOPS_API_KEY || '';
+        const tk = rk.trim();
         return res.status(409).json({
           error: 'Already registered',
           _debug: {
-            has_loops_key: !!process.env.LOOPS_API_KEY,
-            loops_key_len: process.env.LOOPS_API_KEY ? process.env.LOOPS_API_KEY.length : 0,
+            has_loops_key: !!rk,
+            loops_key_len_raw: rk.length,
+            loops_key_len_trimmed: tk.length,
+            loops_key_first_cc: rk.length ? rk.charCodeAt(0) : null,
+            loops_key_last_cc: rk.length ? rk.charCodeAt(rk.length - 1) : null,
+            loops_key_has_whitespace: /\s/.test(rk),
             loops: loopsResult,
           },
         });

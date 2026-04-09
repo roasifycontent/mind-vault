@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '750954910212510');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Recall Better Plan Is Ready</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-main: #FAF7F2;
+      --card-bg: #FFFFFF;
+      --accent: #2D7A5F;
+      --accent-light: #E8F5EE;
+      --accent-hover: #246B52;
+      --text-primary: #2C2C2C;
+      --text-mid: #5A5A5A;
+      --text-dim: #8A8A8A;
+      --gold: #D4A017;
+      --border: #E8E2D9;
+    }
+
+    html, body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    body { overflow-x: hidden; }
+
+    .container { max-width: 540px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 26px;
+      color: var(--accent);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.25;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-size: 16px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin: 0 auto;
+      max-width: 460px;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0 0;
+    }
+    .stat-item {
+      background: var(--accent-light);
+      padding: 12px 8px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .stat-item .n {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .stat-item .t {
+      font-size: 11px;
+      color: var(--text-mid);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-top: 2px;
+    }
+
+    .section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .benefit-list { display: flex; flex-direction: column; gap: 14px; }
+    .benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+    .benefit .tick {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 1px;
+    }
+    .benefit strong { color: var(--accent); }
+
+    .email-box {
+      background: var(--accent-light);
+      border: 1px solid rgba(45,122,95,0.2);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .email-box .lbl {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+    }
+    .email-box .val {
+      font-size: 16px;
+      color: var(--text-primary);
+      font-weight: 600;
+      word-break: break-all;
+    }
+    .email-box .edit-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-size: 13px;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .email-input-wrap { margin-bottom: 20px; }
+    .email-input-wrap label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .email-input-wrap input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      background: var(--card-bg);
+      color: var(--text-primary);
+    }
+    .email-input-wrap input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .email-error {
+      color: #C0392B;
+      font-size: 13px;
+      margin-top: 6px;
+      min-height: 18px;
+    }
+
+    .countdown-banner {
+      background: #F7D67A;
+      color: #3a2d07;
+      text-align: center;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .countdown-banner svg { width: 18px; height: 18px; }
+
+    .plan-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+    .plan-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .plan-card:hover { border-color: rgba(45,122,95,0.35); }
+    .plan-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .plan-card .radio-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .plan-card.selected .radio-dot { border-color: var(--accent); }
+    .plan-card.selected .radio-dot::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .plan-card .plan-info { flex: 1; }
+    .plan-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+    .plan-prices .original { font-size: 14px; color: var(--text-dim); text-decoration: line-through; }
+    .plan-prices .sale { font-size: 15px; color: var(--text-primary); font-weight: 600; }
+    .price-tag {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      text-align: center;
+      flex-shrink: 0;
+      min-width: 86px;
+    }
+    .plan-card.selected .price-tag {
+      background: rgba(45,122,95,0.08);
+      border-color: rgba(45,122,95,0.3);
+    }
+    .price-tag .tag-dollar { font-size: 13px; color: var(--text-dim); vertical-align: super; }
+    .price-tag .tag-amount {
+      font-family: 'Instrument Serif', serif;
+      font-size: 30px;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .plan-card.selected .price-tag .tag-amount { color: var(--accent); }
+    .price-tag .tag-cents { font-size: 15px; color: var(--text-dim); vertical-align: super; }
+    .price-tag .tag-per { font-size: 11px; color: var(--text-dim); display: block; margin-top: 2px; }
+
+    .popular-banner {
+      background: var(--accent);
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 12px 12px 0 0;
+      margin-bottom: -2px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .plan-card.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
+
+    .cta-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+    }
+    .cta-btn:hover { background: var(--accent-hover); }
+    .cta-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .terms-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0;
+      font-size: 14px;
+      color: var(--text-mid);
+      justify-content: center;
+    }
+    .terms-check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+    .terms-check a { color: var(--accent); text-decoration: underline; }
+
+    .legal-text {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-align: center;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .safe-checkout {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin: 14px 0 6px;
+    }
+    .safe-checkout strong { color: var(--text-primary); }
+
+    .payment-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .payment-logos span {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .guarantee {
+      background: var(--accent-light);
+      border: 1px dashed rgba(45,122,95,0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-align: center;
+      margin: 16px 0 0;
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .testimonials-grid { display: flex; flex-direction: column; gap: 14px; }
+    .testimonial {
+      background: var(--bg-main);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .testimonial-text { font-size: 15px; color: var(--text-primary); line-height: 1.55; font-style: italic; }
+    .testimonial-author { font-size: 13px; color: var(--text-mid); font-weight: 600; margin-top: 8px; }
+    .stars { color: var(--gold); font-size: 14px; letter-spacing: 1px; }
+
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 30px;
+    }
+    .footer a { color: var(--text-mid); text-decoration: none; margin: 0 6px; }
+
+    /* Embedded Checkout Overlay */
+    .checkout-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 9999;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+    .checkout-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .checkout-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .checkout-header .countdown-text {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+    }
+    .checkout-back { padding: 14px 24px 0; }
+    .checkout-back button {
+      background: none;
+      border: none;
+      color: var(--text-mid);
+      font-size: 15px;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+    }
+    .checkout-back button:hover { color: var(--text-primary); }
+    .checkout-body {
+      display: flex;
+      gap: 20px;
+      padding: 18px 24px 24px;
+      flex-wrap: wrap;
+    }
+    .checkout-payment { flex: 1; min-width: 260px; }
+    .checkout-payment h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+    }
+    .checkout-summary {
+      flex: 0 0 200px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      height: fit-content;
+    }
+    .checkout-summary .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      color: var(--text-primary);
+      padding: 5px 0;
+    }
+    .checkout-summary .summary-row.discount { color: #C0392B; }
+    .checkout-summary .summary-row.total {
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+    .checkout-footer { padding: 0 24px 20px; }
+
+    @media (max-width: 540px) {
+      .checkout-body { flex-direction: column; }
+      .checkout-summary { flex: 1; width: 100%; }
+      h1 { font-size: 28px; }
+      .container { padding: 24px 16px 50px; }
+      .section { padding: 20px 18px; }
+      .hero-card { padding: 24px 18px; }
+      .stat-item .n { font-size: 20px; }
+      .price-tag .tag-amount { font-size: 26px; }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 25px; }
+      .plan-card { padding: 14px 12px; gap: 10px; }
+      .plan-name { font-size: 14px; }
+      .price-tag { min-width: 76px; padding: 6px 10px; }
+      .price-tag .tag-amount { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="logo">Recall Better</div>
+
+    <div class="hero-card">
+      <div class="hero-badge">Your plan is ready</div>
+      <h1>Your personalised brain training plan is waiting</h1>
+      <p class="hero-sub">You started your memory assessment — now unlock the full 4-week plan built around your results. Join thousands sharpening their recall in just 5 minutes a day.</p>
+
+      <div class="stat-row">
+        <div class="stat-item">
+          <div class="n">4 weeks</div>
+          <div class="t">To sharper recall</div>
+        </div>
+        <div class="stat-item">
+          <div class="n">5 min</div>
+          <div class="t">Per day</div>
+        </div>
+        <div class="stat-item">
+          <div class="n">12,000+</div>
+          <div class="t">Members</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>What you'll get</h2>
+      <div class="benefit-list">
+        <div class="benefit">
+          <div class="tick">&#10003;</div>
+          <div><strong>7 targeted brain games</strong> — each trains a different cognitive skill: word recall, sequence memory, pattern recognition, focus and more.</div>
+        </div>
+        <div class="benefit">
+          <div class="tick">&#10003;</div>
+          <div><strong>A personalised 5-minute daily routine</strong> — built around your weakest areas so every session works the muscles that need it most.</div>
+        </div>
+        <div class="benefit">
+          <div class="tick">&#10003;</div>
+          <div><strong>Weekly progress tracking</strong> — retake your assessment and watch your scores climb week after week.</div>
+        </div>
+        <div class="benefit">
+          <div class="tick">&#10003;</div>
+          <div><strong>Works on any device</strong> — phone, tablet or computer. Nothing to download, start instantly.</div>
+        </div>
+        <div class="benefit">
+          <div class="tick">&#10003;</div>
+          <div><strong>Science-backed exercises</strong> — designed using techniques from cognitive research shown to support memory in adults 50+.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Choose your plan</h2>
+
+      <div id="emailDisplay" class="email-box" style="display:none;">
+        <div class="lbl">Your account email</div>
+        <div class="val" id="emailDisplayVal"></div>
+        <button class="edit-link" type="button" onclick="editEmail()">Change</button>
+      </div>
+
+      <div id="emailInputWrap" class="email-input-wrap">
+        <label for="emailInput">Enter your email to unlock your plan</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
+        <div class="email-error" id="emailError"></div>
+      </div>
+
+      <div class="countdown-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>This offer ends in <strong id="countdownTimer">10:00</strong></span>
+      </div>
+
+      <div class="plan-cards">
+        <div class="plan-card" data-plan="weekly" onclick="selectPlan('weekly')">
+          <div class="radio-dot"></div>
+          <div class="plan-info">
+            <div class="plan-name">7-Day Plan</div>
+            <div class="plan-prices"><span class="original">$13.86</span> <span class="sale">$6.93</span></div>
+          </div>
+          <div class="price-tag">
+            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.99</span>
+            <span class="tag-per">per day</span>
+          </div>
+        </div>
+
+        <div class="popular-banner">&#128077; MOST POPULAR: 50% OFF</div>
+        <div class="plan-card selected has-banner" data-plan="monthly" onclick="selectPlan('monthly')">
+          <div class="radio-dot"></div>
+          <div class="plan-info">
+            <div class="plan-name">1-Month Plan</div>
+            <div class="plan-prices"><span class="original">$39.98</span> <span class="sale">$19.99</span></div>
+          </div>
+          <div class="price-tag">
+            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.66</span>
+            <span class="tag-per">per day</span>
+          </div>
+        </div>
+
+        <div class="plan-card" data-plan="quarterly" onclick="selectPlan('quarterly')">
+          <div class="radio-dot"></div>
+          <div class="plan-info">
+            <div class="plan-name">3-Month Plan</div>
+            <div class="plan-prices"><span class="original">$79.98</span> <span class="sale">$39.99</span></div>
+          </div>
+          <div class="price-tag">
+            <span class="tag-dollar">$</span><span class="tag-amount">0</span><span class="tag-cents">.44</span>
+            <span class="tag-per">per day</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="cta-btn" id="getMyPlanBtn" onclick="goPro()">GET MY PLAN</button>
+
+      <div class="terms-check">
+        <input type="checkbox" id="termsAgree" checked>
+        <label for="termsAgree">I agree to the <a href="/terms">T&Cs</a> and <a href="/privacy">Privacy Policy</a></label>
+      </div>
+
+      <div class="legal-text" id="legalText">
+        By clicking "GET MY PLAN", I agree to pay $19.99 for my plan and that if I do not cancel before the end of the 1-month plan, Recall Better will automatically charge my payment method $19.99 every 1 month thereafter until I cancel by contacting us at help@recallbetter.com.
+      </div>
+
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+
+      <div class="guarantee">
+        &#128274; 30-day money-back guarantee. Cancel anytime.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>What members say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-text">"I saw changes in just two weeks. I'm remembering things better, feeling sharper at work, and even my family noticed."</div>
+          <div class="testimonial-author">Robert, 71</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-text">"The structure is brilliant. I know exactly what I'm doing each morning and can see my progress. It's motivating."</div>
+          <div class="testimonial-author">Eleanor, 69</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-text">"Worth every penny. The games feel tailored to me. My brain feels genuinely sharper."</div>
+          <div class="testimonial-author">Jean, 64</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="/terms">Terms</a> &middot; <a href="/privacy">Privacy</a> &middot; help@recallbetter.com
+    </div>
+
+  </div>
+
+  <!-- Embedded Checkout Overlay -->
+  <div class="checkout-overlay" id="checkoutOverlay">
+    <div class="checkout-container">
+      <div class="checkout-header">
+        <span>The offer expires in:</span>
+        <span class="countdown-text" id="checkoutCountdown">10:00</span>
+      </div>
+      <div class="checkout-back">
+        <button type="button" onclick="closeCheckout()">&lsaquo; Back to plans</button>
+      </div>
+      <div class="checkout-body">
+        <div class="checkout-payment">
+          <h3>Select a payment method</h3>
+          <div id="payment-element"></div>
+        </div>
+        <div class="checkout-summary">
+          <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
+          <div class="summary-row discount"><span>Discount (-50%)</span><span id="summaryDiscount">-$19.99</span></div>
+          <div class="summary-row total"><span>Total</span><span id="summaryTotal">$19.99</span></div>
+        </div>
+      </div>
+      <div class="checkout-footer">
+        <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+        <div class="payment-logos">
+          <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- State ---
+    var selectedPlan = 'monthly';
+    var userEmail = '';
+
+    // --- Email: pull from URL ?email= or localStorage, else show input ---
+    function initEmail() {
+      var params = new URLSearchParams(window.location.search);
+      var qEmail = (params.get('email') || '').trim().toLowerCase();
+      var stored = '';
+      try { stored = (localStorage.getItem('rb_email') || '').trim().toLowerCase(); } catch (e) {}
+      var email = qEmail || stored;
+      if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        userEmail = email;
+        try { localStorage.setItem('rb_email', email); } catch (e) {}
+        document.getElementById('emailInputWrap').style.display = 'none';
+        document.getElementById('emailDisplay').style.display = 'block';
+        document.getElementById('emailDisplayVal').textContent = email;
+      }
+    }
+
+    function editEmail() {
+      document.getElementById('emailDisplay').style.display = 'none';
+      var wrap = document.getElementById('emailInputWrap');
+      wrap.style.display = 'block';
+      var input = document.getElementById('emailInput');
+      input.value = userEmail || '';
+      input.focus();
+    }
+
+    // --- Plan selection ---
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      document.querySelectorAll('.plan-card').forEach(function (c) {
+        c.classList.toggle('selected', c.getAttribute('data-plan') === plan);
+      });
+      var planNames = { weekly: '7-day', monthly: '1-month', quarterly: '3-month' };
+      var planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+      var legalEl = document.getElementById('legalText');
+      if (legalEl) {
+        legalEl.innerHTML = 'By clicking "GET MY PLAN", I agree to pay ' + planPrices[plan] + ' for my plan and that if I do not cancel before the end of the ' + planNames[plan] + ' plan, Recall Better will automatically charge my payment method ' + planPrices[plan] + ' every ' + planNames[plan] + ' thereafter until I cancel by contacting us at help@recallbetter.com.';
+      }
+    }
+
+    // --- Email validation ---
+    function captureEmail() {
+      if (userEmail) return userEmail;
+      var input = document.getElementById('emailInput');
+      var err = document.getElementById('emailError');
+      err.textContent = '';
+      if (!input) return '';
+      var val = (input.value || '').trim().toLowerCase();
+      if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+        err.textContent = 'Please enter a valid email address.';
+        input.focus();
+        return '';
+      }
+      userEmail = val;
+      try { localStorage.setItem('rb_email', val); } catch (e) {}
+      // Save to waitlist so email nurture can pick them back up if they bounce
+      fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: val, source: 'assessment' })
+      }).catch(function () {});
+      if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+      return val;
+    }
+
+    // --- Countdown timer ---
+    (function () {
+      var t = 600;
+      var el = document.getElementById('countdownTimer');
+      if (!el) return;
+      setInterval(function () {
+        t--;
+        if (t < 0) t = 0;
+        var m = Math.floor(t / 60);
+        var s = t % 60;
+        el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+      }, 1000);
+    })();
+
+    // --- Checkout ---
+    var stripeInstance = null;
+    var embeddedCheckout = null;
+
+    function goPro() {
+      if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
+
+      if (!document.getElementById('termsAgree').checked) {
+        alert('Please agree to the Terms and Privacy Policy to continue.');
+        return;
+      }
+
+      var email = captureEmail();
+      if (!email) return;
+
+      var plan = selectedPlan || 'monthly';
+      var btn = document.getElementById('getMyPlanBtn');
+      btn.textContent = 'Loading...';
+      btn.disabled = true;
+
+      var planLabels = { weekly: '7-day plan', monthly: '1-month plan', quarterly: '3-month plan' };
+      var planPrices = { weekly: '$6.93', monthly: '$19.99', quarterly: '$39.99' };
+      var origPrices = { weekly: '$13.86', monthly: '$39.98', quarterly: '$79.98' };
+      var discounts = { weekly: '-$6.93', monthly: '-$19.99', quarterly: '-$39.99' };
+      document.getElementById('summaryPlanName').textContent = planLabels[plan];
+      document.getElementById('summaryOriginal').textContent = origPrices[plan];
+      document.getElementById('summaryDiscount').textContent = discounts[plan];
+      document.getElementById('summaryTotal').textContent = planPrices[plan];
+
+      fetch('/api/stripe?action=embedded-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: plan, email: email, pricing: 'prices2' })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.error) throw new Error(data.error);
+          if (data.alreadyActive) { window.location.href = '/app?checkout=success'; return; }
+          stripeInstance = Stripe('pk_live_51TBIT6AWM5kTbKjpnoyLxqpjZ9Lg8mysMiOgIVsPxN9f9E8CAbrDQxTLwsf9grpwaI3n1OvsLwC9YCNQgCGsQdN5003PvNXGMj');
+          return stripeInstance.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+        })
+        .then(function (checkout) {
+          if (!checkout) return;
+          embeddedCheckout = checkout;
+          checkout.mount('#payment-element');
+          document.getElementById('checkoutOverlay').classList.add('active');
+          document.body.style.overflow = 'hidden';
+          var srcEl = document.getElementById('countdownTimer');
+          if (srcEl) {
+            var sync = function () {
+              var d = document.getElementById('checkoutCountdown');
+              if (d) d.textContent = srcEl.textContent;
+            };
+            sync();
+            setInterval(sync, 1000);
+          }
+          btn.textContent = 'GET MY PLAN';
+          btn.disabled = false;
+        })
+        .catch(function (err) {
+          alert(err.message || 'Something went wrong. Please try again.');
+          btn.textContent = 'GET MY PLAN';
+          btn.disabled = false;
+        });
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      if (embeddedCheckout) {
+        try { embeddedCheckout.destroy(); } catch (e) {}
+        embeddedCheckout = null;
+      }
+    }
+
+    // --- Init ---
+    initEmail();
+    if (typeof fbq !== 'undefined') fbq('track', 'ViewContent');
+  </script>
+</body>
+</html>

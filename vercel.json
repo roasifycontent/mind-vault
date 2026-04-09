@@ -47,7 +47,8 @@
     { "source": "/angle4-prices2", "destination": "/angle4-prices2.html" },
     { "source": "/angle5-prices2", "destination": "/angle5-prices2.html" },
     { "source": "/start", "destination": "/start.html" },
-    { "source": "/login", "destination": "/login.html" }
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/assessment", "destination": "/assessment.html" }
   ],
   "headers": [
     {

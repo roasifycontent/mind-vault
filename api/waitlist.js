@@ -6,15 +6,34 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-function sendToLoops(email, source) {
-  fetch('https://app.loops.so/api/v1/contacts/create', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
-    },
-    body: JSON.stringify({ email, subscribed: true, funnel_source: source }),
-  }).catch(err => console.error('Loops error:', err.message));
+async function sendToLoops(email, source) {
+  if (!process.env.LOOPS_API_KEY) {
+    console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
+    return;
+  }
+
+  console.log(`[Loops] Syncing ${email} (source: ${source})`);
+
+  try {
+    const res = await fetch('https://app.loops.so/api/v1/contacts/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
+      },
+      body: JSON.stringify({ email, subscribed: true, funnel_source: source }),
+    });
+
+    const bodyText = await res.text().catch(() => '');
+
+    if (res.ok) {
+      console.log(`[Loops] OK ${res.status} ${email}`);
+    } else {
+      console.error(`[Loops] FAIL ${res.status} ${email} — ${bodyText}`);
+    }
+  } catch (err) {
+    console.error(`[Loops] NETWORK ERROR ${email} — ${err && err.message ? err.message : err}`);
+  }
 }
 
 module.exports = async (req, res) => {
@@ -40,8 +59,9 @@ module.exports = async (req, res) => {
       INSERT INTO waitlist (email) VALUES (${trimmed})
     `;
 
-    // Non-blocking: sync to Loops for email nurture
-    sendToLoops(trimmed, source || 'unknown');
+    // Await the Loops sync so Vercel doesn't freeze the function before it completes.
+    // sendToLoops never throws — all errors are caught internally and logged.
+    await sendToLoops(trimmed, source || 'unknown');
 
     return res.json({ ok: true });
 
@@ -49,7 +69,7 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      sendToLoops(trimmed, source || 'unknown');
+      await sendToLoops(trimmed, source || 'unknown');
       return res.status(409).json({ error: 'Already registered' });
     }
     console.error('Waitlist error:', err);

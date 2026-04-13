@@ -2023,6 +2023,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
   if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
             const email = document.getElementById('emailInput').value;
             if (email.includes('@') && email.includes('.')) {
+                state.email = email;
                 fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'memory-test', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
                 nextScreen();
             } else {
@@ -2039,7 +2040,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 
         async function startCheckout() {
   if(typeof fbq!=="undefined")fbq("track","InitiateCheckout");
-  const email = state.email || (document.getElementById('heroEmail') && document.getElementById('heroEmail').value);
+  const email = state.email || (document.getElementById('emailInput') && document.getElementById('emailInput').value);
   if (!email) { alert('Please enter your email first.'); return; }
 
   // Update summary for trial

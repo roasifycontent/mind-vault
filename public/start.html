@@ -214,7 +214,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
 
   <div class="cta-wrap animate delay-2">
-    <button class="cta-btn" onclick="startTrial()">START FREE TRIAL</button>
+    <button class="cta-btn" onclick="startTrial(event)">START FREE TRIAL</button>
     <div class="cta-sub">Free for 7 days · Cancel anytime · No charge today</div>
   </div>
 
@@ -251,7 +251,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
 
   <div class="cta-wrap">
-    <button class="cta-btn" onclick="startTrial()">START FREE TRIAL</button>
+    <button class="cta-btn" onclick="startTrial(event)">START FREE TRIAL</button>
     <div class="cta-sub">Free for 7 days · Cancel anytime · No charge today</div>
   </div>
 
@@ -304,7 +304,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--f
   </div>
 
   <div class="cta-wrap">
-    <button class="cta-btn" onclick="startTrial()">START FREE TRIAL</button>
+    <button class="cta-btn" onclick="startTrial(event)">START FREE TRIAL</button>
     <div class="cta-sub">Free for 7 days · $9.99/month after · Cancel anytime</div>
   </div>
 
@@ -343,7 +343,7 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--f
 
   <div style="text-align:center;margin:24px 0 8px;font-size:14px;color:var(--text-mid)">Join 53,000+ adults training their memory today.</div>
   <div class="cta-wrap" style="margin-top:8px">
-    <button class="cta-btn" onclick="startTrial()">START FREE TRIAL</button>
+    <button class="cta-btn" onclick="startTrial(event)">START FREE TRIAL</button>
     <div class="cta-sub">Free for 7 days · Cancel anytime</div>
   </div>
 
@@ -374,9 +374,13 @@ body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--f
 <script>
 // ========== PERSONALISATION FROM URL PARAMS ==========
 const params = new URLSearchParams(window.location.search);
-const score = parseInt(params.get('score')) || 0;
-const weakArea = params.get('weak') || '';
-const email = params.get('email') || '';
+const scoreRaw = params.get('score') || '';
+const score = scoreRaw.includes('{{') ? 0 : (parseInt(scoreRaw) || 0);
+const weakRaw = params.get('weak') || '';
+const weakArea = weakRaw.includes('{{') ? '' : weakRaw;
+// Validate email param — ignore Loops template tags like {{email}}
+const rawEmail = (params.get('email') || '').trim();
+const email = (rawEmail.includes('@') && rawEmail.includes('.') && !rawEmail.includes('{{')) ? rawEmail : '';
 
 if (score > 0) {
   const target = Math.min(100, score + 20 + Math.floor(Math.random() * 5));
@@ -408,8 +412,8 @@ function toggleFaq(el) {
 }
 
 // ========== CHECKOUT ==========
-function startTrial() {
-  const btn = event.currentTarget;
+function startTrial(e) {
+  const btn = (e && e.currentTarget) || this;
   btn.textContent = 'Loading...';
   btn.style.opacity = '0.7';
 

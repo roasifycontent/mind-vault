@@ -22,7 +22,7 @@ function isLoopsSilentSuccess(status, body) {
   return status === 500 && /internal server error/i.test(body || '');
 }
 
-async function sendToLoops(email, source, utm) {
+async function sendToLoops(email, source, utm, extras) {
   const rawKey = process.env.LOOPS_API_KEY;
   if (!rawKey) {
     console.error('[Loops] MISSING LOOPS_API_KEY env var — skipping sync for', email);
@@ -39,6 +39,11 @@ async function sendToLoops(email, source, utm) {
     if (utm.utm_campaign) payload.utm_campaign = utm.utm_campaign;
     if (utm.utm_content)  payload.utm_content  = utm.utm_content;
     if (utm.utm_term)     payload.utm_term     = utm.utm_term;
+  }
+  // Forward quiz score data for email personalisation
+  if (extras) {
+    if (extras.memoryScore != null) payload.memoryScore = Number(extras.memoryScore) || 0;
+    if (extras.weakArea)            payload.weakArea    = String(extras.weakArea).slice(0, 100);
   }
 
   try {
@@ -113,7 +118,12 @@ module.exports = async (req, res) => {
 
     // Await the Loops sync so Vercel doesn't freeze the function before it completes.
     // sendToLoops never throws — all errors are caught internally and logged.
-    await sendToLoops(trimmed, source || 'unknown', utmObj);
+    // Build extras object from request body for Loops personalisation
+    const extras = {
+      memoryScore: body.memoryScore,
+      weakArea: body.weakArea,
+    };
+    await sendToLoops(trimmed, source || 'unknown', utmObj, extras);
 
     return res.json({ ok: true });
 
@@ -121,7 +131,8 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      await sendToLoops(trimmed, source || 'unknown', utmObj);
+      const extras = { memoryScore: body.memoryScore, weakArea: body.weakArea };
+      await sendToLoops(trimmed, source || 'unknown', utmObj, extras);
       return res.status(409).json({ error: 'Already registered' });
     }
     console.error('Waitlist error:', err);

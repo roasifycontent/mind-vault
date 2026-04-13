@@ -2,6 +2,23 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const { sql } = require('../../lib/db');
 
+// Update a contact's subscriptionStatus in Loops (non-blocking, never throws)
+async function updateLoopsStatus(email, status) {
+  const rawKey = process.env.LOOPS_API_KEY;
+  if (!rawKey || !email) return;
+  const key = String(rawKey).trim();
+  try {
+    const res = await fetch('https://app.loops.so/api/v1/contacts/update', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      body: JSON.stringify({ email: email.toLowerCase(), subscriptionStatus: status }),
+    });
+    console.log(`[Loops] status update ${res.status} ${email} → ${status}`);
+  } catch (err) {
+    console.error(`[Loops] status update failed ${email}:`, err.message || err);
+  }
+}
+
 // Disable Vercel's automatic body parsing so we get the raw body for Stripe signature verification
 const { buffer } = require('micro');
 
@@ -105,6 +122,13 @@ module.exports = async (req, res) => {
             }
           }
         }
+
+        // Update Loops so the contact exits the nurture sequence
+        if (email) {
+          const subObj = subscriptionId ? await stripe.subscriptions.retrieve(subscriptionId).catch(() => null) : null;
+          const loopsStatus = (subObj && subObj.status === 'trialing') ? 'trialing' : 'active';
+          await updateLoopsStatus(email, loopsStatus);
+        }
         break;
       }
 
@@ -134,6 +158,12 @@ module.exports = async (req, res) => {
               subscription_status = 'cancelled'
           WHERE stripe_customer_id = ${customerId}
         `;
+
+        // Sync cancellation to Loops
+        try {
+          const cust = await stripe.customers.retrieve(customerId);
+          if (cust && cust.email) await updateLoopsStatus(cust.email, 'cancelled');
+        } catch (_) { /* non-critical */ }
         break;
       }
 

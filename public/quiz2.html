@@ -939,7 +939,7 @@ function submitEmail() {
   fetch('/api/waitlist', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, source: 'quiz2', riskScore: state.riskScore , ...(window.getRBUTMs ? window.getRBUTMs() : {})})
+    body: JSON.stringify({ email, source: 'quiz2', riskScore: state.riskScore, memoryScore: state.riskScore || 0, weakArea: state.severity ? Object.entries(state.severity).sort((a,b)=>b[1]-a[1])[0][0] : '', ...(window.getRBUTMs ? window.getRBUTMs() : {})})
   }).catch(() => {});
 
   goNext();

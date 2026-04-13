@@ -1134,7 +1134,7 @@ function submitEmail() {
   fetch('/api/waitlist', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, source: 'quiz', brainAge: state.brainAge , ...(window.getRBUTMs ? window.getRBUTMs() : {})})
+    body: JSON.stringify({ email, source: 'quiz', brainAge: state.brainAge, memoryScore: state.brainAge ? Math.max(10, Math.min(90, 100 - (state.brainAge - 30))) : 0, weakArea: state.weakestLabel || (state.concerns && state.concerns.size > 0 ? [...state.concerns][0] : ''), ...(window.getRBUTMs ? window.getRBUTMs() : {})})
   }).catch(() => {});
 
   goNext();

@@ -2097,7 +2097,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
   if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
             const email = document.getElementById('emailInput').value;
             if (email.includes('@') && email.includes('.')) {
-                fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'memory-test', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
+                fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'memory-test', memoryScore: state.overallScore || 0, weakArea: state.weakestArea || '', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
                 nextScreen();
             } else {
                 alert('Please enter a valid email address');

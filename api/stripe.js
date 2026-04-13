@@ -33,6 +33,10 @@ const PRICES2_MAP = {
   yearly:    'price_1THfyKAWM5kTbKjpL3YoASM5',
 };
 
+const TRIAL_PRICES = {
+  monthly: 'price_1TLgUBAWM5kTbKjpu58yvoCH',     // $9.99/month with 7-day trial
+};
+
 async function createPublicCheckout(req, res) {
   const { plan, email, pricing } = req.body || {};
 
@@ -40,26 +44,41 @@ async function createPublicCheckout(req, res) {
     return res.status(400).json({ error: 'Valid email is required' });
   }
 
-  const priceMap = pricing === 'prices2' ? PRICES2_MAP : PUBLIC_PRICE_MAP;
-  const priceId = priceMap[plan];
+  let priceId;
+  let isTrial = false;
+
+  if (pricing === 'trial') {
+    priceId = TRIAL_PRICES.monthly;
+    isTrial = true;
+  } else {
+    const priceMap = pricing === 'prices2' ? PRICES2_MAP : PUBLIC_PRICE_MAP;
+    priceId = priceMap[plan];
+  }
+
   if (!priceId) {
     return res.status(400).json({ error: 'Invalid plan. Use: weekly, monthly, or quarterly' });
   }
 
   const stripe = getStripe();
 
-  const session = await stripe.checkout.sessions.create({
+  const sessionConfig = {
     mode: 'subscription',
     customer_email: email.toLowerCase().trim(),
     line_items: [{ price: priceId, quantity: 1 }],
-    metadata: { app: 'recall-better', plan, source: 'quiz' },
-    allow_promotion_codes: true,
+    metadata: { app: 'recall-better', plan: isTrial ? 'monthly' : plan, source: 'quiz' },
+    allow_promotion_codes: !isTrial,
     subscription_data: {
-      metadata: { app: 'recall-better', plan },
+      metadata: { app: 'recall-better', plan: isTrial ? 'monthly' : plan },
     },
     success_url: 'https://recallbetter.com/api/auth/checkout-success?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'https://recallbetter.com/quiz',
-  });
+  };
+
+  if (isTrial) {
+    sessionConfig.subscription_data.trial_period_days = 7;
+  }
+
+  const session = await stripe.checkout.sessions.create(sessionConfig);
 
   return res.status(200).json({ url: session.url });
 }
@@ -75,8 +94,17 @@ async function createEmbeddedCheckout(req, res) {
     return res.status(400).json({ error: 'Valid email is required' });
   }
 
-  const priceMap = pricing === 'prices2' ? PRICES2_MAP : PUBLIC_PRICE_MAP;
-  const priceId = priceMap[plan];
+  let priceId;
+  let isTrial = false;
+
+  if (pricing === 'trial') {
+    priceId = TRIAL_PRICES.monthly; // Single plan for trial pages
+    isTrial = true;
+  } else {
+    const priceMap = pricing === 'prices2' ? PRICES2_MAP : PUBLIC_PRICE_MAP;
+    priceId = priceMap[plan];
+  }
+
   if (!priceId) {
     return res.status(400).json({ error: 'Invalid plan. Use: weekly, monthly, or quarterly' });
   }
@@ -89,15 +117,20 @@ async function createEmbeddedCheckout(req, res) {
     mode: 'subscription',
     customer_email: cleanEmail,
     line_items: [{ price: priceId, quantity: 1 }],
-    metadata: { app: 'recall-better', plan, source: 'quiz-embedded' },
+    metadata: { app: 'recall-better', plan: isTrial ? 'monthly' : plan, source: 'quiz-embedded' },
     subscription_data: {
-      metadata: { app: 'recall-better', plan },
+      metadata: { app: 'recall-better', plan: isTrial ? 'monthly' : plan },
     },
     return_url: 'https://recallbetter.com/api/auth/checkout-success?session_id={CHECKOUT_SESSION_ID}',
   };
 
+  // Add 7-day free trial for trial pricing
+  if (isTrial) {
+    sessionParams.subscription_data.trial_period_days = 7;
+  }
+
   // Only apply coupon if it's in the whitelist — silently ignore others.
-  if (coupon && ALLOWED_COUPONS.includes(String(coupon).toUpperCase())) {
+  if (!isTrial && coupon && ALLOWED_COUPONS.includes(String(coupon).toUpperCase())) {
     const couponId = String(coupon).toUpperCase();
     sessionParams.discounts = [{ coupon: couponId }];
     sessionParams.metadata.coupon = couponId;

@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '750954910212510');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
+/></noscript>
+<script>/* __RB_UTM_HELPER__ */
+(function(){
+  try {
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var params = new URLSearchParams(window.location.search);
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; } catch(e) { stored = {}; }
+    var merged = Object.assign({}, stored);
+    keys.forEach(function(k){
+      var v = params.get(k);
+      if (v) merged[k] = String(v).slice(0, 255);
+    });
+    try { sessionStorage.setItem('rb_utm', JSON.stringify(merged)); } catch(e) {}
+    window.getRBUTMs = function(){
+      try { return JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; }
+      catch(e) { return {}; }
+    };
+  } catch(e) {
+    window.getRBUTMs = function(){ return {}; };
+  }
+})();
+</script>
+
+<!-- End Meta Pixel Code -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Trial — Recall Better</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF7F2;
+            color: #2C2C2C;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: #2D7A5F;
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .screen {
+            animation: fadeIn 0.3s ease;
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-family: 'Instrument Serif', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2D7A5F;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            font-weight: 400;
+            color: #2C2C2C;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: #2C2C2C;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #5A5A5A;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .animated-words {
+            height: 48px;
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2D7A5F;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word {
+            animation: wordAnimation 10s infinite;
+            display: none;
+        }
+
+        .word:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .word:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .word:nth-child(3) {
+            animation-delay: 4s;
+        }
+
+        .word:nth-child(4) {
+            animation-delay: 6s;
+        }
+
+        .word:nth-child(5) {
+            animation-delay: 8s;
+        }
+
+        @keyframes wordAnimation {
+            0% {
+                opacity: 0;
+                display: block;
+            }
+            10% {
+                opacity: 1;
+                display: block;
+            }
+            35% {
+                opacity: 1;
+                display: block;
+            }
+            40% {
+                opacity: 0;
+                display: block;
+            }
+            100% {
+                opacity: 0;
+                display: none;
+            }
+        }
+
+        .caption {
+            font-size: 16px;
+            color: #8A8A8A;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            background-color: #2D7A5F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn:hover {
+            background-color: #246B52;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #2D7A5F;
+            border: 2px solid #2D7A5F;
+        }
+
+        .btn-secondary:hover {
+            background-color: #E8F5EE;
+        }
+
+        .trust-line {
+            font-size: 15px;
+            color: #8A8A8A;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .button-group .btn {
+            margin-bottom: 0;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .word-card {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 16px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word-card:hover {
+            border-color: #2D7A5F;
+        }
+
+        .word-card.selected {
+            background-color: #2D7A5F;
+            color: white;
+            border-color: #2D7A5F;
+        }
+
+        .word-card.wrong {
+            background-color: #FDEDEC;
+            border-color: #C0392B;
+            color: #C0392B;
+        }
+
+        .sequence-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .sequence-cell {
+            aspect-ratio: 1;
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            color: #8A8A8A;
+        }
+
+        .sequence-cell:hover {
+            border-color: #2D7A5F;
+        }
+
+        .sequence-cell.lit {
+            background-color: #2D7A5F;
+            color: white;
+            box-shadow: 0 0 20px rgba(45, 122, 95, 0.4);
+        }
+
+        .sequence-cell.selected {
+            background-color: #E8F5EE;
+            border-color: #2D7A5F;
+        }
+
+        .test-info {
+            font-size: 16px;
+            color: #8A8A8A;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .loader-text {
+            font-size: 18px;
+            color: #2C2C2C;
+            font-weight: 500;
+        }
+
+        .loader-steps {
+            width: 100%;
+        }
+
+        .loader-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            opacity: 0;
+            animation: stepFadeIn 0.5s ease forwards;
+        }
+
+        .loader-step:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+
+        .loader-step:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        .loader-step:nth-child(3) {
+            animation-delay: 2.5s;
+        }
+
+        .loader-step:nth-child(4) {
+            animation-delay: 3.5s;
+        }
+
+        .loader-step:nth-child(5) {
+            animation-delay: 4.5s;
+        }
+
+        @keyframes stepFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .checkmark {
+            width: 24px;
+            height: 24px;
+            background-color: #2D7A5F;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .loader-step-text {
+            font-size: 17px;
+            color: #5A5A5A;
+        }
+
+        .results-score {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .score-ring {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: conic-gradient(#2D7A5F 0deg, #2D7A5F 270deg, #E8E2D9 270deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .score-value {
+            font-family: 'Instrument Serif', serif;
+            font-size: 48px;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .score-label {
+            font-size: 16px;
+            color: #8A8A8A;
+            margin-top: 8px;
+        }
+
+        .breakdown {
+            margin-bottom: 32px;
+        }
+
+        .breakdown-item {
+            margin-bottom: 24px;
+        }
+
+        .breakdown-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .breakdown-label-name {
+            font-weight: 500;
+            color: #2C2C2C;
+        }
+
+        .breakdown-label-score {
+            color: #8A8A8A;
+        }
+
+        .breakdown-bar {
+            background-color: #E8E2D9;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .breakdown-bar-fill {
+            height: 100%;
+            background-color: #2D7A5F;
+            transition: width 0.6s ease;
+        }
+
+        .verdict {
+            background-color: #E8F5EE;
+            border-left: 4px solid #2D7A5F;
+            padding: 16px;
+            border-radius: 4px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #2C2C2C;
+            margin-bottom: 24px;
+        }
+
+        .solution-stat {
+            background-color: #FEF9E7;
+            border-left: 4px solid #D4A017;
+            padding: 24px;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .stat-value {
+            font-family: 'Instrument Serif', serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: #D4A017;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #5A5A5A;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin-bottom: 32px;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            font-size: 16px;
+            border-bottom: 1px solid #E8E2D9;
+        }
+
+        .comparison-table th {
+            background-color: #E8F5EE;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .comparison-table td {
+            color: #5A5A5A;
+        }
+
+        .comparison-table .check {
+            color: #2D7A5F;
+            font-weight: 600;
+        }
+
+        .comparison-table .cross {
+            color: #C0392B;
+        }
+
+        .testimonial {
+            background-color: #FFFFFF;
+            border: 1px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .testimonial-text {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-size: 15px;
+            font-weight: 600;
+            color: #8A8A8A;
+        }
+
+        .plan-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .plan-title {
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+        }
+
+        .plan-content {
+            font-size: 16px;
+            color: #5A5A5A;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .timeline-item {
+            text-align: center;
+        }
+
+        .timeline-badge {
+            background-color: #E8F5EE;
+            border-radius: 8px;
+            padding: 16px 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2D7A5F;
+        }
+
+        .timeline-label {
+            font-size: 14px;
+            color: #8A8A8A;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin-bottom: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #2D7A5F;
+        }
+
+        .email-input.error {
+            border-color: #C0392B;
+            background-color: #FDEDEC;
+        }
+
+        .error-message {
+            font-size: 15px;
+            color: #C0392B;
+            margin-top: -12px;
+            margin-bottom: 16px;
+        }
+
+        .ticker {
+            overflow: hidden;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            padding: 12px 0;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 24px;
+            font-size: 15px;
+            color: #5A5A5A;
+            border-right: 1px solid #E8E2D9;
+        }
+
+        .ticker-item:last-child {
+            border-right: none;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .pricing-card {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: #2D7A5F;
+            background-color: #E8F5EE;
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background-color: #D4A017;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .pricing-duration {
+            font-family: 'Instrument Serif', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price {
+            font-family: 'Instrument Serif', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #2D7A5F;
+            margin-bottom: 4px;
+        }
+
+        .pricing-per {
+            font-size: 15px;
+            color: #8A8A8A;
+            margin-bottom: 16px;
+        }
+
+        .pricing-trial {
+            display: none;
+        }
+
+        .payment-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #8A8A8A;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border: 1px solid #E8E2D9;
+            border-radius: 4px;
+            background-color: #FFFFFF;
+        }
+
+        .guarantee {
+            font-size: 14px;
+            color: #8A8A8A;
+            margin-bottom: 24px;
+            line-height: 1.65;
+        }
+
+        .pattern-question {
+            margin-bottom: 32px;
+        }
+
+        .pattern-title {
+            font-size: 17px;
+            font-weight: 500;
+            color: #2C2C2C;
+            margin-bottom: 16px;
+        }
+
+        .pattern-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .pattern-option {
+            background-color: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pattern-option:hover {
+            border-color: #2D7A5F;
+        }
+
+        .pattern-option.selected {
+            background-color: #2D7A5F;
+            border-color: #2D7A5F;
+            color: white;
+        }
+
+        .pattern-visual {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .circles-growing {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            height: 40px;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+
+        .circle-1 {
+            width: 8px;
+            height: 8px;
+        }
+
+        .circle-2 {
+            width: 16px;
+            height: 16px;
+        }
+
+        .circle-3 {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 32px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .word-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .payment-badges {
+                flex-wrap: wrap;
+            }
+        }
+        .checkout-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; overflow-y: auto; }
+        .checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+        .checkout-container { background: #FFF8F0; border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid #E8E2D9; }
+        .checkout-header { background: #2D7A5F; color: #fff; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 17px; }
+        .checkout-header .countdown-text { font-family: 'Instrument Serif', serif; font-size: 24px; }
+        .checkout-back { padding: 16px 24px 0; }
+        .checkout-back a { color: #8B7E6A; text-decoration: none; font-size: 16px; cursor: pointer; }
+        .checkout-back a:hover { color: #2C2C2C; }
+        .checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
+        .checkout-payment { flex: 1; min-width: 280px; }
+        .checkout-payment h3 { font-size: 18px; font-weight: 700; color: #2C2C2C; margin-bottom: 16px; }
+        .checkout-summary { flex: 0 0 200px; background: #F5EDE3; border: 1px solid #E8E2D9; border-radius: 12px; padding: 16px; height: fit-content; }
+        .checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 16px; color: #2C2C2C; padding: 6px 0; }
+        .checkout-summary .summary-row.total { border-top: 1px solid #E8E2D9; padding-top: 10px; margin-top: 6px; font-weight: 700; }
+        #payment-element { min-height: 200px; }
+        .checkout-footer { padding: 0 24px 20px; }
+        .checkout-footer .safe-checkout { margin-top: 8px; font-size: 14px; color: #8B7E6A; text-align: center; }
+        @media (max-width: 540px) {
+          .checkout-body { flex-direction: column; }
+          .checkout-summary { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- SCREEN 1: OPENER -->
+    <div class="screen active" data-screen="1">
+        <div class="container">
+            <div class="logo">Recall Better</div>
+            <h1>It is on the tip of your tongue but it will not come out</h1>
+            <p class="subtitle">Names, words, why you walked into a room. You know it is in there somewhere.</p>
+
+            <div class="animated-words">
+                <div class="word">Names</div>
+                <div class="word">Passwords</div>
+                <div class="word">Appointments</div>
+                <div class="word">Directions</div>
+                <div class="word">Conversations</div>
+            </div>
+
+            <p class="caption">These slip away. But they do not have to.</p>
+
+            <button class="btn" onclick="nextScreen()">Check my memory</button>
+
+            <p class="trust-line">Free 2 minute test. Private results.</p>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: AGE QUESTION -->
+    <div class="screen" data-screen="2">
+        <div class="container">
+            <h2>To personalise your results, what is your age range</h2>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="setAge('45-54'); nextScreen();">45 to 54</button>
+                <button class="btn btn-secondary" onclick="setAge('55-64'); nextScreen();">55 to 64</button>
+                <button class="btn btn-secondary" onclick="setAge('65-74'); nextScreen();">65 to 74</button>
+                <button class="btn btn-secondary" onclick="setAge('75+'); nextScreen();">75+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: TEST 1 WORD RECALL -->
+    <div class="screen" data-screen="3">
+        <div class="container">
+            <h2>Test 1 of 3: Word Recall</h2>
+
+            <div class="test-info" id="wordTestInfo">Remember these 8 words</div>
+
+            <div id="wordMemoryPhase">
+                <div style="text-align: center; padding: 60px 0; font-size: 32px; font-weight: 600; color: #2D7A5F;" id="displayedWord">
+                    Sunset
+                </div>
+                <button class="btn btn-secondary" style="width: 200px; margin: 0 auto; display: block;" onclick="startWordRecall()">Ready</button>
+            </div>
+
+            <div id="wordRecallPhase" style="display: none;">
+                <p class="test-info">Tap the words you remember</p>
+                <div class="word-grid" id="wordGrid"></div>
+                <button class="btn" onclick="submitWordTest()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: TEST 2 SEQUENCE MEMORY -->
+    <div class="screen" data-screen="4">
+        <div class="container">
+            <h2>Test 2 of 3: Sequence Memory</h2>
+
+            <div class="test-info" id="sequenceTestInfo">Watch carefully...</div>
+
+            <div class="sequence-grid" id="sequenceGrid">
+                <div class="sequence-cell" data-cell="0"></div>
+                <div class="sequence-cell" data-cell="1"></div>
+                <div class="sequence-cell" data-cell="2"></div>
+                <div class="sequence-cell" data-cell="3"></div>
+                <div class="sequence-cell" data-cell="4"></div>
+                <div class="sequence-cell" data-cell="5"></div>
+                <div class="sequence-cell" data-cell="6"></div>
+                <div class="sequence-cell" data-cell="7"></div>
+                <div class="sequence-cell" data-cell="8"></div>
+            </div>
+
+            <button class="btn" id="sequenceSubmitBtn" onclick="submitSequenceTest()" style="display: none;">Next Round</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: TEST 3 PATTERN RECOGNITION -->
+    <div class="screen" data-screen="5">
+        <div class="container">
+            <h2>Test 3 of 3: Pattern Recognition</h2>
+
+            <div id="patternContainer"></div>
+
+            <button class="btn" onclick="submitPatternTest()">Submit</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: ANALYSING LOADER -->
+    <div class="screen" data-screen="6">
+        <div class="container">
+            <div class="loader">
+                <div class="loader-text">Analysing your results...</div>
+
+                <div class="loader-steps">
+                    <div class="loader-step">
+                        <div class="checkmark">✓</div>
+                        <div class="loader-step-text">Scoring word recall...</div>
+                    </div>
+                    <div class="loader-step">
+                        <div class="checkmark">✓</div>
+                        <div class="loader-step-text">Measuring sequence memory...</div>
+                    </div>
+                    <div class="loader-step">
+                        <div class="checkmark">✓</div>
+                        <div class="loader-step-text">Evaluating pattern recognition...</div>
+                    </div>
+                    <div class="loader-step">
+                        <div class="checkmark">✓</div>
+                        <div class="loader-step-text">Comparing to your age group...</div>
+                    </div>
+                    <div class="loader-step">
+                        <div class="checkmark">✓</div>
+                        <div class="loader-step-text">Building your cognitive profile...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 7: RESULTS -->
+    <div class="screen" data-screen="7">
+        <div class="container">
+            <div class="results-score">
+                <div class="score-ring" id="scoreRing">
+                    <div class="score-value" id="scoreValue">0</div>
+                </div>
+                <div class="score-label">out of 100</div>
+            </div>
+
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span class="breakdown-label-name">Word Recall</span>
+                        <span class="breakdown-label-score" id="wordScore">0/8</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-bar-fill" id="wordBar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span class="breakdown-label-name">Sequence Memory</span>
+                        <span class="breakdown-label-score" id="sequenceScore">0/4</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-bar-fill" id="sequenceBar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <span class="breakdown-label-name">Pattern Recognition</span>
+                        <span class="breakdown-label-score" id="patternScore">0/4</span>
+                    </div>
+                    <div class="breakdown-bar">
+                        <div class="breakdown-bar-fill" id="patternBar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="verdict" id="verdict"></div>
+
+            <button class="btn" onclick="nextScreen()">Continue</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 8: SOLUTION -->
+    <div class="screen" data-screen="8">
+        <div class="container">
+            <h2 id="solutionHeadline">The good news: your memory is highly trainable</h2>
+
+            <div class="solution-stat">
+                <div class="stat-value">+28 points</div>
+                <div class="stat-label">average improvement</div>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Crosswords</th>
+                        <th>Recall Better</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Targets Memory</td>
+                        <td class="cross">No</td>
+                        <td class="check">Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Science Based</td>
+                        <td class="cross">No</td>
+                        <td class="check">Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Adaptive Difficulty</td>
+                        <td class="cross">No</td>
+                        <td class="check">Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Daily Progress Tracking</td>
+                        <td class="cross">No</td>
+                        <td class="check">Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Results in 4 Weeks</td>
+                        <td class="cross">No</td>
+                        <td class="check">Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="testimonial">
+                <div class="testimonial-text">"My score went from 41 to 73. My wife says I am back to my old self."</div>
+                <div class="testimonial-author">Robert, 71</div>
+            </div>
+
+            <button class="btn" onclick="nextScreen()">Continue</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 9: PERSONALISED PLAN -->
+    <div class="screen" data-screen="9">
+        <div class="container">
+            <h2>Your personalised training plan</h2>
+
+            <div class="plan-card">
+                <div class="plan-title" id="planTitle">Daily Routine</div>
+                <div class="plan-content">
+                    <p>Spend 10 minutes daily practising your weakest area. Our algorithm adapts to your level.</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-badge">Week 1-2</div>
+                    <div class="timeline-label">Foundation</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">Week 3</div>
+                    <div class="timeline-label">Building</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">Week 4</div>
+                    <div class="timeline-label">Strengthening</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">Week 5+</div>
+                    <div class="timeline-label">Mastery</div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-text">"I improved 34 points. I trust my memory again."</div>
+                <div class="testimonial-author">Eleanor, 69</div>
+            </div>
+
+            <button class="btn" onclick="nextScreen()">Continue</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 10: EMAIL CAPTURE -->
+    <div class="screen" data-screen="10">
+        <div class="container">
+            <h2>Where should we send your results</h2>
+
+            <input
+                type="email"
+                class="email-input"
+                id="emailInput"
+                placeholder="your@email.com"
+                onkeyup="validateEmail()"
+            >
+            <div class="error-message" id="emailError" style="display: none;"></div>
+
+            <button class="btn" onclick="submitEmail()">Send my results</button>
+
+            <p class="trust-line">We never share your email. Unsubscribe anytime.</p>
+        </div>
+    </div>
+
+    <!-- SCREEN 11: BILLING -->
+    <div class="screen" data-screen="11">
+        <div class="container">
+            <div class="ticker">
+                <div class="ticker-content">
+                    <div class="ticker-item">Over 500,000 users trust Recall Better</div>
+                    <div class="ticker-item">Average improvement: +28 points</div>
+                    <div class="ticker-item">Results in 4 weeks</div>
+                    <div class="ticker-item">Money back guarantee</div>
+                    <div class="ticker-item">Over 500,000 users trust Recall Better</div>
+                </div>
+            </div>
+
+            <h2>Choose Your Plan</h2>
+
+            <div style="background:#E8F5EE;border:1px solid rgba(45,122,95,0.15);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
+              <div style="font-size:16px;font-weight:700;color:#2C2C2C;margin-bottom:12px;">Your Recall Better programme includes:</div>
+              <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:#2C2C2C;line-height:1.65;">
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Works on any device</strong> — phone, tablet, or computer. Nothing to download, start instantly</span></div>
+              </div>
+            </div>
+
+        <div style="background:#E8F5EE;border:2px solid #2D7A5F;border-radius:14px;padding:24px 20px;margin:0 0 20px;text-align:center;">
+          <div style="font-size:14px;color:#2D7A5F;font-weight:700;letter-spacing:1px;margin-bottom:8px;">7-DAY FREE TRIAL</div>
+          <div style="font-size:36px;font-weight:800;color:#2C2C2C;line-height:1.1;">$9.99<span style="font-size:16px;font-weight:500;color:#5A5A5A;">/month</span></div>
+          <div style="font-size:14px;color:#5A5A5A;margin-top:8px;">Try free for 7 days · cancel anytime</div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;gap:12px;margin:0 0 20px;text-align:center;">
+          <div style="flex:1;background:#F3FAF6;border:1px solid rgba(45,122,95,0.15);border-radius:10px;padding:14px 8px;">
+            <div style="font-size:13px;font-weight:700;color:#2D7A5F;margin-bottom:4px;">Today</div>
+            <div style="font-size:13px;color:#5A5A5A;line-height:1.4;">Start training<br>for free</div>
+          </div>
+          <div style="flex:1;background:#F3FAF6;border:1px solid rgba(45,122,95,0.15);border-radius:10px;padding:14px 8px;">
+            <div style="font-size:13px;font-weight:700;color:#2D7A5F;margin-bottom:4px;">Day 5</div>
+            <div style="font-size:13px;color:#5A5A5A;line-height:1.4;">Reminder before<br>trial ends</div>
+          </div>
+          <div style="flex:1;background:#F3FAF6;border:1px solid rgba(45,122,95,0.15);border-radius:10px;padding:14px 8px;">
+            <div style="font-size:13px;font-weight:700;color:#2D7A5F;margin-bottom:4px;">Day 7</div>
+            <div style="font-size:13px;color:#5A5A5A;line-height:1.4;">Trial ends ·<br>$9.99/mo starts</div>
+          </div>
+        </div>
+
+        <button class="button button-wide" onclick="startCheckout()" style="font-size:18px;padding:18px 32px;">START FREE TRIAL</button>
+
+        <div style="font-size:12px;color:#8A8A8A;text-align:center;margin:12px 0 0;line-height:1.5;">
+          Your free trial begins today. You will not be charged during the 7-day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
+        </div>
+
+        <div class="payment-badges">
+          <div class="payment-badge">VISA</div>
+          <div class="payment-badge">MASTERCARD</div>
+          <div class="payment-badge">AMEX</div>
+          <div class="payment-badge">PAYPAL</div>
+          <div class="payment-badge">APPLE PAY</div>
+          <div class="payment-badge">G PAY</div>
+        </div>
+
+        <div style="background:#F3FAF6;border:1px solid rgba(45,122,95,0.15);border-radius:12px;padding:16px;margin:16px 0;text-align:center;font-size:15px;color:#5A5A5A;line-height:1.65;">
+          <strong style="color:#2C2C2C;">100% risk free trial.</strong> Try Recall Better for 7 days, completely free. If it's not for you, cancel before your trial ends and you won't be charged a penny.
+        </div>
+
+            <div class="testimonial">
+                <div class="testimonial-text">"I almost did not enter my email. So glad I did."</div>
+                <div class="testimonial-author">Jean, 64</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // STATE MANAGEMENT
+        const state = {
+            currentScreen: 1,
+            age: null,
+            wordScore: 0,
+            sequenceScore: 0,
+            patternScore: 0,
+            totalScore: 0,
+            weakestArea: 'word recall',
+            selectedWords: new Set(),
+            wrongWords: new Set(),
+            sequencePattern: [],
+            sequenceUserInput: [],
+            currentRound: 0,
+            patternAnswers: new Array(4).fill(null),
+            email: null
+        };
+
+        const WORDS_TO_REMEMBER = ['Sunset', 'Garden', 'Violin', 'Harbor', 'Candle', 'Marble', 'Thunder', 'Sparrow'];
+        const WORD_OPTIONS = [
+            'Sunset', 'Garden', 'Violin', 'Harbor', 'Candle', 'Marble', 'Thunder', 'Sparrow',
+            'Window', 'Bridge', 'Feather', 'Glacier', 'Anchor', 'Pepper', 'Blanket', 'Crystal'
+        ];
+
+        const PATTERN_QUESTIONS = [
+            {
+                sequence: '2 \u2192 4 \u2192 6 \u2192 8 \u2192 ?',
+                options: ['10', '9'],
+                correct: 0
+            },
+            {
+                sequence: 'A \u2192 C \u2192 E \u2192 G \u2192 ?',
+                options: ['I', 'H'],
+                correct: 0
+            },
+            {
+                sequence: '3 \u2192 6 \u2192 9 \u2192 12 \u2192 ?',
+                options: ['15', '14'],
+                correct: 0
+            },
+            {
+                sequence: '1 \u2192 1 \u2192 2 \u2192 3 \u2192 5 \u2192 ?',
+                options: ['8', '7'],
+                correct: 0
+            }
+        ];
+
+        function nextScreen() {
+            if(state.currentScreen===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
+            state.currentScreen++;
+            updateUI();
+            updateProgressBar();
+            window.scrollTo(0, 0);
+        }
+
+        function updateUI() {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.querySelector(`[data-screen="${state.currentScreen}"]`).classList.add('active');
+
+            if (state.currentScreen === 3) {
+                initWordTest();
+            } else if (state.currentScreen === 4) {
+                initSequenceTest();
+            } else if (state.currentScreen === 5) {
+                initPatternTest();
+            } else if (state.currentScreen === 6) {
+                setTimeout(() => nextScreen(), 5000);
+            } else if (state.currentScreen === 7) {
+                displayResults();
+            } else if (state.currentScreen === 8) {
+                updateSolutionScreen();
+            } else if (state.currentScreen === 9) {
+                updatePlanScreen();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = (state.currentScreen / 11) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function setAge(age) {
+            state.age = age;
+        }
+
+        // WORD RECALL TEST
+        function initWordTest() {
+            const container = document.getElementById('wordMemoryPhase');
+            let currentWord = 0;
+
+            function showWord() {
+                if (currentWord < WORDS_TO_REMEMBER.length) {
+                    document.getElementById('displayedWord').textContent = WORDS_TO_REMEMBER[currentWord];
+                    currentWord++;
+                    setTimeout(showWord, 2000);
+                } else {
+                    container.style.display = 'none';
+                    startWordRecall();
+                }
+            }
+
+            showWord();
+        }
+
+        function startWordRecall() {
+            document.getElementById('wordMemoryPhase').style.display = 'none';
+            document.getElementById('wordTestInfo').textContent = 'Tap the words you remember';
+            document.getElementById('wordRecallPhase').style.display = 'block';
+
+            const grid = document.getElementById('wordGrid');
+            grid.innerHTML = '';
+
+            const shuffled = [...WORD_OPTIONS].sort(() => Math.random() - 0.5);
+            shuffled.forEach(word => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                card.textContent = word;
+                card.onclick = () => toggleWord(card, word);
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleWord(card, word) {
+            card.classList.toggle('selected');
+            if (card.classList.contains('selected')) {
+                state.selectedWords.add(word);
+            } else {
+                state.selectedWords.delete(word);
+            }
+        }
+
+        function submitWordTest() {
+            state.wordScore = 0;
+            state.selectedWords.forEach(word => {
+                if (WORDS_TO_REMEMBER.includes(word)) {
+                    state.wordScore++;
+                } else {
+                    state.wrongWords.add(word);
+                }
+            });
+
+            nextScreen();
+        }
+
+        // SEQUENCE MEMORY TEST
+        function initSequenceTest() {
+            state.currentRound = 0;
+            state.sequenceScore = 0;
+            startSequenceRound();
+        }
+
+        function startSequenceRound() {
+            state.sequencePattern = [];
+            state.sequenceUserInput = [];
+            const newCell = Math.floor(Math.random() * 9);
+            state.sequencePattern.push(newCell);
+            playSequence();
+        }
+
+        function playSequence() {
+            document.getElementById('sequenceTestInfo').textContent = 'Watch carefully...';
+            document.getElementById('sequenceSubmitBtn').style.display = 'none';
+            let delay = 0;
+
+            state.sequencePattern.forEach((cellIndex, index) => {
+                setTimeout(() => {
+                    lightCell(cellIndex);
+                }, delay + 500);
+                delay += 1000;
+            });
+
+            setTimeout(() => {
+                document.getElementById('sequenceTestInfo').textContent = 'Your turn';
+                enableSequenceCells();
+            }, delay + 500);
+        }
+
+        function lightCell(index) {
+            const cell = document.querySelector(`[data-cell="${index}"]`);
+            cell.classList.add('lit');
+            setTimeout(() => cell.classList.remove('lit'), 300);
+        }
+
+        function enableSequenceCells() {
+            document.querySelectorAll('.sequence-cell').forEach((cell, index) => {
+                cell.onclick = () => selectSequenceCell(index);
+                cell.style.cursor = 'pointer';
+            });
+        }
+
+        function selectSequenceCell(index) {
+            lightCell(index);
+            state.sequenceUserInput.push(index);
+
+            if (state.sequenceUserInput[state.sequenceUserInput.length - 1] !== state.sequencePattern[state.sequenceUserInput.length - 1]) {
+                endSequenceRound(false);
+                return;
+            }
+
+            if (state.sequenceUserInput.length === state.sequencePattern.length) {
+                state.currentRound++;
+                state.sequenceScore++;
+
+                if (state.currentRound >= 4) {
+                    endSequenceRound(true);
+                } else {
+                    setTimeout(() => {
+                        state.sequenceUserInput = [];
+                        startSequenceRound();
+                    }, 1000);
+                }
+            }
+        }
+
+        function endSequenceRound(success) {
+            document.querySelectorAll('.sequence-cell').forEach(cell => {
+                cell.onclick = null;
+                cell.style.cursor = 'default';
+            });
+
+            document.getElementById('sequenceTestInfo').textContent = 'Sequence complete';
+            document.getElementById('sequenceSubmitBtn').style.display = 'block';
+        }
+
+        function submitSequenceTest() {
+            nextScreen();
+        }
+
+        // PATTERN RECOGNITION TEST
+        function initPatternTest() {
+            const container = document.getElementById('patternContainer');
+            container.innerHTML = '';
+
+            PATTERN_QUESTIONS.forEach((q, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'pattern-question';
+
+                qDiv.innerHTML = `
+                    <div style="text-align:center; padding: 24px; background: var(--bg-card, #f5f5f5); border-radius: 12px; margin: 16px 0;">
+                        <div style="font-size: 28px; font-weight: 700; color: var(--text-bright, #1a1a1a); letter-spacing: 4px; font-family: var(--font-display, inherit);">
+                            ${q.sequence}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 16px;">
+                        ${q.options.map((opt, optIndex) => `
+                            <div class="pattern-option" style="flex:1; text-align:center; padding: 20px; border-radius: 12px; border: 2px solid var(--border, #ddd); cursor: pointer; font-size: 24px; font-weight: 700; color: var(--text-bright, #1a1a1a); background: var(--bg-card, #fff); transition: all 0.2s;" data-q="${index}" data-opt="${optIndex}">
+                                ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(qDiv);
+            });
+
+            container.querySelectorAll('.pattern-option').forEach(opt => {
+                opt.onclick = () => {
+                    const qi = parseInt(opt.dataset.q);
+                    const oi = parseInt(opt.dataset.opt);
+                    selectPattern(qi, oi, opt);
+                };
+            });
+        }
+
+        function selectPattern(questionIndex, optionIndex, element) {
+            document.querySelectorAll(`.pattern-question:nth-child(${questionIndex + 1}) .pattern-option`).forEach(opt => {
+                opt.classList.remove('selected');
+                opt.style.borderColor = 'var(--border, #ddd)';
+                opt.style.background = 'var(--bg-card, #fff)';
+            });
+            element.classList.add('selected');
+            element.style.borderColor = 'var(--accent, #2D7A5F)';
+            element.style.background = 'var(--accent-light, #E8F5EE)';
+            state.patternAnswers[questionIndex] = optionIndex;
+        }
+
+        function submitPatternTest() {
+            state.patternScore = 0;
+            PATTERN_QUESTIONS.forEach((q, index) => {
+                if (state.patternAnswers[index] !== null && state.patternAnswers[index] === q.correct) {
+                    state.patternScore++;
+                }
+            });
+
+            nextScreen();
+        }
+
+        // RESULTS CALCULATION
+        function displayResults() {
+            // Calculate weighted score
+            const wordPercent = (state.wordScore / 8) * 40;
+            const sequencePercent = (state.sequenceScore / 4) * 35;
+            const patternPercent = (state.patternScore / 4) * 25;
+            state.totalScore = Math.round(wordPercent + sequencePercent + patternPercent);
+
+            // Determine weakest area
+            const scores = {
+                'Word Recall': (state.wordScore / 8) * 100,
+                'Sequence Memory': (state.sequenceScore / 4) * 100,
+                'Pattern Recognition': (state.patternScore / 4) * 100
+            };
+
+            state.weakestArea = Object.keys(scores).reduce((a, b) => scores[a] < scores[b] ? a : b);
+
+            // Animate score ring and bars
+            animateScoreRing();
+            animateBreakdownBars();
+
+            // Set verdict
+            const verdictEl = document.getElementById('verdict');
+            if (state.totalScore >= 70) {
+                verdictEl.innerHTML = 'Your memory is performing well for your age. With targeted training, you could push it even further.';
+            } else if (state.totalScore >= 45) {
+                verdictEl.innerHTML = `Your results suggest early cognitive softening in <strong>${state.weakestArea.toLowerCase()}</strong>. This is common and highly trainable.`;
+            } else {
+                verdictEl.innerHTML = `Your results indicate your <strong>${state.weakestArea.toLowerCase()}</strong> needs attention. The good news: this is one of the most responsive areas to training.`;
+            }
+
+            // Update score labels
+            document.getElementById('wordScore').textContent = `${state.wordScore}/8`;
+            document.getElementById('sequenceScore').textContent = `${state.sequenceScore}/4`;
+            document.getElementById('patternScore').textContent = `${state.patternScore}/4`;
+        }
+
+        function animateScoreRing() {
+            const percentage = (state.totalScore / 100) * 360;
+            const scoreRing = document.getElementById('scoreRing');
+            const scoreValue = document.getElementById('scoreValue');
+
+            let currentScore = 0;
+            const interval = setInterval(() => {
+                if (currentScore < state.totalScore) {
+                    currentScore++;
+                    scoreValue.textContent = currentScore;
+                    const gradientAngle = (currentScore / 100) * 360;
+                    scoreRing.style.background = `conic-gradient(#2D7A5F 0deg, #2D7A5F ${gradientAngle}deg, #E8E2D9 ${gradientAngle}deg)`;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 10);
+        }
+
+        function animateBreakdownBars() {
+            const wordPercent = (state.wordScore / 8) * 100;
+            const sequencePercent = (state.sequenceScore / 4) * 100;
+            const patternPercent = (state.patternScore / 4) * 100;
+
+            animateBar(document.getElementById('wordBar'), wordPercent);
+            animateBar(document.getElementById('sequenceBar'), sequencePercent);
+            animateBar(document.getElementById('patternBar'), patternPercent);
+        }
+
+        function animateBar(barElement, targetPercent) {
+            let currentPercent = 0;
+            const interval = setInterval(() => {
+                if (currentPercent < targetPercent) {
+                    currentPercent++;
+                    barElement.style.width = currentPercent + '%';
+                } else {
+                    clearInterval(interval);
+                }
+            }, 15);
+        }
+
+        // SOLUTION SCREEN
+        function updateSolutionScreen() {
+            const weakest = state.weakestArea.charAt(0).toUpperCase() + state.weakestArea.slice(1).toLowerCase();
+            document.getElementById('solutionHeadline').textContent = `The good news: your ${weakest.toLowerCase()} is highly trainable`;
+        }
+
+        // PLAN SCREEN
+        function updatePlanScreen() {
+            document.getElementById('planTitle').textContent = `${state.weakestArea} Training`;
+        }
+
+        // EMAIL VALIDATION
+        function validateEmail() {
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value.trim();
+            const emailError = document.getElementById('emailError');
+
+            if (email.length === 0) {
+                emailInput.classList.remove('error');
+                emailError.style.display = 'none';
+                return false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isValid = emailRegex.test(email);
+
+            if (!isValid) {
+                emailInput.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.style.display = 'block';
+                return false;
+            } else {
+                emailInput.classList.remove('error');
+                emailError.style.display = 'none';
+                return true;
+            }
+        }
+
+        function submitEmail() {
+  if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
+            if (!validateEmail()) {
+                return;
+            }
+
+            state.email = document.getElementById('emailInput').value.trim();
+            fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:state.email,source:'tip-of-tongue', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
+            nextScreen();
+        }
+
+        let stripeInstance = null;
+
+        async function startCheckout() {
+  if(typeof fbq!=="undefined")fbq("track","InitiateCheckout");
+  const email = state.email || (document.getElementById('heroEmail') && document.getElementById('heroEmail').value);
+  if (!email) { alert('Please enter your email first.'); return; }
+
+  const summaryPlan = document.getElementById('summaryPlanName');
+  const summaryOrig = document.getElementById('summaryOriginal');
+  const summaryTotal = document.getElementById('summaryTotal');
+  if (summaryPlan) summaryPlan.textContent = '7-day free trial';
+  if (summaryOrig) summaryOrig.textContent = '$0.00';
+  if (summaryTotal) summaryTotal.textContent = '$0.00 today';
+
+  try {
+    const res = await fetch('/api/stripe?action=embedded-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: 'monthly', email, pricing: 'trial' })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    if (data.alreadyActive) { window.location.href = '/app?checkout=success'; return; }
+    const stripe = Stripe(data.publishableKey);
+    const checkout = await stripe.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+    checkout.mount('#payment-element');
+    document.getElementById('checkoutOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  } catch (err) {
+    alert(err.message || 'Something went wrong. Please try again.');
+  }
+}
+
+        function closeCheckout() {
+            document.getElementById('checkoutOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Initialize
+        updateProgressBar();
+    </script>
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7-day free trial · Cancel anytime · You won't be charged today</div>
+    <div class="checkout-back">
+      <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-payment">
+        <h3>Select a payment method</h3>
+        <div id="payment-element"></div>
+      </div>
+      <div class="checkout-summary" id="checkoutSummary">
+        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$9.99</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$9.99</span></div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos" style="display:flex;gap:8px;justify-content:center;font-size:13px;color:#8B7E6A;margin-top:6px;">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+</body>
+</html>

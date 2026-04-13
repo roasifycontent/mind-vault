@@ -35,6 +35,8 @@ module.exports = async (req, res) => {
       case 'checkout.session.completed': {
         const session = event.data.object;
         // Only process Recall Better events (shared Stripe account)
+        // Recognised products: prod_UFqRDx6Pg8YgKj (Original),
+        // prod_UFsvG0WqtI13Yz (Prices2), prod_UKLAbGRU6zvkpQ (Free Trial)
         if (session.metadata?.app && session.metadata.app !== 'recall-better') {
           console.log('Skipping non-recall-better checkout:', session.metadata.app);
           break;

@@ -889,13 +889,32 @@ function startMemoryTest() {
 }
 
 function goToRecall() {
-  state.step = 12;
-  goNext();
+  const memorize = document.querySelector('.screen[data-step="12"]');
+  const recall   = document.querySelector('.screen[data-step="13"]');
+
+  document.querySelectorAll('.screen.active, .screen.exiting').forEach(s => {
+    s.classList.remove('active', 'exiting');
+    s.style.display = 'none';
+  });
+  if (memorize) { memorize.classList.remove('active', 'exiting'); memorize.style.display = 'none'; }
+
+  state.step = 13;
+  updateProgress();
+
+  if (recall) {
+    recall.style.display = '';
+    recall.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
   setTimeout(() => {
-    document.getElementById('memRecallGrid').innerHTML = state.memoryTestAll.map(e =>
-      `<div class="memory-cell clickable" data-emoji="${e}" onclick="pickEmoji(this)">${e}</div>`
-    ).join('');
-  }, 350);
+    const grid = document.getElementById('memRecallGrid');
+    if (grid) {
+      grid.innerHTML = state.memoryTestAll.map(e =>
+        `<div class="memory-cell clickable" data-emoji="${e}" onclick="pickEmoji(this)">${e}</div>`
+      ).join('');
+    }
+  }, 100);
 }
 
 let picked = 0;

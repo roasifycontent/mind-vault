@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '750954910212510');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
+/></noscript>
+<script>/* __RB_UTM_HELPER__ */
+(function(){
+  try {
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var params = new URLSearchParams(window.location.search);
+    var stored = {};
+    try { stored = JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; } catch(e) { stored = {}; }
+    var merged = Object.assign({}, stored);
+    keys.forEach(function(k){
+      var v = params.get(k);
+      if (v) merged[k] = String(v).slice(0, 255);
+    });
+    try { sessionStorage.setItem('rb_utm', JSON.stringify(merged)); } catch(e) {}
+    window.getRBUTMs = function(){
+      try { return JSON.parse(sessionStorage.getItem('rb_utm') || '{}') || {}; }
+      catch(e) { return {}; }
+    };
+  } catch(e) {
+    window.getRBUTMs = function(){ return {}; };
+  }
+})();
+</script>
+
+<!-- End Meta Pixel Code -->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Trial — Recall Better</title>
+<meta name="description" content="Quick memory health screening used by 50,000+ adults. Identify early warning signs and get a doctor-informed action plan.">
+<script src="https://js.stripe.com/v3/"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF7F2;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F5F1EA;
+  --accent: #2D7A5F;
+  --accent-light: #E8F5EE;
+  --accent-glow: rgba(45,122,95,0.1);
+  --text: #2C2C2C;
+  --text-dim: #7A7568;
+  --text-bright: #1A1A1A;
+  --danger: #C0392B;
+  --danger-light: #FDEDEC;
+  --warning: #D4880F;
+  --warning-light: #FEF5E7;
+  --gold: #D4880F;
+  --blue: #2E6B9E;
+  --blue-light: #EBF3FA;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --max-w: 540px;
+  --shadow: 0 2px 16px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.app { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
+
+/* Progress */
+.progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: #E8E4DD; z-index: 100; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #45A07A); border-radius: 0 4px 4px 0; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Nav */
+.top-nav { width: 100%; max-width: var(--max-w); display: flex; align-items: center; justify-content: space-between; padding: 20px 0 12px; }
+.logo { font-family: var(--font-display); font-size: 22px; color: var(--accent); font-weight: 700; }
+.nav-badge { font-size: 13px; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; }
+
+/* Screens */
+.screen-container { width: 100%; max-width: var(--max-w); flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 0 40px;}
+.screen { display: none; animation: fadeIn 0.5s ease forwards; }
+.screen.active { display: flex; flex-direction: column; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.screen.exiting { display: flex !important; flex-direction: column; animation: fadeOut 0.3s ease forwards; }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateY(-12px); } }
+
+/* Typography */
+.screen-title { font-family: var(--font-display); font-size: clamp(24px, 5.5vw, 32px); color: var(--text-bright); line-height: 1.3; margin-bottom: 12px; }
+.screen-subtitle { font-size: 16px; color: var(--text-dim); line-height: 1.7; margin-bottom: 28px; }
+.screen-subtitle strong { color: var(--accent); font-weight: 600; }
+.screen-subtitle em { color: var(--text-bright); font-style: normal; font-weight: 600; }
+.section-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.label-medical { color: var(--blue); }
+.label-warning { color: var(--warning); }
+.label-green { color: var(--accent); }
+
+/* CTA */
+.cta-btn { width: 100%; padding: 18px 32px; border: none; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s ease; letter-spacing: 0.2px; }
+.cta-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 20px rgba(45,122,95,0.25); }
+.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(45,122,95,0.3); background: #257050; }
+.cta-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.cta-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.cta-outline:hover { background: var(--accent-light); }
+
+/* Cards */
+.card { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.card-highlight { border-left: 4px solid var(--accent); }
+.card-warning { border-left: 4px solid var(--warning); background: var(--warning-light); }
+.card-danger { border-left: 4px solid var(--danger); background: var(--danger-light); }
+
+/* Warning sign cards */
+.warning-card { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 14px; display: flex; gap: 16px; align-items: flex-start; }
+.warning-num { width: 36px; height: 36px; border-radius: 50%; background: var(--warning-light); color: var(--warning); font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.warning-card h4 { font-size: 16px; font-weight: 700; color: var(--text-bright); margin-bottom: 4px; }
+.warning-card p { font-size: 16px; color: var(--text-dim); line-height: 1.65; }
+
+/* Severity slider */
+.severity-group { margin-bottom: 28px; }
+.severity-label { font-size: 17px; font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
+.severity-desc { font-size: 15px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.65; }
+.severity-track { position: relative; height: 8px; background: #E8E4DD; border-radius: 4px; margin: 0 4px; cursor: pointer; }
+.severity-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; transition: width 0.15s, background 0.3s; }
+.severity-thumb { position: absolute; top: 50%; width: 30px; height: 30px; background: #fff; border: 3px solid var(--accent); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,0.12); cursor: grab; transition: border-color 0.3s; }
+.severity-thumb:active { cursor: grabbing; }
+.severity-anchors { display: flex; justify-content: space-between; margin-top: 8px; font-size: 14px; color: var(--text-dim); }
+.severity-value { text-align: right; font-size: 15px; font-weight: 600; margin-top: 4px; transition: color 0.3s; }
+
+/* Frequency selector */
+.freq-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.freq-btn { padding: 10px 16px; border-radius: 24px; border: 1.5px solid rgba(0,0,0,0.1); background: var(--bg-card); color: var(--text); font-family: var(--font-body); font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.freq-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+.freq-btn.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Risk meter */
+.risk-meter { position: relative; margin: 28px auto; width: 100%; max-width: 360px; }
+.risk-bar-bg { height: 16px; border-radius: 8px; background: linear-gradient(90deg, var(--accent), #7AB648, #D4C40F, #D4880F, var(--danger)); overflow: visible; position: relative; }
+.risk-indicator { position: absolute; top: -8px; width: 4px; height: 32px; background: var(--text-bright); border-radius: 2px; transition: left 1.5s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.risk-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; font-weight: 600; }
+.risk-labels span:first-child { color: var(--accent); }
+.risk-labels span:last-child { color: var(--danger); }
+.risk-score { text-align: center; margin-top: 20px; }
+.risk-score .score-val { font-family: var(--font-display); font-size: 56px; line-height: 1; transition: color 0.5s; }
+.risk-score .score-label { font-size: 16px; color: var(--text-dim); margin-top: 4px; }
+
+/* Stat pills */
+.stat-pills { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+.stat-pill { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: 24px; padding: 8px 16px; font-size: 15px; color: var(--text-dim); box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; }
+.stat-pill strong { color: var(--text-bright); }
+
+/* Testimonial */
+.testimonial-card { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin: 16px 0; }
+.testimonial-card .stars { color: var(--gold); font-size: 16px; letter-spacing: 2px; margin-bottom: 10px; }
+.testimonial-card blockquote { font-family: var(--font-display); font-size: 16px; font-style: italic; color: var(--text-bright); line-height: 1.6; margin-bottom: 12px; }
+.testimonial-card .author { font-size: 15px; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
+.testimonial-card .author-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.testimonial-card .verified { color: var(--accent); font-size: 14px; font-weight: 600; }
+
+/* Checklist results */
+.result-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.result-item:last-child { border-bottom: none; }
+.result-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.result-icon.good { background: var(--accent-light); color: var(--accent); }
+.result-icon.warn { background: var(--warning-light); color: var(--warning); }
+.result-icon.bad { background: var(--danger-light); color: var(--danger); }
+.result-text h4 { font-size: 16px; font-weight: 700; color: var(--text-bright); margin-bottom: 2px; }
+.result-text p { font-size: 15px; color: var(--text-dim); line-height: 1.6; }
+
+/* Email */
+.email-input { width: 100%; padding: 16px 18px; background: var(--bg-card); border: 1.5px solid rgba(0,0,0,0.1); border-radius: var(--radius-sm); color: var(--text-bright); font-family: var(--font-body); font-size: 16px; outline: none; transition: border-color 0.2s; }
+.email-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,122,95,0.1); }
+.email-input::placeholder { color: #B0A99E; }
+
+/* Pricing v3 */
+.pricing-section { max-width: 500px; margin: 0 auto; }
+.countdown-banner { background: #e8b730; color: #333; text-align: center; padding: 12px 20px; border-radius: 12px; font-size: 17px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.countdown-banner svg { width: 20px; height: 20px; }
+.plan-cards-v3 { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+.plan-card-v3 { background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px 20px; cursor: pointer; transition: all 0.25s; position: relative; display: flex; align-items: center; gap: 14px; }
+.plan-card-v3:hover { border-color: rgba(74,227,181,0.3); }
+.plan-card-v3.featured { border-color: var(--accent); background: rgba(74,227,181,0.06); }
+.plan-card-v3 .radio-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.plan-card-v3.featured .radio-dot { border-color: var(--accent); }
+.plan-card-v3.featured .radio-dot::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.plan-card-v3 .plan-info { flex: 1; }
+.plan-card-v3 .plan-name { font-size: 17px; font-weight: 700; color: var(--text-bright); text-transform: uppercase; letter-spacing: 0.5px; }
+.plan-card-v3 .plan-prices { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.plan-card-v3 .plan-prices .original { font-size: 16px; color: var(--text-dim); text-decoration: line-through; }
+.plan-card-v3 .plan-prices .sale { font-size: 17px; color: var(--text); font-weight: 600; }
+.plan-card-v3 .price-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 8px 14px; text-align: center; flex-shrink: 0; min-width: 90px; }
+.plan-card-v3.featured .price-tag { background: rgba(74,227,181,0.1); border-color: rgba(74,227,181,0.3); }
+.plan-card-v3 .price-tag .tag-dollar { font-size: 15px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-amount { font-family: var(--font-display); font-size: 32px; color: var(--text-bright); line-height: 1; }
+.plan-card-v3.featured .price-tag .tag-amount { color: var(--accent); }
+.plan-card-v3 .price-tag .tag-cents { font-size: 17px; color: var(--text-dim); vertical-align: super; }
+.plan-card-v3 .price-tag .tag-per { font-size: 13px; color: var(--text-dim); display: block; margin-top: 2px; }
+.popular-banner { background: var(--accent); color: var(--bg); text-align: center; font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 14px 14px 0 0; margin-bottom: -2px; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 1; }
+.plan-card-v3.has-banner { border-top-left-radius: 0; border-top-right-radius: 0; }
+.terms-check { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 15px; color: var(--text-dim); }
+.terms-check input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+.terms-check a { color: var(--accent); text-decoration: underline; }
+.legal-text { font-size: 13px; color: var(--text-dim); text-align: center; margin: 12px 0; line-height: 1.65; }
+.payment-logos { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+.payment-logos span { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 4px 10px; font-size: 13px; font-weight: 700; color: var(--text-dim); }
+.safe-checkout { text-align: center; font-size: 14px; color: var(--text-dim); margin-bottom: 4px; }
+.safe-checkout strong { color: var(--text); }
+
+/* Embedded Checkout Overlay */
+.checkout-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; overflow-y: auto; padding: 20px; }
+.checkout-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+.checkout-container { background: var(--bg-card); border-radius: 16px; max-width: 560px; width: 100%; margin: 40px auto; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.checkout-header { background: var(--accent); color: var(--bg); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 17px; }
+.checkout-header .countdown-text { font-family: var(--font-display); font-size: 24px; }
+.checkout-back { padding: 16px 24px 0; }
+.checkout-back a { color: var(--text-dim); text-decoration: none; font-size: 16px; cursor: pointer; }
+.checkout-back a:hover { color: var(--text); }
+.checkout-body { display: flex; gap: 20px; padding: 20px 24px 24px; flex-wrap: wrap; }
+.checkout-payment { flex: 1; min-width: 280px; }
+.checkout-payment h3 { font-size: 18px; font-weight: 700; color: var(--text-bright); margin-bottom: 16px; }
+.checkout-summary { flex: 0 0 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; height: fit-content; }
+.checkout-summary .summary-row { display: flex; justify-content: space-between; font-size: 16px; color: var(--text); padding: 6px 0; }
+.checkout-summary .summary-row.discount { color: #ff6b6b; }
+.checkout-summary .summary-row.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 6px; font-weight: 700; color: var(--text-bright); }
+#payment-element { min-height: 200px; }
+#payment-submit { width: 100%; margin-top: 16px; padding: 16px; background: var(--accent); color: var(--bg); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+#payment-submit:hover { opacity: 0.9; }
+#payment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+#payment-message { margin-top: 12px; font-size: 15px; color: #ff6b6b; text-align: center; min-height: 20px; }
+.checkout-footer { padding: 0 24px 20px; }
+.checkout-footer .safe-checkout { margin-top: 8px; }
+@media (max-width: 540px) {
+  .checkout-body { flex-direction: column; }
+  .checkout-summary { flex: 1; }
+}
+
+/* Doctor quote */
+.doctor-card { background: var(--blue-light); border: 1px solid rgba(46,107,158,0.15); border-radius: var(--radius); padding: 20px; margin: 16px 0; display: flex; gap: 14px; align-items: flex-start; }
+.doctor-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.doctor-text { font-size: 17px; color: var(--text); line-height: 1.6; font-style: italic; }
+.doctor-name { font-size: 14px; color: var(--blue); font-weight: 700; margin-top: 8px; font-style: normal; }
+
+/* Guarantee */
+.guarantee { display: flex; gap: 12px; padding: 16px; background: var(--accent-light); border: 1px solid rgba(45,122,95,0.15); border-radius: var(--radius-sm); margin: 16px 0; align-items: flex-start; }
+.guarantee-icon { font-size: 22px; flex-shrink: 0; }
+.guarantee-text { font-size: 15px; color: var(--text-dim); line-height: 1.65; }
+.guarantee-text strong { color: var(--text-bright); }
+
+/* Countdown */
+.countdown-bar { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: var(--danger-light); border: 1px solid rgba(192,57,43,0.15); border-radius: var(--radius-sm); margin: 12px 0 20px; font-size: 16px; color: var(--danger); font-weight: 600; }
+
+/* Payment */
+.payment-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0; font-size: 14px; color: var(--text-dim); }
+.payment-row span { background: rgba(0,0,0,0.04); padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+
+/* Comparison table */
+.compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.compare-table th { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); padding: 10px 8px; text-align: left; border-bottom: 2px solid rgba(0,0,0,0.06); }
+.compare-table th:last-child { text-align: center; color: var(--accent); }
+.compare-table td { padding: 12px 8px; font-size: 16px; color: var(--text); border-bottom: 1px solid rgba(0,0,0,0.04); }
+.compare-table td:last-child { text-align: center; font-weight: 600; }
+.compare-table .check-yes { color: var(--accent); font-size: 18px; }
+.compare-table .check-no { color: #ccc; font-size: 18px; }
+
+/* Social proof ticker */
+.ticker-wrap { overflow: hidden; margin: 16px -20px; padding: 12px 0; background: rgba(45,122,95,0.04); border-top: 1px solid rgba(0,0,0,0.04); border-bottom: 1px solid rgba(0,0,0,0.04); }
+.ticker { display: flex; gap: 40px; animation: tickerScroll 30s linear infinite; white-space: nowrap; }
+@keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ticker-item { font-size: 15px; color: var(--text-dim); display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.ticker-item strong { color: var(--text); }
+
+/* Floating notification */
+.notif { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--bg-card); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius); padding: 14px 20px; box-shadow: var(--shadow-lg); z-index: 200; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); max-width: 360px; width: calc(100% - 40px); display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text); }
+.notif.visible { transform: translateX(-50%) translateY(0); }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+/* Trust bar */
+.trust-bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px; color: var(--text-dim); margin-top: 16px; text-align: center; line-height: 1.6; }
+
+/* Responsive */
+@media (max-width: 400px) {
+  .freq-options { gap: 6px; }
+  .freq-btn { padding: 8px 12px; font-size: 15px; }
+  .stat-pills { gap: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="top-nav">
+    <div class="logo">Recall Better</div>
+    <div class="nav-badge">Memory Health Check</div>
+  </div>
+  <div class="screen-container">
+
+    <!-- STEP 0: 5 WARNING SIGNS HOOK -->
+    <div class="screen active" data-step="0">
+      <div class="section-label label-warning">Important Health Information</div>
+      <h1 class="screen-title">5 warning signs your memory needs attention</h1>
+      <p class="screen-subtitle">Most people dismiss these as "just getting older." But research shows they're <em>early signals</em> — and catching them now could make all the difference.</p>
+
+      <div class="warning-card">
+        <div class="warning-num">1</div>
+        <div><h4>The "tip of the tongue" moment</h4><p>You know the word but can't retrieve it. Happening more often than it used to.</p></div>
+      </div>
+      <div class="warning-card">
+        <div class="warning-num">2</div>
+        <div><h4>Walking into rooms blank</h4><p>You get up to do something, walk there, and have no idea why.</p></div>
+      </div>
+      <div class="warning-card">
+        <div class="warning-num">3</div>
+        <div><h4>Repeating yourself in conversation</h4><p>You tell someone a story, only to realise you already told them last week.</p></div>
+      </div>
+      <div class="warning-card">
+        <div class="warning-num">4</div>
+        <div><h4>Losing track mid-sentence</h4><p>"What was I saying?" happens more than you'd like to admit.</p></div>
+      </div>
+      <div class="warning-card">
+        <div class="warning-num">5</div>
+        <div><h4>Names you should know disappearing</h4><p>Not strangers — people you've known for years. The name just... won't come.</p></div>
+      </div>
+
+      <div class="doctor-card">
+        <div class="doctor-avatar">🩺</div>
+        <div>
+          <div class="doctor-text">"These symptoms are often dismissed, but they're your brain's way of asking for help. The good news is that targeted cognitive training can reverse years of decline — if you act early enough."</div>
+          <div class="doctor-name">Based on findings from the NIH ACTIVE Study</div>
+        </div>
+      </div>
+
+      <button class="cta-btn cta-primary" onclick="goNext()">Check My Memory Health — Free</button>
+      <div class="trust-bar">🔒 Private & confidential · 2 minutes · Used by 53,000+ adults</div>
+    </div>
+
+    <!-- STEP 1: HOW MANY APPLY? (instant engagement) -->
+    <div class="screen" data-step="1">
+      <div class="section-label label-medical">Step 1 of 5</div>
+      <h1 class="screen-title">How many of those warning signs do you recognise?</h1>
+      <p class="screen-subtitle">Be honest — there are no wrong answers. This is about understanding where you are <strong>right now</strong>.</p>
+      <div style="display:flex; flex-direction:column; gap:10px;" id="countOptions">
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:16px; text-align:left;" onclick="selectCount(this, 1)">Just 1 — I've noticed something small</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:16px; text-align:left;" onclick="selectCount(this, 2)">2–3 — It's been on my mind</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:16px; text-align:left;" onclick="selectCount(this, 4)">4–5 — I experience most of these regularly</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:16px; text-align:left;" onclick="selectCount(this, 5)">All 5 — This list described my week</button>
+      </div>
+      <div class="stat-pills" style="margin-top:20px;">
+        <div class="stat-pill">📊 <strong>73%</strong> of people your age select 3+</div>
+        <div class="stat-pill">🧠 All are <strong>reversible</strong> with training</div>
+      </div>
+    </div>
+
+    <!-- STEP 2: SEVERITY SLIDERS (highly interactive) -->
+    <div class="screen" data-step="2">
+      <div class="section-label label-medical">Step 2 of 5</div>
+      <h1 class="screen-title">How often do these happen?</h1>
+      <p class="screen-subtitle">Drag each slider to show how frequently you experience this. This helps us identify your <strong>priority areas</strong>.</p>
+
+      <div class="severity-group" data-key="names">
+        <div class="severity-label">Forgetting names of people you know</div>
+        <div class="severity-track" onmousedown="startDrag(event, 'names')" ontouchstart="startDrag(event, 'names')">
+          <div class="severity-fill" id="fill_names" style="width:20%; background:var(--accent);"></div>
+          <div class="severity-thumb" id="thumb_names" style="left:20%;"></div>
+        </div>
+        <div class="severity-anchors"><span>Rarely</span><span>Sometimes</span><span>Daily</span></div>
+        <div class="severity-value" id="val_names" style="color:var(--accent);">Rarely</div>
+      </div>
+
+      <div class="severity-group" data-key="words">
+        <div class="severity-label">Losing words mid-sentence</div>
+        <div class="severity-track" onmousedown="startDrag(event, 'words')" ontouchstart="startDrag(event, 'words')">
+          <div class="severity-fill" id="fill_words" style="width:20%; background:var(--accent);"></div>
+          <div class="severity-thumb" id="thumb_words" style="left:20%;"></div>
+        </div>
+        <div class="severity-anchors"><span>Rarely</span><span>Sometimes</span><span>Daily</span></div>
+        <div class="severity-value" id="val_words" style="color:var(--accent);">Rarely</div>
+      </div>
+
+      <div class="severity-group" data-key="focus">
+        <div class="severity-label">Losing focus or train of thought</div>
+        <div class="severity-track" onmousedown="startDrag(event, 'focus')" ontouchstart="startDrag(event, 'focus')">
+          <div class="severity-fill" id="fill_focus" style="width:20%; background:var(--accent);"></div>
+          <div class="severity-thumb" id="thumb_focus" style="left:20%;"></div>
+        </div>
+        <div class="severity-anchors"><span>Rarely</span><span>Sometimes</span><span>Daily</span></div>
+        <div class="severity-value" id="val_focus" style="color:var(--accent);">Rarely</div>
+      </div>
+
+      <div class="severity-group" data-key="misplace">
+        <div class="severity-label">Misplacing everyday items</div>
+        <div class="severity-track" onmousedown="startDrag(event, 'misplace')" ontouchstart="startDrag(event, 'misplace')">
+          <div class="severity-fill" id="fill_misplace" style="width:20%; background:var(--accent);"></div>
+          <div class="severity-thumb" id="thumb_misplace" style="left:20%;"></div>
+        </div>
+        <div class="severity-anchors"><span>Rarely</span><span>Sometimes</span><span>Daily</span></div>
+        <div class="severity-value" id="val_misplace" style="color:var(--accent);">Rarely</div>
+      </div>
+
+      <button class="cta-btn cta-primary" onclick="goNext()" style="margin-top:8px;">Continue</button>
+    </div>
+
+    <!-- STEP 3: WHEN DID IT START? -->
+    <div class="screen" data-step="3">
+      <div class="section-label label-medical">Step 3 of 5</div>
+      <h1 class="screen-title">When did you first notice these changes?</h1>
+      <p class="screen-subtitle">Memory changes often creep in gradually. Understanding the timeline helps us assess <strong>how much can be recovered</strong>.</p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, 'recent')">📅 In the last few months</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, '1year')">📆 About a year ago</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, '2-3years')">🗓️ 2–3 years — it's gotten gradually worse</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectOnset(this, 'long')">🕰️ Longer than I'd like to admit</button>
+      </div>
+      <div class="card-highlight card" style="margin-top:20px;">
+        <p style="font-size:16px; line-height:1.6;">💡 <strong>Good to know:</strong> The NIH ACTIVE study found that cognitive training produced benefits even when started <strong>10 years</strong> after initial decline. It's never too late — but earlier is always better.</p>
+      </div>
+    </div>
+
+    <!-- STEP 4: WHAT WORRIES YOU MOST? (emotional) -->
+    <div class="screen" data-step="4">
+      <div class="section-label label-medical">Step 4 of 5</div>
+      <h1 class="screen-title">What worries you most about your memory?</h1>
+      <p class="screen-subtitle">This is the part most people find hard to say out loud. <strong>You're safe here.</strong></p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'embarrass')">😔 Being embarrassed in front of others</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'family')">👨‍👩‍👧 My family noticing before I do</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'worse')">📉 That it will keep getting worse</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'independence')">🏠 Losing my independence one day</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectWorry(this, 'nothing')">🤷 I'm not too worried — just want to stay sharp</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: WHAT HAVE YOU TRIED? -->
+    <div class="screen" data-step="5">
+      <div class="section-label label-medical">Step 5 of 5</div>
+      <h1 class="screen-title">Have you tried anything to improve your memory?</h1>
+      <p class="screen-subtitle">Most people do <em>something</em> — crosswords, supplements, puzzles. But most of it <strong>doesn't target the right skills</strong>.</p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'puzzles')">📰 Crosswords, Sudoku, word games</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'supplements')">💊 Supplements or vitamins</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'apps')">📱 Brain training apps</button>
+        <button class="freq-btn" style="width:100%; padding:16px; font-size:17px; text-align:left;" onclick="selectPrior(this, 'nothing')">🤷 Nothing specific — I didn't know where to start</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: ANALYZING (medical feel) -->
+    <div class="screen" data-step="6">
+      <div style="text-align:center; padding-top:32px;">
+        <div style="width:64px; height:64px; margin:0 auto 20px; border:3px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></div>
+        <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+        <h1 class="screen-title" style="text-align:center;">Analysing your responses...</h1>
+        <p class="screen-subtitle" style="text-align:center;">Cross-referencing with cognitive health data from 53,000+ adults.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px; margin:20px 0;" id="analysisSteps">
+        <div class="analysis-item" id="ai1" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Evaluating symptom severity</span>
+        </div>
+        <div class="analysis-item" id="ai2" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Comparing to age-group baselines</span>
+        </div>
+        <div class="analysis-item" id="ai3" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Identifying at-risk cognitive areas</span>
+        </div>
+        <div class="analysis-item" id="ai4" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Calculating your memory health score</span>
+        </div>
+        <div class="analysis-item" id="ai5" style="display:flex; gap:12px; align-items:center; opacity:0.3; transition:all 0.5s;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#E8E4DD;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;" class="ai-check">⏳</div>
+          <span style="font-size:16px;">Preparing your personalised action plan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7: RESULTS — RISK ASSESSMENT -->
+    <div class="screen" data-step="7">
+      <div class="section-label label-warning">Your Results</div>
+      <h1 class="screen-title">Your Memory Health Score</h1>
+
+      <div class="card" style="text-align:center; padding:28px 24px;">
+        <div class="risk-meter">
+          <div class="risk-bar-bg">
+            <div class="risk-indicator" id="riskIndicator" style="left:10%;"></div>
+          </div>
+          <div class="risk-labels"><span>Healthy</span><span>At Risk</span></div>
+        </div>
+        <div class="risk-score">
+          <div class="score-val" id="riskScoreVal">--</div>
+          <div class="score-label" id="riskScoreLabel">out of 100</div>
+        </div>
+      </div>
+
+      <div class="card" id="resultBreakdown"></div>
+
+      <div class="card-warning card" id="resultWarning"></div>
+
+      <div class="doctor-card">
+        <div class="doctor-avatar">🩺</div>
+        <div>
+          <div class="doctor-text" id="doctorAdvice"></div>
+          <div class="doctor-name">Based on NIH cognitive health guidelines</div>
+        </div>
+      </div>
+
+      <button class="cta-btn cta-primary" onclick="goNext()">Show me what I can do</button>
+    </div>
+
+    <!-- STEP 8: THE SOLUTION -->
+    <div class="screen" data-step="8">
+      <div class="section-label label-green">Your Action Plan</div>
+      <h1 class="screen-title">The good news: this is treatable</h1>
+      <p class="screen-subtitle">Your score suggests <strong>early-stage cognitive softening</strong> — the kind that responds remarkably well to targeted training.</p>
+
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="padding:16px 20px; background:var(--accent-light); border-bottom:1px solid rgba(45,122,95,0.1);">
+          <div style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--accent);">What the research says</div>
+        </div>
+        <div style="padding:20px;">
+          <div style="display:flex; gap:16px; margin-bottom:16px; align-items:center;">
+            <div style="font-family:var(--font-display); font-size:42px; color:var(--accent); line-height:1;">82%</div>
+            <div style="font-size:16px; color:var(--text); line-height:1.65;">of adults who used targeted cognitive exercises showed measurable improvement within 14 days (NIH ACTIVE Study, 10-year follow-up)</div>
+          </div>
+          <div style="display:flex; gap:16px; align-items:center;">
+            <div style="font-family:var(--font-display); font-size:42px; color:var(--accent); line-height:1;">5</div>
+            <div style="font-size:16px; color:var(--text); line-height:1.65;">minutes per day is all it takes. More than puzzles, less than you'd expect.</div>
+          </div>
+        </div>
+      </div>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>Feature</th><th>Crosswords</th><th>Recall Better</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Targets multiple cognitive skills</td><td><span class="check-no">✕</span></td><td><span class="check-yes">✓</span></td></tr>
+          <tr><td>Adapts to your weak spots</td><td><span class="check-no">✕</span></td><td><span class="check-yes">✓</span></td></tr>
+          <tr><td>Tracks improvement over time</td><td><span class="check-no">✕</span></td><td><span class="check-yes">✓</span></td></tr>
+          <tr><td>Based on clinical research</td><td><span class="check-no">✕</span></td><td><span class="check-yes">✓</span></td></tr>
+          <tr><td>Takes under 5 minutes/day</td><td><span class="check-no">✕</span></td><td><span class="check-yes">✓</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"My doctor told me to 'keep my mind active' but never said how. Three weeks with Recall Better and I've stopped dreading conversations. I trust my memory again."</blockquote>
+        <div class="author">
+          <div class="author-avatar">E</div>
+          <div><strong>Eleanor, 69</strong><br><span class="verified">Verified Member · Improved score by 34 points</span></div>
+        </div>
+      </div>
+
+      <button class="cta-btn cta-primary" onclick="goNext()">Get my personalised plan</button>
+    </div>
+
+    <!-- STEP 9: PERSONALISED PLAN PREVIEW -->
+    <div class="screen" data-step="9">
+      <div class="section-label label-green">Built For You</div>
+      <h1 class="screen-title" id="planTitle">Your 4-week memory recovery plan</h1>
+      <p class="screen-subtitle" id="planSub"></p>
+
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div style="padding:14px 20px; background:var(--accent-light); border-bottom:1px solid rgba(45,122,95,0.1); display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--accent);">Daily Routine</span>
+          <span style="font-family:var(--font-display); font-size:18px; color:var(--text-bright);">5 min/day</span>
+        </div>
+        <div style="padding:16px 20px; display:flex; flex-direction:column; gap:12px;" id="planRoutine"></div>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <p style="font-size:16px; color:var(--text-dim); margin-bottom:8px;">Users with your score who follow their plan see an average</p>
+        <div style="font-family:var(--font-display); font-size:48px; color:var(--accent);" id="planImprovement">+28 points</div>
+        <p style="font-size:16px; font-weight:600;">improvement in memory health score within 30 days</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"I went from a score of 41 to 73 in one month. My wife says I'm 'back to my old self.' That means everything to me."</blockquote>
+        <div class="author">
+          <div class="author-avatar">R</div>
+          <div><strong>Robert, 71</strong><br><span class="verified">Verified · 4-week plan</span></div>
+        </div>
+      </div>
+
+      <button class="cta-btn cta-primary" onclick="goNext()">Start my plan now</button>
+      <div class="trust-bar">🔒 Cancel anytime. 30-day money back guarantee.</div>
+    </div>
+
+    <!-- STEP 10: EMAIL CAPTURE -->
+    <div class="screen" data-step="10">
+      <h1 class="screen-title">Save your Memory Health Report</h1>
+      <p class="screen-subtitle">We'll send your full report — including your <strong>risk score</strong>, <strong>weak areas</strong>, and <strong>personalised plan</strong> — straight to your inbox.</p>
+
+      <div class="card-warning card">
+        <p style="font-size:16px; line-height:1.65;"><strong>⏰ Your results are time-sensitive.</strong> Without action, the cognitive areas flagged in your report will continue to weaken. Save your report now so you can reference it when you're ready to start.</p>
+      </div>
+
+      <div style="margin:20px 0 12px;">
+        <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <button class="cta-btn cta-primary" onclick="submitEmail()">Send My Free Report</button>
+      <div class="trust-bar">🔒 100% private. No spam. Unsubscribe anytime.</div>
+
+      <div class="testimonial-card" style="margin-top:20px;">
+        <blockquote>"I almost didn't enter my email. So glad I did — reading my full report is what finally made me take this seriously."</blockquote>
+        <div class="author">
+          <div class="author-avatar">J</div>
+          <div><strong>Jean, 64</strong><br><span class="verified">Started 3 weeks ago</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 11: BILLING -->
+    <div class="screen" data-step="11">
+      <h1 class="screen-title" style="text-align:center;">Start protecting your memory today</h1>
+
+      <div class="ticker-wrap">
+        <div class="ticker" id="ticker">
+          <div class="ticker-item">✅ <strong>Eleanor, 69</strong> improved by 34 points</div>
+          <div class="ticker-item">✅ <strong>Robert, 71</strong> — "back to my old self"</div>
+          <div class="ticker-item">✅ <strong>Margaret, 67</strong> brain age down 9 years</div>
+          <div class="ticker-item">✅ <strong>David, 73</strong> — "my kids noticed the difference"</div>
+          <div class="ticker-item">✅ <strong>Patricia, 63</strong> improved recall by 42%</div>
+          <div class="ticker-item">✅ <strong>James, 66</strong> — "I trust my memory again"</div>
+          <!-- duplicate for seamless loop -->
+          <div class="ticker-item">✅ <strong>Eleanor, 69</strong> improved by 34 points</div>
+          <div class="ticker-item">✅ <strong>Robert, 71</strong> — "back to my old self"</div>
+          <div class="ticker-item">✅ <strong>Margaret, 67</strong> brain age down 9 years</div>
+          <div class="ticker-item">✅ <strong>David, 73</strong> — "my kids noticed the difference"</div>
+          <div class="ticker-item">✅ <strong>Patricia, 63</strong> improved recall by 42%</div>
+          <div class="ticker-item">✅ <strong>James, 66</strong> — "I trust my memory again"</div>
+        </div>
+      </div>
+
+      <div class="pricing-section">
+        <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Start your free trial</h2>
+
+        <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
+          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Works on any device</strong> — phone, tablet, or computer. Nothing to download, start instantly</span></div>
+          </div>
+        </div>
+
+        <div style="background:rgba(74,227,181,0.08);border:1px solid rgba(74,227,181,0.18);border-radius:14px;padding:24px 20px;margin:0 0 20px;text-align:center;">
+          <div style="font-size:14px;color:var(--accent,#4AE3B5);font-weight:700;letter-spacing:1px;margin-bottom:8px;">7-DAY FREE TRIAL</div>
+          <div style="font-size:36px;font-weight:800;color:var(--text-bright,#fff);line-height:1.1;">$9.99<span style="font-size:16px;font-weight:500;color:var(--text,#E8ECF4);">/month</span></div>
+          <div style="font-size:14px;color:var(--text,#E8ECF4);margin-top:8px;">Try free for 7 days · cancel anytime</div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;gap:12px;margin:0 0 20px;text-align:center;">
+          <div style="flex:1;background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:10px;padding:14px 8px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent,#4AE3B5);margin-bottom:4px;">Today</div>
+            <div style="font-size:13px;color:var(--text,#E8ECF4);line-height:1.4;">Start training<br>for free</div>
+          </div>
+          <div style="flex:1;background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:10px;padding:14px 8px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent,#4AE3B5);margin-bottom:4px;">Day 5</div>
+            <div style="font-size:13px;color:var(--text,#E8ECF4);line-height:1.4;">Reminder before<br>trial ends</div>
+          </div>
+          <div style="flex:1;background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:10px;padding:14px 8px;">
+            <div style="font-size:13px;font-weight:700;color:var(--accent,#4AE3B5);margin-bottom:4px;">Day 7</div>
+            <div style="font-size:13px;color:var(--text,#E8ECF4);line-height:1.4;">Trial ends ·<br>$9.99/mo starts</div>
+          </div>
+        </div>
+
+        <button class="cta-btn cta-primary" onclick="goPro()" id="getMyPlanBtn">START FREE TRIAL</button>
+
+        <div class="legal-text">
+          Your free trial begins today. You will not be charged during the 7-day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
+        </div>
+
+        <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+        <div class="payment-logos">
+          <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+        </div>
+      </div>
+
+      <div class="doctor-card">
+        <div class="doctor-avatar">🩺</div>
+        <div>
+          <div class="doctor-text">"For less than a daily newspaper, you can give your brain the targeted exercise it needs. The research is clear: use it or lose it — and <em>how</em> you use it matters enormously."</div>
+          <div class="doctor-name">Based on Harvard Health cognitive training review</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"The cost of a fancy coffee once a week, and it's given me something I can't put a price on — peace of mind about my mind."</blockquote>
+        <div class="author">
+          <div class="author-avatar">S</div>
+          <div><strong>Susan, 72</strong><br><span class="verified">Verified · 12-week plan</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Notification toast -->
+<div class="notif" id="notif">
+  <div class="notif-dot"></div>
+  <span id="notifText"></span>
+</div>
+
+<script>
+const TOTAL_STEPS = 11;
+const state = {
+  step: 0,
+  warningCount: 0,
+  severity: { names: 20, words: 20, focus: 20, misplace: 20 },
+  onset: '',
+  worry: '',
+  prior: '',
+  email: '',
+  selectedPlan: 'monthly',
+  riskScore: 0
+};
+
+// ========== NAVIGATION ==========
+function goNext() {
+  if(state.step===0 && typeof fbq!=="undefined")fbq("track","ViewContent");
+  const cur = document.querySelector('.screen.active');
+  if (!cur) return;
+  cur.classList.remove('active');
+  cur.classList.add('exiting');
+  state.step++;
+  updateProgress();
+  setTimeout(() => {
+    cur.classList.remove('exiting');
+    cur.style.display = 'none';
+    const next = document.querySelector(`.screen[data-step="${state.step}"]`);
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    if (next) {
+      next.classList.add('active');
+      next.style.display = '';
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      onStepEnter(state.step);
+    }
+  }, 280);
+}
+
+function updateProgress() {
+  document.getElementById('progressFill').style.width = Math.round((state.step / TOTAL_STEPS) * 100) + '%';
+}
+
+function onStepEnter(step) {
+  if (step === 6) runAnalysis();
+  if (step === 7) showResults();
+  if (step === 9) showPlan();
+  if (step === 11) {}
+}
+
+// ========== STEP 1: COUNT ==========
+function selectCount(btn, count) {
+  state.warningCount = count;
+  btn.parentElement.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => goNext(), 400);
+}
+
+// ========== STEP 2: SEVERITY SLIDERS ==========
+let activeSlider = null;
+
+function startDrag(e, key) {
+  e.preventDefault();
+  activeSlider = key;
+  moveSlider(e, key);
+  const moveHandler = ev => moveSlider(ev, key);
+  const upHandler = () => { activeSlider = null; document.removeEventListener('mousemove', moveHandler); document.removeEventListener('touchmove', moveHandler); };
+  document.addEventListener('mousemove', moveHandler);
+  document.addEventListener('touchmove', moveHandler, { passive: false });
+  document.addEventListener('mouseup', upHandler, { once: true });
+  document.addEventListener('touchend', upHandler, { once: true });
+}
+
+function moveSlider(e, key) {
+  const track = document.getElementById(`fill_${key}`).parentElement;
+  const rect = track.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  let pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+  state.severity[key] = Math.round(pct);
+
+  document.getElementById(`fill_${key}`).style.width = pct + '%';
+  document.getElementById(`thumb_${key}`).style.left = pct + '%';
+
+  // Color and label
+  let color, label;
+  if (pct < 33) { color = 'var(--accent)'; label = 'Rarely'; }
+  else if (pct < 50) { color = '#7AB648'; label = 'Occasionally'; }
+  else if (pct < 70) { color = 'var(--warning)'; label = 'Often'; }
+  else { color = 'var(--danger)'; label = 'Daily or near-daily'; }
+
+  document.getElementById(`fill_${key}`).style.background = color;
+  document.getElementById(`thumb_${key}`).style.borderColor = color;
+  document.getElementById(`val_${key}`).textContent = label;
+  document.getElementById(`val_${key}`).style.color = color;
+}
+
+// ========== STEP 3: ONSET ==========
+function selectOnset(btn, val) {
+  state.onset = val;
+  btn.parentElement.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => goNext(), 400);
+}
+
+// ========== STEP 4: WORRY ==========
+function selectWorry(btn, val) {
+  state.worry = val;
+  btn.parentElement.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => goNext(), 400);
+}
+
+// ========== STEP 5: PRIOR ==========
+function selectPrior(btn, val) {
+  state.prior = val;
+  btn.parentElement.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => goNext(), 400);
+}
+
+// ========== ANALYSIS ==========
+function runAnalysis() {
+  const items = ['ai1','ai2','ai3','ai4','ai5'];
+  items.forEach((id, i) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      el.style.opacity = '1';
+      el.querySelector('.ai-check').textContent = '✓';
+      el.querySelector('.ai-check').style.background = 'var(--accent)';
+      el.querySelector('.ai-check').style.color = '#fff';
+    }, 800 + i * 900);
+  });
+  setTimeout(() => goNext(), 800 + 5 * 900 + 600);
+}
+
+// ========== RESULTS ==========
+function showResults() {
+  // Calculate risk score (lower = more at risk, higher = healthier)
+  const avgSeverity = (state.severity.names + state.severity.words + state.severity.focus + state.severity.misplace) / 4;
+  const countPenalty = state.warningCount * 5;
+  const onsetPenalty = { recent: 0, '1year': 5, '2-3years': 12, long: 18 }[state.onset] || 8;
+  const baseScore = 85 - (avgSeverity * 0.45) - countPenalty - onsetPenalty;
+  const score = Math.max(22, Math.min(82, Math.round(baseScore + (Math.random() * 6 - 3))));
+  state.riskScore = score;
+
+  // Animate risk meter
+  const indicatorPct = 100 - score; // higher score = more toward "healthy" (left)
+  setTimeout(() => {
+    document.getElementById('riskIndicator').style.left = (100 - score) + '%';
+    const valEl = document.getElementById('riskScoreVal');
+    valEl.textContent = score;
+    valEl.style.color = score > 65 ? 'var(--accent)' : score > 45 ? 'var(--warning)' : 'var(--danger)';
+    document.getElementById('riskScoreLabel').textContent = score > 65 ? 'Mild concern — highly treatable' : score > 45 ? 'Moderate concern — action recommended' : 'Significant concern — act now';
+  }, 500);
+
+  // Breakdown
+  const areas = [
+    { name: 'Name Recall', severity: state.severity.names },
+    { name: 'Word Retrieval', severity: state.severity.words },
+    { name: 'Focus & Attention', severity: state.severity.focus },
+    { name: 'Spatial Memory', severity: state.severity.misplace }
+  ].sort((a, b) => b.severity - a.severity);
+
+  const breakdownHtml = areas.map(a => {
+    const level = a.severity > 65 ? 'bad' : a.severity > 40 ? 'warn' : 'good';
+    const icon = level === 'bad' ? '⚠️' : level === 'warn' ? '⚡' : '✓';
+    const desc = level === 'bad' ? 'Needs immediate attention' : level === 'warn' ? 'Room for improvement' : 'Within normal range';
+    return `<div class="result-item"><div class="result-icon ${level}">${icon}</div><div class="result-text"><h4>${a.name}</h4><p>${desc} — severity: ${Math.round(a.severity)}%</p></div></div>`;
+  }).join('');
+  document.getElementById('resultBreakdown').innerHTML = `<h3 style="font-size:16px; font-weight:700; margin-bottom:12px; color:var(--text-bright);">Area Breakdown</h3>${breakdownHtml}`;
+
+  // Warning card
+  const worst = areas[0];
+  document.getElementById('resultWarning').innerHTML = `<p style="font-size:16px; line-height:1.6;"><strong>⚠️ Priority area: ${worst.name}</strong><br>This is where you're experiencing the most difficulty. Without intervention, this area typically declines 5–8% per year. With targeted training, most people see improvement within 2 weeks.</p>`;
+
+  // Doctor advice
+  const worryText = {
+    embarrass: "The social anxiety around memory lapses is very real — and it often makes the problem worse through stress.",
+    family: "It's natural to worry about loved ones noticing. The best thing you can do is take proactive steps now.",
+    worse: "Your concern is valid. Untreated cognitive decline does tend to accelerate — but training can reverse that trajectory.",
+    independence: "Maintaining independence starts with maintaining cognitive fitness. You're already taking the right step.",
+    nothing: "Even with a proactive mindset, targeted training will help you maintain your edge as the years go on."
+  };
+  document.getElementById('doctorAdvice').innerHTML = `"${worryText[state.worry] || worryText.worse} Based on your score of ${score}, I'd recommend starting a structured daily training programme immediately. Even 5 minutes a day can produce measurable results."`;
+}
+
+// ========== PLAN ==========
+function showPlan() {
+  const areas = [
+    { name: 'Name Recall', severity: state.severity.names, games: ['Name-Face Match', 'Association Memory'] },
+    { name: 'Word Retrieval', severity: state.severity.words, games: ['Word Pairs', 'Vocabulary Recall'] },
+    { name: 'Focus & Attention', severity: state.severity.focus, games: ['Focus Grid', 'Speed Match'] },
+    { name: 'Spatial Memory', severity: state.severity.misplace, games: ['Pattern Memory', 'Sequence Recall'] }
+  ].sort((a, b) => b.severity - a.severity);
+
+  const primary = areas[0];
+  const secondary = areas[1];
+
+  document.getElementById('planSub').innerHTML = `Targeting <strong>${primary.name}</strong> and <strong>${secondary.name}</strong> — your two weakest areas. Designed to raise your score from <strong style="color:var(--danger)">${state.riskScore}</strong> to <strong style="color:var(--accent)">${Math.min(85, state.riskScore + 28)}</strong> or higher.`;
+
+  document.getElementById('planRoutine').innerHTML = `
+    <div style="display:flex; gap:12px; align-items:flex-start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+      <div style="font-size:16px; line-height:1.65;"><strong>${primary.games[0]}</strong> — 2 min<br><span style="color:var(--text-dim); font-size:15px;">Primary: ${primary.name}</span></div>
+    </div>
+    <div style="display:flex; gap:12px; align-items:flex-start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+      <div style="font-size:16px; line-height:1.65;"><strong>${secondary.games[0]}</strong> — 2 min<br><span style="color:var(--text-dim); font-size:15px;">Secondary: ${secondary.name}</span></div>
+    </div>
+    <div style="display:flex; gap:12px; align-items:flex-start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+      <div style="font-size:16px; line-height:1.65;"><strong>${primary.games[1]}</strong> — 1 min<br><span style="color:var(--text-dim); font-size:15px;">Reinforcement round</span></div>
+    </div>
+  `;
+
+  const improvement = state.riskScore < 45 ? '+30–40' : state.riskScore < 60 ? '+22–32' : '+15–25';
+  document.getElementById('planImprovement').textContent = improvement + ' points';
+}
+
+// ========== EMAIL ==========
+function submitEmail() {
+  if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    document.getElementById('emailInput').style.borderColor = 'var(--danger)';
+    document.getElementById('emailInput').focus();
+    return;
+  }
+  state.email = email;
+  console.log('Lead:', { email, riskScore: state.riskScore, severity: state.severity, worry: state.worry, onset: state.onset });
+
+  fetch('/api/waitlist', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, source: 'quiz2', riskScore: state.riskScore , ...(window.getRBUTMs ? window.getRBUTMs() : {})})
+  }).catch(() => {});
+
+  goNext();
+}
+
+// ========== BILLING (TRIAL) ==========
+
+// Embedded checkout state
+let stripeInstance = null, elements = null, paymentElement = null;
+
+function goPro() {
+  if(typeof fbq!=="undefined")fbq("track","InitiateCheckout");
+  const email = state.email;
+  if (!email) { alert('Please enter your email first.'); return; }
+
+  const btn = document.getElementById('getMyPlanBtn');
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+
+  document.getElementById('summaryPlanName').textContent = '7-day free trial';
+  document.getElementById('summaryOriginal').textContent = '$0.00';
+  document.getElementById('summaryTotal').textContent = '$0.00 today';
+
+  fetch('/api/stripe?action=embedded-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan: 'monthly', email, pricing: 'trial' })
+  })
+  .then(r => r.json())
+  .then(async data => {
+    if (data.error) throw new Error(data.error);
+    if (data.alreadyActive) { window.location.href = '/app?checkout=success'; return; }
+    stripeInstance = Stripe(data.publishableKey);
+    const checkout = await stripeInstance.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+    checkout.mount('#payment-element');
+    document.getElementById('checkoutOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    btn.textContent = 'START FREE TRIAL'; btn.disabled = false;
+  })
+  .catch(err => {
+    alert(err.message || 'Something went wrong. Please try again.');
+    btn.textContent = 'START FREE TRIAL';
+    btn.disabled = false;
+  });
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+
+// ========== SOCIAL PROOF NOTIFICATIONS ==========
+const notifs = [
+  'Margaret from Surrey just saved her Memory Health Report',
+  'David, 73, started his 4-week plan 3 minutes ago',
+  'Eleanor improved her score from 38 to 72',
+  'James just completed his daily training — Day 18',
+  'Patricia scored 34 points higher after 3 weeks',
+  'Robert: "Best decision I\'ve made for my health this year"',
+  'Susan from Yorkshire just started her plan'
+];
+let notifIdx = 0;
+function showNotif() {
+  if (state.step < 1 || state.step > 9) return;
+  const el = document.getElementById('notif');
+  document.getElementById('notifText').textContent = notifs[notifIdx % notifs.length];
+  el.classList.add('visible');
+  notifIdx++;
+  setTimeout(() => el.classList.remove('visible'), 4500);
+}
+setTimeout(showNotif, 18000);
+setInterval(() => { if (Math.random() > 0.35) showNotif(); }, 28000);
+
+updateProgress();
+</script>
+
+<!-- Embedded Checkout Overlay -->
+<div class="checkout-overlay" id="checkoutOverlay">
+  <div class="checkout-container">
+    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7-day free trial · Cancel anytime · You won't be charged today</div>
+    <div class="checkout-back">
+      <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
+    </div>
+    <div class="checkout-body">
+      <div class="checkout-payment">
+        <h3>Select a payment method</h3>
+        <div id="payment-element"></div>
+                      </div>
+      <div class="checkout-summary" id="checkoutSummary">
+        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$39.98</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$19.99</span></div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
+      <div class="payment-logos">
+        <span>VISA</span><span>MC</span><span>DISCOVER</span><span>PayPal</span><span>AMEX</span><span>stripe</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

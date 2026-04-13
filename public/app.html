@@ -1898,6 +1898,14 @@ async function checkSession(){
     const r = await fetch(API+'/api/auth/check', { credentials:'include' });
     if(!r.ok) return false;
     const data = await r.json();
+    // New format: { active, email, plan, status }
+    if(data.active){
+      AUTH.user = { email: data.email, is_pro: true, plan: data.plan, status: data.status };
+      localStorage.setItem('mv_user', JSON.stringify(AUTH.user));
+      updateStartBtn();
+      return true;
+    }
+    // Legacy format: { authenticated, user }
     if(data.authenticated && data.user){
       AUTH.user = data.user;
       localStorage.setItem('mv_user', JSON.stringify(data.user));
@@ -2342,7 +2350,8 @@ async function authRegister(){
 updateUserBtn();
 
 // Check for ?welcome=1 (post-checkout redirect)
-if(new URLSearchParams(window.location.search).get('welcome')==='1'){
+var _urlParams = new URLSearchParams(window.location.search);
+if(_urlParams.get('welcome')==='1' || _urlParams.get('checkout')==='success'){
   // Track Purchase conversion
   if(typeof fbq!=='undefined')fbq('track','Purchase',{currency:'USD',value:9.99});
   // Clean URL

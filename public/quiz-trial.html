@@ -698,13 +698,18 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Start your free trial</h2>
 
         <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">Your Recall Better programme includes:</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">The full programme includes:</div>
           <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
             <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Works on any device</strong> — phone, tablet, or computer. Nothing to download, start instantly</span></div>
           </div>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px 20px;margin:16px 0;">
+          <p style="font-size:14px;font-style:italic;color:var(--text);line-height:1.6;margin:0;">"I was sceptical but the free trial convinced me. By day 3 I was remembering names I'd been forgetting for months."</p>
+          <div style="font-size:13px;color:var(--text-dim);margin-top:8px;">— Margaret, 67</div>
         </div>
 
         <button class="cta-btn cta-primary" onclick="goPro()" id="getMyPlanBtn">START FREE TRIAL</button>
@@ -717,7 +722,7 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
         </div>
 
         <div class="legal-text">
-          Your free trial begins today. You will not be charged during the 7-day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
+          Your free trial begins today. You will not be charged during the 7 day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
         </div>
 
         <div class="safe-checkout">GUARANTEED <strong>SAFE CHECKOUT</strong></div>
@@ -1138,7 +1143,7 @@ function goPro() {
   btn.disabled = true;
 
   // Update summary for trial
-  document.getElementById('summaryPlanName').textContent = '7-day free trial';
+  document.getElementById('summaryPlanName').textContent = '7 day free trial';
   document.getElementById('summaryOriginal').textContent = '$0.00';
   document.getElementById('summaryTotal').textContent = '$0.00 today';
 
@@ -1216,13 +1221,13 @@ updateProgress();
 <!-- Embedded Checkout Overlay -->
 <div class="checkout-overlay" id="checkoutOverlay">
   <div class="checkout-container">
-    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7-day free trial · Cancel anytime · You won't be charged today</div>
+    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7 day free trial · Cancel anytime · You won't be charged today</div>
     <div class="checkout-back">
       <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
     </div>
     <div class="checkout-body" style="flex-direction:column;">
       <div class="checkout-summary" id="checkoutSummary" style="flex:unset;">
-        <div class="summary-row"><span id="summaryPlanName">7-day free trial</span><span id="summaryOriginal">$0.00</span></div>
+        <div class="summary-row"><span id="summaryPlanName">7 day free trial</span><span id="summaryOriginal">$0.00</span></div>
         <div class="summary-row total"><span>Total</span><span id="summaryTotal">$0.00 today</span></div>
       </div>
       <div class="checkout-payment">

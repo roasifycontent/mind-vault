@@ -1185,8 +1185,9 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                 <div class="word-display">
                     <div class="word-display-text" id="currentWord">Ready</div>
                 </div>
+                <div style="text-align:center;font-size:14px;color:#8A8A8A;margin-top:8px;" id="wordCounter"></div>
                 <div class="countdown">
-                    <span id="countdown"></span>
+                    <span id="countdown" style="font-size:28px;font-weight:700;color:#2D7A5F;"></span>
                 </div>
             </div>
 
@@ -1349,19 +1350,22 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             <h2>Your personalised training plan</h2>
 
             <div class="daily-routine">
-                <div class="routine-title">Daily 5 minute routine</div>
-                <div class="routine-item">
-                    <div class="routine-time">9:00 AM</div>
-                    <span id="gameMatch1">Word pairs game</span>
+                <div style="font-weight:700;color:#2C2C2C;margin-bottom:16px;font-size:16px;">Your daily session — just 5 minutes</div>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#E8F5EE;color:#2D7A5F;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">1</div>
+                    <div style="font-size:15px;color:#2C2C2C;"><strong id="gameMatch1">Word pairs</strong> <span style="color:#8A8A8A;">— 2 mins</span></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#E8F5EE;color:#2D7A5F;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">2</div>
+                    <div style="font-size:15px;color:#2C2C2C;"><strong id="gameMatch2">Sequence recall</strong> <span style="color:#8A8A8A;">— 2 mins</span></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#E8F5EE;color:#2D7A5F;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">3</div>
+                    <div style="font-size:15px;color:#2C2C2C;"><strong id="gameMatch3">Visual memory</strong> <span style="color:#8A8A8A;">— 1 min</span></div>
+                  </div>
                 </div>
-                <div class="routine-item">
-                    <div class="routine-time">12:00 PM</div>
-                    <span id="gameMatch2">Sequence recall</span>
-                </div>
-                <div class="routine-item">
-                    <div class="routine-time">6:00 PM</div>
-                    <span id="gameMatch3">Visual memory grid</span>
-                </div>
+                <div style="margin-top:14px;font-size:13px;color:#8A8A8A;">Do it anytime — morning, lunch, or evening. Whatever suits you.</div>
             </div>
 
             <div style="margin-bottom: 24px;">
@@ -1426,7 +1430,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             </div>
 
             <h2>Your personalised plan is ready</h2>
-            <p class="subtitle" style="margin-bottom:20px;">Start your 7-day free trial and unlock the full programme.</p>
+            <p class="subtitle" style="margin-bottom:20px;">Start your 7 day free trial and unlock the full programme.</p>
 
             <div class="social-proof-strip">
                 <div>
@@ -1436,19 +1440,24 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                 <div style="width:1px;height:34px;background:#E8E2D9;"></div>
                 <div class="count-text"><strong style="color:#2C2C2C;">53,000+</strong> adults<br>trained this year</div>
                 <div style="width:1px;height:34px;background:#E8E2D9;"></div>
-                <div class="count-text"><strong style="color:#2C2C2C;">30-day</strong><br>money-back guarantee</div>
+                <div class="count-text"><strong style="color:#2C2C2C;">30 day</strong><br>money back guarantee</div>
             </div>
 
             <div style="background:#E8F5EE;border:1px solid rgba(45,122,95,0.15);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-              <div style="font-size:16px;font-weight:700;color:#2C2C2C;margin-bottom:12px;">Every plan includes the full programme:</div>
+              <div style="font-size:16px;font-weight:700;color:#2C2C2C;margin-bottom:12px;">The full programme includes:</div>
               <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:#2C2C2C;line-height:1.6;">
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake the test and watch your score climb</span></div>
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Works on any device</strong> — phone, tablet, or computer. Nothing to download</span></div>
-                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>30-day money-back guarantee</strong> — no questions, cancel anytime</span></div>
+                <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>30 day money back guarantee</strong> — no questions, cancel anytime</span></div>
               </div>
             </div>
+
+        <div style="background:#FFFFFF;border:1px solid #E8E2D9;border-radius:12px;padding:16px 20px;margin:16px 0;">
+          <p style="font-size:14px;font-style:italic;color:#5A5A5A;line-height:1.6;margin:0;">"I was sceptical but the free trial convinced me. By day 3 I was remembering names I'd been forgetting for months."</p>
+          <div style="font-size:13px;color:#8A8A8A;margin-top:8px;">— Margaret, 67</div>
+        </div>
 
         <button class="button button-wide" onclick="startCheckout()" style="font-size:18px;padding:18px 32px;">START FREE TRIAL</button>
 
@@ -1460,12 +1469,12 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         </div>
 
         <div style="font-size:12px;color:#8A8A8A;text-align:center;margin:12px 0 0;line-height:1.5;">
-          Your free trial begins today. You will not be charged during the 7-day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
+          Your free trial begins today. You will not be charged during the 7 day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
         </div>
 
         <div class="trust-row">
           <div class="t-item"><span class="t-icon">🔒</span>Secure<br>checkout</div>
-          <div class="t-item"><span class="t-icon">↩</span>7-day<br>free trial</div>
+          <div class="t-item"><span class="t-icon">↩</span>7 day<br>free trial</div>
           <div class="t-item"><span class="t-icon">✕</span>Cancel<br>anytime</div>
         </div>
 
@@ -1511,7 +1520,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 
                 <div class="faq-item" onclick="toggleFAQ(this)">
                     <div class="faq-q">What if it doesn't work for me?</div>
-                    <div class="faq-a">You're covered by our 30-day money-back guarantee. If you don't feel the difference, email us and we'll refund every penny — no questions, no hassle.</div>
+                    <div class="faq-a">You're covered by our 30 day money back guarantee. If you don't feel the difference, email us and we'll refund every penny — no questions, no hassle.</div>
                 </div>
 
                 <div class="faq-item" onclick="toggleFAQ(this)">
@@ -1610,26 +1619,30 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             state.selectedWords.clear();
             let wordIndex = 0;
             const countdownContainer = document.getElementById('countdown');
+            const wordCounter = document.getElementById('wordCounter');
 
             function showNextWord() {
                 if (wordIndex < state.wordSequence.length) {
                     const word = state.wordSequence[wordIndex];
                     document.getElementById('currentWord').textContent = word;
+                    if (wordCounter) wordCounter.textContent = 'Word ' + (wordIndex + 1) + ' of ' + state.wordSequence.length;
 
                     let countdown = 2;
-                    countdownContainer.textContent = countdown + 's';
+                    countdownContainer.textContent = countdown;
                     const timer = setInterval(() => {
                         countdown--;
-                        if (countdown >= 0) {
-                            countdownContainer.textContent = countdown + 's';
-                        }
-                        if (countdown < 0) {
+                        if (countdown > 0) {
+                            countdownContainer.textContent = countdown;
+                        } else {
                             clearInterval(timer);
+                            countdownContainer.textContent = '';
                             wordIndex++;
-                            setTimeout(showNextWord, 300);
+                            setTimeout(showNextWord, 200);
                         }
                     }, 1000);
                 } else {
+                    if (wordCounter) wordCounter.textContent = '';
+                    countdownContainer.textContent = '';
                     displayWordGrid();
                 }
             }
@@ -2077,7 +2090,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
   const summaryPlan = document.getElementById('summaryPlanName');
   const summaryOrig = document.getElementById('summaryOriginal');
   const summaryTotal = document.getElementById('summaryTotal');
-  if (summaryPlan) summaryPlan.textContent = '7-day free trial';
+  if (summaryPlan) summaryPlan.textContent = '7 day free trial';
   if (summaryOrig) summaryOrig.textContent = '$0.00';
   if (summaryTotal) summaryTotal.textContent = '$0.00 today';
 
@@ -2138,13 +2151,13 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
     </script>
 <div class="checkout-overlay" id="checkoutOverlay">
   <div class="checkout-container">
-    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7-day free trial · Cancel anytime · You won't be charged today</div>
+    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7 day free trial · Cancel anytime · You won't be charged today</div>
     <div class="checkout-back">
       <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
     </div>
     <div class="checkout-body" style="flex-direction:column;">
       <div class="checkout-summary" id="checkoutSummary" style="flex:unset;">
-        <div class="summary-row"><span id="summaryPlanName">7-day free trial</span><span id="summaryOriginal">$0.00</span></div>
+        <div class="summary-row"><span id="summaryPlanName">7 day free trial</span><span id="summaryOriginal">$0.00</span></div>
         <div class="summary-row total"><span>Total</span><span id="summaryTotal">$0.00 today</span></div>
       </div>
       <div class="checkout-payment">

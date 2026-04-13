@@ -1191,7 +1191,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             <h2>Choose Your Plan</h2>
 
             <div style="background:#E8F5EE;border:1px solid rgba(45,122,95,0.15);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-              <div style="font-size:16px;font-weight:700;color:#2C2C2C;margin-bottom:12px;">Your Recall Better programme includes:</div>
+              <div style="font-size:16px;font-weight:700;color:#2C2C2C;margin-bottom:12px;">The full programme includes:</div>
               <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:#2C2C2C;line-height:1.65;">
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
@@ -1199,6 +1199,11 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                 <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#2D7A5F;flex-shrink:0;">✓</span><span><strong>Works on any device</strong> — phone, tablet, or computer. Nothing to download, start instantly</span></div>
               </div>
             </div>
+
+        <div style="background:#FFFFFF;border:1px solid #E8E2D9;border-radius:12px;padding:16px 20px;margin:16px 0;">
+          <p style="font-size:14px;font-style:italic;color:#5A5A5A;line-height:1.6;margin:0;">"I was sceptical but the free trial convinced me. By day 3 I was remembering names I'd been forgetting for months."</p>
+          <div style="font-size:13px;color:#8A8A8A;margin-top:8px;">— Margaret, 67</div>
+        </div>
 
         <button class="button button-wide" onclick="startCheckout()" style="font-size:18px;padding:18px 32px;">START FREE TRIAL</button>
 
@@ -1210,7 +1215,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         </div>
 
         <div style="font-size:12px;color:#8A8A8A;text-align:center;margin:12px 0 0;line-height:1.5;">
-          Your free trial begins today. You will not be charged during the 7-day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
+          Your free trial begins today. You will not be charged during the 7 day trial. After the trial, your subscription will automatically renew at $9.99/month until you cancel. Cancel anytime by contacting help@recallbetter.com.
         </div>
 
         <div class="payment-badges">
@@ -1659,7 +1664,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
   const summaryPlan = document.getElementById('summaryPlanName');
   const summaryOrig = document.getElementById('summaryOriginal');
   const summaryTotal = document.getElementById('summaryTotal');
-  if (summaryPlan) summaryPlan.textContent = '7-day free trial';
+  if (summaryPlan) summaryPlan.textContent = '7 day free trial';
   if (summaryOrig) summaryOrig.textContent = '$0.00';
   if (summaryTotal) summaryTotal.textContent = '$0.00 today';
 
@@ -1692,13 +1697,13 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
     </script>
 <div class="checkout-overlay" id="checkoutOverlay">
   <div class="checkout-container">
-    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7-day free trial · Cancel anytime · You won't be charged today</div>
+    <div style="text-align:center;font-size:12px;color:#2D7A5F;padding:10px 16px;border-bottom:1px solid rgba(45,122,95,0.15);margin:0;line-height:1.5;background:#fff;">Secure checkout — 7 day free trial · Cancel anytime · You won't be charged today</div>
     <div class="checkout-back">
       <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
     </div>
     <div class="checkout-body" style="flex-direction:column;">
       <div class="checkout-summary" id="checkoutSummary" style="flex:unset;">
-        <div class="summary-row"><span id="summaryPlanName">7-day free trial</span><span id="summaryOriginal">$0.00</span></div>
+        <div class="summary-row"><span id="summaryPlanName">7 day free trial</span><span id="summaryOriginal">$0.00</span></div>
         <div class="summary-row total"><span>Total</span><span id="summaryTotal">$0.00 today</span></div>
       </div>
       <div class="checkout-payment">

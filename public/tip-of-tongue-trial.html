@@ -1696,14 +1696,14 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
     <div class="checkout-back">
       <a onclick="closeCheckout()">&lsaquo; Back to plans</a>
     </div>
-    <div class="checkout-body">
+    <div class="checkout-body" style="flex-direction:column;">
+      <div class="checkout-summary" id="checkoutSummary" style="flex:unset;">
+        <div class="summary-row"><span id="summaryPlanName">7-day free trial</span><span id="summaryOriginal">$0.00</span></div>
+        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$0.00 today</span></div>
+      </div>
       <div class="checkout-payment">
         <h3>Select a payment method</h3>
         <div id="payment-element"></div>
-      </div>
-      <div class="checkout-summary" id="checkoutSummary">
-        <div class="summary-row"><span id="summaryPlanName">1-month plan</span><span id="summaryOriginal">$9.99</span></div>
-        <div class="summary-row total"><span>Total</span><span id="summaryTotal">$9.99</span></div>
       </div>
     </div>
     <div class="checkout-footer">

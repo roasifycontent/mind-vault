@@ -406,93 +406,55 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             min-height: 24px;
         }
 
-        .pattern-options {
+        .vis-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .pattern-card {
-            background-color: #FFFFFF;
-            border: 2px solid #E8E2D9;
-            padding: 24px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pattern-card:hover {
-            border-color: #2D7A5F;
-            background-color: #E8F5EE;
-        }
-
-        .pattern-card.selected {
-            background-color: #2D7A5F;
-            border-color: #2D7A5F;
-        }
-
-        .pattern-visual {
-            display: flex;
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
+            margin: 20px 0;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .vis-cell {
+            aspect-ratio: 1;
+            background: #FFFFFF;
+            border: 2px solid #E8E2D9;
+            border-radius: 10px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 60px;
+            font-size: 28px;
+            cursor: default;
+            transition: all 0.2s;
+            user-select: none;
         }
-
-        .pattern-question {
-            margin-bottom: 32px;
+        .vis-cell.active {
+            background: #E8F5EE;
+            border-color: #2D7A5F;
         }
-
-        .pattern-title {
-            font-weight: 600;
-            font-size: 15px;
-            color: #8A8A8A;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-
-        .pattern-prompt {
-            font-family: 'Instrument Serif', serif;
-            font-size: 22px;
-            color: #2C2C2C;
-            text-align: center;
-            padding: 16px;
-            background: #FFFFFF;
-            border: 1px solid #E8E2D9;
-            border-radius: 10px;
-            margin-bottom: 16px;
-            letter-spacing: 2px;
-        }
-
-        .pattern-option {
-            background-color: #FFFFFF;
-            border: 2px solid #E8E2D9;
-            padding: 20px 16px;
-            border-radius: 12px;
+        .vis-cell.clickable {
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 500;
-            color: #2C2C2C;
         }
-
-        .pattern-option:hover {
+        .vis-cell.clickable:hover {
             border-color: #2D7A5F;
-            background-color: #E8F5EE;
+            background: #F0FAF5;
         }
-
-        .pattern-option.selected {
-            background-color: #2D7A5F;
+        .vis-cell.selected {
+            background: #E8F5EE;
             border-color: #2D7A5F;
-            color: white;
+        }
+        .vis-cell.correct {
+            background: #D4EDDA;
+            border-color: #2D7A5F;
+        }
+        .vis-cell.wrong {
+            background: #FDEDEC;
+            border-color: #C0392B;
+        }
+        .vis-cell.missed {
+            background: #FEF9E7;
+            border-color: #D4A017;
+            opacity: 0.7;
         }
 
         .loader-step {
@@ -1262,16 +1224,29 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         </div>
     </div>
 
-    <!-- SCREEN 5: TEST 3 - PATTERN RECOGNITION -->
+    <!-- SCREEN 5: TEST 3 - VISUAL MEMORY -->
     <div class="screen" id="screen5">
         <div class="container">
-            <div class="test-title">Test 3 of 3: Pattern Recognition</div>
-            <h2>What comes next?</h2>
-
-            <div id="patternContainer"></div>
-
-            <div id="patternControls" style="display: none;">
-                <button class="button button-wide" onclick="submitPatternTest()">Submit answers</button>
+            <div id="visIntro">
+                <div class="test-title">Test 3 of 3</div>
+                <h2>Visual Memory</h2>
+                <p style="font-size:16px;color:#5A5A5A;line-height:1.6;margin-bottom:20px;">You'll see 5 symbols on a grid for 6 seconds. Then they disappear. Tap where they were.</p>
+                <div style="background:#FEF9E7;border:1px solid rgba(212,160,23,0.2);border-radius:12px;padding:16px;margin-bottom:24px;text-align:left;">
+                    <div style="font-weight:700;color:#2C2C2C;margin-bottom:6px;">Why this matters</div>
+                    <div style="font-size:14px;color:#5A5A5A;line-height:1.5;">Visual memory helps you remember where you put things, navigate familiar places, and recall faces. It declines significantly after 55.</div>
+                </div>
+                <button class="button button-wide" onclick="startVisualTest()">Start the test →</button>
+            </div>
+            <div id="visGame" style="display:none;">
+                <div class="test-title">Test 3 of 3: Visual Memory</div>
+                <h2 id="visInstruction">Memorise the positions</h2>
+                <div id="visTimerWrap" style="text-align:center;margin-bottom:8px;">
+                    <span style="font-size:32px;font-weight:800;color:#2D7A5F;" id="visTimer">6</span>
+                </div>
+                <div id="visCount" style="text-align:center;font-size:14px;color:#8A8A8A;margin-bottom:8px;"></div>
+                <div class="vis-grid" id="visGrid"></div>
+                <button class="button button-wide" id="visCheckBtn" style="display:none;margin-top:16px;" onclick="checkVisualTest()">Check my answer</button>
+                <div id="visResult" style="display:none;text-align:center;font-size:18px;font-weight:700;color:#2D7A5F;margin-top:16px;"></div>
             </div>
         </div>
     </div>
@@ -1385,7 +1360,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                 </div>
                 <div class="routine-item">
                     <div class="routine-time">6:00 PM</div>
-                    <span id="gameMatch3">Pattern puzzles</span>
+                    <span id="gameMatch3">Visual memory grid</span>
                 </div>
             </div>
 
@@ -1619,7 +1594,8 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             sequenceCorrect: 0,
             sequencePattern: [],
             userSequence: [],
-            patternAnswers: [null, null, null, null]
+            visPositions: [],
+            visSelected: new Set()
         };
 
         // SCREEN NAVIGATION
@@ -1652,7 +1628,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                 } else if (state.currentScreen === 4) {
                     initSequenceMemory();
                 } else if (state.currentScreen === 5) {
-                    initPatternRecognition();
+                    initVisualMemory();
                 } else if (state.currentScreen === 6) {
                     startAnalysisLoader();
                 } else if (state.currentScreen === 7) {
@@ -1835,65 +1811,114 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             });
         }
 
-        // PATTERN RECOGNITION TEST
-        const PATTERN_QUESTIONS = [
-            { sequence: '2 → 4 → 6 → 8 → ?', options: ['10', '9'], correctIndex: 0 },
-            { sequence: 'A → C → E → G → ?', options: ['I', 'H'], correctIndex: 0 },
-            { sequence: '3 → 6 → 9 → 12 → ?', options: ['15', '14'], correctIndex: 0 },
-            { sequence: '1 → 1 → 2 → 3 → 5 → ?', options: ['8', '7'], correctIndex: 0 }
-        ];
+        // VISUAL MEMORY TEST
+        const VIS_EMOJIS = ['🌟', '🔵', '🟢', '🔴', '⭐'];
+        let visPositions = [];
+        let visSelected = new Set();
 
-        function initPatternRecognition() {
-            state.patternAnswers = [null, null, null, null];
-
-            let html = '';
-            PATTERN_QUESTIONS.forEach((q, idx) => {
-                html += `
-                    <div class="pattern-question">
-                        <div class="pattern-title">Question ${idx + 1} of 4</div>
-                        <div class="pattern-prompt">${q.sequence}</div>
-                        <div class="pattern-options">
-                            <div class="pattern-option" onclick="selectPattern(${idx}, 0, this)">${q.options[0]}</div>
-                            <div class="pattern-option" onclick="selectPattern(${idx}, 1, this)">${q.options[1]}</div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            document.getElementById('patternContainer').innerHTML = html;
-
-            const submitBtn = document.querySelector('#patternControls .button');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.style.opacity = '0.5';
-                submitBtn.style.pointerEvents = 'none';
-            }
-            document.getElementById('patternControls').style.display = 'block';
+        function initVisualMemory() {
+            document.getElementById('visIntro').style.display = '';
+            document.getElementById('visGame').style.display = 'none';
         }
 
-        function selectPattern(questionIdx, optionIdx, element) {
-            const siblings = element.parentElement.querySelectorAll('.pattern-option');
-            siblings.forEach(sibling => sibling.classList.remove('selected'));
-            element.classList.add('selected');
-            state.patternAnswers[questionIdx] = optionIdx;
+        function startVisualTest() {
+            document.getElementById('visIntro').style.display = 'none';
+            document.getElementById('visGame').style.display = '';
 
-            // Enable submit button once all 4 are answered
-            const allAnswered = state.patternAnswers.every(a => a !== null);
-            const submitBtn = document.querySelector('#patternControls .button');
-            if (submitBtn && allAnswered) {
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.style.pointerEvents = 'auto';
+            visPositions = [];
+            while (visPositions.length < 5) {
+                const r = Math.floor(Math.random() * 16);
+                if (!visPositions.includes(r)) visPositions.push(r);
             }
+            visSelected = new Set();
+
+            const grid = document.getElementById('visGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 16; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'vis-cell';
+                cell.dataset.idx = i;
+                const posIdx = visPositions.indexOf(i);
+                if (posIdx !== -1) {
+                    cell.textContent = VIS_EMOJIS[posIdx];
+                    cell.classList.add('active');
+                }
+                grid.appendChild(cell);
+            }
+
+            let t = 6;
+            const timerEl = document.getElementById('visTimer');
+            const timerWrap = document.getElementById('visTimerWrap');
+            timerEl.textContent = t;
+            timerWrap.style.display = '';
+            document.getElementById('visInstruction').textContent = 'Memorise the positions';
+            document.getElementById('visCount').textContent = '';
+            document.getElementById('visCheckBtn').style.display = 'none';
+            document.getElementById('visResult').style.display = 'none';
+
+            const iv = setInterval(() => {
+                t--;
+                timerEl.textContent = t;
+                if (t <= 0) {
+                    clearInterval(iv);
+                    document.querySelectorAll('.vis-cell').forEach(cell => {
+                        cell.textContent = '';
+                        cell.classList.remove('active');
+                        cell.classList.add('clickable');
+                        cell.onclick = () => toggleVisCell(cell);
+                    });
+                    document.getElementById('visInstruction').textContent = 'Tap where the symbols were';
+                    document.getElementById('visCheckBtn').style.display = 'block';
+                    timerWrap.style.display = 'none';
+                    document.getElementById('visCount').textContent = '0 of 5 selected';
+                }
+            }, 1000);
         }
 
-        function submitPatternTest() {
+        function toggleVisCell(cell) {
+            const idx = parseInt(cell.dataset.idx);
+            if (visSelected.has(idx)) {
+                visSelected.delete(idx);
+                cell.classList.remove('selected');
+            } else {
+                if (visSelected.size >= 5) return;
+                visSelected.add(idx);
+                cell.classList.add('selected');
+            }
+            document.getElementById('visCount').textContent = visSelected.size + ' of 5 selected';
+        }
+
+        function checkVisualTest() {
             let correct = 0;
-            PATTERN_QUESTIONS.forEach((q, idx) => {
-                if (state.patternAnswers[idx] === q.correctIndex) correct++;
+            document.querySelectorAll('.vis-cell').forEach(cell => {
+                const idx = parseInt(cell.dataset.idx);
+                cell.classList.remove('clickable', 'selected');
+                cell.onclick = null;
+
+                const wasTarget = visPositions.includes(idx);
+                const wasSelected = visSelected.has(idx);
+
+                if (wasTarget && wasSelected) {
+                    cell.classList.add('correct');
+                    cell.textContent = VIS_EMOJIS[visPositions.indexOf(idx)];
+                    correct++;
+                } else if (!wasTarget && wasSelected) {
+                    cell.classList.add('wrong');
+                    cell.textContent = '✗';
+                } else if (wasTarget && !wasSelected) {
+                    cell.classList.add('missed');
+                    cell.textContent = VIS_EMOJIS[visPositions.indexOf(idx)];
+                }
             });
-            state.scores.pattern = (correct / 4) * 100;
-            nextScreen();
+
+            state.scores.pattern = (correct / 5) * 100;
+
+            document.getElementById('visCheckBtn').style.display = 'none';
+            document.getElementById('visCount').textContent = '';
+            document.getElementById('visResult').style.display = 'block';
+            document.getElementById('visResult').textContent = correct + ' of 5 correct';
+
+            setTimeout(() => nextScreen(), 2500);
         }
 
         // ANALYSIS LOADER
@@ -1902,7 +1927,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             const steps = [
                 'Scoring word recall...',
                 'Measuring sequence memory...',
-                'Evaluating pattern recognition...',
+                'Scoring visual memory...',
                 'Comparing to your age group...',
                 'Building your cognitive profile...'
             ];
@@ -1967,7 +1992,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             const scores = {
                 'Word Recall': state.scores.wordRecall,
                 'Sequence Memory': state.scores.sequence,
-                'Pattern Recognition': state.scores.pattern
+                'Visual Memory': state.scores.pattern
             };
             state.weakestArea = Object.keys(scores).reduce((a, b) =>
                 scores[a] < scores[b] ? a : b
@@ -2012,7 +2037,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                     <div class="skill-percentage">${Math.round(state.scores.sequence)}%</div>
                 </div>
                 <div class="skill-row">
-                    <div class="skill-name">Pattern Recognition</div>
+                    <div class="skill-name">Visual Memory</div>
                     <div class="skill-bar-container">
                         <div class="skill-bar" style="width: ${state.scores.pattern}%"></div>
                     </div>
@@ -2138,11 +2163,11 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
                 if (headline) headline.textContent =
                     `The good news: your ${state.weakestArea} is highly trainable`;
 
-                let games = ['Word pairs game', 'Sequence recall', 'Pattern puzzles'];
+                let games = ['Word pairs game', 'Sequence recall', 'Visual memory grid'];
                 if (state.weakestArea === 'Sequence Memory') {
-                    games = ['Sequence recall', 'Memory chains', 'Pattern sequencing'];
-                } else if (state.weakestArea === 'Pattern Recognition') {
-                    games = ['Pattern puzzles', 'Visual logic', 'Shape reasoning'];
+                    games = ['Sequence recall', 'Memory chains', 'Visual grids'];
+                } else if (state.weakestArea === 'Visual Memory') {
+                    games = ['Visual memory grid', 'Spatial recall', 'Position tracking'];
                 }
 
                 const g1 = document.getElementById('gameMatch1');

@@ -1616,6 +1616,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             wordDecoys: ['Window', 'Bridge', 'Feather', 'Glacier', 'Anchor', 'Pepper', 'Blanket', 'Crystal'],
             allWords: [],
             sequenceRound: 0,
+            sequenceCorrect: 0,
             sequencePattern: [],
             userSequence: [],
             patternAnswers: [null, null, null, null]
@@ -1771,7 +1772,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 
                 setTimeout(playSequencePattern, 800);
             } else {
-                state.scores.sequence = (state.sequenceRound / 4) * 100;
+                state.scores.sequence = (state.sequenceCorrect / 4) * 100;
                 nextScreen();
             }
         }
@@ -1813,6 +1814,7 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
 
             // Check if complete
             if (state.userSequence.length === state.sequencePattern.length) {
+                state.sequenceCorrect++;
                 updateSequenceMessage('Correct. Next round...');
                 disableAllCells(true);
                 setTimeout(() => {

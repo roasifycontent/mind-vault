@@ -697,13 +697,38 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
       <div class="pricing-section">
         <h2 style="font-family:var(--font-display); font-size:22px; color:var(--text-bright); text-align:center; margin:16px 0 4px;">Start your free trial</h2>
 
+        <div id="billingScoreSummary" style="background:var(--bg-card);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;margin:20px 0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <div style="text-align:center;flex:1;">
+              <div style="font-family:'Instrument Serif',Georgia,serif;font-size:36px;color:#FF6B6B;" id="billingScore">43</div>
+              <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Your score</div>
+            </div>
+            <div style="width:1px;height:48px;background:rgba(255,255,255,0.08);"></div>
+            <div style="text-align:center;flex:1;">
+              <div style="font-family:'Instrument Serif',Georgia,serif;font-size:36px;color:var(--accent);" id="billingTarget">66</div>
+              <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">Your 30 day target</div>
+            </div>
+          </div>
+          <div style="height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;margin-bottom:12px;">
+            <div id="billingScoreBar" style="height:100%;background:linear-gradient(90deg,#FF6B6B,#F5C842);border-radius:4px;width:43%;transition:width 1s;"></div>
+          </div>
+          <div style="font-size:14px;color:var(--text-bright);text-align:center;line-height:1.5;">
+            Your weakest area: <strong style="color:#FF6B6B;" id="billingWeakArea">Verbal Recall</strong><br>
+            <span style="font-size:13px;color:var(--text-dim);">This is the skill that responds fastest to training</span>
+          </div>
+        </div>
+
+        <button class="cta-btn cta-primary" onclick="goPro()" style="width:100%;font-size:17px;box-shadow:0 4px 24px rgba(74,227,181,0.25);">START FREE TRIAL</button>
+        <div style="text-align:center;font-size:12px;color:var(--text-dim);margin:8px 0 20px;">Free for 7 days · Cancel anytime · No charge today</div>
+
         <div style="background:rgba(74,227,181,0.06);border:1px solid rgba(74,227,181,0.12);border-radius:12px;padding:18px 20px;margin:0 0 20px;text-align:left;">
-          <div style="font-size:16px;font-weight:700;color:var(--text-bright,#fff);margin-bottom:12px;">The full programme includes:</div>
-          <div style="display:flex;flex-direction:column;gap:10px;font-size:16px;color:var(--text,#E8ECF4);line-height:1.65;">
-            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>7 brain training games</strong> — each targets a different cognitive skill</span></div>
-            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Personalised daily routine</strong> — 5 minutes, built around your weak spots</span></div>
-            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Weekly progress tracking</strong> — retake your test and watch your score improve</span></div>
-            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;">✓</span><span><strong>Works on any device</strong> — phone, tablet, or computer. Nothing to download, start instantly</span></div>
+          <div style="font-weight:700;color:var(--text-bright,#fff);margin-bottom:16px;font-size:15px;">What changes in the first 30 days:</div>
+          <div style="display:flex;flex-direction:column;gap:14px;font-size:15px;color:var(--text,#E8ECF4);line-height:1.5;">
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;font-size:16px;">✓</span><span><strong>Remember names effortlessly</strong> — targeted exercises rebuild your name recall within 14 days</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;font-size:16px;">✓</span><span><strong>Never lose your train of thought</strong> — strengthen focus and verbal fluency in just 5 minutes a day</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;font-size:16px;">✓</span><span><strong>Watch your score climb weekly</strong> — retake the test and see real, measurable improvement</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;font-size:16px;">✓</span><span><strong>Nothing to download or install</strong> — works instantly on your phone, tablet, or computer</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:var(--accent,#4AE3B5);flex-shrink:0;font-size:16px;">✓</span><span><strong>100% risk free</strong> — cancel anytime during your trial. 30 day money back guarantee after</span></div>
           </div>
         </div>
 
@@ -750,6 +775,11 @@ body::after { content: ''; position: fixed; bottom: -30%; right: -10%; width: 60
           <div style="width:32px; height:32px; border-radius:50%; background:var(--gold); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:16px; margin-left:-8px;">D</div>
           <div style="width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:14px; margin-left:-8px; color:var(--text-dim);">+</div>
         </div>
+      </div>
+
+      <div style="margin:24px 0 40px;">
+        <button onclick="goPro()" class="cta-btn cta-primary" style="width:100%;font-size:17px;box-shadow:0 4px 24px rgba(74,227,181,0.25);">START FREE TRIAL</button>
+        <div style="text-align:center;font-size:12px;color:var(--text-dim);margin-top:8px;">Free for 7 days · $9.99/month after · Cancel anytime</div>
       </div>
     </div>
 
@@ -812,6 +842,45 @@ function onStepEnter(step) {
   if (step === 8) runAnalysis();
   if (step === 9) showBrainAge();
   if (step === 11) showPlan();
+  if (step === 13) populateBillingScores();
+}
+
+function populateBillingScores() {
+  const scoreEl = document.getElementById('billingScore');
+  const targetEl = document.getElementById('billingTarget');
+  const barEl = document.getElementById('billingScoreBar');
+  const weakEl = document.getElementById('billingWeakArea');
+  if (!scoreEl) return;
+
+  // Convert brainAge to a 0-100 score if available
+  let score = 43;
+  if (state.brainAge) {
+    score = Math.max(10, Math.min(90, 100 - (state.brainAge - 30)));
+  } else if (state.overallScore) {
+    score = state.overallScore;
+  }
+  const target = Math.min(100, score + 20 + Math.floor(Math.random() * 5));
+
+  scoreEl.textContent = score;
+  targetEl.textContent = target;
+  barEl.style.width = score + '%';
+
+  // Try to get weakest area from concerns
+  if (state.weakestLabel) {
+    weakEl.textContent = state.weakestLabel;
+  } else if (state.concerns && state.concerns.size > 0) {
+    const concernLabels = { names: 'Name Recall', words: 'Word Finding', rooms: 'Spatial Memory', keys: 'Short-term Memory', conversations: 'Focus & Attention', family: 'Long-term Memory' };
+    const firstConcern = [...state.concerns][0];
+    if (concernLabels[firstConcern]) weakEl.textContent = concernLabels[firstConcern];
+  }
+
+  if (score >= 70) {
+    scoreEl.style.color = '#4AE3B5';
+    barEl.style.background = 'linear-gradient(90deg,#4AE3B5,#3BC9A0)';
+  } else if (score >= 45) {
+    scoreEl.style.color = '#F5C842';
+    barEl.style.background = 'linear-gradient(90deg,#F5C842,#4AE3B5)';
+  }
 }
 
 function updateProgress() {

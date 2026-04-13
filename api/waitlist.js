@@ -32,7 +32,7 @@ async function sendToLoops(email, source, utm, extras) {
   // Trim defensively — the key in Vercel has historically had a trailing \n.
   const key = String(rawKey).trim();
 
-  const payload = { email, subscribed: true, funnel_source: source };
+  const payload = { email, subscribed: true, funnel_source: source, subscription_status: 'lead' };
   if (utm) {
     if (utm.utm_source)   payload.utm_source   = utm.utm_source;
     if (utm.utm_medium)   payload.utm_medium   = utm.utm_medium;
@@ -44,6 +44,7 @@ async function sendToLoops(email, source, utm, extras) {
   if (extras) {
     if (extras.memoryScore != null) payload.memoryScore = Number(extras.memoryScore) || 0;
     if (extras.weakArea)            payload.weakArea    = String(extras.weakArea).slice(0, 100);
+    if (extras.firstName)           payload.firstName   = String(extras.firstName).slice(0, 100);
   }
 
   try {
@@ -90,6 +91,7 @@ module.exports = async (req, res) => {
 
   const body = req.body || {};
   const { email, source } = body;
+  const firstName = body.firstName ? String(body.firstName).trim().slice(0, 100) : null;
 
   if (!email || typeof email !== 'string') {
     return res.status(400).json({ error: 'Email is required' });
@@ -112,8 +114,8 @@ module.exports = async (req, res) => {
 
   try {
     await sql`
-      INSERT INTO waitlist (email, utm_source, utm_medium, utm_campaign, utm_content, utm_term)
-      VALUES (${trimmed}, ${utm_source}, ${utm_medium}, ${utm_campaign}, ${utm_content}, ${utm_term})
+      INSERT INTO waitlist (email, first_name, utm_source, utm_medium, utm_campaign, utm_content, utm_term)
+      VALUES (${trimmed}, ${firstName}, ${utm_source}, ${utm_medium}, ${utm_campaign}, ${utm_content}, ${utm_term})
     `;
 
     // Await the Loops sync so Vercel doesn't freeze the function before it completes.
@@ -122,6 +124,7 @@ module.exports = async (req, res) => {
     const extras = {
       memoryScore: body.memoryScore,
       weakArea: body.weakArea,
+      firstName,
     };
     await sendToLoops(trimmed, source || 'unknown', utmObj, extras);
 
@@ -131,7 +134,7 @@ module.exports = async (req, res) => {
     // Unique constraint violation = already registered
     if (err.code === '23505' || (err.message && err.message.includes('unique'))) {
       // Still sync to Loops in case they weren't added there before
-      const extras = { memoryScore: body.memoryScore, weakArea: body.weakArea };
+      const extras = { memoryScore: body.memoryScore, weakArea: body.weakArea, firstName };
       await sendToLoops(trimmed, source || 'unknown', utmObj, extras);
       return res.status(409).json({ error: 'Already registered' });
     }

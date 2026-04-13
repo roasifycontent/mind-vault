@@ -1406,7 +1406,8 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
             <h2>Where should we send your results?</h2>
             <p class="subtitle">Get your full cognitive report and personalised training plan</p>
 
-            <input type="email" class="email-input" id="emailInput" placeholder="Enter your email" onkeypress="if(event.key === 'Enter') submitEmail()">
+            <input type="text" class="email-input" id="firstNameInput" placeholder="First name (optional)" autocomplete="given-name" onkeypress="if(event.key === 'Enter') document.getElementById('emailInput').focus()" style="margin-bottom:10px">
+            <input type="email" class="email-input" id="emailInput" placeholder="Enter your email" autocomplete="email" onkeypress="if(event.key === 'Enter') submitEmail()">
 
             <button class="button button-wide" onclick="submitEmail()">Send my results</button>
             <div class="trust-line">We never share your email. Unsubscribe anytime.</div>
@@ -2122,9 +2123,11 @@ src="https://www.facebook.com/tr?id=750954910212510&ev=PageView&noscript=1"
         function submitEmail() {
   if(typeof fbq!=="undefined")fbq("track", "Lead", {value: 0.00, currency: "USD"});
             const email = document.getElementById('emailInput').value;
+            const firstName = (document.getElementById('firstNameInput') ? document.getElementById('firstNameInput').value : '').trim();
             if (email.includes('@') && email.includes('.')) {
                 state.email = email;
-                fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'memory-test', memoryScore: state.overallScore || 0, weakArea: state.weakestArea || '', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
+                state.firstName = firstName;
+                fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email, firstName: firstName || undefined, source:'memory-test', memoryScore: state.overallScore || 0, weakArea: state.weakestArea || '', ...(window.getRBUTMs ? window.getRBUTMs() : {})})}).catch(()=>{});
                 nextScreen();
             } else {
                 alert('Please enter a valid email address');
